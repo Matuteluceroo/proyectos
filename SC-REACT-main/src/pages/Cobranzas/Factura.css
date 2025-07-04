@@ -1,0 +1,48 @@
+@media (max-width: 768px) {
+  .factura-header-content {
+    text-align: center;
+    padding-top: 20px;
+    position: relative;
+  }
+
+  .factura-header-content .col-8 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    justify-content: center !important;
+    display: flex;
+  }
+
+  .factura-header-content .col-2 {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .headerTitle {
+    font-size: 24px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-text {
+    display: none;
+  }
+  .btn-icon {
+    margin-right: 0px;
+    font-size: 22px;
+  }
+  .headerTitle {
+    font-size: 24px;
+    text-align: center;
+    width: 100%;
+    position: static;
+    transform: none;
+    margin-bottom: 0.5rem;
+  }
+}

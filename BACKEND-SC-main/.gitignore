@@ -1,0 +1,23 @@
+# Dependencias de Node.js
+node_modules/
+dist/
+.env
+
+# 
+
+# Archivos de logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache de Vite
+.vite/
+
+# Archivos del editor
+.idea/
+.vscode/
+.DS_Store
+
+scripts_python/comparativos/cargados.txt
+scripts_python/comparativos/listado_carpetas.txt
+scripts_python/sugerencias/sugerencias.txt

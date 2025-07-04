@@ -1,0 +1,72 @@
+:root {
+  --color-text: #212121;
+  --background-tabla: #ffffff;
+  --border: rgb(43, 43, 43);
+  --azul-macropharma: rgb(17, 126, 192);
+  --azul-claro: rgb(72, 144, 205);
+  --verde-claro: rgba(116, 196, 129);
+  --verde-oscuro: rgba(53, 183, 112);
+  --gris-claro: rgba(153, 153, 153);
+  --gris: rgba(103, 103, 103);
+  --background: rgba(191, 210, 223, 0.438);
+  --hover-color: rgb(192, 226, 226);
+  --boton-header: #1e90ff;
+  --fondo-login: rgb(2, 2, 22);
+  --fondo-header: #f0f0f0;
+  --fondo-alert: #f4f4f4;
+  --eliminar: #d32f2f;
+  --color-enviar: rgb(15, 30, 161);
+  --borde-input: #ccc;
+  --borde-difuminado: rgba(0, 0, 0, 0.3);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: rgba(240, 240, 240, 0.389);
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+}
+.sub-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 1rem 0;
+  padding-bottom: 0.25rem;
+  color: #222;
+  border-bottom: 1px solid #ddd;
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  text-align: left;
+}
+
+h1 {
+  font-size: 35px;
+  text-align: center;
+  justify-content: center;
+  color: #000000;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.fondo {
+  background-color: #f0f0f0;
+}
+:root {
+  --color-text: #2e2e2e;
+  --background: #ffffff;
+  --background-alt: #f8f9fa;
+  --border: #dee2e6;
+  --highlight: #dceeff;
+  --accent: #007bff;
+  --gray-light: #f1f1f1;
+}
+* {
+  font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
+}

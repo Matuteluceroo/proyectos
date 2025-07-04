@@ -1,0 +1,187 @@
+.login-container {
+  height: 100vh;
+  background-color: rgb(2, 2, 22);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.login-box {
+  background: transparent;
+  padding: 2rem;
+  color: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 8px;
+  border: 2px solid rgb(21, 179, 228);
+  box-shadow: 0px 0px 8px 7px rgb(21, 179, 228);
+  text-align: center;
+  width: 400px;
+  max-width: 90%;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group input {
+  font-family: "Ubuntu", sans-serif; /* Fuente Ubuntu */
+  font-size: 16px;
+  padding: 8px;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #333; /* Línea inferior */
+  outline: none;
+  background: transparent;
+  transition: border-color 0.3s;
+  color: white;
+}
+input:focus {
+  border-bottom: 2px solid #007bff; /* Cambia de color al enfocar */
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.7); /* Placeholder semi-transparente */
+}
+
+.login-button {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(45deg, #007bff, #00c6ff); /* Degradado azul */
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.login-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-container input {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* Espacio a la derecha para el icono */
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.password-container input:focus {
+  border-color: #007bff;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  outline: none;
+}
+
+.toggle-password:hover {
+  color: #007bff;
+}
+.caps-lock-warning {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.bg-login-image {
+  width: 500px;
+  max-width: 90%;
+  height: auto;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+.bg-login-image:hover {
+  transform: translateY(-20px);
+}
+
+@media (max-width: 768px) {
+  .login-content {
+    flex-direction: column; /* Apilado en pantallas medianas/chicas */
+    gap: 20px;
+  }
+
+  .bg-login-image {
+    width: 300px;
+  }
+
+  .login-box {
+    width: 90%;
+    height: auto;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bg-login-image {
+    width: 250px;
+  }
+
+  .login-box {
+    padding: 1rem;
+  }
+
+  .login-button {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .bg-login-image {
+    width: 450px;
+  }
+}
+
+@media (max-width: 400px) {
+  .bg-login-image {
+    width: 250px;
+  }
+
+  .login-box {
+    width: 95%;
+  }
+
+  .caps-lock-warning {
+    font-size: 14px;
+  }
+
+  .login-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

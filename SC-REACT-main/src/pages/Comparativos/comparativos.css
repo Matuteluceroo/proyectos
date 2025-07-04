@@ -1,0 +1,11 @@
+.contenedor-cantidad-comparativos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.cantidad-comparativos {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: underline;
+}

@@ -1,0 +1,7 @@
+.estructura-con-sidebar {
+  display: flex;
+}
+
+.estructura-content-sidebar {
+  height: 100vh;
+}

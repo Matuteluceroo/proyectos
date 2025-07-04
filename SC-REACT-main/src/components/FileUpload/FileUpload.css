@@ -1,0 +1,27 @@
+/* Zona de arrastre */
+.drop-zone {
+  border: 2px dashed #0e7fa4;
+  border-radius: 16px;
+  padding: 2.5rem;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.drop-zone:hover {
+  background-color: #f3f8fb;
+  border-color: #0e7fa4;
+}
+
+.drop-icon {
+  margin-bottom: 1rem;
+  color: #0e7fa4;
+}
+
+.drop-text {
+  font-size: 1rem;
+  color: #5e6e76;
+  font-family: "Segoe UI", sans-serif;
+}

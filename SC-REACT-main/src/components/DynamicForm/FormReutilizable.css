@@ -1,0 +1,107 @@
+.form-cliente {
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.lbl-formCliente {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--borde-input);
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: var(--azul-claro);
+  outline: none;
+  box-shadow: 0 0 8px var(--azul-claro);
+}
+
+select.form-input {
+  cursor: pointer;
+}
+
+.formulario-entrega-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.formulario-entrega-container > div {
+  flex: 1 1 300px;
+  min-width: 280px;
+  max-width: 100%;
+}
+
+.formulario-entrega-container h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.elementoColLista {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 4px 0;
+}
+
+@media (max-width: 768px) {
+  .formulario-entrega-container {
+    flex-direction: column;
+  }
+}
+@media (max-width: 600px) {
+  .form-cliente {
+    padding: 15px;
+  }
+
+  .form-input {
+    font-size: 13px;
+  }
+}
+.form-row-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.react-select__control {
+  background-color: white;
+  border: 1px solid var(--borde-input);
+  border-radius: 6px;
+  min-height: 34px;
+  font-size: 14px;
+  padding: 2px 4px;
+  box-shadow: none;
+}
+
+.react-select__control--is-focused {
+  border-color: var(--azul-claro);
+  box-shadow: 0 0 8px var(--azul-claro);
+}
+
+.react-select__single-value {
+  color: black;
+}
+
+.react-select__menu {
+  z-index: 9000;
+  font-size: 14px;
+}
+.form-row-horizontal {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}

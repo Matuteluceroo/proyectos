@@ -1,0 +1,68 @@
+.subTitle {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 25px;
+}
+
+.contentTotal {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 5px;
+  flex-wrap: wrap;
+}
+
+.totalDemanda {
+  font-size: 1.3rem;
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 3px 25px;
+  background-color: #f4f4f4;
+  color: #000;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#p_menorCosto,
+#p_masReciente,
+#p_stock {
+  font-size: 11px;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-weight: 500;
+  font-family: "Segoe UI", sans-serif;
+}
+
+#p_menorCosto {
+  background-color: #d4edda !important; /* Verde claro pastel */
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+#p_masReciente {
+  background-color: #fff3cd !important; /* Amarillo claro pastel */
+  border: 1px solid #ffeeba;
+  color: #856404;
+}
+
+#p_stock {
+  background-color: #f8d7da !important; /* Rosa claro pastel */
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+#resizer:hover {
+  background: #999;
+}
+.encabezado-costos {
+  background-color: var(--fondo-header);
+  height: 10vh;
+  width: 100%;
+  position: relative;
+  padding: 0 1rem;
+}
+
+.btn-volver {
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}

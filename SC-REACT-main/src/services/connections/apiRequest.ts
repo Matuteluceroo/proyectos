@@ -1,0 +1,41 @@
+import { useAlert } from '../AlertContext'
+import { useLoader } from '../LoaderContext'
+import { url, headers } from './consts'
+
+export const useApiRequest = () => {
+  const { setIsAlertOpen, setAlertMessage } = useAlert()
+  const { setLoading } = useLoader()
+
+  return async (route: string, options: RequestInit = {}) => {
+    try {
+      if (!route.includes('prodstarot')) {
+        setLoading(true)
+      }
+
+      const response = await fetch(`${url}/${route}`, {
+        ...options,
+        headers,
+        credentials: 'include',
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.error('Error en response:', errorData)
+        setAlertMessage(errorData.mensaje || 'Error desconocido en el servidor')
+        setIsAlertOpen(true)
+        return null
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error en fetch:', error)
+      setAlertMessage('Error al conectar con el servidor.')
+      setIsAlertOpen(true)
+      return null
+    } finally {
+      if (!route.includes('prodstarot')) {
+        setLoading(false)
+      }
+    }
+  }
+}
