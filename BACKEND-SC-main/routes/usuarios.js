@@ -17,7 +17,7 @@ usuariosRouter.patch('/restart-password/:id', validateToken, UsuarioController.r
 usuariosRouter.post('/roles/:idUsuario', validateToken, UsuarioController.agregarRolUsuario)
 usuariosRouter.delete('/roles/:idUsuario', validateToken, UsuarioController.eliminarRolUsuario)
 
-usuariosRouter.post('/asociar-licitacion/:idUsuario', validateToken, UsuarioController.asociarUsuario)
+// usuariosRouter.post('/asociar-licitacion/:idUsuario', validateToken, UsuarioController.asociarUsuario)
 usuariosRouter.get('/asociar-licitacion/usuario/:id', validateToken, UsuarioController.obtenerLicitacionesUsuario)
 
 

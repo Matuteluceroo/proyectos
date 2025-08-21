@@ -1,5 +1,4 @@
 import { UsuarioModel } from '../models/usuarios.js';
-import { LicitacionModel } from '../models/licitaciones.js';
 import bcrypt from 'bcrypt'
 import fs from "fs";
 import path from "path";
@@ -68,7 +67,7 @@ export class UsuarioController {
         return res.status(401).json({ mensaje: "Faltan campos obligatorios" });
       }
 
-      const initialPassword = "MPH_" + userName
+      const initialPassword = "SC_" + userName
 
       const hashedPassword = await bcrypt.hash(initialPassword, 10);
       const newUsuario = await UsuarioModel.create({ input: { userName, password: hashedPassword, rol, nombre, otros, idZona } });
@@ -164,29 +163,6 @@ export class UsuarioController {
       }
 
       return res.json({ mensaje: 'Usuario actualizado', usuarioModificado });
-    } catch (e) {
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios', error: e.message });
-    }
-  }
-
-  static async asociarUsuario(req, res) {
-    const { idUsuario } = req.params;
-    const { idLicitacion } = req.body
-
-    if (!idUsuario || !idLicitacion) return res.status(401).json({ mensaje: 'Faltan campos obligatorios' });
-
-    try {
-      const usuario = await UsuarioModel.getById({ id: idUsuario })
-      if (!usuario) return res.status(404).json({ mensaje: `El usuario no existe` })
-
-      const licitacion = await LicitacionModel.getByID({ idLicitacion })
-      if (!licitacion) return res.status(404).json({ mensaje: `La licitación no existe` })
-
-      const newUsuarioLicitacion = await UsuarioModel.asociarUsuario({ input: { idUsuario, idLicitacion } });
-
-      if (!newUsuarioLicitacion) return res.status(401).json({ mensaje: 'No pudo asociarse la licitación al usuario' });
-
-      return res.status(201).json({ mensaje: 'Usuario asociado a la licitación', asociacion: newUsuarioLicitacion });
     } catch (e) {
       return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios', error: e.message });
     }

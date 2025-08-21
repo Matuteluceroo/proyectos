@@ -7,7 +7,6 @@ export function generateAccessToken(user) {
 export function validateToken(req, res, next) {
   //next();
   //return
-  console.log("req.cookies?.token", req.cookies?.token)
   const accessToken = req.cookies?.token;
 
   if (!accessToken) {

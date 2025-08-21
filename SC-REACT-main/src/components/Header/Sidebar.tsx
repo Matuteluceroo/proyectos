@@ -141,7 +141,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           />
           {!collapsed && <span className="sidebar-text">Área de Trabajo</span>}
         </button>
-        <button
+        {/* <button
           onClick={() => navigate('/stock')}
           title="Ver Stock"
         >
@@ -160,7 +160,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             style={{ color: '#000' }}
           />
           {!collapsed && <span className="sidebar-text">Reportes</span>}
-        </button>
+        </button> */}
         <button
           onClick={() => setShowNoti(true)}
           title="Ver Notificaciones"

@@ -6,32 +6,17 @@ import http from 'http'; // Cambiar a http
 import dotenv from 'dotenv';
 import { Server } from 'socket.io'; // Importar Socket.IO
 import { connectToDatabase } from './connection_TEST.js'; // Asegúrate de importar la función
-import { licitacionesRouter } from './routes/licitaciones.js';
-import { clientesRouter } from './routes/clientes.js';
-import { renglonesRouter } from './routes/renglones.js';
-import { tarotRouter } from './routes/prodsTarot.js';
-import { comprasRouter } from './routes/compras.js';
 import { loginRouter } from './routes/login.js';
 import { generarDOCSRouter } from './routes/generar_docs.js';
 import { usuariosRouter } from './routes/usuarios.js';
-import { facturasRouter } from './routes/facturas.js';
-import { KTCRouter } from './routes/kairos.js';
-import { stockRouter } from './routes/stock.js';
-import { realesRouter } from './routes/reales.js'
-import { logisticaRouter } from './routes/logistica.js'
 import { indicadoresRouter } from './routes/indicadores.js';
 import { documentosRouter } from './routes/documentos.js';
-//import { connectedUsers } from './controllers/usuarios.js'
 
 dotenv.config();
 
-/* 
-// CAMBIAR EN PRODUCCION POR 
-['https://app.macropharma.com.ar',
-'https://macropharma.ngrok.app']
-*/
 const acepted_origins = [
   'http://localhost:5173',
+  'https://f4be-2803-9800-9443-440d-404d-770d-e373-3298.ngrok-free.app',
 ]
 
 const app = express()
@@ -45,17 +30,7 @@ app.use(corsMiddleware(acepted_origins))
 app.disable('x-powered-by')
 app.use('/login', loginRouter)
 app.use('/api/usuarios', usuariosRouter)
-app.use('/api/licitaciones', licitacionesRouter)
-app.use('/api/clientes', clientesRouter)
-app.use('/api/renglones', renglonesRouter)
-app.use('/api/prodstarot', tarotRouter)
-app.use('/api/compras', comprasRouter)
 app.use('/api/generar-documento', generarDOCSRouter)
-app.use('/api/facturas', facturasRouter)
-app.use('/api/kairos', KTCRouter)
-app.use('/api/stock', stockRouter)
-app.use('/api/reales', realesRouter)
-app.use('/api/logistica', logisticaRouter)
 app.use('/api/indicadores', indicadoresRouter)
 app.use('/api/documentos', documentosRouter);
 

@@ -34,7 +34,8 @@ const acepted_origins = [
   'http://192.168.0.169:5173',
   'https://testmacro.ngrok.app',
   'http://192.168.0.163:5173',
-  'http://192.168.0.174:5173'
+  'http://192.168.0.174:5173',
+  'https://f4be-2803-9800-9443-440d-404d-770d-e373-3298.ngrok-free.app'
 ]
 
 const app = express()

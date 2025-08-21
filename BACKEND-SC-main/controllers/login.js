@@ -28,7 +28,6 @@ export class LoginController {
         domain: 'macropharma.ngrok.app',
         path: '/',
       }) */
-     console.log("res.accessToken", accessToken)
      res.cookie('token', accessToken, {
        httpOnly: true,
        secure: true, // HTTPS es obligatorio con SameSite: 'None'
@@ -36,11 +35,9 @@ export class LoginController {
        maxAge: 24 * 60 * 60 * 1000, // 1 día
       //  domain: process.env.NGURL,
        path: '/',
-      });
-      console.log("res.cookie",res.cookie)
+      })
       // Enviar respuesta JSON
       const roles_usuario = await LoginModel.getRolesUsuario({idUsuario: user[0].id})
-      //console.log(roles)
       res.json({
         mensaje: 'Acceso autorizado',
         usuario: {
