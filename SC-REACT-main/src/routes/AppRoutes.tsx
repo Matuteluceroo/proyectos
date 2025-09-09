@@ -49,6 +49,28 @@ const AppRoutes = () => (
         }
       />
       <Route
+        path="/informes"
+        element={
+          <PrivateRoute
+            element={<InformesLicitaciones />}
+            allowedRoles={[
+              "COBRADOR",
+              "LICITADOR",
+              "ADMCOBRANZAS",
+              "TESTER",
+              "GERENTE",
+              "ADMINISTRADOR",
+              "ADM-KAIROS",
+              "LIDER-LICITADOR",
+              "COMPRADOR",
+              "LOGISTICA",
+              "ADMLOGISTICA",
+              "ADMIN-COMPARATIVOS",
+            ]}
+          />
+        }
+      />
+      <Route
         path="/contenido"
         element={
           <PrivateRoute
