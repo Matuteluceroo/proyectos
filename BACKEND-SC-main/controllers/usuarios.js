@@ -1,5 +1,5 @@
-import { UsuarioModel } from '../models/usuarios.js';
-import bcrypt from 'bcrypt'
+import { UsuarioModel } from "../models/usuarios.js";
+import bcrypt from "bcrypt";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -8,79 +8,95 @@ const __dirname = path.dirname(__filename);
 
 export const connectedUsers = new Map(); // Usamos un Map para rastrear usuarios conectados
 
-
 export class UsuarioController {
   static async getAll(req, res) {
     try {
       const usuarios = await UsuarioModel.getAll();
 
-      if (usuarios.length === 0) return res.status(404).json({ mensaje: 'No hay usuarios almacenados' });
+      if (usuarios.length === 0)
+        return res.status(404).json({ mensaje: "No hay usuarios almacenados" });
 
       for (let i = 0; i < usuarios.length; i++) {
-        const rolesDeUsuario = await UsuarioModel.getRolesDeUsuario({ idUsuario: usuarios[i].id })
-        usuarios[i].rolesDeUsuario = rolesDeUsuario
+        const rolesDeUsuario = await UsuarioModel.getRolesDeUsuario({
+          idUsuario: usuarios[i].id,
+        });
+        usuarios[i].rolesDeUsuario = rolesDeUsuario;
       }
 
       res.json(usuarios);
     } catch (e) {
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios' });
+      return res.status(404).json({ mensaje: "Ocurrió un error en Usuarios" });
+    }
+  }
+  static async buscarUsuario(req, res) {
+    const { userName } = req.params;
+    try {
+      if (!userName) return res.status(401).json({ mensaje: "Falta userName" });
+      const usuario = await UsuarioModel.buscarUsuario({ userName });
+
+      if (!usuario)
+        return res
+          .status(404)
+          .json({ mensaje: `No existe el usuario ${userName}` });
+
+      return res.json(usuario);
+    } catch (e) {
+      return res.status(404).json({ mensaje: "Ocurrió un error en Usuarios" });
     }
   }
 
   static async getById(req, res) {
     const { id } = req.params;
     try {
-
       const usuario = await UsuarioModel.getById({ id });
 
-      if (usuario.length === 0) return res.status(404).json({ mensaje: `No hay usuario con id ${id}` })
+      if (usuario.length === 0)
+        return res.status(404).json({ mensaje: `No hay usuario con id ${id}` });
 
       return res.json(usuario);
     } catch (e) {
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios' });
-    }
-  }
-
-  static async buscarUsuario(req, res) {
-    const { userName } = req.params;
-    try {
-
-      if (!userName) return res.status(401).json({ mensaje: 'Falta userName' });
-      const usuario = await UsuarioModel.buscarUsuario({ userName });
-
-      if (!usuario) return res.status(404).json({ mensaje: `No existe el usuario ${userName}` });
-
-      return res.json(usuario);
-    } catch (e) {
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios' });
+      return res.status(404).json({ mensaje: "Ocurrió un error en Usuarios" });
     }
   }
 
   static async create(req, res) {
-    const { userName, rol, nombre, otros, idZona } = req.body
+    const { userName, rol, nombre, otros, idZona } = req.body;
 
     try {
-      const existingUser = await UsuarioModel.buscarUsuario({ userName })
-      if (existingUser) return res.status(401).json({ mensaje: `Usuario ${userName} ya existe` });
+      const existingUser = await UsuarioModel.buscarUsuario({ userName });
+      if (existingUser)
+        return res
+          .status(401)
+          .json({ mensaje: `Usuario ${userName} ya existe` });
 
       if (!userName || !rol || !nombre) {
         return res.status(401).json({ mensaje: "Faltan campos obligatorios" });
       }
 
-      const initialPassword = "SC_" + userName
+      const initialPassword = "SC_" + userName;
 
       const hashedPassword = await bcrypt.hash(initialPassword, 10);
-      const newUsuario = await UsuarioModel.create({ input: { userName, password: hashedPassword, rol, nombre, otros, idZona } });
+      const newUsuario = await UsuarioModel.create({
+        input: {
+          userName,
+          password: hashedPassword,
+          rol,
+          nombre,
+          otros,
+          idZona,
+        },
+      });
 
       if (!newUsuario) {
-        return res.status(401).json({ mensaje: 'Usuario no disponible' });
+        return res.status(401).json({ mensaje: "Usuario no disponible" });
       }
 
-      return res.status(201).json({ mensaje: 'Usuario creado', newUsuario });
+      return res.status(201).json({ mensaje: "Usuario creado", newUsuario });
     } catch (e) {
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios', error: e.message });
+      return res
+        .status(404)
+        .json({ mensaje: "Ocurrió un error en Usuarios", error: e.message });
     }
-
   }
 
   static async delete(req, res) {
@@ -89,12 +105,14 @@ export class UsuarioController {
       const result = await UsuarioModel.delete({ id });
 
       if (result === false) {
-        return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        return res.status(404).json({ mensaje: "Usuario no encontrado" });
       }
 
-      return res.json({ mensaje: 'Usuario eliminado' });
+      return res.json({ mensaje: "Usuario eliminado" });
     } catch (e) {
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios', error: e.message });
+      return res
+        .status(404)
+        .json({ mensaje: "Ocurrió un error en Usuarios", error: e.message });
     }
   }
 
@@ -102,18 +120,23 @@ export class UsuarioController {
     const { id } = req.params;
     const { userName, rol, nombre, otros, idZona } = req.body;
 
-    if (!id) return res.status(401).json({ mensaje: 'Falta ID' });
+    if (!id) return res.status(401).json({ mensaje: "Falta ID" });
 
     try {
-      const usuarioModificado = await UsuarioModel.update({ id, input: { userName, rol, nombre, otros, idZona } });
+      const usuarioModificado = await UsuarioModel.update({
+        id,
+        input: { userName, rol, nombre, otros, idZona },
+      });
 
       if (!usuarioModificado) {
-        return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        return res.status(404).json({ mensaje: "Usuario no encontrado" });
       }
 
-      return res.json({ mensaje: 'Usuario actualizado', usuarioModificado });
+      return res.json({ mensaje: "Usuario actualizado", usuarioModificado });
     } catch (error) {
-      return res.status(401).json({ mensaje: "Error en Usuarios", error: error.message });
+      return res
+        .status(401)
+        .json({ mensaje: "Error en Usuarios", error: error.message });
     }
   }
 
@@ -121,28 +144,39 @@ export class UsuarioController {
     const { id } = req.params;
     const { password, newPassword } = req.body;
 
-    if (!password || !newPassword) return res.status(401).json({ mensaje: 'Faltan campos obligatorios' });
+    if (!password || !newPassword)
+      return res.status(401).json({ mensaje: "Faltan campos obligatorios" });
 
     try {
-      const usuario = await UsuarioModel.getById({ id })
-      if (!usuario) return res.status(404).json({ mensaje: `El usuario no existe` })
+      const usuario = await UsuarioModel.getById({ id });
+      if (!usuario)
+        return res.status(404).json({ mensaje: `El usuario no existe` });
 
-      const hashedCurrentPassword = usuario.password
+      const hashedCurrentPassword = usuario.password;
 
-      const passwordMatch = await bcrypt.compare(password, hashedCurrentPassword)
-      if (!passwordMatch) return res.status(401).json({ mensaje: 'Contraseña incorrecta' })
+      const passwordMatch = await bcrypt.compare(
+        password,
+        hashedCurrentPassword
+      );
+      if (!passwordMatch)
+        return res.status(401).json({ mensaje: "Contraseña incorrecta" });
 
       const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
-      const usuarioModificado = await UsuarioModel.updatePassword({ id, input: { password: hashedNewPassword } });
+      const usuarioModificado = await UsuarioModel.updatePassword({
+        id,
+        input: { password: hashedNewPassword },
+      });
 
       if (!usuarioModificado) {
-        return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        return res.status(404).json({ mensaje: "Usuario no encontrado" });
       }
 
-      return res.json({ mensaje: 'Usuario actualizado', usuarioModificado });
+      return res.json({ mensaje: "Usuario actualizado", usuarioModificado });
     } catch (e) {
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios', error: e.message });
+      return res
+        .status(404)
+        .json({ mensaje: "Ocurrió un error en Usuarios", error: e.message });
     }
   }
 
@@ -150,78 +184,88 @@ export class UsuarioController {
     const { id } = req.params;
 
     try {
-      const usuario = await UsuarioModel.getById({ id })
-      if (!usuario) return res.status(404).json({ mensaje: `El usuario no existe` })
+      const usuario = await UsuarioModel.getById({ id });
+      if (!usuario)
+        return res.status(404).json({ mensaje: `El usuario no existe` });
 
-      const initialPassword = "MPH_" + usuario.userName
-      const hashedPassword = await bcrypt.hash(initialPassword, 10)
+      const initialPassword = "MPH_" + usuario.userName;
+      const hashedPassword = await bcrypt.hash(initialPassword, 10);
 
-      const usuarioModificado = await UsuarioModel.updatePassword({ id, input: { password: hashedPassword } });
+      const usuarioModificado = await UsuarioModel.updatePassword({
+        id,
+        input: { password: hashedPassword },
+      });
 
       if (!usuarioModificado) {
-        return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        return res.status(404).json({ mensaje: "Usuario no encontrado" });
       }
 
-      return res.json({ mensaje: 'Usuario actualizado', usuarioModificado });
+      return res.json({ mensaje: "Usuario actualizado", usuarioModificado });
     } catch (e) {
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios', error: e.message });
-    }
-  }
-
-  static async obtenerLicitacionesUsuario(req, res) {
-    const { id } = req.params;
-    try {
-
-      const usuario = await UsuarioModel.getById({ id })
-      if (!usuario) return res.status(404).json({ mensaje: `El usuario no existe` })
-
-      const licitacionesAsociadas = await UsuarioModel.obtenerLicitacionesUsuario({ id });
-      if (licitacionesAsociadas.length === 0) return res.status(404).json({ mensaje: 'No hay licitaciones asociadas al usuario' });
-
-      licitacionesAsociadas.forEach(licitacion => {
-        licitacion.fecha = licitacion.fecha.toISOString().split('T')[0]
-      })
-
-      return res.json(licitacionesAsociadas);
-    } catch (e) {
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios', error: e.message });
+      return res
+        .status(404)
+        .json({ mensaje: "Ocurrió un error en Usuarios", error: e.message });
     }
   }
 
   static async agregarRolUsuario(req, res) {
     const { idUsuario } = req.params;
-    const { rol } = req.body
+    const { rol } = req.body;
 
-    if (!idUsuario || !rol) return res.status(401).json({ mensaje: 'Faltan campos obligatorios' });
+    if (!idUsuario || !rol)
+      return res.status(401).json({ mensaje: "Faltan campos obligatorios" });
 
     try {
-      const usuario = await UsuarioModel.getById({ id: idUsuario })
-      if (!usuario) return res.status(404).json({ mensaje: `El usuario no existe` })
-      const newRolUsuario = await UsuarioModel.agregarRolUsuario({ input: { idUsuario, rol } });
+      const usuario = await UsuarioModel.getById({ id: idUsuario });
+      if (!usuario)
+        return res.status(404).json({ mensaje: `El usuario no existe` });
+      const newRolUsuario = await UsuarioModel.agregarRolUsuario({
+        input: { idUsuario, rol },
+      });
 
-      if (!newRolUsuario) return res.status(401).json({ mensaje: 'No pudo asociarse el rol al usuario' });
+      if (!newRolUsuario)
+        return res
+          .status(401)
+          .json({ mensaje: "No pudo asociarse el rol al usuario" });
 
-      return res.status(201).json({ mensaje: 'Nuevo rol asignado al usuario', asociacion: newRolUsuario });
+      return res
+        .status(201)
+        .json({
+          mensaje: "Nuevo rol asignado al usuario",
+          asociacion: newRolUsuario,
+        });
     } catch (e) {
-      console.log("ERROR: ", e.message)
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios', error: e.message });
+      console.log("ERROR: ", e.message);
+      return res
+        .status(404)
+        .json({ mensaje: "Ocurrió un error en Usuarios", error: e.message });
     }
   }
 
   static async eliminarRolUsuario(req, res) {
-    const { idUsuario } = req.params
-    const { rol } = req.body
+    const { idUsuario } = req.params;
+    const { rol } = req.body;
 
-    if (!idUsuario || !rol) return res.status(401).json({ mensaje: 'Faltan campos obligatorios' });
+    if (!idUsuario || !rol)
+      return res.status(401).json({ mensaje: "Faltan campos obligatorios" });
 
     try {
-      const newRolUsuario = await UsuarioModel.eliminarRolUsuario({ input: { idUsuario, rol } });
+      const newRolUsuario = await UsuarioModel.eliminarRolUsuario({
+        input: { idUsuario, rol },
+      });
 
-      if (!newRolUsuario) return res.status(401).json({ mensaje: 'No pudo asociarse el rol al usuario' });
+      if (!newRolUsuario)
+        return res
+          .status(401)
+          .json({ mensaje: "No pudo asociarse el rol al usuario" });
 
-      return res.status(201).json({ mensaje: 'Rol eliminado', asociacion: newRolUsuario });
+      return res
+        .status(201)
+        .json({ mensaje: "Rol eliminado", asociacion: newRolUsuario });
     } catch (e) {
-      return res.status(404).json({ mensaje: 'Ocurrió un error en Usuarios', error: e.message });
+      return res
+        .status(404)
+        .json({ mensaje: "Ocurrió un error en Usuarios", error: e.message });
     }
   }
 
@@ -230,16 +274,17 @@ export class UsuarioController {
       const { idUsuario } = req.params;
 
       // Ruta base donde están las imágenes
-      const carpetaImagenes = path.join(
-        process.env.RUTA_FOTO_PERFIL
-      );
+      const carpetaImagenes = path.join(process.env.RUTA_FOTO_PERFIL);
 
       // Buscar imagen con extensión conocida (puede ser .jpg o .png)
-      const extensiones = ['.jpg', '.jpeg', '.png'];
+      const extensiones = [".jpg", ".jpeg", ".png"];
       let imagenEncontrada = null;
 
       for (const ext of extensiones) {
-        const rutaImagen = path.join(carpetaImagenes, `usuario_${idUsuario}${ext}`);
+        const rutaImagen = path.join(
+          carpetaImagenes,
+          `usuario_${idUsuario}${ext}`
+        );
         if (fs.existsSync(rutaImagen)) {
           imagenEncontrada = rutaImagen;
           break;
@@ -249,14 +294,14 @@ export class UsuarioController {
       if (!imagenEncontrada) {
         return res.json({
           idUsuario,
-          extension: 'none',
+          extension: "none",
           imagen: null,
         });
         //return res.status(404).json({ mensaje: 'Imagen no encontrada' });
       }
       // Leer y codificar imagen en base64
       const imagenBuffer = fs.readFileSync(imagenEncontrada);
-      const imagenBase64 = imagenBuffer.toString('base64');
+      const imagenBase64 = imagenBuffer.toString("base64");
 
       // Extraer extensión para que el frontend sepa el tipo
       const extension = path.extname(imagenEncontrada).slice(1);
@@ -266,19 +311,18 @@ export class UsuarioController {
         extension,
         imagen: `data:image/${extension};base64,${imagenBase64}`,
       });
-
     } catch (error) {
-      console.error('Error al obtener la imagen:', error);
-      return res.status(500).json({ error: 'Error interno del servidor' });
+      console.error("Error al obtener la imagen:", error);
+      return res.status(500).json({ error: "Error interno del servidor" });
     }
   }
-
 
   static async subirImagen(req, res) {
     try {
       const { imagen, idUsuario } = req.body;
 
-      if (!idUsuario) return res.status(400).json({ error: "ID de usuario requerido" });
+      if (!idUsuario)
+        return res.status(400).json({ error: "ID de usuario requerido" });
       if (!imagen) return res.status(400).json({ error: "Imagen requerida" });
 
       const matches = imagen.match(/^data:image\/(jpeg|png);base64,(.+)$/);
@@ -288,7 +332,7 @@ export class UsuarioController {
       const data = matches[2];
       const buffer = Buffer.from(data, "base64");
 
-      const uploadsDir = process.env.RUTA_FOTO_PERFIL
+      const uploadsDir = process.env.RUTA_FOTO_PERFIL;
       if (!fs.existsSync(uploadsDir)) {
         fs.mkdirSync(uploadsDir, { recursive: true });
       }
@@ -300,8 +344,10 @@ export class UsuarioController {
       fs.writeFileSync(filePath, buffer);
 
       // Respuesta final
-      return res.json({ mensaje: "Foto de perfil actualizada", archivo: fileName });
-
+      return res.json({
+        mensaje: "Foto de perfil actualizada",
+        archivo: fileName,
+      });
     } catch (err) {
       console.error("Error interno:", err);
       return res.status(500).json({ error: "Error interno del servidor" });
@@ -310,31 +356,37 @@ export class UsuarioController {
 
   static async eliminarImagen(req, res) {
     try {
-      const { idUsuario } = req.params
+      const { idUsuario } = req.params;
 
-      const carpetaImagenes = path.join(process.env.RUTA_FOTO_PERFIL)
-      const extensiones = ['.jpg', '.jpeg', '.png']
-      let imagenEncontrada = null
+      const carpetaImagenes = path.join(process.env.RUTA_FOTO_PERFIL);
+      const extensiones = [".jpg", ".jpeg", ".png"];
+      let imagenEncontrada = null;
 
       for (const ext of extensiones) {
-        const rutaImagen = path.join(carpetaImagenes, `usuario_${idUsuario}${ext}`)
+        const rutaImagen = path.join(
+          carpetaImagenes,
+          `usuario_${idUsuario}${ext}`
+        );
         if (fs.existsSync(rutaImagen)) {
-          imagenEncontrada = rutaImagen
-          break
+          imagenEncontrada = rutaImagen;
+          break;
         }
       }
 
       if (!imagenEncontrada) {
-        return res.status(404).json({ mensaje: 'Imagen no encontrada para eliminar' })
+        return res
+          .status(404)
+          .json({ mensaje: "Imagen no encontrada para eliminar" });
       }
 
-      fs.unlinkSync(imagenEncontrada)
+      fs.unlinkSync(imagenEncontrada);
 
-      return res.json({ mensaje: 'Imagen eliminada correctamente' })
+      return res.json({ mensaje: "Imagen eliminada correctamente" });
     } catch (error) {
-      console.error('Error al eliminar la imagen:', error)
-      return res.status(500).json({ error: 'Error interno al eliminar imagen' })
+      console.error("Error al eliminar la imagen:", error);
+      return res
+        .status(500)
+        .json({ error: "Error interno al eliminar imagen" });
     }
   }
-
 }

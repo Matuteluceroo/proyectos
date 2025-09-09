@@ -12,9 +12,12 @@ export const useApiRequest = () => {
         setLoading(true)
       }
 
+      // 👇 Detectamos si el body es FormData
+      const isFormData = options.body instanceof FormData
+
       const response = await fetch(`${url}/${route}`, {
         ...options,
-        headers,
+        headers: isFormData ? undefined : headers, // ❌ no forzar Content-Type en FormData
         credentials: 'include',
       })
 

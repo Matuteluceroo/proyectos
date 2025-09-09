@@ -7,9 +7,12 @@ import React, {
 import "./FormReutilizable.css";
 import { Field, Props, FormReutilizableRef } from "./FormReutilizableTypes";
 import Select from "react-select";
+import AlertErrores from "../Alert/AlertErrores";
 
 const FormReutilizable = forwardRef<FormReutilizableRef, Props>(
   ({ fields, onChangeForm, values }, ref) => {
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertMsg, setAlertMsg] = useState("");
     const [formValues, setFormValues] = useState<Record<string, any>>({});
 
     useEffect(() => {
@@ -45,6 +48,26 @@ const FormReutilizable = forwardRef<FormReutilizableRef, Props>(
         onChangeForm?.(nuevos);
         return nuevos;
       });
+    };
+    const validarArchivo = (file: File, campo: string) => {
+      const tipoElegido = formValues["id_tipo"]; // valor elegido en el select
+      let valido = false;
+
+      if (tipoElegido === 1 && file.type === "application/pdf") valido = true;
+      if (tipoElegido === 2 && file.type.startsWith("video/")) valido = true;
+      if (tipoElegido === 3 && file.type.startsWith("image/")) valido = true;
+
+      if (!valido) {
+        setAlertMsg(
+          `Debés subir un archivo del tipo correcto. Tipo esperado: ${
+            tipoElegido === 1 ? "PDF" : tipoElegido === 2 ? "VIDEO" : "IMAGEN"
+          }`
+        );
+        setAlertOpen(true);
+        return;
+      }
+
+      handleChange(campo, file);
     };
 
     useImperativeHandle(ref, () => ({
@@ -177,6 +200,7 @@ const FormReutilizable = forwardRef<FormReutilizableRef, Props>(
               onChange={(e) => handleChange(nombreCampo, e.target.value)}
               rows={4}
               onKeyDown={handleKeyNavigation}
+              disabled={f.disabled}
             />
           ) : type === "file" ? (
             <div>
@@ -208,6 +232,69 @@ const FormReutilizable = forwardRef<FormReutilizableRef, Props>(
                 </div>
               )}
             </div>
+          ) : type === "fileCont" ? (
+            <div>
+              <label htmlFor={nombreCampo} className="lbl-formCliente">
+                {labelText}
+              </label>
+              <div
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  const file = e.dataTransfer.files[0];
+                  if (file) {
+                    validarArchivo(file, nombreCampo);;
+                  }
+                }}
+                style={{
+                  border: "2px dashed #aaa",
+                  borderRadius: "6px",
+                  padding: "20px",
+                  textAlign: "center",
+                  cursor: "pointer",
+                }}
+                onClick={() => document.getElementById(nombreCampo)?.click()}
+              >
+                <p>
+                  Arrastrá y soltá un archivo aquí, o hacé clic para
+                  seleccionarlo
+                </p>
+                <input
+                  type="file"
+                  id={nombreCampo}
+                  accept=".pdf, image/*, video/*"
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      validarArchivo(file, nombreCampo);;
+                    }
+                  }}
+                />
+              </div>
+
+              {valor && (
+                <div style={{ marginTop: "0.5rem" }}>
+                  {valor.type?.startsWith("image/") ? (
+                    <img
+                      src={URL.createObjectURL(valor)}
+                      style={{ maxHeight: "150px" }}
+                    />
+                  ) : valor.type?.startsWith("video/") ? (
+                    <video controls style={{ maxHeight: "150px" }}>
+                      <source
+                        src={URL.createObjectURL(valor)}
+                        type={valor.type}
+                      />
+                    </video>
+                  ) : valor.type === "application/pdf" ? (
+                    <p>📄 {valor.name}</p>
+                  ) : (
+                    <p>Archivo seleccionado: {valor.name}</p>
+                  )}
+                </div>
+              )}
+            </div>
           ) : (
             <input
               type={type}
@@ -217,6 +304,7 @@ const FormReutilizable = forwardRef<FormReutilizableRef, Props>(
               value={valor}
               onChange={(e) => handleChange(nombreCampo, e.target.value)}
               onKeyDown={handleKeyNavigation}
+              disabled={f.disabled}
             />
           )}
         </div>
@@ -224,18 +312,26 @@ const FormReutilizable = forwardRef<FormReutilizableRef, Props>(
     };
 
     return (
-      <form className="form-cliente">
-        {fields.map((f) => {
-          if ("group" in f && Array.isArray(f.fields)) {
-            return (
-              <div key={f.nombreCampo} className="form-row-horizontal">
-                {f.fields.map((sf) => renderField(sf))}
-              </div>
-            );
-          }
-          return renderField(f as Field);
-        })}
-      </form>
+      <>
+        <form className="form-cliente">
+          {fields.map((f) => {
+            if ("group" in f && Array.isArray(f.fields)) {
+              return (
+                <div key={f.nombreCampo} className="form-row-horizontal">
+                  {f.fields.map((sf) => renderField(sf))}
+                </div>
+              );
+            }
+            return renderField(f as Field);
+          })}
+        </form>
+        <AlertErrores
+          isOpen={alertOpen}
+          setIsOpen={setAlertOpen}
+          message={alertMsg}
+          titulo="Archivo inválido"
+        />
+      </>
     );
   }
 );

@@ -19,6 +19,7 @@
     "@tiptap/react": "^2.23.1",
     "@tiptap/starter-kit": "^2.23.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "axios-mock-adapter": "^2.1.0",
     "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
     "html2pdf.js": "^0.10.3",
@@ -64,6 +65,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/axios-mock-adapter": "^1.9.0",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
     "@types/react-virtualized": "^9.22.2",

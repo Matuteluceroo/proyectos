@@ -1,80 +1,141 @@
-import { useState, useEffect } from "react";
-import { useBuscarDocumentos } from "../../services/connections/useDocumentos";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 import Estructura from "../../components/Estructura/Estructura";
+import FormReutilizable from "../../components/DynamicForm/FormReutilizable";
+import {
+  FormReutilizableRef,
+  Field,
+} from "../../components/DynamicForm/FormReutilizableTypes";
+import { useSocket } from "../../services/SocketContext";
+import Button from "../../components/Button/Button";
+import { useEnviarContenido } from "../../services/connections/contenido";
+import AlertErrores from "../../components/Alert/AlertErrores";
+import Alert from "../../components/Alert/Alert";
+import TablaContenidos from "./TablaContenidos"; // la tabla que armamos
 
-const Documentos = () => {
-  const buscar = useBuscarDocumentos();
-  const [query, setQuery] = useState("");
-  const [resultados, setResultados] = useState<any[]>([]);
-  const navigate = useNavigate();
+export default function Documentos() {
+  const formRef = useRef<FormReutilizableRef>(null);
+  const [tituloAlerta, setTituloAlerta] = useState("");
+  const [alerta, setAlerta] = useState(false);
+  const [msgAlerta, setMsgAlerta] = useState("");
+  const [alertaError, setAlertaError] = useState(false);
+  const { currentUser } = useSocket();
+  const enviarContenido = useEnviarContenido();
+  const fields: Field[] = [
+    {
+      nombreCampo: "titulo",
+      labelText: "Título",
+      type: "text",
+      placeholder: "Ingrese el título",
+    },
+    {
+      nombreCampo: "descripcion",
+      labelText: "Descripción",
+      type: "textarea",
+      placeholder: "Ingrese la descripción",
+    },
+    {
+      nombreCampo: "id_tipo",
+      labelText: "Tipo de Contenido",
+      type: "select",
+      options: [
+        { value: 1, label: "PDF" },
+        { value: 2, label: "Video" },
+        { value: 3, label: "Imagen" },
+      ],
+      placeholder: "Seleccione tipo",
+    },
+    {
+      nombreCampo: "id_usuario",
+      labelText: "Usuario",
+      type: "text",
+      defaultValue: currentUser?.usuario || "",
+      placeholder: "Usuario actual",
+      disabled: true,
+    },
+    {
+      nombreCampo: "archivo",
+      labelText: "Archivo",
+      type: "fileCont",
+    },
+    {
+      nombreCampo: "tags",
+      labelText: "Tags",
+      type: "text",
+      placeholder: "Ejemplo: cosecha;herramientas;manual",
+    },
+  ];
 
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      if (query.trim().length > 1) {
-        buscar({ query }).then(setResultados).catch(console.error);
+  const handleSubmit = async () => {
+    if (formRef.current) {
+      const data = formRef.current.getFormData();
+      try {
+        await enviarContenido({
+          titulo: data.titulo,
+          descripcion: data.descripcion,
+          id_tipo: data.id_tipo,
+          id_usuario: data.id_usuario, // recordá que el back va a resolver el ID real
+          archivo: data.archivo, // viene de fileCont
+          tags: data.tags,
+        });
+
+        setTituloAlerta("¡Éxito!");
+        setMsgAlerta("Contenido guardado correctamente.");
+        setAlerta(true);
+      } catch (error) {
+        setTituloAlerta("Error");
+        setMsgAlerta("No se pudo guardar el contenido.");
+        setAlertaError(true);
       }
-    }, 300); // debounce
-
-    return () => clearTimeout(delayDebounce);
-  }, [query]);
-
+    }
+  };
   return (
     <Estructura>
-      <div style={{ padding: "2rem" }}>
-        <input
-          type="text"
-          placeholder="Buscar documentos..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "1rem",
-            fontSize: "1.2rem",
-            marginBottom: "2rem",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-          }}
-        />
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "2fr 2fr", // 1 parte form, 2 partes tabla
+          gap: "20px",
+          height: "100vh",
+          padding: "20px",
+          boxSizing: "border-box",
+        }}
+      >
+        <div className="container my-4">
+          <h2>📤 Subir Contenido</h2>
+          <FormReutilizable ref={formRef} fields={fields} />
+          <Button
+            className="btnHeader2"
+            onClick={handleSubmit}
+            text={"Guardar"}
+          />
+        </div>
 
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-            gap: "1.5rem",
+            background: "#fff",
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            padding: "10px",
           }}
         >
-          {resultados.map((doc) => (
-            <div
-              key={doc.id}
-              onClick={() => navigate(`/documentos/${doc.id}`)}
-              style={{
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                padding: "1rem",
-                cursor: "pointer",
-                backgroundColor: "#fafafa",
-                transition: "box-shadow 0.2s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)")
-              }
-              onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "none")}
-            >
-              <h3>{doc.titulo}</h3>
-              <p style={{ fontSize: "0.9rem", color: "#666" }}>
-                {doc.textoPlano.slice(0, 120)}...
-              </p>
-              <small>
-                {new Date(doc.fechaCreacion).toLocaleDateString()} - Autor ID:{" "}
-                {doc.autor}
-              </small>
-            </div>
-          ))}
+          <h2>Lista de Contenidos</h2>
+          <TablaContenidos />
         </div>
       </div>
+
+      <Alert
+        titulo={tituloAlerta}
+        message={msgAlerta}
+        duration={5000}
+        setIsOpen={setAlerta}
+        isOpen={alerta}
+      />
+      <AlertErrores
+        setIsOpen={setAlertaError}
+        isOpen={alertaError}
+        message={msgAlerta}
+        titulo={tituloAlerta}
+      />
     </Estructura>
   );
-};
-
-export default Documentos;
+}

@@ -8,28 +8,41 @@ export const useObtenerDocumentoByID = () => {
         });
 };
 export const useCrearDocumento = () => {
-    const apiRequest = useApiRequest();
-    return async ({
+  const apiRequest = useApiRequest();
+  return async ({
+    titulo,
+    descripcion,
+    id_tipo,
+    id_usuario,
+    almacenamiento,
+    url_archivo,
+    html,
+    textoPlano,
+  }: {
+    titulo: string;
+    descripcion?: string;
+    id_tipo: number;
+    id_usuario: number;
+    almacenamiento: "ARCHIVO" | "HTML" | "TEXTO";
+    url_archivo?: string;
+    html?: string;
+    textoPlano?: string;
+  }) =>
+    await apiRequest("documentos", {
+      method: "POST",
+      body: JSON.stringify({
         titulo,
+        descripcion,
+        id_tipo,
+        id_usuario,
+        almacenamiento,
+        url_archivo,
         html,
         textoPlano,
-        autor,
-    }: {
-        titulo: string;
-        html: string;
-        textoPlano: string;
-        autor: number;
-    }) =>
-        await apiRequest("documentos", {
-            method: "POST",
-            body: JSON.stringify({
-                titulo,
-                html,
-                textoPlano,
-                autor,
-            }),
-        });
+      }),
+    });
 };
+
 export const useBuscarDocumentos = () => {
     const apiRequest = useApiRequest();
     return async ({ query }: { query: string }) =>

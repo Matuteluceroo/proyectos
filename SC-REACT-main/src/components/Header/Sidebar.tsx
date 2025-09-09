@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useSocket } from '../../services/SocketContext'
-import NotificationModal from '../Header/NotificacionModal'
-import ProfileModal from '../Header/ProfileModal'
-import porfileIco from '../../assets/porfile.svg'
-import './Sidebar.css'
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSocket } from "../../services/SocketContext";
+import NotificationModal from "../Header/NotificacionModal";
+import ProfileModal from "../Header/ProfileModal";
+import porfileIco from "../../assets/porfile.svg";
+import "./Sidebar.css";
 import {
   FiPackage,
   FiBarChart2,
@@ -13,16 +13,16 @@ import {
   FiUser,
   FiSettings,
   FiSearch,
-} from 'react-icons/fi'
-import { useObtenerImagenPerfil } from '../../services/connections/usuarios'
-import BotonVolver from '../Button/BotonVolver'
-import BotonCerrarSesion from '../Button/BotonCerrarSesion'
+} from "react-icons/fi";
+import { useObtenerImagenPerfil } from "../../services/connections/usuarios";
+import BotonVolver from "../Button/BotonVolver";
+import BotonCerrarSesion from "../Button/BotonCerrarSesion";
 
 interface SidebarProps {
-  FooterButton?: React.ReactElement<{ collapsed?: boolean }>
-  onToggleCollapse?: (collapsed: boolean) => void
-  collapsed: boolean
-  rutaVolver?: string
+  FooterButton?: React.ReactElement<{ collapsed?: boolean }>;
+  onToggleCollapse?: (collapsed: boolean) => void;
+  collapsed: boolean;
+  rutaVolver?: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -31,70 +31,72 @@ const Sidebar: React.FC<SidebarProps> = ({
   collapsed,
   rutaVolver,
 }) => {
-  const { currentUser, notificaciones } = useSocket()
-  const [showNoti, setShowNoti] = useState(false)
-  const [showProfile, setShowProfile] = useState(false)
-  const [fotoPerfil, setFotoPerfil] = useState<string>(porfileIco)
-  const [showRoles, setShowRoles] = useState(false)
-  const [showConfigOptions, setShowConfigOptions] = useState(false)
+  const { currentUser, notificaciones } = useSocket();
+  console.log(currentUser);
+
+  const [showNoti, setShowNoti] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [fotoPerfil, setFotoPerfil] = useState<string>(porfileIco);
+  const [showRoles, setShowRoles] = useState(false);
+  const [showConfigOptions, setShowConfigOptions] = useState(false);
   const [activeProfileView, setActiveProfileView] = useState<string | null>(
     null
-  )
+  );
   const [pantallaActual, setPantallaActual] = useState<string>(
-    localStorage.getItem('pantallaActual') || '/'
-  )
-  const navigate = useNavigate()
-  const obtenerImagen = useObtenerImagenPerfil()
+    localStorage.getItem("pantallaActual") || "/"
+  );
+  const navigate = useNavigate();
+  const obtenerImagen = useObtenerImagenPerfil();
 
   useEffect(() => {
     const getFotoPerfil = async () => {
       try {
-        const result = await obtenerImagen({ idUsuario: currentUser.id })
-        if (result?.imagen?.startsWith('data:image')) {
-          setFotoPerfil(result.imagen)
+        const result = await obtenerImagen({ idUsuario: currentUser.id });
+        if (result?.imagen?.startsWith("data:image")) {
+          setFotoPerfil(result.imagen);
         } else {
-          setFotoPerfil(porfileIco)
+          setFotoPerfil(porfileIco);
         }
       } catch {
-        setFotoPerfil(porfileIco)
+        setFotoPerfil(porfileIco);
       }
-    }
-    if (currentUser?.id) getFotoPerfil()
-  }, [currentUser])
+    };
+    if (currentUser?.id) getFotoPerfil();
+  }, [currentUser]);
 
   const toggleSidebar = () => {
-    const newState = !collapsed
-    onToggleCollapse?.(newState)
-  }
+    const newState = !collapsed;
+    onToggleCollapse?.(newState);
+  };
 
   const cambioPantallaActual = () => {
-    const url = new URL(window.location.href)
-    if (url.pathname === '/stock' || url.pathname === '/reportes') return
-    localStorage.setItem('pantallaActual', url.pathname + url.search)
-    setPantallaActual(url.pathname + url.search)
-  }
+    const url = new URL(window.location.href);
+    if (url.pathname === "/stock" || url.pathname === "/reportes") return;
+    localStorage.setItem("pantallaActual", url.pathname + url.search);
+    setPantallaActual(url.pathname + url.search);
+  };
 
   const navegarPrincipalRol = (rol: string) => {
     const roles: { [key: string]: string } = {
-      LICITADOR: '/menu_licitaciones',
-      'LIDER-LICITADOR': '/menu_licitaciones',
-      COMPRADOR: '/cotizaciones',
-      'ADM-KAIROS': '/administrador_kairos',
-      ADMINISTRADOR: '/administracion',
-      COBRADOR: '/cobranzas',
-      ADMCOBRANZAS: '/cobranzas',
-      GERENTE: '/menu-informes-gerenciales',
-      ADMLOGISTICA: '/logistica/lista-partes',
-      LOGISTICA: '/logistica/lista-partes',
-      'ADMIN-COMPARATIVOS': '/comparativos_admin',
-      TESTER: '/testing',
-    }
-    currentUser.rol = rol
-    navigate(roles[rol] || '/')
-  }
+      LICITADOR: "/menu_licitaciones",
+      "LIDER-LICITADOR": "/menu_licitaciones",
+      COMPRADOR: "/cotizaciones",
+      "ADM-KAIROS": "/administrador_kairos",
+      ADMINISTRADOR: "/administracion",
+      COBRADOR: "/cobranzas",
+      ADMCOBRANZAS: "/cobranzas",
+      GERENTE: "/menu-informes-gerenciales",
+      ADMLOGISTICA: "/logistica/lista-partes",
+      LOGISTICA: "/logistica/lista-partes",
+      "ADMIN-COMPARATIVOS": "/comparativos_admin",
+      TESTER: "/testing",
+    };
+    currentUser.rol = rol;
+    navigate(roles[rol] || "/");
+  };
 
   return (
-    <div className={`sidebar-fixed ${collapsed ? 'collapsed' : 'expanded'}`}>
+    <div className={`sidebar-fixed ${collapsed ? "collapsed" : "expanded"}`}>
       <div className="sidebar-fixed-volver">
         {rutaVolver ? (
           <BotonVolver
@@ -103,14 +105,11 @@ const Sidebar: React.FC<SidebarProps> = ({
             text="Volver"
           />
         ) : (
-          <div style={{ height: '48px' }} /> // mismo alto que el botón
+          <div style={{ height: "48px" }} /> // mismo alto que el botón
         )}
       </div>
 
-      <div
-        className="sidebar-toggle"
-        onClick={toggleSidebar}
-      >
+      <div className="sidebar-toggle" onClick={toggleSidebar}>
         ☰ {!collapsed}
       </div>
 
@@ -118,27 +117,21 @@ const Sidebar: React.FC<SidebarProps> = ({
         <img
           src={fotoPerfil}
           alt="Perfil"
-          className={collapsed ? 'profile-img' : 'profile-img-collapsed'}
+          className={collapsed ? "profile-img" : "profile-img-collapsed"}
         />
         {!collapsed && (
           <p className="sidebar-username">
-            {currentUser?.usuario || 'Usuario'}
+            {currentUser?.usuario || "Usuario"}
           </p>
         )}
       </div>
 
-      <div
-        className="sidebar-section"
-        onMouseEnter={cambioPantallaActual}
-      >
+      <div className="sidebar-section" onMouseEnter={cambioPantallaActual}>
         <button
           onClick={() => navigate(pantallaActual)}
           title="Área de Trabajo"
         >
-          <FiBriefcase
-            size={20}
-            style={{ color: '#000' }}
-          />
+          <FiBriefcase size={20} style={{ color: "#000" }} />
           {!collapsed && <span className="sidebar-text">Área de Trabajo</span>}
         </button>
         {/* <button
@@ -161,15 +154,9 @@ const Sidebar: React.FC<SidebarProps> = ({
           />
           {!collapsed && <span className="sidebar-text">Reportes</span>}
         </button> */}
-        <button
-          onClick={() => setShowNoti(true)}
-          title="Ver Notificaciones"
-        >
+        <button onClick={() => setShowNoti(true)} title="Ver Notificaciones">
           <div className="noti-container">
-            <FiBell
-              size={20}
-              style={{ color: '#000' }}
-            />
+            <FiBell size={20} style={{ color: "#000" }} />
             {notificaciones.length > 0 && (
               <span className="noti-badge-sidebar">
                 {notificaciones.length}
@@ -178,11 +165,18 @@ const Sidebar: React.FC<SidebarProps> = ({
           </div>
           {!collapsed && <span className="sidebar-text">Notificaciones</span>}
         </button>
-
+        <button onClick={() => navigate("/contenido")} title="Crear Contenido">
+          <FiBarChart2 size={20} style={{ color: "#000" }} />
+          {!collapsed && <span className="sidebar-text">CrearContenido</span>}
+        </button>
+        <button onClick={() => navigate("/buscador")} title="Crear Contenido">
+          <FiSearch size={20} style={{ color: "#000" }} />
+          {!collapsed && <span className="sidebar-text">Buscar Contenido</span>}
+        </button>
         <button
           onClick={() => {
-            if (collapsed) toggleSidebar()
-            setShowRoles((prev) => !prev)
+            if (collapsed) toggleSidebar();
+            setShowRoles((prev) => !prev);
           }}
           title="Mis Roles"
           className="sidebar-roles-toggle"
@@ -192,35 +186,16 @@ const Sidebar: React.FC<SidebarProps> = ({
           {!collapsed && (
             <span
               style={{
-                marginLeft: 'auto',
-                transform: showRoles ? 'rotate(90deg)' : 'rotate(0deg)',
-                transition: 'transform 0.2s',
+                marginLeft: "auto",
+                transform: showRoles ? "rotate(90deg)" : "rotate(0deg)",
+                transition: "transform 0.2s",
               }}
             >
               ▶
             </span>
           )}
         </button>
-        <button
-          onClick={() => navigate('/contenido')}
-          title="Crear Contenido"
-        >
-          <FiBarChart2
-            size={20}
-            style={{ color: '#000' }}
-          />
-          {!collapsed && <span className="sidebar-text">CrearContenido</span>}
-        </button>
-        <button
-          onClick={() => navigate('/buscador')}
-          title="Crear Contenido"
-        >
-          <FiSearch
-            size={20}
-            style={{ color: '#000' }}
-          />
-          {!collapsed && <span className="sidebar-text">Buscar Contenido</span>}
-        </button>
+
         {showRoles && !collapsed && (
           <div className="sidebar-roles-list">
             {currentUser.roles_usuario.map((rol: any) => (
@@ -241,8 +216,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           <button
             className="sidebar-button"
             onClick={() => {
-              if (collapsed) toggleSidebar()
-              setShowConfigOptions((prev) => !prev)
+              if (collapsed) toggleSidebar();
+              setShowConfigOptions((prev) => !prev);
             }}
           >
             <FiSettings size={20} />
@@ -250,11 +225,11 @@ const Sidebar: React.FC<SidebarProps> = ({
             {!collapsed && (
               <span
                 style={{
-                  marginLeft: 'auto',
+                  marginLeft: "auto",
                   transform: showConfigOptions
-                    ? 'rotate(90deg)'
-                    : 'rotate(0deg)',
-                  transition: 'transform 0.2s',
+                    ? "rotate(90deg)"
+                    : "rotate(0deg)",
+                  transition: "transform 0.2s",
                 }}
               >
                 ▶
@@ -267,8 +242,8 @@ const Sidebar: React.FC<SidebarProps> = ({
               <button
                 className="sidebar-subitem"
                 onClick={() => {
-                  setActiveProfileView('cambiarFoto')
-                  setShowProfile(true)
+                  setActiveProfileView("cambiarFoto");
+                  setShowProfile(true);
                 }}
               >
                 Elegir Foto de Perfil
@@ -276,16 +251,16 @@ const Sidebar: React.FC<SidebarProps> = ({
               <button
                 className="sidebar-subitem"
                 onClick={() => {
-                  setActiveProfileView('cambiarContraseña')
-                  setShowProfile(true)
+                  setActiveProfileView("cambiarContraseña");
+                  setShowProfile(true);
                 }}
               >
                 Cambiar Contraseña
               </button>
               <BotonCerrarSesion
                 onClick={() => {
-                  localStorage.clear()
-                  window.location.href = '/'
+                  localStorage.clear();
+                  window.location.href = "/";
                 }}
                 collapsed={collapsed}
               />
@@ -302,8 +277,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       <ProfileModal
         isModalOpen={showProfile}
         handleCloseModal={() => {
-          setShowProfile(false)
-          setActiveProfileView(null)
+          setShowProfile(false);
+          setActiveProfileView(null);
         }}
         currentUser={currentUser}
         porfilePhoto={fotoPerfil}
@@ -311,7 +286,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         initialView={activeProfileView}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

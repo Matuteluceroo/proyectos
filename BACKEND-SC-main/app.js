@@ -11,12 +11,13 @@ import { generarDOCSRouter } from './routes/generar_docs.js';
 import { usuariosRouter } from './routes/usuarios.js';
 import { indicadoresRouter } from './routes/indicadores.js';
 import { documentosRouter } from './routes/documentos.js';
-
+import { contenidosRouter } from './routes/contenido.js';
+const basePath = process.env.RUTA_CONTENIDOS || "uploads";
 dotenv.config();
 
 const acepted_origins = [
   'http://localhost:5173',
-  'https://f4be-2803-9800-9443-440d-404d-770d-e373-3298.ngrok-free.app',
+  'https://05bb090ea22f.ngrok-free.app',
 ]
 
 const app = express()
@@ -33,7 +34,7 @@ app.use('/api/usuarios', usuariosRouter)
 app.use('/api/generar-documento', generarDOCSRouter)
 app.use('/api/indicadores', indicadoresRouter)
 app.use('/api/documentos', documentosRouter);
-
+app.use('/api/contenidos', contenidosRouter);
 ///////////////////////////////////////////////////
 const connectedUsers = new Map(); // Almacena usuarios conectados
 

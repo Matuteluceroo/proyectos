@@ -4,7 +4,7 @@ const tableName = 'Usuarios'
 
 export class UsuarioModel {
   static async getAll() {
-    const result = await sql.query(`SELECT [id]
+    const result = await sql.query(`SELECT [id_Usuario] AS id
       ,[userName]
       ,[rol]
       ,[nombre]
@@ -17,13 +17,13 @@ export class UsuarioModel {
   }
 
   static async getById({ id }) {
-    const result = await sql.query(`SELECT * FROM ${tableName} WHERE id = '${id}';`)
+    const result = await sql.query(`SELECT * FROM ${tableName} WHERE id_Usuario = '${id}';`)
 
     return result.recordset[0]
   }
 
   static async buscarUsuario({ userName }) {
-    const result = await sql.query(`SELECT id, userName, rol, nombre, otros, idZona FROM ${tableName} WHERE userName = '${userName}';`)
+    const result = await sql.query(`SELECT id_Usuario, userName, rol, nombre, otros, idZona FROM ${tableName} WHERE userName = '${userName}';`)
 
     return result.recordset[0]
   }
@@ -62,7 +62,7 @@ export class UsuarioModel {
 
       // Recuperar el renglón recién insertado (sin necesidad de pasar el idLicitacion, ya que es un dato proporcionado)
       const resultNuevo = await request.query(`
-            SELECT TOP 1 * FROM ${tableName} ORDER BY id DESC
+            SELECT TOP 1 * FROM ${tableName} ORDER BY id_Usuario DESC
         `);
 
       return resultNuevo.recordset[0]; // Devuelve el nuevo registro con id generado automáticamente
@@ -74,10 +74,10 @@ export class UsuarioModel {
 
   static async delete({ id }) {
     const request = new sql.Request();
-    request.input('id', sql.Int, id);
+    request.input('id_Usuario', sql.Int, id);
 
     const resultExistente = await request.query(`
-        SELECT * FROM ${tableName} WHERE id = @id
+        SELECT * FROM ${tableName} WHERE id_Usuario = @id_Usuario
     `);
 
     if (resultExistente.recordset.length === 0) {
@@ -87,7 +87,7 @@ export class UsuarioModel {
     try {
       // Eliminar la licitación
       await request.query(`
-            DELETE FROM ${tableName} WHERE id = @id
+            DELETE FROM ${tableName} WHERE id_Usuario = @id_Usuario
         `);
 
       return { message: 'Usuario eliminado con éxito' };
@@ -104,7 +104,7 @@ export class UsuarioModel {
     try {
       // Actualizar solo los campos proporcionados
 
-      request.input('id', sql.Int, id)
+      request.input('id_Usuario', sql.Int, id)
 
       if (userName) request.input('userName', sql.VarChar, userName);
       if (rol) request.input('rol', sql.VarChar, rol);
@@ -125,14 +125,14 @@ export class UsuarioModel {
       if (otros) setClauses.push("otros = @otros");
       if (idZona) setClauses.push("idZona = @idZona");
 
-      updateQuery += setClauses.join(", ") + " WHERE id = @id";
+      updateQuery += setClauses.join(", ") + " WHERE id_Usuario = @id_Usuario";
 
       // Ejecutar la consulta de actualización
       await request.query(updateQuery);
 
       // Recuperar la licitación actualizada
       const resultActualizado = await request.query(`
-                SELECT * FROM ${tableName} WHERE id = @id
+                SELECT * FROM ${tableName} WHERE id_Usuario = @id_Usuario
             `);
 
       return resultActualizado.recordset[0]
@@ -149,19 +149,19 @@ export class UsuarioModel {
 
     try {
       // Insertar un nuevo renglón en TalicomRenglones
-      request.input('id', sql.Int, id); // idLicitacion es de tipo int
+      request.input('id_Usuario', sql.Int, id); // idLicitacion es de tipo int
       request.input('password', sql.VarChar, password); // renglon es de tipo varchar
 
       // Realizamos la modificacion en TalicomRenglones
       await request.query(`
       UPDATE Usuarios 
         SET password = @password
-        WHERE id = @id;
+        WHERE id_Usuario = @id_Usuario;
         `);
 
       // Recuperar el renglón recién insertado (sin necesidad de pasar el idLicitacion, ya que es un dato proporcionado)
       const resultNuevo = await request.query(`
-            SELECT TOP 1 * FROM Usuarios ORDER BY id DESC
+            SELECT TOP 1 * FROM Usuarios ORDER BY id_Usuario DESC
         `);
 
       return resultNuevo.recordset[0]; // Devuelve el nuevo registro con id generado automáticamente
@@ -204,15 +204,15 @@ export class UsuarioModel {
 
   static async obtenerLicitacionesUsuario({ id }) {
     const request = new sql.Request()
-    request.input('id', sql.Int, id)
+    request.input('id_Usuario', sql.Int, id)
 
     try {
       const result = await request.query(`SELECT 
-        l.id, l.cliente, l.fecha, l.nroLic, l.tipo, l.hora, l.objeto, l.estado, l.codCliente
+        l.id_Usuario, l.cliente, l.fecha, l.nroLic, l.tipo, l.hora, l.objeto, l.estado, l.codCliente
         FROM Usuario_Licitacion u_l
         JOIN Licitaciones l 
-        ON u_l.idLicitacion = l.id
-        where u_l.idUsuario = @id`)
+        ON u_l.idLicitacion = l.id_Usuario
+        where u_l.idUsuario = @id_Usuario`)
       return result.recordset;
     } catch (error) {
       throw new Error('Error al obtener la licitación')
