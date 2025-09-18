@@ -12,41 +12,16 @@ const menuItems = [
     icon: <AiOutlineHome />,
   },
   {
-    path: "/menu-informes-gerenciales/informes-licitaciones",
-    label: "Licitaciones",
+    path: "/menu-informes-gerenciales/informes-conocimientos",
+    label: "Conocimientos",
     icon: <FiClipboard />,
   },
   {
     path: "/menu-informes-gerenciales/informes-laboratorio",
-    label: "Laboratorios",
+    label: "Capacitaciones",
     icon: <AiOutlineBarChart />,
   },
-  {
-    path: "/menu-informes-gerenciales/informes-productos",
-    label: "Productos",
-    icon: <FiBox />,
-  },
-  {
-    path: "/menu-informes-gerenciales/informes-cobranzas",
-    label: "Cobranzas",
-    icon: <FiDollarSign />,
-  },
-  { path: "/informes/gastos", label: "Clientes", icon: <MdPeopleAlt /> },
-  {
-    path: "/informes/presupuestos",
-    label: "Presupuestos",
-    icon: <FiClipboard />,
-  },
-  {
-    path: "/informes/estadisticas",
-    label: "Estadísticas",
-    icon: <AiOutlineBarChart />,
-  },
-  {
-    path: "/informes/configuracion",
-    label: "Configuración",
-    icon: <FiSettings />,
-  },
+
 ]
 
 const SidebarGerencial = () => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react"
 import porfileIco from "../../assets/porfile.svg"
-import logo from "../../assets/logoM.svg"
+import logo from "../../assets/logo.png"
 import { useSocket } from "../../services/SocketContext"
 import "./Header.css"
 import { Link } from "react-router-dom"
@@ -25,6 +25,7 @@ const Header: React.FC<HeaderProps> = ({ Components, isCellPhone = false }) => {
   useEffect(() => {
     const getFotoPerfilSrc = async () => {
       try {
+        console.log("getFotoPerfilSrc",currentUser.id)
         const fotoPerfil = await obtenerImagen({ idUsuario: currentUser.id })
         const src = fotoPerfil?.imagen
 

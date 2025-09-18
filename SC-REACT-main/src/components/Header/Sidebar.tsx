@@ -13,6 +13,7 @@ import {
   FiUser,
   FiSettings,
   FiSearch,
+  FiFile,
 } from "react-icons/fi";
 import { useObtenerImagenPerfil } from "../../services/connections/usuarios";
 import BotonVolver from "../Button/BotonVolver";
@@ -82,7 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       "LIDER-LICITADOR": "/menu_licitaciones",
       COMPRADOR: "/cotizaciones",
       "ADM-KAIROS": "/administrador_kairos",
-      ADMINISTRADOR: "/administracion",
+      ADMINISTRADOR: "menu-informes-gerenciales",
       COBRADOR: "/cobranzas",
       ADMCOBRANZAS: "/cobranzas",
       GERENTE: "/menu-informes-gerenciales",
@@ -170,7 +171,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           {!collapsed && <span className="sidebar-text">DashBoard</span>}
         </button>
         <button onClick={() => navigate("/contenido")} title="Crear Contenido">
-          <FiBarChart2 size={20} style={{ color: "#000" }} />
+          <FiFile size={20} style={{ color: "#000" }} />
           {!collapsed && <span className="sidebar-text">CrearContenido</span>}
         </button>
         <button onClick={() => navigate("/buscador")} title="Crear Contenido">

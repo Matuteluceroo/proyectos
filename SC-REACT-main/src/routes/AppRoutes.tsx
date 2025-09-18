@@ -31,11 +31,14 @@ const AppRoutes = () => (
       <Route
         path="/menu-informes-gerenciales"
         element={
-          <PrivateRoute element={<MenuInformes />} allowedRoles={["GERENTE"]} />
+          <PrivateRoute
+            element={<MenuInformes />}
+            allowedRoles={["GERENTE", "ADMINISTRADOR"]}
+          />
         }
       >
         <Route
-          path="informes-licitaciones"
+          path="informes-conocimientos"
           element={<InformesLicitaciones />}
         />
         <Route path="informes-productos" element={<InformesProductos />} />

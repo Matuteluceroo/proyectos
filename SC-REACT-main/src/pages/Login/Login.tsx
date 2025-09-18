@@ -4,7 +4,7 @@ import { useSocket } from '../../services/SocketContext'
 import { verificarLogin } from '../../services/connections/usuarios'
 import { url } from '../../services/connections/consts'
 import './Login.css'
-import logo from '../../assets/logo.svg'
+import logo from '../../assets/nombrelogo.png'
 
 const Login = () => {
   const [userName, setUserName] = useState<string>('')
@@ -119,7 +119,7 @@ const Login = () => {
         />
 
         <div className="login-box">
-          <h2>KTC 3.0</h2>
+          <h2></h2>
           <form
             className="login-form"
             onSubmit={handleSubmit}

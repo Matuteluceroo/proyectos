@@ -1,6 +1,6 @@
 import React from 'react'
 import './Loader.css'
-import logoM from '../../assets/logoM.svg' // Ahora TypeScript sabe que esto es una cadena de texto (la URL del SVG)
+import logoM from '../../assets/logo.png' // Ahora TypeScript sabe que esto es una cadena de texto (la URL del SVG)
 
 const Loader: React.FC = () => {
   // Añadimos el tipo 'React.FC' para indicar que es un componente funcional

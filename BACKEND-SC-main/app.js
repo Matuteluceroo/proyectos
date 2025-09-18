@@ -12,12 +12,13 @@ import { usuariosRouter } from './routes/usuarios.js';
 import { indicadoresRouter } from './routes/indicadores.js';
 import { documentosRouter } from './routes/documentos.js';
 import { contenidosRouter } from './routes/contenido.js';
+import { kpiRouter } from './routes/kpi.js'
 const basePath = process.env.RUTA_CONTENIDOS || "uploads";
 dotenv.config();
 
 const acepted_origins = [
   'http://localhost:5173',
-  'https://05bb090ea22f.ngrok-free.app',
+  'https://9514609c1bc6.ngrok-free.app',
 ]
 
 const app = express()
@@ -35,6 +36,7 @@ app.use('/api/generar-documento', generarDOCSRouter)
 app.use('/api/indicadores', indicadoresRouter)
 app.use('/api/documentos', documentosRouter);
 app.use('/api/contenidos', contenidosRouter);
+app.use('/api/kpi', kpiRouter)
 ///////////////////////////////////////////////////
 const connectedUsers = new Map(); // Almacena usuarios conectados
 

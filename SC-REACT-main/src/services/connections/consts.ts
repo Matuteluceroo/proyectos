@@ -1,4 +1,4 @@
-export const url = 'https://05bb090ea22f.ngrok-free.app/api'
+export const url = 'https://9514609c1bc6.ngrok-free.app/api'
 // export const url = 'http://localhost:1235/api'
 
 export const headers = {
