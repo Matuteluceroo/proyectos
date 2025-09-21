@@ -13,12 +13,22 @@ import MenuInformes from "../pages/InformesGerenciales/MenuInformesGerenciales";
 import Contenido from "../pages/Contenido/Contenido";
 import Documentos from "../pages/Documentos/Documentos";
 import VerDocumento from "../pages/Documentos/VerDocumento";
+import PuntoConocimiento from "../pages/PuntoConocimiento/PuntoConocimiento";
 
 const AppRoutes = () => (
   <Router>
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<PuntoConocimiento />} />
       <Route path="/login" element={<Login />} />
+      <Route
+        path="/puntoConocimiento"
+        element={
+          <PrivateRoute
+            element={<PuntoConocimiento />}
+            allowedRoles={["ADMINISTRADOR"]}
+          />
+        }
+      />
       <Route
         path="/administracion"
         element={
