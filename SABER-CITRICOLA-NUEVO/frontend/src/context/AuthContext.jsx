@@ -49,7 +49,13 @@ export const AuthProvider = ({ children }) => {
         // 💾 Guardar en localStorage para persistencia
         localStorage.setItem('user', JSON.stringify(data.usuario));
         
-        return { success: true, message: `¡Bienvenido, ${data.usuario.username}! 🎉` };
+        console.log('✅ Usuario logueado:', data.usuario);
+        
+        return { 
+          success: true, 
+          message: `¡Bienvenido, ${data.usuario.nombre_completo || data.usuario.username}! 🎉`,
+          usuario: data.usuario
+        };
       } else {
         // ❌ Error en el login
         return { success: false, message: data.error };

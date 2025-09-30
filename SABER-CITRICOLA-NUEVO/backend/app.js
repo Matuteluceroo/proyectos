@@ -4,7 +4,14 @@
 // 📦 Importamos las librerías que necesitamos
 import express from 'express';
 import cors from 'cors';
-import { inicializarDB, obtenerUsuarios, verificarLogin } from './database.js';
+import { 
+  inicializarDB, 
+  obtenerUsuarioConRol,
+  obtenerTodosUsuarios,
+  obtenerCategorias,
+  obtenerDocumentos,
+  obtenerMetricas
+} from './database-citricola.js';
 
 // 🏗️ Creamos la aplicación Express
 const app = express();
@@ -40,18 +47,23 @@ app.get('/', (req, res) => {
 app.get('/api/info', (req, res) => {
     res.json({
         mensaje: 'API de Saber Citrícola',
+        sistema: 'Gestión del Conocimiento Citrícola',
+        version: '2.0.0',
         endpoints_disponibles: [
             'GET / - Información básica',
             'GET /api/info - Información del API',
-            'GET /api/usuarios - Lista de usuarios',
-            'POST /api/login - Login de usuarios'
+            'POST /api/login - Login con roles (admin/experto/operador)',
+            'GET /api/usuarios - Lista de usuarios (solo admin)',
+            'GET /api/categorias - Categorías de conocimiento',
+            'GET /api/documentos - Documentos y contenido',
+            'GET /api/metricas - Indicadores del sistema'
         ]
     });
 });
 
-// 👥 Ruta para obtener usuarios
+// 👥 Ruta para obtener usuarios (solo administradores)
 app.get('/api/usuarios', (req, res) => {
-    obtenerUsuarios((err, usuarios) => {
+    obtenerTodosUsuarios((err, usuarios) => {
         if (err) {
             console.error('❌ Error al obtener usuarios:', err);
             res.status(500).json({ error: 'Error interno del servidor' });
@@ -64,18 +76,17 @@ app.get('/api/usuarios', (req, res) => {
     });
 });
 
-// 🔐 Ruta para login
+// 🔐 Ruta para login con roles
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     
-    // Validar que lleguen los datos
     if (!username || !password) {
         return res.status(400).json({ 
             error: 'Username y password son requeridos' 
         });
     }
     
-    verificarLogin(username, password, (err, usuario) => {
+    obtenerUsuarioConRol(username, password, (err, usuario) => {
         if (err) {
             console.error('❌ Error al verificar login:', err);
             res.status(500).json({ error: 'Error interno del servidor' });
@@ -85,12 +96,61 @@ app.post('/api/login', (req, res) => {
                 usuario: {
                     id: usuario.id,
                     username: usuario.username,
-                    email: usuario.email
+                    email: usuario.email,
+                    nombre_completo: usuario.nombre_completo,
+                    rol: usuario.rol
                 }
             });
         } else {
             res.status(401).json({ 
                 error: 'Credenciales incorrectas' 
+            });
+        }
+    });
+});
+
+// 📚 Ruta para obtener categorías
+app.get('/api/categorias', (req, res) => {
+    obtenerCategorias((err, categorias) => {
+        if (err) {
+            console.error('❌ Error al obtener categorías:', err);
+            res.status(500).json({ error: 'Error interno del servidor' });
+        } else {
+            res.json({
+                mensaje: 'Lista de categorías',
+                categorias: categorias
+            });
+        }
+    });
+});
+
+// 📄 Ruta para obtener documentos
+app.get('/api/documentos', (req, res) => {
+    const { categoria, rol = 'operador' } = req.query;
+    
+    obtenerDocumentos(categoria, rol, (err, documentos) => {
+        if (err) {
+            console.error('❌ Error al obtener documentos:', err);
+            res.status(500).json({ error: 'Error interno del servidor' });
+        } else {
+            res.json({
+                mensaje: 'Lista de documentos',
+                documentos: documentos
+            });
+        }
+    });
+});
+
+// 📊 Ruta para obtener métricas
+app.get('/api/metricas', (req, res) => {
+    obtenerMetricas((err, metricas) => {
+        if (err) {
+            console.error('❌ Error al obtener métricas:', err);
+            res.status(500).json({ error: 'Error interno del servidor' });
+        } else {
+            res.json({
+                mensaje: 'Métricas del sistema',
+                metricas: metricas
             });
         }
     });
