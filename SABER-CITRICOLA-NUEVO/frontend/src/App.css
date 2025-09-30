@@ -21,7 +21,41 @@ body {
   padding: 20px;
 }
 
-/* 🔐 Estilos del Login */
+/* � Estilos de páginas generales */
+.login-page, .dashboard-page, .usuarios-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.page-container {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-width: 1200px;
+  width: 100%;
+  min-height: 80vh;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.page-header h1 {
+  color: #ff6f00;
+  font-size: 2.2em;
+  margin: 0;
+}
+
+/* �🔐 Estilos del Login */
 .login-container {
   background: white;
   padding: 40px;
@@ -141,6 +175,37 @@ body {
   transform: translateY(-1px);
 }
 
+.btn-back {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+  background: #545b62;
+  transform: translateY(-1px);
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 0.8em;
+  margin: 2px;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 10px;
+}
+
 /* 📄 Mensajes */
 .message {
   padding: 15px;
@@ -176,7 +241,7 @@ body {
   padding: 40px;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
+  max-width: 800px;
   width: 100%;
   text-align: center;
 }
@@ -205,6 +270,48 @@ body {
   font-size: 1.1em;
 }
 
+/* 📊 Grid del dashboard */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.metric-card {
+  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  padding: 25px;
+  border-radius: 15px;
+  border: 2px solid #e9ecef;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: #ff9800;
+}
+
+.metric-card h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.1em;
+}
+
+.metric-number {
+  font-size: 3em;
+  font-weight: bold;
+  color: #ff6f00;
+  margin: 10px 0;
+  line-height: 1;
+}
+
+.metric-label {
+  color: #666;
+  font-size: 0.9em;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -212,8 +319,91 @@ body {
   gap: 10px;
 }
 
-/* 📱 Responsive */
-@media (max-width: 480px) {
+/* � Página de usuarios */
+.usuarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.usuario-card {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 15px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.usuario-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: #ff9800;
+}
+
+.usuario-avatar {
+  font-size: 3em;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.usuario-info h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1.3em;
+}
+
+.usuario-info p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.usuario-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  justify-content: center;
+}
+
+/* 📊 Estados y utilidades */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 1.2em;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  font-size: 1.1em;
+}
+
+.stats {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+/* �📱 Responsive */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  
+  .usuarios-grid {
+    grid-template-columns: 1fr;
+  }
+  
   .login-container, .dashboard {
     padding: 20px;
     margin: 10px;
@@ -241,6 +431,6 @@ body {
   }
 }
 
-.login-container, .dashboard {
+.login-container, .dashboard, .page-container {
   animation: fadeIn 0.5s ease-out;
 }
