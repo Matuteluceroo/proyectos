@@ -26,16 +26,16 @@ dotenv.config()
 
 const acepted_origins = [
   'http://localhost:5173',
+  'http://localhost:5174', // Puerto alternativo de Vite
+  'http://localhost:3000', // Puerto de React por defecto
   'https://ktc-react.vercel.app',
   'http://127.0.0.1:5000',
   'http://192.168.0.112:5173',
   'http://192.168.0.121:5173',
   'http://192.168.0.129:5173',
   'http://192.168.0.169:5173',
-  'https://testmacro.ngrok.app',
   'http://192.168.0.163:5173',
-  'http://192.168.0.174:5173',
-  'https://f4be-2803-9800-9443-440d-404d-770d-e373-3298.ngrok-free.app'
+  'http://192.168.0.174:5173'
 ]
 
 const app = express()
@@ -97,7 +97,7 @@ const startServer = async () => {
           }
         },
         methods: ['GET', 'POST'], // Métodos permitidos
-        allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning'], // Headers permitidos
+        allowedHeaders: ['Content-Type', 'Authorization'], // Headers permitidos
         credentials: true, // Permitir credenciales
       },
     })

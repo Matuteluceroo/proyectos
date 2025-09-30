@@ -13,7 +13,7 @@ export const corsMiddleware = (acepted_origins) =>
       return callback(new Error('Not allowed by CORS'));
     },
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], // Métodos permitidos
-    allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning', 'Cookie'],    // Encabezados permitidos
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],    // Encabezados permitidos
     optionsSuccessStatus: 204,
     credentials: true, // Permitir cookies y credenciales
   });

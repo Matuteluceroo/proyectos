@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍊 Saber Citrícola - Prueba de Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff9800, #ffeb3b);
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #ff6f00;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        input:focus {
+            border-color: #ff6f00;
+            outline: none;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ff6f00;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background: #e65100;
+        }
+        
+        .resultado {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .exito {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .info {
+            background: #e7f3ff;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            margin-bottom: 20px;
+        }
+        
+        .usuarios-lista {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍊 Saber Citrícola</h1>
+        <p class="info">
+            <strong>Datos de prueba:</strong><br>
+            👤 Usuario: <code>admin</code><br>
+            🔐 Contraseña: <code>123456</code>
+        </p>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Usuario:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit">🚀 Iniciar Sesión</button>
+        </form>
+        
+        <div id="resultado" class="resultado"></div>
+        
+        <button onclick="obtenerUsuarios()" style="background: #28a745; margin-top: 10px;">
+            👥 Ver Lista de Usuarios
+        </button>
+        
+        <div id="usuarios" class="usuarios-lista" style="display: none;"></div>
+    </div>
+
+    <script>
+        // 🌐 URL del backend
+        const API_URL = 'http://localhost:5000';
+        
+        // 📋 Referencias a elementos HTML
+        const form = document.getElementById('loginForm');
+        const resultado = document.getElementById('resultado');
+        const usuariosDiv = document.getElementById('usuarios');
+        
+        // 🔐 Función para hacer login
+        async function hacerLogin(username, password) {
+            try {
+                console.log('🔄 Intentando login con:', { username, password });
+                
+                const response = await fetch(`${API_URL}/api/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                console.log('📥 Respuesta del servidor:', data);
+                
+                if (response.ok) {
+                    mostrarResultado('exito', `
+                        ✅ <strong>Login exitoso!</strong><br>
+                        👤 Usuario: ${data.usuario.username}<br>
+                        📧 Email: ${data.usuario.email}<br>
+                        🆔 ID: ${data.usuario.id}
+                    `);
+                } else {
+                    mostrarResultado('error', `❌ Error: ${data.error}`);
+                }
+            } catch (error) {
+                console.error('💥 Error de conexión:', error);
+                mostrarResultado('error', `
+                    ⚠️ <strong>Error de conexión</strong><br>
+                    Verifica que el backend esté corriendo en ${API_URL}
+                `);
+            }
+        }
+        
+        // 👥 Función para obtener lista de usuarios
+        async function obtenerUsuarios() {
+            try {
+                console.log('🔄 Obteniendo usuarios...');
+                
+                const response = await fetch(`${API_URL}/api/usuarios`);
+                const data = await response.json();
+                
+                console.log('📥 Usuarios obtenidos:', data);
+                
+                if (response.ok) {
+                    usuariosDiv.style.display = 'block';
+                    usuariosDiv.innerHTML = `
+                        <h3>👥 Usuarios en la base de datos:</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    mostrarResultado('error', `❌ Error al obtener usuarios: ${data.error}`);
+                }
+            } catch (error) {
+                console.error('💥 Error:', error);
+                mostrarResultado('error', 'Error de conexión al obtener usuarios');
+            }
+        }
+        
+        // 📄 Función para mostrar resultados
+        function mostrarResultado(tipo, mensaje) {
+            resultado.className = `resultado ${tipo}`;
+            resultado.innerHTML = mensaje;
+            resultado.style.display = 'block';
+        }
+        
+        // 📝 Event listener para el formulario
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            await hacerLogin(username, password);
+        });
+        
+        // 🎯 Rellenar automáticamente para pruebas
+        document.getElementById('username').value = 'admin';
+        document.getElementById('password').value = '123456';
+        
+        console.log('🍊 Página de prueba cargada. Backend esperado en:', API_URL);
+    </script>
+</body>
+</html>

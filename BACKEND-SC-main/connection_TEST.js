@@ -3,16 +3,15 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const config = {
-  user: process.env.USER,
-  password: process.env.PASSWORD,
   server: process.env.SERVER, // Cambia esto si es necesario
   database: process.env.DATABASE,
   options: {
-    encrypt: true, // Cambia esto si no estás en Azure
+    encrypt: false, // Cambia esto si estás en Azure
     trustServerCertificate: true, // Solo en desarrollo
-    driver: 'ODBC Driver 17 for SQL Server'
+    trustedConnection: true, // Usar autenticación Windows
+    enableArithAbort: true
   },
-  requestTimeout: 60000 // 🕒 30 segundos
+  requestTimeout: 60000 // 🕒 60 segundos
 }
 
 export const connectToDatabase = async () => {

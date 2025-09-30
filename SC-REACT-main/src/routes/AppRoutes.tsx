@@ -18,8 +18,16 @@ import PuntoConocimiento from "../pages/PuntoConocimiento/PuntoConocimiento";
 const AppRoutes = () => (
   <Router>
     <Routes>
-      <Route path="/" element={<PuntoConocimiento />} />
       <Route path="/login" element={<Login />} />
+      <Route
+        path="/"
+        element={
+          <PrivateRoute
+            element={<PuntoConocimiento />}
+            allowedRoles={["ADMINISTRADOR", "GERENTE", "TESTER", "LICITADOR", "COBRADOR", "ADMCOBRANZAS", "ADM-KAIROS", "LIDER-LICITADOR", "COMPRADOR", "LOGISTICA", "ADMLOGISTICA", "ADMIN-COMPARATIVOS"]}
+          />
+        }
+      />
       <Route
         path="/puntoConocimiento"
         element={

@@ -5,7 +5,7 @@ import express, { json } from 'express';
 import http from 'http'; // Cambiar a http
 import dotenv from 'dotenv';
 import { Server } from 'socket.io'; // Importar Socket.IO
-import { connectToDatabase } from './connection_TEST.js'; // Asegúrate de importar la función
+import { connectToDatabase } from './connection_SQLITE.js'; // Usando SQLite temporalmente
 import { loginRouter } from './routes/login.js';
 import { generarDOCSRouter } from './routes/generar_docs.js';
 import { usuariosRouter } from './routes/usuarios.js';
@@ -18,7 +18,8 @@ dotenv.config();
 
 const acepted_origins = [
   'http://localhost:5173',
-  'https://9514609c1bc6.ngrok-free.app',
+  'http://localhost:5174', // Puerto alternativo de Vite
+  'http://localhost:3000', // Puerto de React por defecto
 ]
 
 const app = express()
@@ -68,7 +69,7 @@ const startServer = async () => {
           }
         },
         methods: ['GET', 'POST'], // Métodos permitidos
-        allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning'], // Headers permitidos
+        allowedHeaders: ['Content-Type', 'Authorization'], // Headers permitidos
         credentials: true, // Permitir credenciales
       },
     });
