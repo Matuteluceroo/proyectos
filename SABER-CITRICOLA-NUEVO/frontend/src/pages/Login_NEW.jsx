@@ -1,4 +1,4 @@
-// 🔐 Login.jsx - Página de login funcionando  
+// 🔐 Login.jsx - Página de login funcionando
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -9,36 +9,47 @@ const Login = () => {
   const { login, isLoading } = useAuth();
   const { showSuccess, showError } = useNotification();
   
-  // Estado del formulario
+  // Estado simple del formulario
   const [formData, setFormData] = useState({
-    username: 'admin',
-    password: '123456'
+    username: 'admin1',
+    password: 'admin123'
   });
   const [errors, setErrors] = useState({});
 
-  // Validación
+  // Validación simple
   const validateForm = () => {
     const newErrors = {};
     
     if (!formData.username.trim()) {
       newErrors.username = 'Usuario es requerido';
+    } else if (formData.username.length < 3) {
+      newErrors.username = 'Usuario debe tener al menos 3 caracteres';
     }
     
     if (!formData.password.trim()) {
       newErrors.password = 'Contraseña es requerida';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Contraseña debe tener al menos 6 caracteres';
     }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Manejar cambios
+  // Manejar cambios en inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
     
+    // Limpiar error cuando el usuario empiece a escribir
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
     }
   };
 
@@ -145,9 +156,9 @@ const Login = () => {
 
         <div className="text-center text-sm text-gray-600">
           <p>Usuarios de prueba:</p>
-          <p>Admin: admin / 123456</p>
-          <p>Experto: experto1 / 123456</p>
-          <p>Operador: operador1 / 123456</p>
+          <p>Admin: admin1 / admin123</p>
+          <p>Experto: expert1 / expert123</p>
+          <p>Operador: operator1 / operator123</p>
         </div>
       </div>
     </div>
