@@ -4,14 +4,18 @@
 // 📦 Importamos las librerías que necesitamos
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
 import { 
   inicializarDB, 
   obtenerUsuarioConRol,
   obtenerTodosUsuarios,
   obtenerCategorias,
   obtenerDocumentos,
-  obtenerMetricas
+  obtenerMetricas,
+  buscarContenido
 } from './database-citricola.js';
+import { addFileFields } from './migrations/add_file_fields.js';
+import archivosRoutes from './routes/archivos.js';
 
 // 🏗️ Creamos la aplicación Express
 const app = express();
@@ -32,7 +36,13 @@ app.use(cors({
 // 📝 Configuramos Express para entender JSON
 app.use(express.json());
 
+// 📁 Servir archivos estáticos (uploads)
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
 // 🎯 RUTAS - Aquí definimos qué responde el servidor
+
+// 📁 Rutas de archivos
+app.use('/api/archivos', archivosRoutes);
 
 // 👋 Ruta de prueba - Para verificar que funciona
 app.get('/', (req, res) => {
@@ -156,8 +166,33 @@ app.get('/api/metricas', (req, res) => {
     });
 });
 
+// 🔍 Ruta para búsqueda inteligente
+app.get('/api/buscar', (req, res) => {
+    const { q, tipo = 'todos', categoria, fechaDesde, fechaHasta } = req.query;
+    
+    if (!q || q.trim().length < 2) {
+        return res.status(400).json({ 
+            error: 'La consulta debe tener al menos 2 caracteres' 
+        });
+    }
+    
+    buscarContenido(q.trim(), { tipo, categoria, fechaDesde, fechaHasta }, (err, resultados) => {
+        if (err) {
+            console.error('❌ Error en búsqueda:', err);
+            res.status(500).json({ error: 'Error interno del servidor' });
+        } else {
+            res.json({
+                mensaje: 'Resultados de búsqueda',
+                query: q.trim(),
+                total: resultados.length,
+                resultados: resultados
+            });
+        }
+    });
+});
+
 // 🚀 Iniciamos el servidor
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`
 🍊 ===================================
 🚀 Servidor Saber Citrícola iniciado
@@ -169,7 +204,16 @@ app.listen(PORT, () => {
     
     // 🗄️ Inicializamos la base de datos
     console.log('🗄️ Inicializando base de datos...');
-    inicializarDB();
+    await inicializarDB();
+    
+    // 📁 Ejecutar migración de archivos
+    console.log('📁 Ejecutando migración de archivos...');
+    try {
+        await addFileFields();
+        console.log('✅ Migración de archivos completada');
+    } catch (error) {
+        console.error('❌ Error en migración de archivos:', error);
+    }
 });
 
 // 📝 NOTAS PARA ENTENDER:

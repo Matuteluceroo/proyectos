@@ -1,10 +1,13 @@
 // 🛣️ App.jsx - Router principal de la aplicación
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { NotificationProvider } from './context/NotificationContext';
+import NotificationContainer from './components/NotificationContainer';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Usuarios from './pages/Usuarios';
 import './App.css';
+import TestFileUpload from './pages/TestFileUpload';
 
 // 🛡️ Componente para rutas protegidas
 const ProtectedRoute = ({ children }) => {
@@ -69,7 +72,12 @@ function AppContent() {
           } 
         />
         
-        {/* 📄 Ruta de ejemplo para documentos */}
+        <Route 
+          path="/test-upload" 
+          element={<TestFileUpload />}
+        />
+        
+        {/* �️ Rutas protegidas - Solo si está logueado */}
         <Route 
           path="/documentos" 
           element={
@@ -99,6 +107,9 @@ function AppContent() {
           } 
         />
       </Routes>
+      
+      {/* 🔔 Contenedor de notificaciones - Se renderiza en toda la app */}
+      <NotificationContainer />
     </div>
   );
 }
@@ -107,9 +118,11 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <NotificationProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </NotificationProvider>
     </AuthProvider>
   );
 }

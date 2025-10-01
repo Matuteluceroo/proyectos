@@ -270,22 +270,252 @@ const obtenerDocumentos = (categoriaId = null, nivelAcceso = 'publico', callback
   db.all(sql, params, callback);
 };
 
-// Obtener métricas recientes
+// Obtener métricas del sistema
 const obtenerMetricas = (callback) => {
-  const sql = `
-    SELECT m.*, u.nombre_completo as usuario_nombre 
-    FROM metricas m 
-    LEFT JOIN usuarios u ON m.usuario_id = u.id 
-    ORDER BY m.fecha_registro DESC 
-    LIMIT 20
-  `;
-  db.all(sql, [], callback);
+  // Obtener conteos de cada tabla
+  const metricas = {};
+  
+  // Contar usuarios
+  db.get("SELECT COUNT(*) as total FROM usuarios WHERE activo = 1", [], (err, usuarios) => {
+    if (err) return callback(err);
+    
+    metricas.usuarios = usuarios.total;
+    
+    // Contar documentos
+    db.get("SELECT COUNT(*) as total FROM documentos WHERE activo = 1", [], (err, documentos) => {
+      if (err) return callback(err);
+      
+      metricas.documentos = documentos.total;
+      
+      // Contar categorías
+      db.get("SELECT COUNT(*) as total FROM categorias WHERE activo = 1", [], (err, categorias) => {
+        if (err) return callback(err);
+        
+        metricas.categorias = categorias.total;
+        
+        // Contar capacitaciones
+        db.get("SELECT COUNT(*) as total FROM capacitaciones WHERE activo = 1", [], (err, capacitaciones) => {
+          if (err) return callback(err);
+          
+          metricas.capacitaciones = capacitaciones ? capacitaciones.total : 0;
+          
+          // Obtener estadísticas adicionales
+          db.get(`
+            SELECT 
+              COUNT(CASE WHEN rol = 'administrador' THEN 1 END) as admins,
+              COUNT(CASE WHEN rol = 'experto' THEN 1 END) as expertos,
+              COUNT(CASE WHEN rol = 'operador' THEN 1 END) as operadores
+            FROM usuarios WHERE activo = 1
+          `, [], (err, roles) => {
+            if (err) return callback(err);
+            
+            metricas.usuariosPorRol = {
+              administradores: roles.admins,
+              expertos: roles.expertos,
+              operadores: roles.operadores
+            };
+            
+            // Obtener actividad reciente
+            db.all(`
+              SELECT 
+                'usuario' as tipo,
+                'Nuevo usuario registrado: ' || nombre_completo as descripcion,
+                created_at as fecha
+              FROM usuarios 
+              WHERE activo = 1 
+              ORDER BY created_at DESC 
+              LIMIT 5
+            `, [], (err, actividad) => {
+              if (err) return callback(err);
+              
+              metricas.actividadReciente = actividad || [];
+              
+              callback(null, metricas);
+            });
+          });
+        });
+      });
+    });
+  });
 };
 
 // Inicializar la base de datos
 const inicializarDB = () => {
   crearTablas();
   insertarDatosPrueba();
+};
+
+// Búsqueda inteligente de contenido
+const buscarContenido = (query, filtros = {}, callback) => {
+  const { tipo, categoria, fechaDesde, fechaHasta } = filtros;
+  const searchTerm = `%${query}%`;
+  let resultados = [];
+  let operacionesPendientes = 0;
+  
+  const finalizarBusqueda = () => {
+    operacionesPendientes--;
+    if (operacionesPendientes === 0) {
+      // Ordenar por relevancia (coincidencias exactas primero)
+      resultados.sort((a, b) => {
+        const aExact = a.titulo?.toLowerCase().includes(query.toLowerCase()) || 
+                      a.nombre?.toLowerCase().includes(query.toLowerCase());
+        const bExact = b.titulo?.toLowerCase().includes(query.toLowerCase()) || 
+                      b.nombre?.toLowerCase().includes(query.toLowerCase());
+        if (aExact && !bExact) return -1;
+        if (!aExact && bExact) return 1;
+        return new Date(b.fecha) - new Date(a.fecha);
+      });
+      
+      callback(null, resultados);
+    }
+  };
+  
+  // Buscar en documentos
+  if (tipo === 'todos' || tipo === 'documentos') {
+    operacionesPendientes++;
+    let sql = `
+      SELECT 
+        d.id,
+        d.titulo,
+        d.descripcion,
+        d.tipo,
+        d.created_at as fecha,
+        c.nombre as categoria_nombre,
+        u.nombre_completo as autor_nombre,
+        'documento' as tipo_resultado
+      FROM documentos d
+      LEFT JOIN categorias c ON d.categoria_id = c.id
+      LEFT JOIN usuarios u ON d.autor_id = u.id
+      WHERE d.activo = 1 AND (
+        d.titulo LIKE ? OR 
+        d.descripcion LIKE ? OR 
+        d.contenido LIKE ?
+      )
+    `;
+    
+    const params = [searchTerm, searchTerm, searchTerm];
+    
+    if (categoria) {
+      sql += " AND d.categoria_id = ?";
+      params.push(categoria);
+    }
+    
+    if (fechaDesde) {
+      sql += " AND d.created_at >= ?";
+      params.push(fechaDesde);
+    }
+    
+    if (fechaHasta) {
+      sql += " AND d.created_at <= ?";
+      params.push(fechaHasta);
+    }
+    
+    sql += " ORDER BY d.created_at DESC LIMIT 20";
+    
+    db.all(sql, params, (err, documentos) => {
+      if (!err && documentos) {
+        resultados.push(...documentos.map(doc => ({
+          ...doc,
+          tipo: 'documento'
+        })));
+      }
+      finalizarBusqueda();
+    });
+  }
+  
+  // Buscar en usuarios
+  if (tipo === 'todos' || tipo === 'usuarios') {
+    operacionesPendientes++;
+    let sql = `
+      SELECT 
+        id,
+        username as titulo,
+        nombre_completo as nombre,
+        email as descripcion,
+        rol,
+        created_at as fecha,
+        'usuario' as tipo_resultado
+      FROM usuarios
+      WHERE activo = 1 AND (
+        username LIKE ? OR 
+        nombre_completo LIKE ? OR 
+        email LIKE ?
+      )
+    `;
+    
+    const params = [searchTerm, searchTerm, searchTerm];
+    
+    if (fechaDesde) {
+      sql += " AND created_at >= ?";
+      params.push(fechaDesde);
+    }
+    
+    if (fechaHasta) {
+      sql += " AND created_at <= ?";
+      params.push(fechaHasta);
+    }
+    
+    sql += " ORDER BY created_at DESC LIMIT 10";
+    
+    db.all(sql, params, (err, usuarios) => {
+      if (!err && usuarios) {
+        resultados.push(...usuarios.map(user => ({
+          ...user,
+          tipo: 'usuario'
+        })));
+      }
+      finalizarBusqueda();
+    });
+  }
+  
+  // Buscar en categorías
+  if (tipo === 'todos' || tipo === 'categorias') {
+    operacionesPendientes++;
+    let sql = `
+      SELECT 
+        id,
+        nombre as titulo,
+        descripcion,
+        icono,
+        color,
+        created_at as fecha,
+        'categoria' as tipo_resultado
+      FROM categorias
+      WHERE activo = 1 AND (
+        nombre LIKE ? OR 
+        descripcion LIKE ?
+      )
+    `;
+    
+    const params = [searchTerm, searchTerm];
+    
+    if (fechaDesde) {
+      sql += " AND created_at >= ?";
+      params.push(fechaDesde);
+    }
+    
+    if (fechaHasta) {
+      sql += " AND created_at <= ?";
+      params.push(fechaHasta);
+    }
+    
+    sql += " ORDER BY created_at DESC LIMIT 10";
+    
+    db.all(sql, params, (err, categorias) => {
+      if (!err && categorias) {
+        resultados.push(...categorias.map(cat => ({
+          ...cat,
+          tipo: 'categoria'
+        })));
+      }
+      finalizarBusqueda();
+    });
+  }
+  
+  // Si no hay operaciones pendientes, devolver resultados vacíos
+  if (operacionesPendientes === 0) {
+    callback(null, []);
+  }
 };
 
 export { 
@@ -295,5 +525,6 @@ export {
   obtenerTodosUsuarios,
   obtenerCategorias,
   obtenerDocumentos,
-  obtenerMetricas
+  obtenerMetricas,
+  buscarContenido
 };
