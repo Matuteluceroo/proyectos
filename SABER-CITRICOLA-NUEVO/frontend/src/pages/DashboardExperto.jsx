@@ -8,6 +8,7 @@ const DashboardExperto = () => {
   const navigate = useNavigate();
   const [misDocumentos, setMisDocumentos] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  const [backendConnected, setBackendConnected] = useState(true);
   const [stats, setStats] = useState({
     documentosCreados: 0,
     capacitacionesImpartidas: 0,
@@ -17,33 +18,72 @@ const DashboardExperto = () => {
   // 📄 Cargar documentos del experto
   const cargarMisDocumentos = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/documentos?autor=${user.id}`);
-      const data = await response.json();
+      console.log('🔄 Cargando documentos del experto...');
+      const response = await fetch(`${API_URL}/api/documentos?autor=${user?.id || 1}`);
       
-      if (response.ok) {
-        setMisDocumentos(data.documentos);
+      if (!response.ok) {
+        console.warn('⚠️ Error en respuesta de documentos:', response.status);
+        setMisDocumentos([]);
+        return;
+      }
+      
+      const data = await response.json();
+      console.log('📄 Datos de documentos recibidos:', data);
+      
+      if (data.success) {
+        // Nueva estructura de API
+        const documentos = data.data?.documentos || [];
+        setMisDocumentos(documentos);
         setStats(prev => ({
           ...prev,
-          documentosCreados: data.documentos.length,
-          visualizacionesTotales: data.documentos.reduce((sum, doc) => sum + (doc.vistas || 0), 0)
+          documentosCreados: documentos.length,
+          visualizacionesTotales: documentos.reduce((sum, doc) => sum + (doc.vistas || 0), 0)
+        }));
+      } else {
+        // Fallback para estructura antigua
+        const documentos = data.documentos || [];
+        setMisDocumentos(documentos);
+        setStats(prev => ({
+          ...prev,
+          documentosCreados: documentos.length,
+          visualizacionesTotales: documentos.reduce((sum, doc) => sum + (doc.vistas || 0), 0)
         }));
       }
     } catch (error) {
-      console.error('Error al cargar documentos:', error);
+      console.error('❌ Error al cargar documentos:', error);
+      setMisDocumentos([]); // Asegurar que sea un array vacío
+      setBackendConnected(false);
     }
   };
 
   // 📚 Cargar categorías
   const cargarCategorias = async () => {
     try {
+      console.log('🔄 Cargando categorías...');
       const response = await fetch(`${API_URL}/api/categorias`);
-      const data = await response.json();
       
-      if (response.ok) {
-        setCategorias(data.categorias);
+      if (!response.ok) {
+        console.warn('⚠️ Error en respuesta de categorías:', response.status);
+        setCategorias([]);
+        return;
+      }
+      
+      const data = await response.json();
+      console.log('📚 Datos de categorías recibidos:', data);
+      
+      if (data.success) {
+        // Nueva estructura de API
+        setCategorias(data.data || []);
+      } else if (data.categorias) {
+        // Fallback para estructura antigua
+        setCategorias(data.categorias || []);
+      } else {
+        setCategorias([]);
       }
     } catch (error) {
-      console.error('Error al cargar categorías:', error);
+      console.error('❌ Error al cargar categorías:', error);
+      setCategorias([]); // Asegurar que sea un array vacío
+      setBackendConnected(false);
     }
   };
 
@@ -66,6 +106,11 @@ const DashboardExperto = () => {
             <h1>🧠 Portal del Experto</h1>
             <p>Bienvenido, <strong>{user?.nombre_completo || user?.username}</strong></p>
             <span className="role-badge expert">Experto en Cítricos</span>
+            {!backendConnected && (
+              <div className="connection-warning">
+                ⚠️ Backend desconectado - Algunas funciones pueden no estar disponibles
+              </div>
+            )}
           </div>
           <button className="btn-danger" onClick={handleLogout}>
             🚪 Cerrar Sesión

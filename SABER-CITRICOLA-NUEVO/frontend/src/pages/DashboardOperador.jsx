@@ -9,33 +9,70 @@ const DashboardOperador = () => {
   const [documentosRecientes, setDocumentosRecientes] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [capacitaciones, setCapacitaciones] = useState([]);
+  const [backendConnected, setBackendConnected] = useState(true);
   const [busqueda, setBusqueda] = useState('');
 
   // 📄 Cargar documentos recientes
   const cargarDocumentosRecientes = async () => {
     try {
+      console.log('🔄 Cargando documentos recientes...');
       const response = await fetch(`${API_URL}/api/documentos?rol=operador`);
-      const data = await response.json();
       
-      if (response.ok) {
-        setDocumentosRecientes(data.documentos.slice(0, 6));
+      if (!response.ok) {
+        console.warn('⚠️ Error en respuesta de documentos:', response.status);
+        setDocumentosRecientes([]);
+        setBackendConnected(false);
+        return;
+      }
+      
+      const data = await response.json();
+      console.log('📄 Datos de documentos recibidos:', data);
+      
+      if (data.success) {
+        // Nueva estructura de API
+        const documentos = data.data?.documentos || [];
+        setDocumentosRecientes(documentos.slice(0, 6));
+      } else {
+        // Fallback para estructura antigua
+        const documentos = data.documentos || [];
+        setDocumentosRecientes(documentos.slice(0, 6));
       }
     } catch (error) {
-      console.error('Error al cargar documentos:', error);
+      console.error('❌ Error al cargar documentos:', error);
+      setDocumentosRecientes([]);
+      setBackendConnected(false);
     }
   };
 
   // 📚 Cargar categorías
   const cargarCategorias = async () => {
     try {
+      console.log('🔄 Cargando categorías...');
       const response = await fetch(`${API_URL}/api/categorias`);
-      const data = await response.json();
       
-      if (response.ok) {
-        setCategorias(data.categorias);
+      if (!response.ok) {
+        console.warn('⚠️ Error en respuesta de categorías:', response.status);
+        setCategorias([]);
+        setBackendConnected(false);
+        return;
+      }
+      
+      const data = await response.json();
+      console.log('📚 Datos de categorías recibidos:', data);
+      
+      if (data.success) {
+        // Nueva estructura de API
+        setCategorias(data.data || []);
+      } else if (data.categorias) {
+        // Fallback para estructura antigua
+        setCategorias(data.categorias || []);
+      } else {
+        setCategorias([]);
       }
     } catch (error) {
-      console.error('Error al cargar categorías:', error);
+      console.error('❌ Error al cargar categorías:', error);
+      setCategorias([]);
+      setBackendConnected(false);
     }
   };
 
@@ -65,6 +102,11 @@ const DashboardOperador = () => {
             <h1>⚙️ Portal del Operador</h1>
             <p>Bienvenido, <strong>{user?.nombre_completo || user?.username}</strong></p>
             <span className="role-badge operator">Operador Citrícola</span>
+            {!backendConnected && (
+              <div className="connection-warning">
+                ⚠️ Backend desconectado - Algunas funciones pueden no estar disponibles
+              </div>
+            )}
           </div>
           <button className="btn-danger" onClick={handleLogout}>
             🚪 Cerrar Sesión

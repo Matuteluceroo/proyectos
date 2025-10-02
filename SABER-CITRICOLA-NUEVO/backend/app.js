@@ -16,6 +16,7 @@ import {
 } from './database-citricola.js';
 import { addFileFields } from './migrations/add_file_fields.js';
 import archivosRoutes from './routes/archivos.js';
+import documentosRoutes from './routes/documentos.js';
 
 // 🏗️ Creamos la aplicación Express
 const app = express();
@@ -43,6 +44,9 @@ app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // 📁 Rutas de archivos
 app.use('/api/archivos', archivosRoutes);
+
+// 📄 Rutas de documentos CRUD
+app.use('/api/documentos', documentosRoutes);
 
 // 👋 Ruta de prueba - Para verificar que funciona
 app.get('/', (req, res) => {
@@ -124,18 +128,22 @@ app.get('/api/categorias', (req, res) => {
     obtenerCategorias((err, categorias) => {
         if (err) {
             console.error('❌ Error al obtener categorías:', err);
-            res.status(500).json({ error: 'Error interno del servidor' });
+            res.status(500).json({ 
+                success: false,
+                error: 'Error interno del servidor' 
+            });
         } else {
             res.json({
+                success: true,
                 mensaje: 'Lista de categorías',
-                categorias: categorias
+                data: categorias
             });
         }
     });
 });
 
-// 📄 Ruta para obtener documentos
-app.get('/api/documentos', (req, res) => {
+// 📄 Ruta para obtener documentos (legacy - será reemplazada por CRUD)
+app.get('/api/documentos-legacy', (req, res) => {
     const { categoria, rol = 'operador' } = req.query;
     
     obtenerDocumentos(categoria, rol, (err, documentos) => {

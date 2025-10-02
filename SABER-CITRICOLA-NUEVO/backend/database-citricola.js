@@ -228,7 +228,7 @@ const insertarDatosPrueba = () => {
 
 // Obtener usuario con rol
 const obtenerUsuarioConRol = (username, password, callback) => {
-  const sql = "SELECT id, username, email, nombre_completo, rol FROM usuarios WHERE username = ? AND password = ? AND activo = 1";
+  const sql = "SELECT id, username, email, nombre_completo, rol FROM usuarios WHERE username = ? AND password = ?";
   db.get(sql, [username, password], callback);
 };
 
@@ -251,7 +251,7 @@ const obtenerDocumentos = (categoriaId = null, nivelAcceso = 'publico', callback
     FROM documentos d 
     LEFT JOIN categorias c ON d.categoria_id = c.id 
     LEFT JOIN usuarios u ON d.autor_id = u.id 
-    WHERE d.activo = 1
+    WHERE 1=1
   `;
   
   const params = [];
@@ -276,36 +276,47 @@ const obtenerMetricas = (callback) => {
   const metricas = {};
   
   // Contar usuarios
-  db.get("SELECT COUNT(*) as total FROM usuarios WHERE activo = 1", [], (err, usuarios) => {
+  db.get("SELECT COUNT(*) as total FROM usuarios", [], (err, usuarios) => {
     if (err) return callback(err);
     
     metricas.usuarios = usuarios.total;
     
     // Contar documentos
-    db.get("SELECT COUNT(*) as total FROM documentos WHERE activo = 1", [], (err, documentos) => {
+    db.get("SELECT COUNT(*) as total FROM documentos", [], (err, documentos) => {
       if (err) return callback(err);
       
       metricas.documentos = documentos.total;
       
       // Contar categorías
-      db.get("SELECT COUNT(*) as total FROM categorias WHERE activo = 1", [], (err, categorias) => {
+      db.get("SELECT COUNT(*) as total FROM categorias", [], (err, categorias) => {
         if (err) return callback(err);
         
         metricas.categorias = categorias.total;
         
-        // Contar capacitaciones
-        db.get("SELECT COUNT(*) as total FROM capacitaciones WHERE activo = 1", [], (err, capacitaciones) => {
+        // Contar capacitaciones (tabla puede no existir)
+        db.get("SELECT COUNT(*) as total FROM sqlite_master WHERE type='table' AND name='capacitaciones'", [], (err, tableExists) => {
           if (err) return callback(err);
           
-          metricas.capacitaciones = capacitaciones ? capacitaciones.total : 0;
-          
+          if (tableExists.total > 0) {
+            db.get("SELECT COUNT(*) as total FROM capacitaciones", [], (err, capacitaciones) => {
+              if (err) return callback(err);
+              metricas.capacitaciones = capacitaciones.total;
+              finalizarMetricas();
+            });
+          } else {
+            metricas.capacitaciones = 0;
+            finalizarMetricas();
+          }
+        });
+        
+        function finalizarMetricas() {
           // Obtener estadísticas adicionales
           db.get(`
             SELECT 
               COUNT(CASE WHEN rol = 'administrador' THEN 1 END) as admins,
               COUNT(CASE WHEN rol = 'experto' THEN 1 END) as expertos,
               COUNT(CASE WHEN rol = 'operador' THEN 1 END) as operadores
-            FROM usuarios WHERE activo = 1
+            FROM usuarios
           `, [], (err, roles) => {
             if (err) return callback(err);
             
@@ -322,7 +333,6 @@ const obtenerMetricas = (callback) => {
                 'Nuevo usuario registrado: ' || nombre_completo as descripcion,
                 created_at as fecha
               FROM usuarios 
-              WHERE activo = 1 
               ORDER BY created_at DESC 
               LIMIT 5
             `, [], (err, actividad) => {
@@ -333,7 +343,7 @@ const obtenerMetricas = (callback) => {
               callback(null, metricas);
             });
           });
-        });
+        }
       });
     });
   });
@@ -386,7 +396,7 @@ const buscarContenido = (query, filtros = {}, callback) => {
       FROM documentos d
       LEFT JOIN categorias c ON d.categoria_id = c.id
       LEFT JOIN usuarios u ON d.autor_id = u.id
-      WHERE d.activo = 1 AND (
+      WHERE (
         d.titulo LIKE ? OR 
         d.descripcion LIKE ? OR 
         d.contenido LIKE ?
@@ -436,7 +446,7 @@ const buscarContenido = (query, filtros = {}, callback) => {
         created_at as fecha,
         'usuario' as tipo_resultado
       FROM usuarios
-      WHERE activo = 1 AND (
+      WHERE (
         username LIKE ? OR 
         nombre_completo LIKE ? OR 
         email LIKE ?
@@ -481,7 +491,7 @@ const buscarContenido = (query, filtros = {}, callback) => {
         created_at as fecha,
         'categoria' as tipo_resultado
       FROM categorias
-      WHERE activo = 1 AND (
+      WHERE (
         nombre LIKE ? OR 
         descripcion LIKE ?
       )

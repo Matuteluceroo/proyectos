@@ -17,27 +17,43 @@ const DashboardAdmin = () => {
     actividadReciente: []
   });
   const [loading, setLoading] = useState(true);
+  const [backendConnected, setBackendConnected] = useState(true);
 
   // 📊 Cargar métricas del sistema
   const cargarMetricas = async () => {
     try {
       setLoading(true);
+      console.log('🔄 Cargando métricas del sistema...');
       const response = await fetch(`${API_URL}/api/metricas`);
-      const data = await response.json();
       
-      if (response.ok) {
+      if (!response.ok) {
+        console.warn('⚠️ Error en respuesta de métricas:', response.status);
+        setBackendConnected(false);
+        showError?.('Error conectando con el servidor', {
+          message: 'No se pudieron cargar las métricas del sistema'
+        });
+        return;
+      }
+      
+      const data = await response.json();
+      console.log('📊 Datos de métricas recibidos:', data);
+      
+      if (data.metricas) {
         setMetricas(data.metricas);
-        showSuccess('Métricas actualizadas', {
+        showSuccess?.('Métricas actualizadas', {
           message: 'Datos del sistema cargados correctamente'
         });
       } else {
-        showError('Error al cargar métricas', {
+        console.warn('⚠️ Estructura de métricas inesperada:', data);
+        setBackendConnected(false);
+        showError?.('Error al cargar métricas', {
           message: data.error || 'No se pudieron obtener las estadísticas'
         });
       }
     } catch (error) {
-      console.error('Error al cargar métricas:', error);
-      showError('Error de conexión', {
+      console.error('❌ Error al cargar métricas:', error);
+      setBackendConnected(false);
+      showError?.('Error de conexión', {
         message: 'No se pudo conectar con el servidor'
       });
     } finally {
@@ -86,6 +102,11 @@ const DashboardAdmin = () => {
             <h1>🔧 Panel de Administración</h1>
             <p>Bienvenido, <strong>{user?.nombre_completo || user?.username}</strong></p>
             <span className="role-badge admin">Administrador del Sistema</span>
+            {!backendConnected && (
+              <div className="connection-warning">
+                ⚠️ Backend desconectado - Algunas funciones pueden no estar disponibles
+              </div>
+            )}
           </div>
           <div className="header-actions">
             <button className="btn-secondary" onClick={handleTestNotifications}>

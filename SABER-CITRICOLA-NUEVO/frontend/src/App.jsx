@@ -6,6 +6,8 @@ import NotificationContainer from './components/NotificationContainer';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Usuarios from './pages/Usuarios';
+import DocumentList from './components/DocumentList/DocumentList';
+import CreaDocumento from './pages/CreaDocumento/CreaDocumento';
 import './App.css';
 import TestFileUpload from './pages/TestFileUpload';
 
@@ -22,7 +24,7 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// � Componente para redireccionar si ya está logueado
+// 🔄 Componente para redireccionar si ya está logueado
 const PublicRoute = ({ children }) => {
   const { isLoggedIn } = useAuth();
   
@@ -77,18 +79,22 @@ function AppContent() {
           element={<TestFileUpload />}
         />
         
-        {/* �️ Rutas protegidas - Solo si está logueado */}
+        {/* 📄 Rutas protegidas - Solo si está logueado */}
         <Route 
           path="/documentos" 
           element={
             <ProtectedRoute>
-              <div className="page-container">
-                <h1>📄 Documentos</h1>
-                <p>Esta página estará disponible pronto...</p>
-                <button onClick={() => window.history.back()}>
-                  ← Volver
-                </button>
-              </div>
+              <DocumentList />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* ✍️ Ruta para crear documentos - Solo si está logueado */}
+        <Route 
+          path="/crear-documento" 
+          element={
+            <ProtectedRoute>
+              <CreaDocumento />
             </ProtectedRoute>
           } 
         />
