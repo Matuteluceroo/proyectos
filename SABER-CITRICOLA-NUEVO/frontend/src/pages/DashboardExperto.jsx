@@ -170,6 +170,15 @@ const DashboardExperto = () => {
             </button>
 
             <button 
+              className="action-card secondary"
+              onClick={() => navigate('/mis-documentos')}
+            >
+              <span className="action-icon">📁</span>
+              <span className="action-title">Mis Documentos</span>
+              <span className="action-desc">Ver documentos creados</span>
+            </button>
+
+            <button 
               className="action-card primary"
               onClick={() => navigate('/crear-capacitacion')}
             >
@@ -224,12 +233,20 @@ const DashboardExperto = () => {
           {misDocumentos.length === 0 ? (
             <div className="empty-state">
               <p>🆕 Aún no has creado contenido</p>
-              <button 
-                className="btn-primary"
-                onClick={() => navigate('/crear-documento')}
-              >
-                Crear mi primer documento
-              </button>
+              <div className="empty-actions">
+                <button 
+                  className="btn-primary"
+                  onClick={() => navigate('/crear-documento')}
+                >
+                  Crear mi primer documento
+                </button>
+                <button 
+                  className="btn-secondary"
+                  onClick={() => navigate('/mis-documentos')}
+                >
+                  Ver todos mis documentos
+                </button>
+              </div>
             </div>
           ) : (
             <div className="documents-list">
@@ -252,6 +269,18 @@ const DashboardExperto = () => {
                   </div>
                 </div>
               ))}
+              
+              {/* Botón para ver todos los documentos */}
+              {misDocumentos.length > 0 && (
+                <div className="view-all-section">
+                  <button 
+                    className="btn-secondary btn-full"
+                    onClick={() => navigate('/mis-documentos')}
+                  >
+                    📁 Ver todos mis documentos ({misDocumentos.length})
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

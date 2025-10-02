@@ -56,7 +56,7 @@ const DocumentList = () => {
         }
       });
 
-      const response = await fetch(`/api/documentos?${params.toString()}`);
+      const response = await fetch(`http://localhost:5000/api/documentos?${params.toString()}`);
       const data = await response.json();
 
       if (data.success) {
@@ -75,7 +75,7 @@ const DocumentList = () => {
 
   const cargarCategorias = async () => {
     try {
-      const response = await fetch('/api/categorias');
+      const response = await fetch('http://localhost:5000/api/categorias');
       const data = await response.json();
       if (data.success) {
         setCategorias(data.data);
@@ -87,7 +87,7 @@ const DocumentList = () => {
 
   const cargarEstadisticas = async () => {
     try {
-      const response = await fetch('/api/documentos/estadisticas');
+      const response = await fetch('http://localhost:5000/api/documentos/estadisticas');
       const data = await response.json();
       if (data.success) {
         setEstadisticas(data.data);
@@ -143,7 +143,7 @@ const DocumentList = () => {
     }
 
     try {
-      const response = await fetch(`/api/documentos/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/documentos/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

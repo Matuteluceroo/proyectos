@@ -1114,3 +1114,40 @@ body {
   align-items: center;
   flex-wrap: wrap;
 }
+
+/* 📁 Estilos para navegación a mis-documentos */
+.empty-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.view-all-section {
+  margin-top: 20px;
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-card.secondary {
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  border: 2px solid #cbd5e0;
+  color: #2d3748;
+}
+
+.action-card.secondary:hover {
+  background: linear-gradient(135deg, #edf2f7 0%, #e2e8f0 100%);
+  border-color: #a0aec0;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(45, 55, 72, 0.15);
+}

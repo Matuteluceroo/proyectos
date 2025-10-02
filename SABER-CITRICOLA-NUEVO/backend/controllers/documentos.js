@@ -1,5 +1,7 @@
 // 📄 controllers/documentos.js - Controlador CRUD para documentos
 import sqlite3 from 'sqlite3';
+import path from 'path';
+import fs from 'fs';
 import { deleteFile } from '../middleware/upload.js';
 
 const sql = new sqlite3.Database('./saber_citricola.db');
@@ -485,3 +487,137 @@ export const obtenerEstadisticas = async (req, res) => {
     });
   }
 };
+
+// 📁 POST - Crear documento con archivo subido
+export const crearConArchivo = async (req, res) => {
+  try {
+    const { titulo, descripcion, id_tipo, id_usuario, tipo } = req.body;
+    const archivo = req.file;
+
+    if (!archivo || !titulo || !id_tipo || !id_usuario) {
+      return res.status(400).json({ mensaje: "Faltan datos obligatorios" });
+    }
+
+    console.log('📁 Creando documento con archivo:', {
+      archivo: archivo.originalname,
+      tipo_archivo: tipo,
+      titulo
+    });
+
+    // Determinar tipo de documento basado en el archivo o usar valor por defecto
+    const tipoDocumento = tipo && ['documento', 'guia', 'procedimiento', 'capacitacion'].includes(tipo) 
+      ? tipo 
+      : 'documento'; // Valor por defecto
+
+    // 1. Crear carpetas necesarias basado en el tipo de archivo
+    const basePath = 'uploads';
+    const tipoArchivo = determinarTipoArchivo(archivo);
+    let folder = path.join(basePath, tipoArchivo);
+    
+    fs.mkdirSync(folder, { recursive: true });
+
+    // 2. Insertar metadatos en la base de datos primero
+    const insertQuery = `
+      INSERT INTO documentos (
+        titulo, descripcion, tipo, categoria_id, autor_id, estado
+      ) VALUES (?, ?, ?, ?, ?, 'borrador')
+    `;
+
+    sql.run(insertQuery, [titulo, descripcion, tipoDocumento, id_tipo, id_usuario], function(err) {
+      if (err) {
+        console.error('Error insertando documento:', err);
+        return res.status(500).json({
+          mensaje: 'Error creando documento',
+          error: err.message
+        });
+      }
+
+      const idContenido = this.lastID;
+      console.log('📄 Documento creado con ID:', idContenido);
+
+      // 3. Armar nombre del archivo con ID del documento
+      const ext = path.extname(archivo.originalname);
+      const safeTitle = titulo.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+      const newFilename = `${idContenido}_${safeTitle}${ext}`;
+      const newPath = path.join(folder, newFilename);
+
+      try {
+        // 4. Mover archivo desde tmp a carpeta definitiva
+        fs.renameSync(archivo.path, newPath);
+        console.log('📁 Archivo movido a:', newPath);
+
+        // 5. Generar URL relativa para el frontend
+        const url_archivo = `/uploads/${tipoArchivo}/${newFilename}`;
+
+        // 6. Actualizar BD con información del archivo
+        const updateQuery = `
+          UPDATE documentos SET
+            archivo_url = ?,
+            archivo_nombre_original = ?,
+            archivo_extension = ?,
+            archivo_size = ?,
+            archivo_tipo_mime = ?,
+            archivo_ruta = ?,
+            updated_at = CURRENT_TIMESTAMP
+          WHERE id = ?
+        `;
+
+        sql.run(updateQuery, [
+          url_archivo,
+          archivo.originalname,
+          ext,
+          archivo.size,
+          archivo.mimetype,
+          newPath,
+          idContenido
+        ], function(updateErr) {
+          if (updateErr) {
+            console.error('Error actualizando archivo:', updateErr);
+            return res.status(500).json({
+              mensaje: 'Error asociando archivo al documento',
+              error: updateErr.message
+            });
+          }
+
+          console.log('✅ Documento con archivo creado exitosamente');
+          res.status(201).json({
+            mensaje: 'Contenido creado con archivo',
+            id_contenido: idContenido,
+            url_archivo,
+          });
+        });
+
+      } catch (fileError) {
+        console.error('Error moviendo archivo:', fileError);
+        res.status(500).json({
+          mensaje: 'Error procesando archivo',
+          error: fileError.message
+        });
+      }
+    });
+
+  } catch (error) {
+    console.error('Error creando contenido:', error);
+    res.status(500).json({
+      mensaje: 'Error creando contenido',
+      error: error.message
+    });
+  }
+};
+
+// 🔍 Función auxiliar para determinar tipo de archivo
+function determinarTipoArchivo(archivo) {
+  const extension = path.extname(archivo.originalname).toLowerCase();
+  const mimeType = archivo.mimetype.toLowerCase();
+  
+  if (mimeType.startsWith('image/') || ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(extension)) {
+    return 'imagenes';
+  }
+  if (mimeType === 'application/pdf' || extension === '.pdf') {
+    return 'pdf';
+  }
+  if (mimeType.startsWith('video/') || ['.mp4', '.avi', '.mov', '.wmv'].includes(extension)) {
+    return 'videos';
+  }
+  return 'otros';
+}

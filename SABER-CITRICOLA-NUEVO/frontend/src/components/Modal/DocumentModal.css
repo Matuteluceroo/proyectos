@@ -297,3 +297,74 @@
   padding-right: 32px;
   appearance: none;
 }
+
+/* Información de archivo subido */
+.uploaded-file-info {
+  margin-top: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+  border: 2px solid #10b981;
+  border-radius: 12px;
+  animation: slideInUp 0.3s ease-out;
+}
+
+.file-success {
+  color: #059669;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-details {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1fae5;
+}
+
+.file-details p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.file-url {
+  color: #6b7280;
+  font-family: 'Courier New', monospace;
+  font-size: 12px !important;
+  word-break: break-all;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Archivo actual en edición */
+.current-file {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.current-file p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.current-file .text-sm {
+  font-size: 12px;
+}
+
+.current-file .text-gray-600 {
+  color: #6b7280;
+}

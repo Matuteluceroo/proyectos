@@ -26,6 +26,23 @@ const FileUpload = ({
     '*/*': ['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf', 'mp4', 'avi', 'mov', 'wmv', 'txt', 'doc', 'docx']
   };
 
+  // 🔍 Determinar tipo de archivo automáticamente
+  const determinarTipo = (file) => {
+    const extension = file.name.split('.').pop().toLowerCase();
+    const mimeType = file.type.toLowerCase();
+    
+    if (mimeType.startsWith('image/') || ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(extension)) {
+      return 'imagen';
+    }
+    if (mimeType === 'application/pdf' || extension === 'pdf') {
+      return 'pdf';
+    }
+    if (mimeType.startsWith('video/') || ['mp4', 'avi', 'mov', 'wmv'].includes(extension)) {
+      return 'video';
+    }
+    return 'otros';
+  };
+
   // 🔍 Validar archivo
   const validateFile = (file) => {
     // Validar tamaño
@@ -75,10 +92,11 @@ const FileUpload = ({
       } else {
         // Un solo archivo
         formData.append('archivo', files[0]);
-        formData.append('titulo', files[0].name);
+        formData.append('titulo', files[0].name.split('.')[0]); // Nombre sin extensión
         formData.append('descripcion', `Archivo subido: ${files[0].name}`);
-        formData.append('categoria_id', categoria_id);
-        formData.append('tipo', tipo);
+        formData.append('id_tipo', categoria_id || 1); // ID tipo por defecto
+        formData.append('id_usuario', localStorage.getItem('userId') || 1); // ID usuario desde localStorage
+        formData.append('tipo', 'documento'); // Tipo de documento por defecto
       }
 
       showLoading('Subiendo archivo(s)...');
@@ -88,10 +106,13 @@ const FileUpload = ({
         setUploadProgress(prev => Math.min(prev + 10, 90));
       }, 200);
 
-      const endpoint = multiple ? '/api/archivos/subir-multiples' : '/api/archivos/subir';
+      const endpoint = multiple ? '/api/documentos/upload-multiples' : '/api/documentos/upload';
       
       const response = await fetch(`http://localhost:5000${endpoint}`, {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
         body: formData
       });
 
@@ -100,12 +121,16 @@ const FileUpload = ({
 
       const result = await response.json();
 
-      if (result.success) {
-        showSuccess(result.message);
+      if (response.ok) {
+        showSuccess(result.mensaje || 'Archivo subido exitosamente');
         
         // Callback con los archivos subidos
         if (onFileUploaded) {
-          onFileUploaded(result.data);
+          onFileUploaded({
+            id: result.id_contenido,
+            url: result.url_archivo,
+            name: files[0].name
+          });
         }
 
         // Limpiar input
@@ -113,7 +138,7 @@ const FileUpload = ({
           fileInputRef.current.value = '';
         }
       } else {
-        showError(result.message || 'Error subiendo archivo(s)');
+        showError(result.mensaje || 'Error subiendo archivo');
       }
 
     } catch (error) {

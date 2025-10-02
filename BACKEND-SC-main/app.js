@@ -30,6 +30,9 @@ app.use(express.json({
 app.use(express.urlencoded({ limit: '500mb', extended: false }))
 app.use(corsMiddleware(acepted_origins))
 
+// Configurar archivos estáticos para servir contenidos subidos
+app.use('/contenidos', express.static(basePath))
+
 app.disable('x-powered-by')
 app.use('/login', loginRouter)
 app.use('/api/usuarios', usuariosRouter)

@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import Usuarios from './pages/Usuarios';
 import DocumentList from './components/DocumentList/DocumentList';
 import CreaDocumento from './pages/CreaDocumento/CreaDocumento';
+import MisDocumentos from './pages/MisDocumentos/MisDocumentos';
 import './App.css';
 import TestFileUpload from './pages/TestFileUpload';
 
@@ -99,7 +100,17 @@ function AppContent() {
           } 
         />
         
-        {/* 🚫 Ruta 404 - Para páginas que no existen */}
+        {/* � Ruta para mis documentos - Solo si está logueado */}
+        <Route 
+          path="/mis-documentos" 
+          element={
+            <ProtectedRoute>
+              <MisDocumentos />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* �🚫 Ruta 404 - Para páginas que no existen */}
         <Route 
           path="*" 
           element={

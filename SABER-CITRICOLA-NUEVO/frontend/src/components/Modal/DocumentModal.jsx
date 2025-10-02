@@ -94,14 +94,22 @@ const DocumentModal = ({
 
   // Manejar archivo subido
   const handleFileUploaded = (fileData) => {
+    console.log('Archivo subido:', fileData);
     setUploadedFile(fileData);
     setErrors(prev => ({ ...prev, archivo: '' }));
     
     // Auto-llenar título si está vacío
-    if (!formData.titulo && fileData.archivo?.nombre_original) {
-      const nombreSinExtension = fileData.archivo.nombre_original.replace(/\.[^/.]+$/, "");
+    if (!formData.titulo && fileData.name) {
+      const nombreSinExtension = fileData.name.replace(/\.[^/.]+$/, "");
       setFormData(prev => ({ ...prev, titulo: nombreSinExtension }));
     }
+    
+    // Guardar información del archivo en el formulario
+    setFormData(prev => ({ 
+      ...prev, 
+      archivo_adjunto: fileData.url,
+      archivo_nombre: fileData.name
+    }));
   };
 
   // Enviar formulario
@@ -236,11 +244,24 @@ const DocumentModal = ({
             
             <FileUpload
               onFileUploaded={handleFileUploaded}
-              accept="*/*"
+              accept="image/*,application/pdf,.pdf,.doc,.docx,.txt"
               maxSize={50}
               categoria_id={formData.categoria_id}
               tipo={formData.tipo}
             />
+            
+            {/* Mostrar archivo subido */}
+            {uploadedFile && (
+              <div className="uploaded-file-info">
+                <div className="file-success">
+                  ✅ <strong>Archivo subido exitosamente:</strong>
+                </div>
+                <div className="file-details">
+                  <p>📄 <strong>{uploadedFile.name}</strong></p>
+                  <p className="file-url">🔗 {uploadedFile.url}</p>
+                </div>
+              </div>
+            )}
             {errors.archivo && <span className="error-text">{errors.archivo}</span>}
           </div>
 

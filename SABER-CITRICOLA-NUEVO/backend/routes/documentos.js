@@ -1,16 +1,21 @@
 // 🛤️ routes/documentos.js - Rutas para CRUD de documentos
 import express from 'express';
+import multer from 'multer';
 import {
   obtenerDocumentos,
   obtenerDocumentoPorId,
   crearDocumento,
   actualizarDocumento,
   eliminarDocumento,
-  obtenerEstadisticas
+  obtenerEstadisticas,
+  crearConArchivo
 } from '../controllers/documentos.js';
 import { authMiddleware, devBypassAuth } from '../middleware/jwt.js';
 
 const router = express.Router();
+
+// 📁 Configuración de multer para subida de archivos
+const upload = multer({ dest: 'uploads/tmp' });
 
 // 🧪 Ruta de prueba para verificar que funciona
 router.get('/test', (req, res) => {
@@ -33,6 +38,9 @@ router.get('/:id', obtenerDocumentoPorId);
 // ✅ POST /api/documentos - Crear nuevo documento (requiere auth)
 // Para desarrollo, puedes cambiar authMiddleware por devBypassAuth
 router.post('/', devBypassAuth, crearDocumento);
+
+// 📁 POST /api/documentos/upload - Subir documento con archivo
+router.post('/upload', devBypassAuth, upload.single('archivo'), crearConArchivo);
 
 // ✏️ PUT /api/documentos/:id - Actualizar documento (requiere auth)
 router.put('/:id', devBypassAuth, actualizarDocumento);
