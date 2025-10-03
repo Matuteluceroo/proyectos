@@ -12,6 +12,10 @@ import MisDocumentos from './pages/MisDocumentos/MisDocumentos';
 import Biblioteca from './pages/Biblioteca/Biblioteca';
 import DocumentoDetalle from './pages/DocumentoDetalle/DocumentoDetalle';
 import CategoriaDetalle from './pages/CategoriaDetalle/CategoriaDetalle';
+import EditarDocumento from './pages/EditarDocumento/EditarDocumento';
+import CreaCapacitacion from './pages/CreaCapacitacion/CreaCapacitacion';
+import Capacitaciones from './pages/Capacitaciones/Capacitaciones';
+import TestDocumento from './pages/TestDocumento';
 import './App.css';
 import TestFileUpload from './pages/TestFileUpload';
 
@@ -83,6 +87,16 @@ function AppContent() {
           element={<TestFileUpload />}
         />
         
+        {/* 🧪 Ruta de prueba para debugging */}
+        <Route 
+          path="/test-documento" 
+          element={
+            <ProtectedRoute>
+              <TestDocumento />
+            </ProtectedRoute>
+          }
+        />
+        
         {/* 📄 Rutas protegidas - Solo si está logueado */}
         <Route 
           path="/documentos" 
@@ -123,7 +137,7 @@ function AppContent() {
           } 
         />
         
-        {/* � Ruta para ver categoría específica - Solo si está logueado */}
+        {/* 📂 Ruta para ver categoría específica - Solo si está logueado */}
         <Route 
           path="/categoria/:id" 
           element={
@@ -133,7 +147,37 @@ function AppContent() {
           } 
         />
         
-        {/* �📄 Ruta para mis documentos - Solo si está logueado */}
+        {/* ✏️ Ruta para editar documento - Solo si está logueado */}
+        <Route 
+          path="/editar-documento/:id" 
+          element={
+            <ProtectedRoute>
+              <EditarDocumento />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* 🎓 Ruta para crear capacitación - Solo expertos y administradores */}
+        <Route 
+          path="/crear-capacitacion" 
+          element={
+            <ProtectedRoute>
+              <CreaCapacitacion />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* 📚 Ruta para ver capacitaciones - Solo si está logueado */}
+        <Route 
+          path="/capacitaciones" 
+          element={
+            <ProtectedRoute>
+              <Capacitaciones />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* 📄 Ruta para mis documentos - Solo si está logueado */}
         <Route 
           path="/mis-documentos" 
           element={
