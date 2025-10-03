@@ -207,65 +207,147 @@ const DashboardExperto = () => {
           </div>
         </div>
 
-        {/* 📚 Categorías de especialización */}
+        {/* 📚 Categorías de especialización - Rediseñada */}
         <div className="specialization-areas">
-          <h3>📚 Áreas de Conocimiento</h3>
-          <div className="categories-grid">
-            {categorias.map(categoria => (
-              <div key={categoria.id} className="category-card">
-                <span className="category-icon">{categoria.icono}</span>
-                <h4>{categoria.nombre}</h4>
-                <p>{categoria.descripcion}</p>
-                <button 
-                  className="btn-small btn-secondary"
-                  onClick={() => navigate(`/categoria/${categoria.id}`)}
-                >
-                  Ver contenido
-                </button>
-              </div>
-            ))}
+          <div className="section-header">
+            <h3>📚 Áreas de Conocimiento</h3>
+            <p className="section-desc">Explora las diferentes categorías de contenido técnico</p>
           </div>
+          
+          {categorias.length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-icon">📚</div>
+              <p>No hay categorías disponibles</p>
+              <small>Las categorías se cargarán automáticamente desde el backend</small>
+            </div>
+          ) : (
+            <div className="categories-grid enhanced">
+              {categorias.map(categoria => (
+                <div key={categoria.id} className="category-card enhanced">
+                  <div className="category-header">
+                    <span className="category-icon-large">{categoria.icono}</span>
+                    <div className="category-title">
+                      <h4>{categoria.nombre}</h4>
+                      <span className="category-badge">Especialización</span>
+                    </div>
+                  </div>
+                  
+                  <div className="category-content">
+                    <p className="category-description">{categoria.descripcion}</p>
+                    
+                    <div className="category-stats">
+                      <span className="stat-item">
+                        <span className="stat-icon">📄</span>
+                        <span className="stat-text">Documentos técnicos</span>
+                      </span>
+                      <span className="stat-item">
+                        <span className="stat-icon">🎯</span>
+                        <span className="stat-text">Área especializada</span>
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="category-actions">
+                    <button 
+                      className="btn-primary btn-small"
+                      onClick={() => navigate(`/categoria/${categoria.id}`)}
+                    >
+                      🔍 Explorar contenido
+                    </button>
+                    <button 
+                      className="btn-secondary btn-small"
+                      onClick={() => navigate('/crear-documento', { state: { categoriaId: categoria.id } })}
+                    >
+                      ➕ Crear aquí
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* 📄 Últimos documentos creados */}
+        {/* 📄 Últimos documentos creados - Mejorado */}
         <div className="recent-documents">
-          <h3>📄 Mis Últimas Publicaciones</h3>
+          <div className="section-header">
+            <h3>📄 Mis Últimas Publicaciones</h3>
+            <p className="section-desc">Gestiona y revisa tus documentos más recientes</p>
+          </div>
+          
           {misDocumentos.length === 0 ? (
             <div className="empty-state">
+              <div className="empty-icon">📝</div>
               <p>🆕 Aún no has creado contenido</p>
+              <small>Comienza creando tu primer documento técnico</small>
               <div className="empty-actions">
                 <button 
                   className="btn-primary"
                   onClick={() => navigate('/crear-documento')}
                 >
-                  Crear mi primer documento
+                  📝 Crear mi primer documento
                 </button>
                 <button 
                   className="btn-secondary"
                   onClick={() => navigate('/mis-documentos')}
                 >
-                  Ver todos mis documentos
+                  📁 Ver todos mis documentos
                 </button>
               </div>
             </div>
           ) : (
-            <div className="documents-list">
-              {misDocumentos.slice(0, 5).map(documento => (
-                <div key={documento.id} className="document-item">
-                  <div className="document-info">
-                    <h4>{documento.titulo}</h4>
-                    <p>{documento.descripcion}</p>
-                    <div className="document-meta">
-                      <span className="document-type">{documento.tipo}</span>
-                      <span className="document-views">👁️ {documento.vistas || 0} vistas</span>
-                      <span className="document-date">
-                        {new Date(documento.created_at).toLocaleDateString()}
-                      </span>
+            <div className="documents-list enhanced">
+              {misDocumentos.slice(0, 3).map(documento => (
+                <div key={documento.id} className="document-item enhanced">
+                  <div className="document-header">
+                    <div className="document-type-badge">
+                      {documento.tipo === 'documento' && '📄'}
+                      {documento.tipo === 'guia' && '📋'}
+                      {documento.tipo === 'procedimiento' && '⚙️'}
+                      {documento.tipo === 'capacitacion' && '🎓'}
+                      <span>{documento.tipo}</span>
+                    </div>
+                    <div className="document-status">
+                      {documento.estado === 'publicado' && <span className="status-badge published">✅ Publicado</span>}
+                      {documento.estado === 'borrador' && <span className="status-badge draft">📝 Borrador</span>}
+                      {documento.estado === 'revision' && <span className="status-badge review">🔍 En revisión</span>}
                     </div>
                   </div>
-                  <div className="document-actions">
-                    <button className="btn-small btn-secondary">✏️ Editar</button>
-                    <button className="btn-small btn-secondary">👁️ Ver</button>
+                  
+                  <div className="document-content">
+                    <h4>{documento.titulo}</h4>
+                    <p className="document-description">{documento.descripcion}</p>
+                    
+                    <div className="document-meta enhanced">
+                      <span className="meta-item">
+                        <span className="meta-icon">👁️</span>
+                        <span>{documento.vistas || 0} vistas</span>
+                      </span>
+                      <span className="meta-item">
+                        <span className="meta-icon">📅</span>
+                        <span>{new Date(documento.created_at).toLocaleDateString()}</span>
+                      </span>
+                      {documento.archivo_url && (
+                        <span className="meta-item">
+                          <span className="meta-icon">📎</span>
+                          <span>Con archivo</span>
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="document-actions enhanced">
+                    <button 
+                      className="btn-small btn-primary"
+                      onClick={() => navigate(`/documento/${documento.id}`)}
+                    >
+                      👁️ Ver
+                    </button>
+                    <button 
+                      className="btn-small btn-secondary"
+                      onClick={() => navigate(`/editar-documento/${documento.id}`)}
+                    >
+                      ✏️ Editar
+                    </button>
                   </div>
                 </div>
               ))}
