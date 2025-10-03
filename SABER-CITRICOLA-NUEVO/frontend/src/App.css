@@ -101,12 +101,34 @@ body {
   border-radius: 10px;
   font-size: 16px;
   transition: all 0.3s ease;
+  color: #2d3748 !important; /* Asegurar color visible */
+  background: white !important;
+  -webkit-text-fill-color: #2d3748 !important; /* Para navegadores WebKit */
 }
 
 .form-group input:focus {
   outline: none;
   border-color: #ff6f00;
   box-shadow: 0 0 0 3px rgba(255, 111, 0, 0.1);
+  color: #2d3748 !important; /* Color en focus */
+}
+
+/* Estilos para selects globales */
+.form-group select {
+  color: #2d3748 !important;
+  background-color: white !important;
+}
+
+.form-group select option {
+  color: #2d3748 !important;
+  background-color: white !important;
+}
+
+/* Estilos para textarea globales */
+.form-group textarea {
+  color: #2d3748 !important;
+  background-color: white !important;
+  -webkit-text-fill-color: #2d3748 !important;
 }
 
 .form-group input:disabled {
