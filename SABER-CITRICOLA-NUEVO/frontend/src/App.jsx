@@ -9,6 +9,7 @@ import Usuarios from './pages/Usuarios';
 import DocumentList from './components/DocumentList/DocumentList';
 import CreaDocumento from './pages/CreaDocumento/CreaDocumento';
 import MisDocumentos from './pages/MisDocumentos/MisDocumentos';
+import Biblioteca from './pages/Biblioteca/Biblioteca';
 import './App.css';
 import TestFileUpload from './pages/TestFileUpload';
 
@@ -100,7 +101,17 @@ function AppContent() {
           } 
         />
         
-        {/* � Ruta para mis documentos - Solo si está logueado */}
+        {/* 📚 Ruta para biblioteca - Solo si está logueado */}
+        <Route 
+          path="/biblioteca" 
+          element={
+            <ProtectedRoute>
+              <Biblioteca />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* 📄 Ruta para mis documentos - Solo si está logueado */}
         <Route 
           path="/mis-documentos" 
           element={
@@ -110,7 +121,7 @@ function AppContent() {
           } 
         />
         
-        {/* �🚫 Ruta 404 - Para páginas que no existen */}
+        {/* 🚫 Ruta 404 - Para páginas que no existen */}
         <Route 
           path="*" 
           element={

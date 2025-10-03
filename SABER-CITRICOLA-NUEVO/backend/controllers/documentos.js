@@ -92,15 +92,41 @@ export const obtenerDocumentos = async (req, res) => {
         });
       }
 
-      // Contar total para paginación
+      // Contar total para paginación - usando los mismos filtros
       let countQuery = `
         SELECT COUNT(*) as total 
         FROM documentos d 
+        LEFT JOIN categorias c ON d.categoria_id = c.id
+        LEFT JOIN usuarios u ON d.autor_id = u.id
         WHERE 1=1
       `;
+
+      // Aplicar los mismos filtros que la query principal
+      if (categoria_id) {
+        countQuery += ' AND d.categoria_id = ?';
+      }
+      if (tipo) {
+        countQuery += ' AND d.tipo = ?';
+      }
+      if (estado) {
+        countQuery += ' AND d.estado = ?';
+      }
+      if (nivel_acceso) {
+        countQuery += ' AND d.nivel_acceso = ?';
+      }
+      if (busqueda) {
+        countQuery += ` AND (
+          d.titulo LIKE ? OR 
+          d.descripcion LIKE ? OR 
+          d.contenido LIKE ? OR 
+          d.keywords LIKE ? OR
+          d.tags LIKE ?
+        )`;
+      }
+
       const countParams = params.slice(0, -2); // Remover LIMIT y OFFSET
 
-      sql.get(countQuery, countParams, (err, { total }) => {
+      sql.get(countQuery, countParams, (err, result) => {
         if (err) {
           console.error('Error contando documentos:', err);
           return res.status(500).json({
@@ -109,6 +135,8 @@ export const obtenerDocumentos = async (req, res) => {
             error: err.message
           });
         }
+
+        const total = result?.total || 0;
 
         res.json({
           success: true,
