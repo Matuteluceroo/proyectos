@@ -18,6 +18,7 @@ import Capacitaciones from './pages/Capacitaciones/Capacitaciones';
 import TestDocumento from './pages/TestDocumento';
 import './App.css';
 import TestFileUpload from './pages/TestFileUpload';
+import GestionarContenido from './pages/GestionarContenido';
 
 // 🛡️ Componente para rutas protegidas
 const ProtectedRoute = ({ children }) => {
@@ -185,6 +186,11 @@ function AppContent() {
               <MisDocumentos />
             </ProtectedRoute>
           } 
+        />
+        
+        <Route 
+          path="/gestionar-contenido" 
+          element={<GestionarContenido />}
         />
         
         {/* 🚫 Ruta 404 - Para páginas que no existen */}

@@ -17,6 +17,7 @@ import {
 import { addFileFields } from './migrations/add_file_fields.js';
 import archivosRoutes from './routes/archivos.js';
 import documentosRoutes from './routes/documentos.js';
+import usuariosRoutes from './routes/usuarios.js';
 
 // 🏗️ Creamos la aplicación Express
 const app = express();
@@ -56,6 +57,9 @@ app.use('/api/archivos', archivosRoutes);
 // 📄 Rutas de documentos CRUD
 app.use('/api/documentos', documentosRoutes);
 
+// 👥 Rutas de usuarios CRUD (solo admin)
+app.use('/api/usuarios', usuariosRoutes);
+
 // 👋 Ruta de prueba - Para verificar que funciona
 app.get('/', (req, res) => {
     res.json({ 
@@ -84,21 +88,6 @@ app.get('/api/info', (req, res) => {
             'GET /api/documentos - Documentos y contenido',
             'GET /api/metricas - Indicadores del sistema'
         ]
-    });
-});
-
-// 👥 Ruta para obtener usuarios (solo administradores)
-app.get('/api/usuarios', (req, res) => {
-    obtenerTodosUsuarios((err, usuarios) => {
-        if (err) {
-            console.error('❌ Error al obtener usuarios:', err);
-            res.status(500).json({ error: 'Error interno del servidor' });
-        } else {
-            res.json({
-                mensaje: 'Lista de usuarios',
-                usuarios: usuarios
-            });
-        }
     });
 });
 

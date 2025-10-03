@@ -528,6 +528,137 @@ const buscarContenido = (query, filtros = {}, callback) => {
   }
 };
 
+// 👥 CRUD DE USUARIOS - Solo para administradores
+
+// Obtener usuario por ID
+export function obtenerUsuarioPorId(id, callback) {
+    const sql = `
+        SELECT u.*, r.nombre as rol 
+        FROM usuarios u 
+        LEFT JOIN roles r ON u.rol_id = r.id 
+        WHERE u.id = ?
+    `;
+    
+    db.get(sql, [id], (err, row) => {
+        if (err) {
+            console.error('❌ Error al obtener usuario por ID:', err);
+            callback(err, null);
+        } else {
+            callback(null, row || null);
+        }
+    });
+}
+
+// Crear nuevo usuario
+export function crearUsuario(datosUsuario, callback) {
+    const { username, email, password, nombre_completo, rol } = datosUsuario;
+    
+    // Primero obtener el rol_id
+    const sqlRol = 'SELECT id FROM roles WHERE nombre = ?';
+    
+    db.get(sqlRol, [rol], (err, rolRow) => {
+        if (err) {
+            console.error('❌ Error al obtener rol:', err);
+            return callback(err, null);
+        }
+        
+        if (!rolRow) {
+            return callback(new Error('Rol no encontrado'), null);
+        }
+        
+        const sql = `
+            INSERT INTO usuarios (username, email, password, nombre_completo, rol_id, fecha_creacion)
+            VALUES (?, ?, ?, ?, ?, datetime('now'))
+        `;
+        
+        db.run(sql, [username, email, password, nombre_completo, rolRow.id], function(err) {
+            if (err) {
+                console.error('❌ Error al crear usuario:', err);
+                callback(err, null);
+            } else {
+                console.log(`✅ Usuario creado con ID: ${this.lastID}`);
+                callback(null, this.lastID);
+            }
+        });
+    });
+}
+
+// Actualizar usuario
+export function actualizarUsuario(id, datosActualizacion, callback) {
+    const { username, email, password, nombre_completo, rol } = datosActualizacion;
+    
+    // Primero obtener el rol_id
+    const sqlRol = 'SELECT id FROM roles WHERE nombre = ?';
+    
+    db.get(sqlRol, [rol], (err, rolRow) => {
+        if (err) {
+            console.error('❌ Error al obtener rol:', err);
+            return callback(err, null);
+        }
+        
+        if (!rolRow) {
+            return callback(new Error('Rol no encontrado'), null);
+        }
+        
+        let sql, params;
+        
+        if (password) {
+            sql = `
+                UPDATE usuarios 
+                SET username = ?, email = ?, password = ?, nombre_completo = ?, rol_id = ?
+                WHERE id = ?
+            `;
+            params = [username, email, password, nombre_completo, rolRow.id, id];
+        } else {
+            sql = `
+                UPDATE usuarios 
+                SET username = ?, email = ?, nombre_completo = ?, rol_id = ?
+                WHERE id = ?
+            `;
+            params = [username, email, nombre_completo, rolRow.id, id];
+        }
+        
+        db.run(sql, params, function(err) {
+            if (err) {
+                console.error('❌ Error al actualizar usuario:', err);
+                callback(err, null);
+            } else {
+                console.log(`✅ Usuario actualizado. Filas afectadas: ${this.changes}`);
+                callback(null, this.changes > 0);
+            }
+        });
+    });
+}
+
+// Eliminar usuario
+export function eliminarUsuario(id, callback) {
+    const sql = 'DELETE FROM usuarios WHERE id = ?';
+    
+    db.run(sql, [id], function(err) {
+        if (err) {
+            console.error('❌ Error al eliminar usuario:', err);
+            callback(err, null);
+        } else {
+            console.log(`✅ Usuario eliminado. Filas afectadas: ${this.changes}`);
+            callback(null, this.changes > 0);
+        }
+    });
+}
+
+// Verificar si usuario existe (por username o email)
+export function verificarUsuarioExiste(username, email, callback) {
+    const sql = 'SELECT id FROM usuarios WHERE username = ? OR email = ?';
+    
+    db.get(sql, [username, email], (err, row) => {
+        if (err) {
+            console.error('❌ Error al verificar usuario:', err);
+            callback(err, null);
+        } else {
+            callback(null, !!row);
+        }
+    });
+}
+
 export { 
   db, 
   inicializarDB, 
