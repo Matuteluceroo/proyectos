@@ -11,6 +11,7 @@ import CreaDocumento from './pages/CreaDocumento/CreaDocumento';
 import MisDocumentos from './pages/MisDocumentos/MisDocumentos';
 import Biblioteca from './pages/Biblioteca/Biblioteca';
 import DocumentoDetalle from './pages/DocumentoDetalle/DocumentoDetalle';
+import CategoriaDetalle from './pages/CategoriaDetalle/CategoriaDetalle';
 import './App.css';
 import TestFileUpload from './pages/TestFileUpload';
 
@@ -122,7 +123,17 @@ function AppContent() {
           } 
         />
         
-        {/* 📄 Ruta para mis documentos - Solo si está logueado */}
+        {/* � Ruta para ver categoría específica - Solo si está logueado */}
+        <Route 
+          path="/categoria/:id" 
+          element={
+            <ProtectedRoute>
+              <CategoriaDetalle />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* �📄 Ruta para mis documentos - Solo si está logueado */}
         <Route 
           path="/mis-documentos" 
           element={
