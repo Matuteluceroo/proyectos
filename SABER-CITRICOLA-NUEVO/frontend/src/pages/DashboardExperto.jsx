@@ -170,15 +170,6 @@ const DashboardExperto = () => {
             </button>
 
             <button 
-              className="action-card secondary"
-              onClick={() => navigate('/mis-documentos')}
-            >
-              <span className="action-icon">📁</span>
-              <span className="action-title">Mis Documentos</span>
-              <span className="action-desc">Ver documentos creados</span>
-            </button>
-
-            <button 
               className="action-card primary"
               onClick={() => navigate('/crear-capacitacion')}
             >
@@ -188,12 +179,12 @@ const DashboardExperto = () => {
             </button>
 
             <button 
-              className="action-card"
+              className="action-card secondary"
               onClick={() => navigate('/mis-documentos')}
             >
               <span className="action-icon">📋</span>
               <span className="action-title">Mis Contenidos</span>
-              <span className="action-desc">Gestionar publicaciones</span>
+              <span className="action-desc">Gestionar mis publicaciones</span>
             </button>
 
             <button 
