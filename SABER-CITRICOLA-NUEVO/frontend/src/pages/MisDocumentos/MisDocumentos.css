@@ -164,11 +164,31 @@
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s ease;
+  color: #2d3748 !important; /* Color del texto visible */
+  background: white !important;
+  -webkit-text-fill-color: #2d3748 !important; /* Para Safari */
 }
 
 .search-input-group input:focus {
   outline: none;
   border-color: #4285f4;
+  color: #2d3748 !important; /* Mantener color en focus */
+}
+
+/* Placeholder para campos de búsqueda */
+.search-input-group input::placeholder {
+  color: #9ca3af !important;
+  opacity: 1;
+}
+
+/* Autocompletado del navegador en búsqueda */
+.search-input-group input:-webkit-autofill,
+.search-input-group input:-webkit-autofill:hover,
+.search-input-group input:-webkit-autofill:focus,
+.search-input-group input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #2d3748 !important;
+  color: #2d3748 !important;
 }
 
 .search-btn {
@@ -197,15 +217,24 @@
   padding: 10px 15px;
   border: 2px solid #e8eaed;
   border-radius: 8px;
-  background: white;
+  background: white !important;
   font-size: 14px;
   cursor: pointer;
   transition: border-color 0.3s ease;
+  color: #2d3748 !important; /* Color del texto visible */
+  -webkit-text-fill-color: #2d3748 !important; /* Para Safari */
 }
 
 .filtros-adicionales select:focus {
   outline: none;
   border-color: #4285f4;
+  color: #2d3748 !important; /* Mantener color en focus */
+}
+
+/* Options en selects */
+.filtros-adicionales select option {
+  color: #2d3748 !important;
+  background: white !important;
 }
 
 /* Grid de Documentos */
@@ -429,6 +458,13 @@
 
   .filtros-adicionales select {
     width: 100%;
+    color: #2d3748 !important; /* Color en responsive */
+    -webkit-text-fill-color: #2d3748 !important;
+  }
+  
+  .search-input-group input {
+    color: #2d3748 !important; /* Color en responsive */
+    -webkit-text-fill-color: #2d3748 !important;
   }
 }
 
