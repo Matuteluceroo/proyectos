@@ -10,6 +10,7 @@ import DocumentList from './components/DocumentList/DocumentList';
 import CreaDocumento from './pages/CreaDocumento/CreaDocumento';
 import MisDocumentos from './pages/MisDocumentos/MisDocumentos';
 import Biblioteca from './pages/Biblioteca/Biblioteca';
+import DocumentoDetalle from './pages/DocumentoDetalle/DocumentoDetalle';
 import './App.css';
 import TestFileUpload from './pages/TestFileUpload';
 
@@ -107,6 +108,16 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <Biblioteca />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* 📄 Ruta para ver documento específico - Solo si está logueado */}
+        <Route 
+          path="/documento/:id" 
+          element={
+            <ProtectedRoute>
+              <DocumentoDetalle />
             </ProtectedRoute>
           } 
         />

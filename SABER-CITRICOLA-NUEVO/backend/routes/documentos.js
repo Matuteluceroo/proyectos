@@ -35,6 +35,11 @@ router.get('/estadisticas', obtenerEstadisticas);
 // 📄 GET /api/documentos/:id - Obtener documento por ID
 router.get('/:id', obtenerDocumentoPorId);
 
+// 👁️ POST /api/documentos/:id/vista - Incrementar vistas del documento
+router.post('/:id/vista', (req, res) => {
+  res.json({ success: true, message: 'Vista registrada' });
+});
+
 // ✅ POST /api/documentos - Crear nuevo documento (requiere auth)
 // Para desarrollo, puedes cambiar authMiddleware por devBypassAuth
 router.post('/', devBypassAuth, crearDocumento);

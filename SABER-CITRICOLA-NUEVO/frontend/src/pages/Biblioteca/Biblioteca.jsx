@@ -149,6 +149,34 @@ const Biblioteca = () => {
     cargarCategorias();
   }, []);
 
+  // 📥 Manejar descarga de archivo
+  const manejarDescarga = (documento) => {
+    if (documento?.archivo_url) {
+      try {
+        const urlCompleta = `${API_URL}${documento.archivo_url}`;
+        console.log('🔄 Intentando descargar:', urlCompleta);
+        
+        // Crear un elemento <a> temporal para forzar la descarga
+        const link = document.createElement('a');
+        link.href = urlCompleta;
+        link.download = documento.archivo_nombre_original || 'documento';
+        link.target = '_blank';
+        
+        // Añadir al DOM, hacer click y remover
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        console.log('✅ Descarga iniciada');
+      } catch (error) {
+        console.error('❌ Error al descargar:', error);
+        alert('Error al descargar el archivo. Por favor, intenta de nuevo.');
+      }
+    } else {
+      alert('No hay archivo disponible para descargar.');
+    }
+  };
+
   // 📄 Renderizar documento en grid
   const renderDocumentoGrid = (documento) => (
     <div key={documento.id} className="documento-card-biblioteca">
@@ -183,12 +211,12 @@ const Biblioteca = () => {
         <div className="documento-stats">
           <span className="stat-item">
             <span className="stat-icon">👁️</span>
-            <span>{documento.vistas || 0} vistas</span>
+            <span>{documento.vistas || 0} visualizaciones</span>
           </span>
           {documento.archivo_url && (
             <span className="stat-item">
               <span className="stat-icon">📎</span>
-              <span>Con archivo</span>
+              <span>Archivo adjunto</span>
             </span>
           )}
         </div>
@@ -204,7 +232,7 @@ const Biblioteca = () => {
         {documento.archivo_url && (
           <button 
             className="btn-descargar"
-            onClick={() => window.open(documento.archivo_url, '_blank')}
+            onClick={() => manejarDescarga(documento)}
           >
             📥 Descargar
           </button>
@@ -228,7 +256,7 @@ const Biblioteca = () => {
         <div className="documento-lista-footer">
           <span className="autor-info">👤 {documento.autor_nombre}</span>
           <span className="categoria-info">{documento.categoria_icono} {documento.categoria_nombre}</span>
-          <span className="vistas-info">👁️ {documento.vistas || 0}</span>
+          <span className="vistas-info">👁️ {documento.vistas || 0} visualizaciones</span>
         </div>
       </div>
       <div className="documento-lista-acciones">
@@ -241,7 +269,7 @@ const Biblioteca = () => {
         {documento.archivo_url && (
           <button 
             className="btn-lista-descargar"
-            onClick={() => window.open(documento.archivo_url, '_blank')}
+            onClick={() => manejarDescarga(documento)}
           >
             📥
           </button>

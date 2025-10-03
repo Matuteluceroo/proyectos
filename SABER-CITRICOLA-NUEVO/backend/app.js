@@ -37,8 +37,16 @@ app.use(cors({
 // 📝 Configuramos Express para entender JSON
 app.use(express.json());
 
-// 📁 Servir archivos estáticos (uploads)
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+// 📁 Servir archivos estáticos (uploads) con headers apropiados
+app.use('/uploads', (req, res, next) => {
+  // Configurar headers para permitir descarga
+  res.set({
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET',
+    'Access-Control-Allow-Headers': 'Content-Type'
+  });
+  next();
+}, express.static(path.join(process.cwd(), 'uploads')));
 
 // 🎯 RUTAS - Aquí definimos qué responde el servidor
 
@@ -53,7 +61,11 @@ app.get('/', (req, res) => {
     res.json({ 
         mensaje: '¡Hola! El servidor está funcionando 🎉',
         proyecto: 'Saber Citrícola',
-        version: '1.0.0'
+        version: '1.0.0',
+        rutas_test: {
+            uploads: '/uploads',
+            prueba_descarga: '/uploads/documento_prueba.txt'
+        }
     });
 });
 
