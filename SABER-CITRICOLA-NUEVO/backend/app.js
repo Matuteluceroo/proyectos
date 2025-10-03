@@ -94,6 +94,8 @@ app.get('/api/usuarios', (req, res) => {
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     
+    console.log('🔐 Intento de login:', { username, password });
+    
     if (!username || !password) {
         return res.status(400).json({ 
             error: 'Username y password son requeridos' 
@@ -105,6 +107,7 @@ app.post('/api/login', (req, res) => {
             console.error('❌ Error al verificar login:', err);
             res.status(500).json({ error: 'Error interno del servidor' });
         } else if (usuario) {
+            console.log('✅ Usuario encontrado:', usuario);
             res.json({
                 mensaje: 'Login exitoso',
                 usuario: {
@@ -116,6 +119,7 @@ app.post('/api/login', (req, res) => {
                 }
             });
         } else {
+            console.log('❌ Usuario no encontrado con credenciales:', { username, password });
             res.status(401).json({ 
                 error: 'Credenciales incorrectas' 
             });

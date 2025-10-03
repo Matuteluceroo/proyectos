@@ -11,8 +11,8 @@ const Login = () => {
   
   // Estado del formulario
   const [formData, setFormData] = useState({
-    username: 'admin',
-    password: '123456'
+    username: '',
+    password: ''
   });
   const [errors, setErrors] = useState({});
 
@@ -55,16 +55,11 @@ const Login = () => {
       const result = await login(formData.username, formData.password);
       
       if (result.success) {
-        showSuccess(`¡Bienvenido ${result.data.nombre}!`);
+        const userName = result.usuario?.nombre_completo || result.usuario?.username || 'Usuario';
+        showSuccess(`¡Bienvenido ${userName}!`);
         
-        // Redirigir según el rol
-        const dashboardRoutes = {
-          admin: '/admin',
-          expert: '/expert', 
-          operator: '/operator'
-        };
-        
-        navigate(dashboardRoutes[result.data.rol] || '/operator');
+        // Redirigir al dashboard (simplificado ya que tenemos un dashboard que maneja roles)
+        navigate('/dashboard');
       } else {
         showError(result.message || 'Error al iniciar sesión');
       }
@@ -144,10 +139,30 @@ const Login = () => {
         </form>
 
         <div className="text-center text-sm text-gray-600">
-          <p>Usuarios de prueba:</p>
-          <p>Admin: admin / 123456</p>
-          <p>Experto: experto1 / 123456</p>
-          <p>Operador: operador1 / 123456</p>
+          <p className="mb-3">Usuarios de prueba:</p>
+          <div className="space-y-2">
+            <button 
+              type="button"
+              className="block w-full text-left px-3 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+              onClick={() => setFormData({ username: 'admin', password: '123456' })}
+            >
+              👨‍💼 Admin: admin / 123456
+            </button>
+            <button 
+              type="button"
+              className="block w-full text-left px-3 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+              onClick={() => setFormData({ username: 'experto1', password: '123456' })}
+            >
+              🧠 Experto: experto1 / 123456
+            </button>
+            <button 
+              type="button"
+              className="block w-full text-left px-3 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+              onClick={() => setFormData({ username: 'operador1', password: '123456' })}
+            >
+              👷‍♂️ Operador: operador1 / 123456
+            </button>
+          </div>
         </div>
       </div>
     </div>

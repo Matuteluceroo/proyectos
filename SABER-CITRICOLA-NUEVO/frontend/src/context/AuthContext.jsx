@@ -41,8 +41,9 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       console.log('📥 Respuesta del servidor:', data);
 
-      if (response.ok) {
+      if (response.ok && data.usuario) {
         // ✅ Login exitoso
+        console.log('👤 Datos del usuario:', data.usuario);
         setUser(data.usuario);
         setIsLoggedIn(true);
         
@@ -58,7 +59,8 @@ export const AuthProvider = ({ children }) => {
         };
       } else {
         // ❌ Error en el login
-        return { success: false, message: data.error };
+        console.log('❌ Error en respuesta:', data);
+        return { success: false, message: data.error || 'Error desconocido' };
       }
     } catch (error) {
       console.error('💥 Error de conexión:', error);
