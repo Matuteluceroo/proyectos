@@ -16,6 +16,37 @@ router.get('/test', (req, res) => {
   });
 });
 
+// 🧪 Ruta de prueba específica para debug de usuarios
+router.get('/test-usuarios', async (req, res) => {
+  try {
+    const { obtenerTodosUsuarios } = await import('../database-citricola.js');
+    
+    const usuarios = await new Promise((resolve, reject) => {
+      obtenerTodosUsuarios((err, rows) => {
+        if (err) {
+          console.error('❌ Error al obtener usuarios:', err);
+          reject(err);
+        } else {
+          resolve(rows || []);
+        }
+      });
+    });
+    
+    res.json({
+      mensaje: '✅ Test de usuarios exitoso',
+      usuariosEncontrados: usuarios.length,
+      usuarios: usuarios,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: 'Error en test de usuarios',
+      detalle: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
 // 📈 GET /api/reportes - Obtener reporte completo del sistema
 router.get('/', obtenerReportesCompletos);
 

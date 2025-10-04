@@ -20,6 +20,10 @@ import './App.css';
 import TestFileUpload from './pages/TestFileUpload';
 import GestionContenido from './pages/GestionContenido';
 import Reportes from './pages/Reportes';
+import ConfiguracionAdmin from './pages/ConfiguracionAdmin';
+import GuiasRapidas from './pages/GuiasRapidas';
+import Procedimientos from './pages/Procedimientos';
+import MiProgreso from './pages/MiProgreso';
 
 // 🛡️ Componente para rutas protegidas
 const ProtectedRoute = ({ children }) => {
@@ -204,6 +208,56 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <Reportes />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* ⚙️ Ruta para configuración del administrador - Solo si está logueado */}
+        <Route 
+          path="/configuracion" 
+          element={
+            <ProtectedRoute>
+              <ConfiguracionAdmin />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* ⚙️ Ruta alternativa para admin - Solo si está logueado */}
+        <Route 
+          path="/admin/configuracion" 
+          element={
+            <ProtectedRoute>
+              <ConfiguracionAdmin />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* ⚡ Ruta para guías rápidas - Solo si está logueado */}
+        <Route 
+          path="/guias-rapidas" 
+          element={
+            <ProtectedRoute>
+              <GuiasRapidas />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* 📋 Ruta para procedimientos - Solo si está logueado */}
+        <Route 
+          path="/procedimientos" 
+          element={
+            <ProtectedRoute>
+              <Procedimientos />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* 📊 Ruta para mi progreso - Solo si está logueado */}
+        <Route 
+          path="/mi-progreso" 
+          element={
+            <ProtectedRoute>
+              <MiProgreso />
             </ProtectedRoute>
           } 
         />

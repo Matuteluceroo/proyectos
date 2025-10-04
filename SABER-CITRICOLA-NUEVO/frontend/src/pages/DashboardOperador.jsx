@@ -256,21 +256,6 @@ const DashboardOperador = () => {
             Ver detalle completo →
           </button>
         </div>
-
-        {/* 💡 Consejo del día */}
-        <div className="daily-tip">
-          <h3>💡 Consejo del Día</h3>
-          <div className="tip-card">
-            <p>
-              <strong>🍊 Identificación de plagas temprana:</strong> 
-              Revisa la parte inferior de las hojas en las primeras horas de la mañana. 
-              Es el momento ideal para detectar ácaros y otros insectos antes de que se propaguen.
-            </p>
-            <button className="btn-link">
-              Leer más sobre control de plagas →
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

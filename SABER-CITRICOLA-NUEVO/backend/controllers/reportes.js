@@ -9,8 +9,24 @@ export const obtenerReportesCompletos = async (req, res) => {
     console.log('📊 Generando reporte completo del sistema...');
     
     // 👥 Estadísticas de usuarios usando la función existente
-    const usuarios = await obtenerTodosUsuarios();
+    let usuarios = await new Promise((resolve, reject) => {
+      obtenerTodosUsuarios((err, rows) => {
+        if (err) {
+          console.error('❌ Error al obtener usuarios:', err);
+          reject(err);
+        } else {
+          resolve(rows || []);
+        }
+      });
+    });
+    
     console.log('👥 Usuarios obtenidos:', usuarios);
+    
+    // Validar que usuarios sea un array
+    if (!Array.isArray(usuarios)) {
+      console.warn('⚠️ usuarios no es un array, usando array vacío');
+      usuarios = [];
+    }
     
     const usuariosTotal = usuarios.length;
     

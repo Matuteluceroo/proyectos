@@ -20,6 +20,9 @@ import documentosRoutes from './routes/documentos.js';
 import usuariosRoutes from './routes/usuarios.js';
 import reportesRoutes from './routes/reportes.js';
 import gestionContenidoRoutes from './routes/gestionContenido.js';
+import configuracionRoutes from './routes/configuracion.js';
+import guiasRapidasRoutes from './routes/guiasRapidas.js';
+import procedimientosRoutes from './routes/procedimientos.js';
 
 // 🏗️ Creamos la aplicación Express
 const app = express();
@@ -67,6 +70,15 @@ app.use('/api/reportes', reportesRoutes);
 
 // 📚 Rutas de gestión de contenido (categorías y documentos)
 app.use('/api/contenido', gestionContenidoRoutes);
+
+// ⚙️ Rutas de configuración del sistema (solo admin)
+app.use('/api/configuracion', configuracionRoutes);
+
+// ⚡ Rutas de guías rápidas (operadores)
+app.use('/api/guias-rapidas', guiasRapidasRoutes);
+
+// 📋 Rutas de procedimientos paso a paso (operadores)
+app.use('/api/procedimientos', procedimientosRoutes);
 
 // 👋 Ruta de prueba - Para verificar que funciona
 app.get('/', (req, res) => {

@@ -223,7 +223,10 @@ const DashboardAdmin = () => {
 
             <button 
               className="action-card"
-              onClick={() => showInfo('Función en desarrollo')}
+              onClick={() => {
+                showInfo('Navegando a configuración del sistema');
+                navigate('/configuracion');
+              }}
             >
               <span className="action-icon">⚙️</span>
               <span className="action-title">Configuración</span>
