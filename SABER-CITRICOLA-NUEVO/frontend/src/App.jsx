@@ -18,7 +18,7 @@ import Capacitaciones from './pages/Capacitaciones/Capacitaciones';
 import TestDocumento from './pages/TestDocumento';
 import './App.css';
 import TestFileUpload from './pages/TestFileUpload';
-import GestionarContenido from './pages/GestionarContenido';
+import GestionContenido from './pages/GestionContenido';
 import Reportes from './pages/Reportes';
 
 // 🛡️ Componente para rutas protegidas
@@ -191,7 +191,11 @@ function AppContent() {
         
         <Route 
           path="/gestionar-contenido" 
-          element={<GestionarContenido />}
+          element={
+            <ProtectedRoute>
+              <GestionContenido />
+            </ProtectedRoute>
+          }
         />
         
         {/* 📊 Ruta para reportes del administrador - Solo si está logueado */}

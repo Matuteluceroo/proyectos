@@ -211,7 +211,10 @@ const DashboardAdmin = () => {
 
             <button 
               className="action-card primary"
-              onClick={() => showInfo('Función en desarrollo')}
+              onClick={() => {
+                showInfo('Navegando a gestión de contenido');
+                navigate('/gestionar-contenido');
+              }}
             >
               <span className="action-icon">📚</span>
               <span className="action-title">Gestionar Contenido</span>
@@ -237,24 +240,6 @@ const DashboardAdmin = () => {
               <span className="action-icon">📊</span>
               <span className="action-title">Reportes</span>
               <span className="action-desc">Estadísticas y análisis</span>
-            </button>
-
-            <button 
-              className="action-card"
-              onClick={() => showInfo('Función en desarrollo')}
-            >
-              <span className="action-icon">💾</span>
-              <span className="action-title">Respaldos</span>
-              <span className="action-desc">Backup y restauración</span>
-            </button>
-
-            <button 
-              className="action-card"
-              onClick={() => showInfo('Función en desarrollo')}
-            >
-              <span className="action-icon">📝</span>
-              <span className="action-title">Logs del Sistema</span>
-              <span className="action-desc">Registros y auditoría</span>
             </button>
           </div>
         </div>
@@ -305,40 +290,6 @@ const DashboardAdmin = () => {
                 </div>
               </div>
             )}
-          </div>
-        </div>
-
-        {/* ⚠️ Alertas del sistema */}
-        <div className="system-alerts">
-          <h3>⚠️ Alertas del Sistema</h3>
-          <div className="alerts-grid">
-            <div className="alert-card warning">
-              <span className="alert-icon">⚠️</span>
-              <div className="alert-content">
-                <h4>Respaldo Pendiente</h4>
-                <p>El último respaldo se realizó hace 3 días</p>
-                <button 
-                  className="btn-small btn-warning"
-                  onClick={() => showInfo('Ejecutando respaldo del sistema...')}
-                >
-                  Ejecutar Respaldo
-                </button>
-              </div>
-            </div>
-            
-            <div className="alert-card info">
-              <span className="alert-icon">📈</span>
-              <div className="alert-content">
-                <h4>Crecimiento de Usuarios</h4>
-                <p>+15% de usuarios activos este mes</p>
-                <button 
-                  className="btn-small btn-secondary"
-                  onClick={() => showInfo('Mostrando estadísticas detalladas...')}
-                >
-                  Ver Detalles
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>

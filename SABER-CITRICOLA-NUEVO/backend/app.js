@@ -19,6 +19,7 @@ import archivosRoutes from './routes/archivos.js';
 import documentosRoutes from './routes/documentos.js';
 import usuariosRoutes from './routes/usuarios.js';
 import reportesRoutes from './routes/reportes.js';
+import gestionContenidoRoutes from './routes/gestionContenido.js';
 
 // 🏗️ Creamos la aplicación Express
 const app = express();
@@ -63,6 +64,9 @@ app.use('/api/usuarios', usuariosRoutes);
 
 // 📊 Rutas de reportes y estadísticas (solo admin)
 app.use('/api/reportes', reportesRoutes);
+
+// 📚 Rutas de gestión de contenido (categorías y documentos)
+app.use('/api/contenido', gestionContenidoRoutes);
 
 // 👋 Ruta de prueba - Para verificar que funciona
 app.get('/', (req, res) => {
