@@ -1,6 +1,6 @@
 // ⚡ GuiasRapidas.jsx - Portal de consultas inmediatas para operadores
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   obtenerGuiasRapidas, 
   buscarGuiasRapidas,
@@ -10,6 +10,7 @@ import {
 
 const GuiasRapidas = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [guias, setGuias] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -17,6 +18,31 @@ const GuiasRapidas = () => {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [guiaSeleccionada, setGuiaSeleccionada] = useState(null);
   const [mensaje, setMensaje] = useState(null);
+
+  // Manejar parámetros URL para búsqueda por voz
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const categoria = params.get('categoria');
+    const query = params.get('q');
+    
+    if (categoria) {
+      // Mapear categorías de voz a categorías reales
+      const categoriaMap = {
+        'control-plagas': 'Control de Plagas',
+        'fertilizacion': 'Fertilización',
+        'enfermedades': 'Enfermedades'
+      };
+      
+      const categoriaReal = categoriaMap[categoria] || categoria;
+      setCategoriaSeleccionada(categoriaReal);
+      console.log(`🎤 Aplicando filtro de categoría desde voz: ${categoriaReal}`);
+    }
+    
+    if (query) {
+      setBusqueda(query);
+      console.log(`🎤 Aplicando búsqueda desde voz: ${query}`);
+    }
+  }, [location]);
 
   useEffect(() => {
     cargarDatos();

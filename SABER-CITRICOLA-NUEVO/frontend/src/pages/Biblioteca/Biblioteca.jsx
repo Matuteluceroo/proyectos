@@ -1,12 +1,13 @@
 // 📚 Biblioteca.jsx - Biblioteca de conocimiento citrícola
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Biblioteca.css';
 
 const Biblioteca = () => {
   const { user, API_URL } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   
   // Estados
   const [documentos, setDocumentos] = useState([]);
@@ -27,6 +28,17 @@ const Biblioteca = () => {
     documentosRecientes: 0,
     categoriasMasUsadas: []
   });
+
+  // Manejar parámetros URL para búsqueda por voz
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const query = params.get('q');
+    
+    if (query) {
+      setBusqueda(query);
+      console.log(`🎤 Aplicando búsqueda en biblioteca desde voz: ${query}`);
+    }
+  }, [location]);
 
   // 📄 Cargar documentos públicos
   const cargarDocumentos = async () => {

@@ -722,6 +722,40 @@ body {
   white-space: nowrap;
 }
 
+/* 🎤 Separador para búsqueda por voz */
+.search-separator {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  gap: 15px;
+}
+
+.separator-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #e2e8f0 50%, transparent 100%);
+}
+
+.separator-text {
+  color: #718096;
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 0 10px;
+  background: #f7fafc;
+}
+
+/* 🎤 Sección de búsqueda por voz */
+.voice-search-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2px solid #bae6fd;
+  border-radius: 15px;
+}
+
 /* 📚 Categorías rápidas */
 .quick-categories {
   margin-bottom: 30px;

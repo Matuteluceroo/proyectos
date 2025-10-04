@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import VoiceSearch from '../components/VoiceSearch/VoiceSearch';
 
 const DashboardOperador = () => {
   const { user, logout, API_URL } = useAuth();
@@ -93,6 +94,72 @@ const DashboardOperador = () => {
     }
   };
 
+  const handleVoiceResult = (transcript, isFinal) => {
+    // Actualizar el campo de búsqueda con el transcript
+    setBusqueda(transcript);
+    console.log('🎤 Transcript recibido:', transcript, 'Final:', isFinal);
+  };
+
+  const handleVoiceSearch = (searchTerm) => {
+    // Mapeo de comandos de voz a rutas específicas con contenido
+    const voiceRoutes = {
+      'control de plagas': '/guias-rapidas?categoria=control-plagas',
+      'técnicas de poda': '/procedimientos?categoria=poda',
+      'fertilización': '/guias-rapidas?categoria=fertilizacion',
+      'fertilización orgánica': '/guias-rapidas?categoria=fertilizacion',
+      'sistemas de riego': '/procedimientos?categoria=riego',
+      'técnicas de injerto': '/procedimientos?categoria=injertos',
+      'enfermedades citricolas': '/guias-rapidas?categoria=enfermedades',
+      'plagas': '/guias-rapidas?categoria=control-plagas',
+      'poda': '/procedimientos?categoria=poda',
+      'riego': '/procedimientos?categoria=riego',
+      'injerto': '/procedimientos?categoria=injertos',
+      'enfermedad': '/guias-rapidas?categoria=enfermedades',
+      'hongos': '/guias-rapidas?categoria=enfermedades',
+      
+      // Rutas generales
+      'biblioteca': '/biblioteca',
+      'capacitaciones': '/capacitaciones',
+      'documentos': '/biblioteca',
+      'ayuda': '/guias-rapidas',
+      'procedimientos': '/procedimientos',
+      'guías': '/guias-rapidas',
+      'guias': '/guias-rapidas'
+    };
+
+    const normalizedTerm = searchTerm.toLowerCase().trim();
+    
+    // Buscar coincidencia exacta
+    if (voiceRoutes[normalizedTerm]) {
+      console.log(`🎯 Navegando directamente a: ${voiceRoutes[normalizedTerm]}`);
+      // Mostrar mensaje de éxito
+      if (window.showNotification) {
+        window.showNotification(`🎯 Navegando a: ${normalizedTerm}`, 'success');
+      }
+      navigate(voiceRoutes[normalizedTerm]);
+      return;
+    }
+    
+    // Buscar coincidencia parcial
+    for (const [key, route] of Object.entries(voiceRoutes)) {
+      if (normalizedTerm.includes(key) || key.includes(normalizedTerm)) {
+        console.log(`🎯 Coincidencia parcial encontrada: ${key} -> ${route}`);
+        if (window.showNotification) {
+          window.showNotification(`🎯 Encontrado: ${key}`, 'success');
+        }
+        navigate(route);
+        return;
+      }
+    }
+    
+    // Si no hay coincidencia, ir a biblioteca como fallback
+    console.log(`📚 Sin coincidencia específica, navegando a biblioteca con búsqueda: ${searchTerm}`);
+    if (window.showNotification) {
+      window.showNotification(`📚 Buscando en biblioteca: ${searchTerm}`, 'info');
+    }
+    navigate(`/biblioteca?q=${encodeURIComponent(searchTerm.trim())}`);
+  };
+
   return (
     <div className="dashboard-page">
       <div className="operator-dashboard">
@@ -116,6 +183,8 @@ const DashboardOperador = () => {
         {/* 🔍 Búsqueda rápida */}
         <div className="quick-search">
           <h3>🔍 Buscar Conocimiento</h3>
+          
+          {/* Búsqueda tradicional por texto */}
           <form onSubmit={handleBusqueda} className="search-form">
             <input
               type="text"
@@ -128,6 +197,22 @@ const DashboardOperador = () => {
               🔍 Buscar
             </button>
           </form>
+
+          {/* Separador */}
+          <div className="search-separator">
+            <span className="separator-line"></span>
+            <span className="separator-text">o busca por voz</span>
+            <span className="separator-line"></span>
+          </div>
+
+          {/* Búsqueda por voz */}
+          <div className="voice-search-section">
+            <VoiceSearch 
+              onVoiceResult={handleVoiceResult}
+              onSearchSubmit={handleVoiceSearch}
+              placeholder="¿Qué necesitas aprender hoy?"
+            />
+          </div>
         </div>
 
         {/* 📚 Categorías de acceso rápido */}

@@ -1,0 +1,347 @@
+/* 🎤 VoiceSearch.css - Estilos para búsqueda por voz */
+
+.voice-search-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.voice-search-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 🎤 Botón principal del micrófono */
+.voice-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #e5e7eb;
+  background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.voice-button:hover:not(.disabled) {
+  border-color: #f97316;
+  background: linear-gradient(135deg, #fed7aa 0%, #ffffff 100%);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2);
+}
+
+.voice-button.listening {
+  border-color: #ef4444;
+  background: linear-gradient(135deg, #fecaca 0%, #ffffff 100%);
+  animation: pulse-recording 2s infinite;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.voice-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f3f4f6;
+}
+
+.mic-icon {
+  font-size: 24px;
+  user-select: none;
+}
+
+/* 🌊 Animación de ondas de voz */
+.microphone-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.voice-waves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+}
+
+.wave {
+  position: absolute;
+  border: 2px solid #ef4444;
+  border-radius: 50%;
+  opacity: 0;
+  animation: voice-wave 2s infinite ease-out;
+}
+
+.wave1 {
+  animation-delay: 0s;
+}
+
+.wave2 {
+  animation-delay: 0.7s;
+}
+
+.wave3 {
+  animation-delay: 1.4s;
+}
+
+/* 📍 Indicador de estado */
+.voice-status {
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.listening-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 25px;
+  animation: gentle-pulse 2s infinite;
+}
+
+.status-text {
+  font-weight: 600;
+  color: #92400e;
+  font-size: 14px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  animation: pulse-dot 1s infinite;
+}
+
+/* 📝 Vista previa del transcript */
+.transcript-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border: 2px solid #3b82f6;
+  border-radius: 16px;
+  max-width: 500px;
+  animation: slide-up 0.3s ease-out;
+}
+
+.transcript-text {
+  font-weight: 600;
+  color: #1e40af;
+  font-size: 16px;
+  font-style: italic;
+}
+
+.confidence-score {
+  font-size: 12px;
+  color: #64748b;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+/* ⚠️ Mensajes de error */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+  border: 2px solid #ef4444;
+  border-radius: 16px;
+  animation: shake 0.5s ease-in-out;
+}
+
+.error-icon {
+  font-size: 16px;
+}
+
+.error-text {
+  font-weight: 500;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+.not-supported-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border: 2px solid #9ca3af;
+  border-radius: 16px;
+}
+
+.warning-icon {
+  font-size: 16px;
+}
+
+.warning-text {
+  font-weight: 500;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* 💡 Instrucciones */
+.voice-instructions {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.instruction-text {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.example-commands {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.command-example {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #0369a1;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #0ea5e9;
+}
+
+/* 🎬 Animaciones */
+@keyframes pulse-recording {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.6), 0 0 40px rgba(239, 68, 68, 0.3);
+  }
+}
+
+@keyframes voice-wave {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+  }
+}
+
+@keyframes gentle-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 640px) {
+  .voice-button {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .mic-icon {
+    font-size: 20px;
+  }
+  
+  .voice-waves {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .transcript-preview {
+    padding: 12px 16px;
+    margin: 0 16px;
+  }
+  
+  .transcript-text {
+    font-size: 14px;
+  }
+  
+  .example-commands {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .command-example {
+    font-size: 11px;
+  }
+}
+
+/* 🌙 Modo oscuro (opcional) */
+@media (prefers-color-scheme: dark) {
+  .voice-button {
+    background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+    border-color: #6b7280;
+  }
+  
+  .voice-button:hover:not(.disabled) {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    border-color: #f97316;
+  }
+  
+  .instruction-text {
+    color: #d1d5db;
+  }
+  
+  .command-example {
+    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+    color: #60a5fa;
+    border-color: #3b82f6;
+  }
+}

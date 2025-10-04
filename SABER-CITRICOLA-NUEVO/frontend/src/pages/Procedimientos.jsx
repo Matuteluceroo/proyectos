@@ -1,6 +1,6 @@
 // 📋 Procedimientos.jsx - Portal de procedimientos paso a paso para operadores
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   obtenerProcedimientos, 
   buscarProcedimientos,
@@ -12,6 +12,7 @@ import {
 
 const Procedimientos = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [procedimientos, setProcedimientos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,31 @@ const Procedimientos = () => {
   const [pasosCompletados, setPasosCompletados] = useState(new Set());
   const [comentarios, setComentarios] = useState({});
   const [mensaje, setMensaje] = useState(null);
+
+  // Manejar parámetros URL para búsqueda por voz
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const categoria = params.get('categoria');
+    const query = params.get('q');
+    
+    if (categoria) {
+      // Mapear categorías de voz a categorías reales
+      const categoriaMap = {
+        'poda': 'Poda y Manejo',
+        'riego': 'Sistemas de Riego',
+        'injertos': 'Técnicas de Injerto'
+      };
+      
+      const categoriaReal = categoriaMap[categoria] || categoria;
+      setCategoriaSeleccionada(categoriaReal);
+      console.log(`🎤 Aplicando filtro de categoría desde voz: ${categoriaReal}`);
+    }
+    
+    if (query) {
+      setBusqueda(query);
+      console.log(`🎤 Aplicando búsqueda desde voz: ${query}`);
+    }
+  }, [location]);
 
   useEffect(() => {
     cargarDatos();
