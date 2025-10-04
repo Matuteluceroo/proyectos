@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { NotificationProvider } from './context/NotificationContext';
 import NotificationContainer from './components/NotificationContainer';
+import ConnectionStatus from './components/ConnectionStatus/ConnectionStatus';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Usuarios from './pages/Usuarios';
@@ -279,6 +280,9 @@ function AppContent() {
       
       {/* 🔔 Contenedor de notificaciones - Se renderiza en toda la app */}
       <NotificationContainer />
+      
+      {/* 🌐 Indicador de estado de conexión offline/online */}
+      <ConnectionStatus />
     </div>
   );
 }
