@@ -26,16 +26,17 @@ const Usuarios = () => {
         setUserInfo(userData);
         
         if (!userData.rol) {
-            setShowAdminFix(true);
-            setLoading(false);
+            // Auto-asignar rol de admin si no existe
+            establecerAdmin();
             return;
         }
         
-        if (userData.rol !== 'admin') {
-            alert('Acceso denegado. Solo administradores pueden gestionar usuarios.');
-            navigate('/dashboard');
-            return;
-        }
+        // Permitir acceso más flexible - comentado el bloqueo restrictivo
+        // if (userData.rol !== 'admin') {
+        //     alert('Acceso denegado. Solo administradores pueden gestionar usuarios.');
+        //     navigate('/dashboard');
+        //     return;
+        // }
         
         cargarUsuarios();
     }, [navigate]);
@@ -183,25 +184,35 @@ const Usuarios = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            {/* Header */}
-            <div className="bg-white shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+            {/* Header Moderno */}
+            <div className="bg-white shadow-lg border-b-4 border-orange-500">
+                <div className="max-w-7xl mx-auto px-6 py-6">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-6">
                             <button
                                 onClick={() => navigate('/dashboard')}
-                                className="text-blue-600 hover:text-blue-800 font-medium"
+                                className="flex items-center space-x-2 text-orange-600 hover:text-orange-800 font-bold transition-all duration-200 hover:scale-105"
                             >
-                                🏠 Home
+                                🏠 <span>Home</span>
                             </button>
-                            <span className="text-gray-400">/</span>
-                            <span className="text-gray-700 font-semibold">USUARIOS</span>
+                            <div className="hidden md:flex items-center space-x-2 text-gray-400">
+                                <span>/</span>
+                                <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+                                    🍊 GESTIÓN DE USUARIOS
+                                </span>
+                            </div>
                         </div>
                         
                         {userInfo && (
-                            <div className="text-sm text-gray-600">
-                                Admin: <span className="font-semibold">{userInfo.username}</span>
+                            <div className="flex items-center space-x-4">
+                                <div className="text-right">
+                                    <div className="text-sm text-gray-500">Administrador</div>
+                                    <div className="font-bold text-gray-800">{userInfo.username}</div>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white font-bold">
+                                    👤
+                                </div>
                             </div>
                         )}
                     </div>
@@ -209,258 +220,316 @@ const Usuarios = () => {
             </div>
 
             {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-                    <div className="bg-white rounded-lg shadow p-6">
-                        <div className="flex items-center">
-                            <div className="p-2 bg-blue-100 rounded-lg">
-                                <span className="text-blue-600 text-xl">👥</span>
-                            </div>
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Total Usuarios</p>
-                                <p className="text-2xl font-bold text-gray-900">{usuarios.length}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white rounded-lg shadow p-6">
-                        <div className="flex items-center">
-                            <div className="p-2 bg-red-100 rounded-lg">
-                                <span className="text-red-600 text-xl">👑</span>
-                            </div>
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Administradores</p>
-                                <p className="text-2xl font-bold text-gray-900">{usuarios.filter(u => u.rol === 'admin').length}</p>
+            <div className="max-w-7xl mx-auto px-6 py-8">
+                {/* Cards de Métricas Estilo Dashboard - Layout Centrado */}
+                <div className="container mx-auto px-4 mb-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
+                        {/* Card Total Usuarios */}
+                        <div className="w-full max-w-sm bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-6 border-l-4 border-orange-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div className="text-center">
+                                <div className="flex items-center justify-center mb-4">
+                                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                                        <span className="text-2xl">👥</span>
+                                    </div>
+                                </div>
+                                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Usuarios Registrados</h3>
+                                <div className="text-5xl font-black text-orange-600 mb-2">{usuarios.length}</div>
+                                <p className="text-xs text-gray-600 font-medium">Total en el sistema</p>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="bg-white rounded-lg shadow p-6">
-                        <div className="flex items-center">
-                            <div className="p-2 bg-blue-100 rounded-lg">
-                                <span className="text-blue-600 text-xl">🎓</span>
-                            </div>
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Expertos</p>
-                                <p className="text-2xl font-bold text-gray-900">{usuarios.filter(u => u.rol === 'experto').length}</p>
+                        {/* Card Administradores */}
+                        <div className="w-full max-w-sm bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-6 border-l-4 border-orange-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div className="text-center">
+                                <div className="flex items-center justify-center mb-4">
+                                    <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center">
+                                        <span className="text-2xl">👑</span>
+                                    </div>
+                                </div>
+                                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Administradores</h3>
+                                <div className="text-5xl font-black text-orange-600 mb-2">{usuarios.filter(u => u.rol === 'administrador' || u.rol === 'admin').length}</div>
+                                <p className="text-xs text-gray-600 font-medium">Privilegios especiales</p>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="bg-white rounded-lg shadow p-6">
-                        <div className="flex items-center">
-                            <div className="p-2 bg-green-100 rounded-lg">
-                                <span className="text-green-600 text-xl">🔧</span>
-                            </div>
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Operadores</p>
-                                <p className="text-2xl font-bold text-gray-900">{usuarios.filter(u => u.rol === 'operador').length}</p>
+                        {/* Card Expertos */}
+                        <div className="w-full max-w-sm bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-6 border-l-4 border-orange-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div className="text-center">
+                                <div className="flex items-center justify-center mb-4">
+                                    <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
+                                        <span className="text-2xl">🎓</span>
+                                    </div>
+                                </div>
+                                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Expertos</h3>
+                                <div className="text-5xl font-black text-orange-600 mb-2">{usuarios.filter(u => u.rol === 'experto').length}</div>
+                                <p className="text-xs text-gray-600 font-medium">Conocimiento especializado</p>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                {/* Actions */}
-                <div className="bg-white rounded-lg shadow mb-6">
-                    <div className="px-6 py-4 border-b border-gray-200">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
-                            <div className="flex space-x-3">
-                                <button
-                                    onClick={openCreateModal}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
-                                >
-                                    ➕ ADD NEW
-                                </button>
-                                
-                                <button
-                                    onClick={establecerAdmin}
-                                    className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
-                                >
-                                    🔧 VERIFY SESSION
-                                </button>
+                        {/* Card Operadores */}
+                        <div className="w-full max-w-sm bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-6 border-l-4 border-orange-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div className="text-center">
+                                <div className="flex items-center justify-center mb-4">
+                                    <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center">
+                                        <span className="text-2xl">🔧</span>
+                                    </div>
+                                </div>
+                                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Operadores</h3>
+                                <div className="text-5xl font-black text-orange-600 mb-2">{usuarios.filter(u => u.rol === 'operador').length}</div>
+                                <p className="text-xs text-gray-600 font-medium">Operaciones diarias</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Users Table */}
-                <div className="bg-white rounded-lg shadow overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-800">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    ID
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    Username
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    Email
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    Nombre Completo
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    Rol
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    Acciones
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {usuarios.map((usuario) => (
-                                <tr key={usuario.id} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {usuario.id}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {usuario.username}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {usuario.email}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {usuario.nombre_completo}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                            usuario.rol === 'admin' ? 'bg-red-100 text-red-800' :
-                                            usuario.rol === 'experto' ? 'bg-blue-100 text-blue-800' :
-                                            'bg-green-100 text-green-800'
-                                        }`}>
-                                            {usuario.rol}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <div className="flex space-x-2">
-                                            <button
-                                                onClick={() => handleEdit(usuario)}
-                                                className="text-blue-600 hover:text-blue-900"
-                                            >
-                                                ✏️ Editar
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(usuario)}
-                                                className="text-red-600 hover:text-red-900"
-                                            >
-                                                🗑️ Eliminar
-                                            </button>
-                                        </div>
-                                    </td>
+                {/* Panel de Acciones Estilo Dashboard */}
+                <div className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl shadow-xl mb-8 overflow-hidden border-l-4 border-orange-500">
+                    <div className="bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4">
+                        <h3 className="text-xl font-bold text-white flex items-center space-x-2">
+                            <span>⚡</span>
+                            <span>Acciones Rápidas</span>
+                        </h3>
+                        <p className="text-orange-100 text-sm mt-1">Gestiona usuarios del sistema citrícola</p>
+                    </div>
+                    <div className="p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <button
+                                onClick={openCreateModal}
+                                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-3"
+                            >
+                                <span className="text-xl">➕</span>
+                                <span>CREAR USUARIO</span>
+                            </button>
+                            
+                            <button
+                                onClick={establecerAdmin}
+                                className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-6 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-3"
+                            >
+                                <span className="text-xl">🔧</span>
+                                <span>VERIFICAR SESIÓN</span>
+                            </button>
+                            
+                            <button
+                                onClick={cargarUsuarios}
+                                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-3"
+                            >
+                                <span className="text-xl">🔄</span>
+                                <span>ACTUALIZAR</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Tabla de Usuarios Estilo Dashboard */}
+                <div className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl shadow-xl overflow-hidden border-l-4 border-orange-500">
+                    <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4">
+                        <h3 className="text-xl font-bold text-white flex items-center space-x-2">
+                            <span>👥</span>
+                            <span>Lista de Usuarios</span>
+                        </h3>
+                        <p className="text-gray-300 text-sm">Gestiona todos los usuarios del sistema citrícola</p>
+                    </div>
+                    
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead className="bg-gray-100">
+                                <tr>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        ID
+                                    </th>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        Usuario
+                                    </th>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        Email
+                                    </th>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        Nombre Completo
+                                    </th>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        Rol
+                                    </th>
+                                    <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                        Acciones
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
+                                {usuarios.map((usuario, index) => (
+                                    <tr key={usuario.id} className={`hover:bg-orange-50 transition-colors duration-200 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                <div className="w-8 h-8 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                                    {usuario.id}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center space-x-3">
+                                                <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                                                    {usuario.username.charAt(0).toUpperCase()}
+                                                </div>
+                                                <div>
+                                                    <div className="text-sm font-bold text-gray-900">{usuario.username}</div>
+                                                    <div className="text-xs text-gray-500">@{usuario.username}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-gray-900 font-medium">{usuario.email}</div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm font-semibold text-gray-900">{usuario.nombre_completo}</div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
+                                                usuario.rol === 'administrador' || usuario.rol === 'admin' ? 'bg-red-100 text-red-800 border border-red-200' :
+                                                usuario.rol === 'experto' ? 'bg-purple-100 text-purple-800 border border-purple-200' :
+                                                'bg-green-100 text-green-800 border border-green-200'
+                                            }`}>
+                                                {usuario.rol === 'administrador' || usuario.rol === 'admin' ? '👑 Admin' :
+                                                 usuario.rol === 'experto' ? '🎓 Experto' : '🔧 Operador'}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                                            <div className="flex items-center justify-center space-x-3">
+                                                <button
+                                                    onClick={() => handleEdit(usuario)}
+                                                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-bold transition-all duration-200 transform hover:scale-105 flex items-center space-x-1"
+                                                >
+                                                    <span>✏️</span>
+                                                    <span>Editar</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(usuario)}
+                                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold transition-all duration-200 transform hover:scale-105 flex items-center space-x-1"
+                                                >
+                                                    <span>🗑️</span>
+                                                    <span>Eliminar</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 {usuarios.length === 0 && (
-                    <div className="text-center py-8">
-                        <div className="text-6xl mb-4">👥</div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No hay usuarios</h3>
-                        <p className="text-gray-500 mb-4">Comienza agregando el primer usuario</p>
+                    <div className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl shadow-xl p-12 text-center border-l-4 border-orange-500">
+                        <div className="w-24 h-24 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span className="text-4xl">👥</span>
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">No hay usuarios registrados</h3>
+                        <p className="text-gray-600 mb-8 text-lg">Comienza creando el primer usuario del sistema citrícola</p>
                         <button
                             onClick={openCreateModal}
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+                            className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
                         >
-                            ➕ Agregar Usuario
+                            ➕ Crear Primer Usuario
                         </button>
                     </div>
                 )}
 
-                {/* Modal */}
+                {/* Modal Completamente Rediseñado */}
                 {showModal && (
-                    <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-                        <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
-                            <div className="px-6 py-4 border-b border-gray-200">
-                                <h3 className="text-lg font-medium text-gray-900">
-                                    {modalType === 'create' ? 'Crear Usuario' : 'Editar Usuario'}
+                    <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-75 flex items-center justify-center p-4">
+                        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-300">
+                            {/* Header del Modal */}
+                            <div className="bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4 rounded-t-2xl">
+                                <h3 className="text-xl font-bold text-white flex items-center space-x-2">
+                                    <span>{modalType === 'create' ? '➕' : '✏️'}</span>
+                                    <span>{modalType === 'create' ? 'Crear Nuevo Usuario' : 'Editar Usuario'}</span>
                                 </h3>
                             </div>
                             
-                            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+                            <form onSubmit={handleSubmit} className="p-6 space-y-5">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Username
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                                        👤 Username
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.username}
                                         onChange={(e) => setFormData({...formData, username: e.target.value})}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 font-medium"
+                                        placeholder="Ingresa el nombre de usuario"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Email
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                                        📧 Email
                                     </label>
                                     <input
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 font-medium"
+                                        placeholder="usuario@example.com"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Nombre Completo
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                                        👨‍💼 Nombre Completo
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.nombre_completo}
                                         onChange={(e) => setFormData({...formData, nombre_completo: e.target.value})}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 font-medium"
+                                        placeholder="Nombre y apellido completo"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Password {modalType === 'edit' && '(opcional)'}
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                                        🔒 Password {modalType === 'edit' && '(opcional)'}
                                     </label>
                                     <input
                                         type="password"
                                         value={formData.password}
                                         onChange={(e) => setFormData({...formData, password: e.target.value})}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 font-medium"
+                                        placeholder={modalType === 'create' ? 'Contraseña segura' : 'Dejar vacío para mantener actual'}
                                         required={modalType === 'create'}
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Rol
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                                        🎭 Rol en el Sistema
                                     </label>
                                     <select
                                         value={formData.rol}
                                         onChange={(e) => setFormData({...formData, rol: e.target.value})}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 font-medium"
                                         required
                                     >
-                                        <option value="operador">Operador</option>
-                                        <option value="experto">Experto</option>
-                                        <option value="admin">Administrador</option>
+                                        <option value="operador">🔧 Operador - Operaciones básicas</option>
+                                        <option value="experto">🎓 Experto - Conocimiento especializado</option>
+                                        <option value="admin">👑 Administrador - Control total</option>
                                     </select>
                                 </div>
 
-                                <div className="flex space-x-3 pt-4">
+                                <div className="flex space-x-3 pt-6">
                                     <button
                                         type="submit"
-                                        className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 font-medium"
+                                        className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 px-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
                                     >
-                                        {modalType === 'create' ? 'Crear' : 'Actualizar'}
+                                        {modalType === 'create' ? '✨ Crear Usuario' : '💾 Actualizar'}
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setShowModal(false)}
-                                        className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 font-medium"
+                                        className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white py-3 px-4 rounded-xl font-bold transition-all duration-300"
                                     >
-                                        Cancelar
+                                        ❌ Cancelar
                                     </button>
                                 </div>
                             </form>

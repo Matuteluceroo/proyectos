@@ -19,6 +19,7 @@ import TestDocumento from './pages/TestDocumento';
 import './App.css';
 import TestFileUpload from './pages/TestFileUpload';
 import GestionarContenido from './pages/GestionarContenido';
+import Reportes from './pages/Reportes';
 
 // 🛡️ Componente para rutas protegidas
 const ProtectedRoute = ({ children }) => {
@@ -191,6 +192,16 @@ function AppContent() {
         <Route 
           path="/gestionar-contenido" 
           element={<GestionarContenido />}
+        />
+        
+        {/* 📊 Ruta para reportes del administrador - Solo si está logueado */}
+        <Route 
+          path="/reportes" 
+          element={
+            <ProtectedRoute>
+              <Reportes />
+            </ProtectedRoute>
+          } 
         />
         
         {/* 🚫 Ruta 404 - Para páginas que no existen */}

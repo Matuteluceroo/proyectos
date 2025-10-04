@@ -47,6 +47,15 @@ const AppRoutes = () => (
         }
       />
       <Route
+        path="/usuarios"
+        element={
+          <PrivateRoute
+            element={<Administracion />}
+            allowedRoles={["ADMINISTRADOR", "GERENTE", "TESTER"]}
+          />
+        }
+      />
+      <Route
         path="/menu-informes-gerenciales"
         element={
           <PrivateRoute

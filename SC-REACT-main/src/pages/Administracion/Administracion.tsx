@@ -5,6 +5,7 @@ import React, {
   ChangeEvent,
   MouseEvent,
 } from 'react'
+import './Administracion.css'
 import Button from '../../components/Button/Button'
 import {
   useObtenerUsuarios,
@@ -104,6 +105,16 @@ const Administracion: React.FC = () => {
     receptorName: '',
   })
 
+  // Estados para búsqueda y filtros
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filterRole, setFilterRole] = useState<Rol | 'TODOS'>('TODOS')
+  const [filterOnline, setFilterOnline] = useState<'TODOS' | 'ONLINE' | 'OFFLINE'>('TODOS')
+  
+  // Estados para validaciones
+  const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
   const [formData, setFormData] = useState<FormData>({
     id: null,
     userName: '',
@@ -114,20 +125,31 @@ const Administracion: React.FC = () => {
   })
 
   const cargarUsuarios = async () => {
-    const dataUsuarios = await obtenerUsuarios()
-    const usuariosEnLinea = await obtenerUsuariosEnLinea()
+    try {
+      setIsLoading(true)
+      const dataUsuarios = await obtenerUsuarios()
+      const usuariosEnLinea = await obtenerUsuariosEnLinea()
 
-    dataUsuarios.forEach((user: UsuarioType) => {
-      if (
-        usuariosEnLinea.some(
-          (onLine: any) => user.userName === onLine.userData.usuario
-        )
-      ) {
-        user.online = true
-      }
-    })
+      dataUsuarios.forEach((user: UsuarioType) => {
+        if (
+          usuariosEnLinea.some(
+            (onLine: any) => user.userName === onLine.userData.usuario
+          )
+        ) {
+          user.online = true
+        }
+      })
 
-    setUsuarios(dataUsuarios)
+      setUsuarios(dataUsuarios)
+    } catch (error) {
+      setAlertaError({
+        isOpen: true,
+        titulo: 'Error',
+        message: 'Error al cargar los usuarios',
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -135,14 +157,19 @@ const Administracion: React.FC = () => {
   }, [])
 
   const crearUsuario = async () => {
-    if (formData.userName.trim() === '' || formData.nombre.trim() === '') {
+    const errores = validarFormulario(formData)
+    setValidationErrors(errores)
+    
+    if (Object.keys(errores).length > 0) {
       setAlertaCuidado({
         isOpen: true,
-        titulo: 'Cuidado',
-        message: 'Debe llenar los campos Usuario y Nombre',
+        titulo: 'Errores de validación',
+        message: 'Por favor corrige los errores en el formulario',
       })
       return
     }
+
+    setIsSubmitting(true)
     if (!formRef.current) return
 
     const datosForm = formRef.current.getFormData()
@@ -177,20 +204,27 @@ const Administracion: React.FC = () => {
         titulo: 'Error',
         message: 'Hubo un error al agregar el usuario',
       })
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
   const editarUsuario = async () => {
-    if (!formData.userName || !formData.nombre) {
+    const errores = validarFormulario(formData)
+    setValidationErrors(errores)
+    
+    if (Object.keys(errores).length > 0) {
       setAlertaCuidado({
         isOpen: true,
-        titulo: 'Cuidado',
-        message: 'Debe llenar los campos Usuario y Nombre',
+        titulo: 'Errores de validación',
+        message: 'Por favor corrige los errores en el formulario',
       })
       return
     }
+
     const currentID = formData.id
     if (currentID && formRef.current) {
+      setIsSubmitting(true)
       const dataParaEditar = formRef.current.getFormData()
       const datosCompletos = {
         userName: dataParaEditar.userName ?? '',
@@ -201,17 +235,27 @@ const Administracion: React.FC = () => {
         id: currentID,
       }
 
-      await modificarUsuario({
-        idUsuario: currentID,
-        datos: datosCompletos,
-      })
+      try {
+        await modificarUsuario({
+          idUsuario: currentID,
+          datos: datosCompletos,
+        })
 
-      setAlerta({
-        isOpen: true,
-        titulo: '¡Éxito!',
-        message: 'USUARIO MODIFICADO',
-      })
-      await cargarUsuarios()
+        setAlerta({
+          isOpen: true,
+          titulo: '¡Éxito!',
+          message: 'USUARIO MODIFICADO',
+        })
+        await cargarUsuarios()
+      } catch {
+        setAlertaError({
+          isOpen: true,
+          titulo: 'Error',
+          message: 'ERROR AL MODIFICAR EL USUARIO',
+        })
+      } finally {
+        setIsSubmitting(false)
+      }
     } else {
       setAlertaError({
         isOpen: true,
@@ -223,6 +267,7 @@ const Administracion: React.FC = () => {
 
   const cancelarEdicion = () => {
     setHiddenBtnOnEdit(true)
+    setValidationErrors({})
     const defaultForm: FormData = {
       id: null,
       userName: '',
@@ -233,6 +278,32 @@ const Administracion: React.FC = () => {
     }
     setFormData(defaultForm)
     formRef.current?.setAllFields(defaultForm)
+  }
+
+  // Función de validación
+  const validarFormulario = (datos: FormData): {[key: string]: string} => {
+    const errores: {[key: string]: string} = {}
+    
+    if (!datos.userName.trim()) {
+      errores.userName = 'El nombre de usuario es obligatorio'
+    } else if (datos.userName.length < 3) {
+      errores.userName = 'El usuario debe tener al menos 3 caracteres'
+    } else if (!/^[a-zA-Z0-9_]+$/.test(datos.userName)) {
+      errores.userName = 'Solo se permiten letras, números y guiones bajos'
+    }
+    
+    if (!datos.nombre.trim()) {
+      errores.nombre = 'El nombre completo es obligatorio'
+    } else if (datos.nombre.length < 2) {
+      errores.nombre = 'El nombre debe tener al menos 2 caracteres'
+    }
+    
+    // Verificar que el username no exista (solo para usuarios nuevos)
+    if (!datos.id && usuarios.some(u => u.userName.toLowerCase() === datos.userName.toLowerCase())) {
+      errores.userName = 'Este nombre de usuario ya existe'
+    }
+    
+    return errores
   }
 
   const reiniciarPassword = async () => {
@@ -257,7 +328,12 @@ const Administracion: React.FC = () => {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { id, value } = e.target
-    setFormData((prev) => ({ ...prev, [id]: value }))
+    const newFormData = { ...formData, [id]: value }
+    setFormData(newFormData)
+    
+    // Validar en tiempo real
+    const errores = validarFormulario(newFormData)
+    setValidationErrors(errores)
   }
 
   const llenarCampos = (row: UsuarioType) => {
@@ -331,21 +407,62 @@ const Administracion: React.FC = () => {
   }
 
   const camposFormulario = [
-    { nombreCampo: 'userName', labelText: 'Usuario:' },
-    { nombreCampo: 'nombre', labelText: 'Nombre:' },
+    { nombreCampo: 'userName', labelText: 'Usuario:', required: true },
+    { nombreCampo: 'nombre', labelText: 'Nombre:', required: true },
     { nombreCampo: 'idZona', labelText: 'Zona:' },
     { nombreCampo: 'otros', labelText: 'Otros:' },
-  ].map(({ nombreCampo, labelText }) => ({
+  ].map(({ nombreCampo, labelText, required }) => ({
     nombreCampo,
     labelText,
     type: 'text' as const,
     placeholder: labelText,
     defaultValue: formData[nombreCampo as keyof FormData] as string,
+    required,
+    error: validationErrors[nombreCampo],
+    className: validationErrors[nombreCampo] ? 'form-control is-invalid' : 'form-control'
   }))
 
+  // Componente para renderizar campos con errores
+  const FormFieldWithError = ({ field }: { field: any }) => (
+    <div className="mb-3">
+      <label className="form-label">
+        {field.labelText}
+        {field.required && <span className="text-danger">*</span>}
+      </label>
+      <input
+        type={field.type}
+        className={field.className}
+        placeholder={field.placeholder}
+        value={formData[field.nombreCampo as keyof FormData] as string}
+        onChange={handleInputChange}
+        id={field.nombreCampo}
+        disabled={isSubmitting}
+      />
+      {field.error && (
+        <div className="invalid-feedback d-block">
+          <small>{field.error}</small>
+        </div>
+      )}
+    </div>
+  )
+
   const estiloCeldaOnline = ({ online }: UsuarioType) => ({
-    backgroundColor: online ? '#c6e7bd' : 'rgb(223, 122, 122)',
+    backgroundColor: online ? '#d4edda' : '#f8d7da',
+    color: online ? '#155724' : '#721c24',
+    fontWeight: 'bold',
+    borderRadius: '4px',
+    padding: '4px 8px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px'
   })
+
+  const renderCeldaUsuario = (row: UsuarioType) => (
+    <div className={row.online ? 'user-status-online' : 'user-status-offline'}>
+      <span>{row.online ? '🟢' : '🔴'}</span>
+      {row.userName}
+    </div>
+  )
 
   const enviarNotificacion = (row: any) => {
     const receptorName = row.userName
@@ -361,7 +478,7 @@ const Administracion: React.FC = () => {
       id: 'userName',
       label: 'Usuario',
       width: '120px',
-      cellStyle: estiloCeldaOnline,
+      customRender: renderCeldaUsuario,
       options: true,
     },
     { id: 'rol', label: 'Rol', width: '120px', options: true },
@@ -394,125 +511,283 @@ const Administracion: React.FC = () => {
   const handleFormChange = (valores: Partial<FormData>) => {
     setFormData((prev) => ({ ...prev, ...valores }))
   }
+
+  // Función para filtrar usuarios
+  const usuariosFiltrados = usuarios.filter((usuario) => {
+    const matchesSearch = 
+      usuario.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      usuario.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      usuario.idZona.toLowerCase().includes(searchTerm.toLowerCase())
+    
+    const matchesRole = filterRole === 'TODOS' || usuario.rol === filterRole
+    
+    const matchesOnline = 
+      filterOnline === 'TODOS' ||
+      (filterOnline === 'ONLINE' && usuario.online) ||
+      (filterOnline === 'OFFLINE' && !usuario.online)
+    
+    return matchesSearch && matchesRole && matchesOnline
+  })
+
+  // Estadísticas de usuarios
+  const estadisticas = {
+    total: usuarios.length,
+    online: usuarios.filter(u => u.online).length,
+    offline: usuarios.filter(u => !u.online).length,
+    porRol: LISTA_ROLES.reduce((acc, rol) => {
+      acc[rol] = usuarios.filter(u => u.rol === rol).length
+      return acc
+    }, {} as Record<Rol, number>)
+  }
   return (
     <Estructura>
-      <div style={{ height: '100%', overflow: 'hidden' }}>
-        <div className="row align-items-center justify-content-center mb-3">
-          <div className="col-4 d-flex justify-content-start" />
-          <div className="col-4 text-center">
-            <h1 className="headerTitle m-0">ADMINISTRACIÓN</h1>
+      <div className="usuario-dashboard">
+        {/* Header moderno con gradiente */}
+        <div className="row align-items-center justify-content-center mb-4">
+          <div className="col-3 d-flex justify-content-start">
+            <div className="d-flex align-items-center gap-3">
+              <div className="user-info-header">
+                <span className="text-muted small">👤 Admin:</span>
+                <span className="fw-bold text-dark ms-2">Juan</span>
+              </div>
+            </div>
           </div>
-          <div className="col-4 d-flex justify-content-end gap-2">
+          <div className="col-6 text-center">
+            <h1 className="headerTitle m-0">🍊 GESTIÓN DE USUARIOS</h1>
+            <p className="text-muted mt-2">Sistema de Administración Citrícola</p>
+          </div>
+          <div className="col-3 d-flex justify-content-end gap-2">
             <Button
-              text={'VER SUGERENCIA'}
-              className="boton-accion"
+              text={'📊 VER SUGERENCIA'}
+              className="btn-modern"
               onClick={() => navigate('/sugerencias')}
-              title="Ver cotizacion"
+              title="Ver sugerencias"
             />
           </div>
         </div>
-        <div className="row h-100 m-0">
-          <div
-            className="col-3 d-flex flex-column"
-            style={{ height: '100%', overflowY: 'auto' }}
-          >
-            <FormReutilizable
-              ref={formRef}
-              fields={camposFormulario}
-              onChangeForm={handleFormChange}
-            />
 
-            {!hiddenBtnsOnEdit && (
-              <div
-                className="mb-2"
-                style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}
-              >
-                <div style={{ flex: 1 }}>
-                  <label className="lbl-formCliente">Roles</label>
+        <div className="row h-100 m-0">
+          {/* Panel de estadísticas grandes y coloridas */}
+          <div className="col-12 mb-4">
+            <div className="row g-4">
+              <div className="col-3">
+                <div className="stats-card stats-card-total">
+                  <div className="card-body">
+                    <h5 className="card-title">👥 Total Usuarios</h5>
+                    <h3 className="user-count-animation">{estadisticas.total}</h3>
+                    <small className="opacity-75">Usuarios registrados</small>
+                  </div>
+                </div>
+              </div>
+              <div className="col-3">
+                <div className="stats-card stats-card-online">
+                  <div className="card-body">
+                    <h5 className="card-title">🟢 En Línea</h5>
+                    <h3 className="user-count-animation">{estadisticas.online}</h3>
+                    <small className="opacity-75">Conectados ahora</small>
+                  </div>
+                </div>
+              </div>
+              <div className="col-3">
+                <div className="stats-card stats-card-offline">
+                  <div className="card-body">
+                    <h5 className="card-title">🔴 Desconectados</h5>
+                    <h3 className="user-count-animation">{estadisticas.offline}</h3>
+                    <small className="opacity-75">Sin conexión</small>
+                  </div>
+                </div>
+              </div>
+              <div className="col-3">
+                <div className="stats-card stats-card-admins">
+                  <div className="card-body">
+                    <h5 className="card-title">👑 Administradores</h5>
+                    <h3 className="user-count-animation">{estadisticas.porRol.ADMINISTRADOR || 0}</h3>
+                    <small className="opacity-75">Privilegios especiales</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Panel de búsqueda y filtros mejorado */}
+          <div className="col-12 mb-4">
+            <div className="search-filters">
+              <div className="row align-items-end g-3">
+                <div className="col-4">
+                  <label className="form-label">🔍 Buscar Usuario</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Buscar por usuario, nombre o zona..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+                <div className="col-3">
+                  <label className="form-label">🎭 Filtrar por Rol</label>
                   <select
-                    id="rol"
-                    className="form-input"
-                    value={formData.rol}
-                    onChange={handleInputChange}
+                    className="form-select"
+                    value={filterRole}
+                    onChange={(e) => setFilterRole(e.target.value as Rol | 'TODOS')}
                   >
+                    <option value="TODOS">Todos los roles</option>
                     {LISTA_ROLES.map((rol) => (
-                      <option
-                        key={rol}
-                        value={rol}
-                      >
-                        {rol}
+                      <option key={rol} value={rol}>
+                        {rol.replace(/-/g, ' ')}
                       </option>
                     ))}
                   </select>
                 </div>
-
-                <button
-                  className="btn btn-light border"
-                  style={{ height: '38px', width: '38px', lineHeight: 0 }}
-                  onClick={agregarNuevoRol}
-                  title="Agregar rol"
-                >
-                  +
-                </button>
-              </div>
-            )}
-            {!hiddenBtnsOnEdit && (
-              <div
-                style={{
-                  maxHeight: '120px',
-                  overflowY: 'auto',
-                  border: '1px solid #ccc',
-                  borderRadius: '4px',
-                  padding: '4px',
-                }}
-              >
-                {rolesDeUsuario
-                  .sort((a, b) => a.rol.localeCompare(b.rol))
-                  .map((value, index) => (
-                    <Deleteable
-                      key={index}
-                      txtValue={value.rol}
-                      onClick={() => handleDeleteElement(value)}
-                    />
-                  ))}
-              </div>
-            )}
-
-            {/* Botones */}
-            <div className="row mt-3">
-              {hiddenBtnsOnEdit ? (
-                <div className="col-12">
-                  <Button
-                    text={'Crear Usuario'}
-                    className="btnHeader2"
-                    onClick={crearUsuario}
-                  />
+                <div className="col-3">
+                  <label className="form-label">🌐 Estado Conexión</label>
+                  <select
+                    className="form-select"
+                    value={filterOnline}
+                    onChange={(e) => setFilterOnline(e.target.value as 'TODOS' | 'ONLINE' | 'OFFLINE')}
+                  >
+                    <option value="TODOS">Todos</option>
+                    <option value="ONLINE">🟢 En línea</option>
+                    <option value="OFFLINE">🔴 Desconectado</option>
+                  </select>
                 </div>
-              ) : (
-                <>
-                  <div className="col-4">
-                    <Button
-                      text={'Editar'}
-                      className="btnFuncTabla"
-                      onClick={editarUsuario}
-                    />
+                <div className="col-2">
+                  <button
+                    className="btn-clear w-100"
+                    onClick={() => {
+                      setSearchTerm('')
+                      setFilterRole('TODOS')
+                      setFilterOnline('TODOS')
+                    }}
+                  >
+                    🗑️ Limpiar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="col-3 d-flex flex-column"
+            style={{ height: '100%', overflowY: 'auto' }}
+          >
+            {/* Formulario mejorado con gradiente y validaciones */}
+            <div className="form-user-panel">
+              <h5>
+                {hiddenBtnsOnEdit ? '➕ Nuevo Usuario' : '✏️ Editar Usuario'}
+              </h5>
+              
+              <div className="p-3">
+                {camposFormulario.map((field) => (
+                  <FormFieldWithError key={field.nombreCampo} field={field} />
+                ))}
+
+                {!hiddenBtnsOnEdit && (
+                  <div className="mb-3">
+                    <div className="d-flex align-items-end gap-2">
+                      <div style={{ flex: 1 }}>
+                        <label className="form-label">🎭 Roles</label>
+                        <select
+                          id="rol"
+                          className="form-control"
+                          value={formData.rol}
+                          onChange={handleInputChange}
+                        >
+                          {LISTA_ROLES.map((rol) => (
+                            <option key={rol} value={rol}>
+                              {rol.replace(/-/g, ' ')}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <button
+                        className="btn-modern"
+                        style={{ height: '38px', width: '38px', padding: '0', fontSize: '18px' }}
+                        onClick={agregarNuevoRol}
+                        title="Agregar rol"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
-                  <div className="col-4">
-                    <Button
-                      text={'Cancelar'}
-                      className="btnFuncTabla btnRojo"
-                      onClick={cancelarEdicion}
-                    />
+                )}
+
+                {!hiddenBtnsOnEdit && (
+                  <div
+                    style={{
+                      maxHeight: '120px',
+                      overflowY: 'auto',
+                      border: '2px solid #f97316',
+                      borderRadius: '12px',
+                      padding: '8px',
+                      backgroundColor: '#fff7ed',
+                    }}
+                  >
+                    {rolesDeUsuario
+                      .sort((a, b) => a.rol.localeCompare(b.rol))
+                      .map((value, index) => (
+                        <Deleteable
+                          key={index}
+                          txtValue={value.rol}
+                          onClick={() => handleDeleteElement(value)}
+                        />
+                      ))}
                   </div>
-                  <div className="col-4">
-                    <Button
-                      text={'Reiniciar'}
-                      className="btnFuncTabla btnAzul"
-                      onClick={reiniciarPassword}
-                    />
-                  </div>
-                </>
-              )}
+                )}
+
+                {/* Botones modernos */}
+                <div className="row mt-4 g-2">
+                  {hiddenBtnsOnEdit ? (
+                    <div className="col-12">
+                      <button
+                        className="btn-modern w-100"
+                        onClick={crearUsuario}
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                            Creando...
+                          </>
+                        ) : (
+                          '✨ Crear Usuario'
+                        )}
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="col-4">
+                        <button
+                          className="btn-modern w-100 small"
+                          onClick={editarUsuario}
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? '⏳' : '💾'}
+                        </button>
+                      </div>
+                      <div className="col-4">
+                        <button
+                          className="btn-clear w-100 small"
+                          onClick={cancelarEdicion}
+                        >
+                          ❌
+                        </button>
+                      </div>
+                      <div className="col-4">
+                        <button
+                          className="btn-modern w-100 small"
+                          onClick={reiniciarPassword}
+                          style={{ 
+                            background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                            fontSize: '0.9rem'
+                          }}
+                        >
+                          🔑
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -520,13 +795,52 @@ const Administracion: React.FC = () => {
             className="col-9 d-flex flex-column"
             style={{ height: '100%' }}
           >
-            <div style={{ height: '85vh' }}>
-              <VirtualizedTable
-                rows={usuarios}
-                setRows={setUsuarios}
-                columns={listaCols}
-              />
-            </div>
+            {isLoading ? (
+              <div className="d-flex justify-content-center align-items-center h-100 loading-overlay">
+                <div className="text-center">
+                  <div className="spinner-border animated-icon" role="status">
+                    <span className="visually-hidden">Cargando...</span>
+                  </div>
+                  <p className="mt-3 fw-bold text-dark">🔄 Cargando usuarios...</p>
+                  <small className="text-muted">Obteniendo datos del sistema</small>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="table-container" style={{ height: '85vh' }}>
+                  <VirtualizedTable
+                    rows={usuariosFiltrados}
+                    setRows={setUsuarios}
+                    columns={listaCols}
+                  />
+                </div>
+                <div className="mt-3 d-flex justify-content-between align-items-center">
+                  <div className="d-flex align-items-center gap-3">
+                    <span className="badge bg-primary fs-6">
+                      📊 Mostrando {usuariosFiltrados.length} de {usuarios.length} usuarios
+                    </span>
+                    {searchTerm && (
+                      <span className="filter-badge filter-badge-active">
+                        🔍 Filtrado por: "{searchTerm}"
+                      </span>
+                    )}
+                    {filterRole !== 'TODOS' && (
+                      <span className="filter-badge filter-badge-active">
+                        🎭 Rol: {filterRole}
+                      </span>
+                    )}
+                    {filterOnline !== 'TODOS' && (
+                      <span className="filter-badge filter-badge-active">
+                        🌐 {filterOnline === 'ONLINE' ? 'En línea' : 'Desconectado'}
+                      </span>
+                    )}
+                  </div>
+                  <small className="text-muted">
+                    Última actualización: {new Date().toLocaleTimeString()}
+                  </small>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

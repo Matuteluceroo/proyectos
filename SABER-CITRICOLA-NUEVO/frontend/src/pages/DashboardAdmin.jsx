@@ -228,8 +228,11 @@ const DashboardAdmin = () => {
             </button>
 
             <button 
-              className="action-card"
-              onClick={() => showInfo('Función en desarrollo')}
+              className="action-card primary"
+              onClick={() => {
+                showInfo('Navegando a reportes del sistema');
+                navigate('/reportes');
+              }}
             >
               <span className="action-icon">📊</span>
               <span className="action-title">Reportes</span>

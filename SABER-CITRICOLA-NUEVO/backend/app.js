@@ -18,6 +18,7 @@ import { addFileFields } from './migrations/add_file_fields.js';
 import archivosRoutes from './routes/archivos.js';
 import documentosRoutes from './routes/documentos.js';
 import usuariosRoutes from './routes/usuarios.js';
+import reportesRoutes from './routes/reportes.js';
 
 // 🏗️ Creamos la aplicación Express
 const app = express();
@@ -59,6 +60,9 @@ app.use('/api/documentos', documentosRoutes);
 
 // 👥 Rutas de usuarios CRUD (solo admin)
 app.use('/api/usuarios', usuariosRoutes);
+
+// 📊 Rutas de reportes y estadísticas (solo admin)
+app.use('/api/reportes', reportesRoutes);
 
 // 👋 Ruta de prueba - Para verificar que funciona
 app.get('/', (req, res) => {
