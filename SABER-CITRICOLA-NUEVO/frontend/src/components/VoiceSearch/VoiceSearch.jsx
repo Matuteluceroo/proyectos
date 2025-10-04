@@ -282,6 +282,9 @@ const VoiceSearch = ({ onVoiceResult, onSearchSubmit, placeholder = "¿Qué nece
                         <span className="command-example">"Fertilización orgánica"</span>
                         <span className="command-example">"Sistemas de riego"</span>
                     </div>
+                    <p className="instruction-note">
+                        📚 <em>Los comandos de voz te llevarán a la biblioteca con información relevante</em>
+                    </p>
                 </div>
             )}
         </div>

@@ -211,6 +211,13 @@
   margin-bottom: 12px;
 }
 
+.instruction-note {
+  color: #059669;
+  font-size: 12px;
+  margin-top: 8px;
+  font-style: italic;
+}
+
 .example-commands {
   display: flex;
   flex-wrap: wrap;

@@ -101,30 +101,30 @@ const DashboardOperador = () => {
   };
 
   const handleVoiceSearch = (searchTerm) => {
-    // Mapeo de comandos de voz a rutas específicas con contenido
+    // Mapeo de comandos de voz a rutas funcionales existentes
     const voiceRoutes = {
-      'control de plagas': '/guias-rapidas?categoria=control-plagas',
-      'técnicas de poda': '/procedimientos?categoria=poda',
-      'fertilización': '/guias-rapidas?categoria=fertilizacion',
-      'fertilización orgánica': '/guias-rapidas?categoria=fertilizacion',
-      'sistemas de riego': '/procedimientos?categoria=riego',
-      'técnicas de injerto': '/procedimientos?categoria=injertos',
-      'enfermedades citricolas': '/guias-rapidas?categoria=enfermedades',
-      'plagas': '/guias-rapidas?categoria=control-plagas',
-      'poda': '/procedimientos?categoria=poda',
-      'riego': '/procedimientos?categoria=riego',
-      'injerto': '/procedimientos?categoria=injertos',
-      'enfermedad': '/guias-rapidas?categoria=enfermedades',
-      'hongos': '/guias-rapidas?categoria=enfermedades',
+      'control de plagas': '/biblioteca?q=control%20de%20plagas',
+      'técnicas de poda': '/biblioteca?q=poda',
+      'fertilización': '/biblioteca?q=fertilización',
+      'fertilización orgánica': '/biblioteca?q=fertilización%20orgánica',
+      'sistemas de riego': '/biblioteca?q=riego',
+      'técnicas de injerto': '/biblioteca?q=injerto',
+      'enfermedades citricolas': '/biblioteca?q=enfermedades',
+      'plagas': '/biblioteca?q=plagas',
+      'poda': '/biblioteca?q=poda',
+      'riego': '/biblioteca?q=riego',
+      'injerto': '/biblioteca?q=injerto',
+      'enfermedad': '/biblioteca?q=enfermedades',
+      'hongos': '/biblioteca?q=hongos',
       
       // Rutas generales
       'biblioteca': '/biblioteca',
       'capacitaciones': '/capacitaciones',
       'documentos': '/biblioteca',
-      'ayuda': '/guias-rapidas',
-      'procedimientos': '/procedimientos',
-      'guías': '/guias-rapidas',
-      'guias': '/guias-rapidas'
+      'ayuda': '/biblioteca?q=ayuda',
+      'procedimientos': '/biblioteca?q=procedimientos',
+      'guías': '/biblioteca?q=guías',
+      'guias': '/biblioteca?q=guias'
     };
 
     const normalizedTerm = searchTerm.toLowerCase().trim();
@@ -134,7 +134,7 @@ const DashboardOperador = () => {
       console.log(`🎯 Navegando directamente a: ${voiceRoutes[normalizedTerm]}`);
       // Mostrar mensaje de éxito
       if (window.showNotification) {
-        window.showNotification(`🎯 Navegando a: ${normalizedTerm}`, 'success');
+        window.showNotification(`🎯 Navegando a información sobre: ${normalizedTerm}`, 'success');
       }
       navigate(voiceRoutes[normalizedTerm]);
       return;
