@@ -144,195 +144,671 @@ const MiProgreso = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
-                <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
-                    <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-                    <div className="text-xl text-gray-800 mb-2">Cargando tu progreso...</div>
-                    <div className="text-gray-600">Preparando datos de capacitación</div>
+            <div style={{
+                minHeight: '100vh',
+                background: 'linear-gradient(135deg, #fef3c7 0%, #fed7aa 50%, #f97316 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <div style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                    borderRadius: '20px',
+                    boxShadow: '0 25px 50px rgba(0, 0, 0, 0.15)',
+                    padding: '32px',
+                    textAlign: 'center',
+                    border: '2px solid #fed7aa'
+                }}>
+                    <div style={{
+                        width: '64px',
+                        height: '64px',
+                        border: '6px solid #fbbf24',
+                        borderTop: '6px solid #f97316',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite',
+                        margin: '0 auto 24px'
+                    }}></div>
+                    <div style={{
+                        fontSize: '24px',
+                        color: '#1f2937',
+                        marginBottom: '8px',
+                        fontWeight: 'bold'
+                    }}>
+                        Cargando tu progreso...
+                    </div>
+                    <div style={{
+                        color: '#6b7280',
+                        fontSize: '16px',
+                        fontWeight: '500'
+                    }}>
+                        Preparando datos de capacitación
+                    </div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-            {/* Header */}
-            <div className="bg-white shadow-lg border-b-4 border-blue-500">
-                <div className="max-w-7xl mx-auto px-6 py-6">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-6">
-                            <button
-                                onClick={() => navigate('/dashboard')}
-                                className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 font-bold transition-all duration-200 hover:scale-105"
-                            >
-                                🏠 <span>Dashboard</span>
-                            </button>
-                            <div className="hidden md:flex items-center space-x-2 text-gray-400">
-                                <span>/</span>
-                                <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                                    📊 MI PROGRESO
-                                </span>
+        <div style={{
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #fef3c7 0%, #fed7aa 50%, #f97316 100%)'
+        }}>
+            {/* 🎯 Header */}
+            <div style={{
+                background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                borderBottom: '4px solid #f97316'
+            }}>
+                <div style={{
+                    maxWidth: '1280px',
+                    margin: '0 auto',
+                    padding: '24px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                        <button
+                            onClick={() => navigate('/dashboard')}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '12px',
+                                padding: '12px 16px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                                fontSize: '14px',
+                                transition: 'all 0.3s ease',
+                                boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.transform = 'translateY(-2px)';
+                                e.target.style.boxShadow = '0 8px 20px rgba(249, 115, 22, 0.4)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.transform = 'translateY(0)';
+                                e.target.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.3)';
+                            }}
+                        >
+                            🏠 <span>Dashboard</span>
+                        </button>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            color: '#9ca3af'
+                        }}>
+                            <span>/</span>
+                            <span style={{
+                                fontSize: '24px',
+                                fontWeight: 'bold',
+                                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text'
+                            }}>
+                                📊 MI PROGRESO
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <div style={{ textAlign: 'right' }}>
+                            <div style={{
+                                fontSize: '12px',
+                                color: '#6b7280',
+                                fontWeight: '500'
+                            }}>
+                                Operador
+                            </div>
+                            <div style={{
+                                fontWeight: 'bold',
+                                color: '#1f2937',
+                                fontSize: '14px'
+                            }}>
+                                {user?.nombre_completo || user?.username}
                             </div>
                         </div>
-                        
-                        <div className="flex items-center space-x-4">
-                            <div className="text-right">
-                                <div className="text-sm text-gray-500">Operador</div>
-                                <div className="font-bold text-gray-800">{user?.nombre_completo || user?.username}</div>
-                            </div>
-                            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
-                                👤
-                            </div>
+                        <div style={{
+                            width: '40px',
+                            height: '40px',
+                            background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'white',
+                            fontWeight: 'bold',
+                            fontSize: '18px',
+                            boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
+                        }}>
+                            👤
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-6 py-8">
-                {/* Estadísticas Principales */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    <div className="bg-gradient-to-br from-green-100 to-emerald-200 rounded-2xl p-6 border-l-4 border-green-500 shadow-lg">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Progreso General</h3>
-                                <div className="text-4xl font-black text-green-600 mb-2">{estadisticas.progresoGeneral}%</div>
-                                <div className="w-full bg-green-200 rounded-full h-3">
-                                    <div 
-                                        className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full transition-all duration-500"
-                                        style={{ width: `${estadisticas.progresoGeneral}%` }}
-                                    ></div>
+            {/* 📊 Main Content */}
+            <div style={{
+                maxWidth: '1280px',
+                margin: '0 auto',
+                padding: '32px 24px'
+            }}>
+                {/* 📈 Estadísticas Principales */}
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    gap: '24px',
+                    marginBottom: '32px'
+                }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #22c55e',
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                        transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                        e.currentTarget.style.boxShadow = '0 20px 40px rgba(34, 197, 94, 0.15)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div style={{ flex: 1 }}>
+                                <h3 style={{
+                                    fontSize: '12px',
+                                    fontWeight: 'bold',
+                                    color: '#374151',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.05em',
+                                    marginBottom: '8px'
+                                }}>
+                                    Progreso General
+                                </h3>
+                                <div style={{
+                                    fontSize: '36px',
+                                    fontWeight: '900',
+                                    color: '#22c55e',
+                                    marginBottom: '12px'
+                                }}>
+                                    {estadisticas.progresoGeneral}%
+                                </div>
+                                <div style={{
+                                    width: '100%',
+                                    background: '#e5e7eb',
+                                    borderRadius: '12px',
+                                    height: '12px',
+                                    overflow: 'hidden'
+                                }}>
+                                    <div style={{
+                                        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                                        height: '12px',
+                                        borderRadius: '12px',
+                                        width: `${estadisticas.progresoGeneral}%`,
+                                        transition: 'width 0.8s ease'
+                                    }}></div>
                                 </div>
                             </div>
-                            <div className="text-5xl">🏆</div>
+                            <div style={{ fontSize: '48px', marginLeft: '16px' }}>🏆</div>
                         </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-6 border-l-4 border-blue-500 shadow-lg">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Cursos Completados</h3>
-                                <div className="text-4xl font-black text-blue-600">{estadisticas.cursosCompletados}</div>
-                                <div className="text-sm text-gray-600 mt-1">{estadisticas.cursosEnProgreso} en progreso</div>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #f97316',
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                        transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                        e.currentTarget.style.boxShadow = '0 20px 40px rgba(249, 115, 22, 0.15)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div style={{ flex: 1 }}>
+                                <h3 style={{
+                                    fontSize: '12px',
+                                    fontWeight: 'bold',
+                                    color: '#374151',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.05em',
+                                    marginBottom: '8px'
+                                }}>
+                                    Cursos Completados
+                                </h3>
+                                <div style={{
+                                    fontSize: '36px',
+                                    fontWeight: '900',
+                                    color: '#f97316',
+                                    marginBottom: '4px'
+                                }}>
+                                    {estadisticas.cursosCompletados}
+                                </div>
+                                <div style={{
+                                    fontSize: '14px',
+                                    color: '#6b7280',
+                                    fontWeight: '500'
+                                }}>
+                                    {estadisticas.cursosEnProgreso} en progreso
+                                </div>
                             </div>
-                            <div className="text-5xl">✅</div>
+                            <div style={{ fontSize: '48px', marginLeft: '16px' }}>✅</div>
                         </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl p-6 border-l-4 border-purple-500 shadow-lg">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Horas de Estudio</h3>
-                                <div className="text-4xl font-black text-purple-600">{estadisticas.horasEstudio}</div>
-                                <div className="text-sm text-gray-600 mt-1">{estadisticas.certificados} certificados</div>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #ffffff 0%, #ede9fe 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #8b5cf6',
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                        transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                        e.currentTarget.style.boxShadow = '0 20px 40px rgba(139, 92, 246, 0.15)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div style={{ flex: 1 }}>
+                                <h3 style={{
+                                    fontSize: '12px',
+                                    fontWeight: 'bold',
+                                    color: '#374151',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.05em',
+                                    marginBottom: '8px'
+                                }}>
+                                    Horas de Estudio
+                                </h3>
+                                <div style={{
+                                    fontSize: '36px',
+                                    fontWeight: '900',
+                                    color: '#8b5cf6',
+                                    marginBottom: '4px'
+                                }}>
+                                    {estadisticas.horasEstudio}
+                                </div>
+                                <div style={{
+                                    fontSize: '14px',
+                                    color: '#6b7280',
+                                    fontWeight: '500'
+                                }}>
+                                    {estadisticas.certificados} certificados
+                                </div>
                             </div>
-                            <div className="text-5xl">⏱️</div>
+                            <div style={{ fontSize: '48px', marginLeft: '16px' }}>⏱️</div>
                         </div>
                     </div>
                 </div>
 
-                {/* Cursos en Progreso */}
-                <div className="bg-white rounded-2xl shadow-xl mb-8 border-l-4 border-orange-500">
-                    <div className="bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4 rounded-t-2xl">
-                        <h2 className="text-2xl font-bold text-white">📈 Cursos en Progreso</h2>
+                {/* 📈 Cursos en Progreso */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                    borderRadius: '20px',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                    marginBottom: '32px',
+                    borderLeft: '6px solid #f97316'
+                }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                        padding: '20px 24px',
+                        borderTopLeftRadius: '20px',
+                        borderTopRightRadius: '20px'
+                    }}>
+                        <h2 style={{
+                            fontSize: '24px',
+                            fontWeight: 'bold',
+                            color: 'white',
+                            margin: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                        }}>
+                            📈 Cursos en Progreso
+                        </h2>
                     </div>
-                    <div className="p-6">
-                        <div className="space-y-6">
+                    <div style={{ padding: '24px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                             {cursosEnProgreso.map(curso => (
-                                <div key={curso.id} className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl p-6 border-2 border-orange-200 hover:shadow-lg transition-all duration-300">
-                                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
-                                        <div className="mb-4 lg:mb-0">
-                                            <h3 className="text-xl font-bold text-gray-800 mb-2">{curso.titulo}</h3>
-                                            <span className="inline-block bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold">
-                                                {curso.categoria}
-                                            </span>
-                                            <div className="text-sm text-gray-600 mt-2">
-                                                Última actividad: {new Date(curso.ultimaActividad).toLocaleDateString()}
+                                <div 
+                                    key={curso.id} 
+                                    style={{
+                                        background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                                        borderRadius: '16px',
+                                        padding: '24px',
+                                        border: '2px solid #fed7aa',
+                                        transition: 'all 0.3s ease',
+                                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-4px)';
+                                        e.currentTarget.style.boxShadow = '0 15px 35px rgba(249, 115, 22, 0.15)';
+                                        e.currentTarget.style.borderColor = '#f97316';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.05)';
+                                        e.currentTarget.style.borderColor = '#fed7aa';
+                                    }}
+                                >
+                                    <div style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '16px'
+                                    }}>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start',
+                                            flexWrap: 'wrap',
+                                            gap: '16px'
+                                        }}>
+                                            <div style={{ flex: 1, minWidth: '250px' }}>
+                                                <h3 style={{
+                                                    fontSize: '20px',
+                                                    fontWeight: 'bold',
+                                                    color: '#1f2937',
+                                                    marginBottom: '8px'
+                                                }}>
+                                                    {curso.titulo}
+                                                </h3>
+                                                <span style={{
+                                                    display: 'inline-block',
+                                                    background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                                    color: 'white',
+                                                    padding: '6px 16px',
+                                                    borderRadius: '20px',
+                                                    fontSize: '12px',
+                                                    fontWeight: 'bold',
+                                                    marginBottom: '8px'
+                                                }}>
+                                                    {curso.categoria}
+                                                </span>
+                                                <div style={{
+                                                    fontSize: '14px',
+                                                    color: '#6b7280',
+                                                    fontWeight: '500'
+                                                }}>
+                                                    Última actividad: {new Date(curso.ultimaActividad).toLocaleDateString()}
+                                                </div>
+                                            </div>
+                                            <div style={{ textAlign: 'right' }}>
+                                                <div style={{
+                                                    fontSize: '32px',
+                                                    fontWeight: 'bold',
+                                                    color: '#f97316',
+                                                    marginBottom: '4px'
+                                                }}>
+                                                    {curso.progreso}%
+                                                </div>
+                                                <div style={{
+                                                    fontSize: '14px',
+                                                    color: '#6b7280',
+                                                    fontWeight: '500'
+                                                }}>
+                                                    {curso.horasCompletadas}/{curso.horasTotales} horas
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="text-right">
-                                            <div className="text-3xl font-bold text-orange-600 mb-1">{curso.progreso}%</div>
-                                            <div className="text-sm text-gray-600">{curso.horasCompletadas}/{curso.horasTotales} horas</div>
+                                        
+                                        {/* 📊 Barra de progreso */}
+                                        <div style={{
+                                            width: '100%',
+                                            background: '#e5e7eb',
+                                            borderRadius: '12px',
+                                            height: '16px',
+                                            overflow: 'hidden'
+                                        }}>
+                                            <div style={{
+                                                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                                height: '16px',
+                                                borderRadius: '12px',
+                                                width: `${curso.progreso}%`,
+                                                transition: 'width 0.8s ease'
+                                            }}></div>
                                         </div>
+                                        
+                                        {/* 📚 Módulos */}
+                                        <div style={{
+                                            display: 'grid',
+                                            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                                            gap: '8px'
+                                        }}>
+                                            {curso.modulos.map((modulo, index) => (
+                                                <div 
+                                                    key={index}
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: '8px',
+                                                        padding: '8px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '14px',
+                                                        fontWeight: '500',
+                                                        ...(modulo.completado 
+                                                            ? {
+                                                                background: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)',
+                                                                color: '#166534',
+                                                                border: '1px solid #86efac'
+                                                            }
+                                                            : {
+                                                                background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
+                                                                color: '#374151',
+                                                                border: '1px solid #d1d5db'
+                                                            })
+                                                    }}
+                                                >
+                                                    <span>{modulo.completado ? '✅' : '⏳'}</span>
+                                                    <span>{modulo.nombre}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        
+                                        <button
+                                            onClick={() => continuarCurso(curso.id)}
+                                            style={{
+                                                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                                color: 'white',
+                                                border: 'none',
+                                                borderRadius: '12px',
+                                                padding: '12px 24px',
+                                                fontWeight: 'bold',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s ease',
+                                                boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '8px',
+                                                width: 'fit-content'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.target.style.transform = 'translateY(-2px)';
+                                                e.target.style.boxShadow = '0 8px 20px rgba(249, 115, 22, 0.4)';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.target.style.transform = 'translateY(0)';
+                                                e.target.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.3)';
+                                            }}
+                                        >
+                                            🎯 Continuar Curso
+                                        </button>
                                     </div>
-                                    
-                                    {/* Barra de progreso */}
-                                    <div className="w-full bg-orange-200 rounded-full h-4 mb-4">
-                                        <div 
-                                            className="bg-gradient-to-r from-orange-500 to-amber-500 h-4 rounded-full transition-all duration-500"
-                                            style={{ width: `${curso.progreso}%` }}
-                                        ></div>
-                                    </div>
-                                    
-                                    {/* Módulos */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
-                                        {curso.modulos.map((modulo, index) => (
-                                            <div 
-                                                key={index}
-                                                className={`flex items-center space-x-2 p-2 rounded-lg text-sm ${
-                                                    modulo.completado 
-                                                        ? 'bg-green-100 text-green-800' 
-                                                        : 'bg-gray-100 text-gray-600'
-                                                }`}
-                                            >
-                                                <span>{modulo.completado ? '✅' : '⏳'}</span>
-                                                <span>{modulo.nombre}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    
-                                    <button
-                                        onClick={() => continuarCurso(curso.id)}
-                                        className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
-                                    >
-                                        🎯 Continuar Curso
-                                    </button>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
 
-                {/* Cursos Completados */}
-                <div className="bg-white rounded-2xl shadow-xl mb-8 border-l-4 border-green-500">
-                    <div className="bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-4 rounded-t-2xl">
-                        <h2 className="text-2xl font-bold text-white">✅ Cursos Completados</h2>
+                {/* ✅ Cursos Completados */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)',
+                    borderRadius: '20px',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                    marginBottom: '32px',
+                    borderLeft: '6px solid #22c55e'
+                }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                        padding: '20px 24px',
+                        borderTopLeftRadius: '20px',
+                        borderTopRightRadius: '20px'
+                    }}>
+                        <h2 style={{
+                            fontSize: '24px',
+                            fontWeight: 'bold',
+                            color: 'white',
+                            margin: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                        }}>
+                            ✅ Cursos Completados
+                        </h2>
                     </div>
-                    <div className="p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div style={{ padding: '24px' }}>
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                            gap: '24px'
+                        }}>
                             {cursosCompletados.map(curso => (
-                                <div key={curso.id} className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200 hover:shadow-lg transition-all duration-300">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div>
-                                            <h3 className="text-lg font-bold text-gray-800 mb-2">{curso.titulo}</h3>
-                                            <span className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                                <div 
+                                    key={curso.id} 
+                                    style={{
+                                        background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)',
+                                        borderRadius: '16px',
+                                        padding: '24px',
+                                        border: '2px solid #bbf7d0',
+                                        transition: 'all 0.3s ease',
+                                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-4px)';
+                                        e.currentTarget.style.boxShadow = '0 15px 35px rgba(34, 197, 94, 0.15)';
+                                        e.currentTarget.style.borderColor = '#22c55e';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.05)';
+                                        e.currentTarget.style.borderColor = '#bbf7d0';
+                                    }}
+                                >
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'flex-start',
+                                        marginBottom: '16px'
+                                    }}>
+                                        <div style={{ flex: 1 }}>
+                                            <h3 style={{
+                                                fontSize: '18px',
+                                                fontWeight: 'bold',
+                                                color: '#1f2937',
+                                                marginBottom: '8px'
+                                            }}>
+                                                {curso.titulo}
+                                            </h3>
+                                            <span style={{
+                                                display: 'inline-block',
+                                                background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                                                color: 'white',
+                                                padding: '6px 16px',
+                                                borderRadius: '20px',
+                                                fontSize: '12px',
+                                                fontWeight: 'bold'
+                                            }}>
                                                 {curso.categoria}
                                             </span>
                                         </div>
                                         {curso.certificado && (
-                                            <div className="text-2xl">🏆</div>
+                                            <div style={{
+                                                fontSize: '32px',
+                                                marginLeft: '16px',
+                                                animation: 'pulse 2s infinite'
+                                            }}>
+                                                🏆
+                                            </div>
                                         )}
                                     </div>
                                     
-                                    <div className="space-y-2 mb-4">
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-gray-600">Completado:</span>
-                                            <span className="font-semibold">{new Date(curso.fechaCompletado).toLocaleDateString()}</span>
+                                    <div style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '8px',
+                                        marginBottom: '16px'
+                                    }}>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            fontSize: '14px'
+                                        }}>
+                                            <span style={{ color: '#6b7280', fontWeight: '500' }}>Completado:</span>
+                                            <span style={{ fontWeight: 'bold', color: '#1f2937' }}>
+                                                {new Date(curso.fechaCompletado).toLocaleDateString()}
+                                            </span>
                                         </div>
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-gray-600">Calificación:</span>
-                                            <span className="font-semibold text-green-600">{curso.calificacion}%</span>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            fontSize: '14px'
+                                        }}>
+                                            <span style={{ color: '#6b7280', fontWeight: '500' }}>Calificación:</span>
+                                            <span style={{ fontWeight: 'bold', color: '#22c55e' }}>{curso.calificacion}%</span>
                                         </div>
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-gray-600">Duración:</span>
-                                            <span className="font-semibold">{curso.horas} horas</span>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            fontSize: '14px'
+                                        }}>
+                                            <span style={{ color: '#6b7280', fontWeight: '500' }}>Duración:</span>
+                                            <span style={{ fontWeight: 'bold', color: '#1f2937' }}>{curso.horas} horas</span>
                                         </div>
                                     </div>
                                     
                                     {curso.certificado && (
                                         <button
                                             onClick={() => descargarCertificado(curso.id)}
-                                            className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-2 rounded-lg font-bold transition-all duration-300"
+                                            style={{
+                                                width: '100%',
+                                                background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                                                color: 'white',
+                                                border: 'none',
+                                                borderRadius: '12px',
+                                                padding: '12px 16px',
+                                                fontWeight: 'bold',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s ease',
+                                                boxShadow: '0 4px 12px rgba(34, 197, 94, 0.3)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                gap: '8px'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.target.style.transform = 'translateY(-2px)';
+                                                e.target.style.boxShadow = '0 8px 20px rgba(34, 197, 94, 0.4)';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.target.style.transform = 'translateY(0)';
+                                                e.target.style.boxShadow = '0 4px 12px rgba(34, 197, 94, 0.3)';
+                                            }}
                                         >
                                             📄 Descargar Certificado
                                         </button>
@@ -343,37 +819,145 @@ const MiProgreso = () => {
                     </div>
                 </div>
 
-                {/* Certificados */}
-                <div className="bg-white rounded-2xl shadow-xl border-l-4 border-yellow-500">
-                    <div className="bg-gradient-to-r from-yellow-500 to-amber-500 px-6 py-4 rounded-t-2xl">
-                        <h2 className="text-2xl font-bold text-white">🏆 Mis Certificados</h2>
+                {/* 🏆 Certificados */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #fffbeb 100%)',
+                    borderRadius: '20px',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                    borderLeft: '6px solid #eab308'
+                }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #eab308 0%, #d97706 100%)',
+                        padding: '20px 24px',
+                        borderTopLeftRadius: '20px',
+                        borderTopRightRadius: '20px'
+                    }}>
+                        <h2 style={{
+                            fontSize: '24px',
+                            fontWeight: 'bold',
+                            color: 'white',
+                            margin: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                        }}>
+                            🏆 Mis Certificados
+                        </h2>
                     </div>
-                    <div className="p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div style={{ padding: '24px' }}>
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                            gap: '24px'
+                        }}>
                             {certificados.map(certificado => (
-                                <div key={certificado.id} className="bg-gradient-to-r from-yellow-50 to-amber-50 rounded-xl p-6 border-2 border-yellow-200 hover:shadow-lg transition-all duration-300">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div>
-                                            <h3 className="text-lg font-bold text-gray-800 mb-2">{certificado.titulo}</h3>
-                                            <div className="text-sm text-gray-600">{certificado.institucion}</div>
+                                <div 
+                                    key={certificado.id} 
+                                    style={{
+                                        background: 'linear-gradient(135deg, #ffffff 0%, #fffbeb 100%)',
+                                        borderRadius: '16px',
+                                        padding: '24px',
+                                        border: '2px solid #fde68a',
+                                        transition: 'all 0.3s ease',
+                                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-4px)';
+                                        e.currentTarget.style.boxShadow = '0 15px 35px rgba(234, 179, 8, 0.15)';
+                                        e.currentTarget.style.borderColor = '#eab308';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.05)';
+                                        e.currentTarget.style.borderColor = '#fde68a';
+                                    }}
+                                >
+                                    <div style={{
+                                        display: 'flex',
+                                        alignItems: 'flex-start',
+                                        justifyContent: 'space-between',
+                                        marginBottom: '16px'
+                                    }}>
+                                        <div style={{ flex: 1 }}>
+                                            <h3 style={{
+                                                fontSize: '18px',
+                                                fontWeight: 'bold',
+                                                color: '#1f2937',
+                                                marginBottom: '8px'
+                                            }}>
+                                                {certificado.titulo}
+                                            </h3>
+                                            <div style={{
+                                                fontSize: '14px',
+                                                color: '#6b7280',
+                                                fontWeight: '500'
+                                            }}>
+                                                {certificado.institucion}
+                                            </div>
                                         </div>
-                                        <div className="text-3xl">🏆</div>
+                                        <div style={{
+                                            fontSize: '40px',
+                                            marginLeft: '16px',
+                                            animation: 'pulse 2s infinite'
+                                        }}>
+                                            🏆
+                                        </div>
                                     </div>
                                     
-                                    <div className="space-y-2 mb-4">
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-gray-600">Emitido:</span>
-                                            <span className="font-semibold">{new Date(certificado.fechaEmision).toLocaleDateString()}</span>
+                                    <div style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '8px',
+                                        marginBottom: '16px'
+                                    }}>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            fontSize: '14px'
+                                        }}>
+                                            <span style={{ color: '#6b7280', fontWeight: '500' }}>Emitido:</span>
+                                            <span style={{ fontWeight: 'bold', color: '#1f2937' }}>
+                                                {new Date(certificado.fechaEmision).toLocaleDateString()}
+                                            </span>
                                         </div>
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-gray-600">Válido hasta:</span>
-                                            <span className="font-semibold text-green-600">{new Date(certificado.validez).toLocaleDateString()}</span>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            fontSize: '14px'
+                                        }}>
+                                            <span style={{ color: '#6b7280', fontWeight: '500' }}>Válido hasta:</span>
+                                            <span style={{ fontWeight: 'bold', color: '#22c55e' }}>
+                                                {new Date(certificado.validez).toLocaleDateString()}
+                                            </span>
                                         </div>
                                     </div>
                                     
                                     <button
                                         onClick={() => descargarCertificado(certificado.id)}
-                                        className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-white px-4 py-2 rounded-lg font-bold transition-all duration-300"
+                                        style={{
+                                            width: '100%',
+                                            background: 'linear-gradient(135deg, #eab308 0%, #d97706 100%)',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '12px',
+                                            padding: '12px 16px',
+                                            fontWeight: 'bold',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.3s ease',
+                                            boxShadow: '0 4px 12px rgba(234, 179, 8, 0.3)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '8px'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.target.style.transform = 'translateY(-2px)';
+                                            e.target.style.boxShadow = '0 8px 20px rgba(234, 179, 8, 0.4)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.target.style.transform = 'translateY(0)';
+                                            e.target.style.boxShadow = '0 4px 12px rgba(234, 179, 8, 0.3)';
+                                        }}
                                     >
                                         📥 Descargar
                                     </button>

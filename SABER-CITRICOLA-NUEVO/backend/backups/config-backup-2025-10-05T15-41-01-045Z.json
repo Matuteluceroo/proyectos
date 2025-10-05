@@ -1,9 +1,9 @@
 {
   "general": {
-    "nombreSistema": "Saber Citrícaola",
-    "descripcionSistema": "Sistema de Gestaión del Conocimiento Citrícola",
-    "version": "2.0.0a",
-    "idioma": "pt",
+    "nombreSistema": "Saber Citrícola",
+    "descripcionSistema": "Sistema de Gestión del Conocimiento Citrícola",
+    "version": "2.0.0",
+    "idioma": "es",
     "timezone": "America/Argentina/Buenos_Aires"
   },
   "seguridad": {

@@ -196,57 +196,154 @@ const Procedimientos = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="bg-white rounded-xl shadow-lg mb-6 p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)',
+      padding: '24px'
+    }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* ✨ Header con estilo cítrico profesional */}
+        <div style={{
+          background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+          borderRadius: '20px',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+          marginBottom: '24px',
+          padding: '32px',
+          borderLeft: '6px solid #f97316'
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <button
                 onClick={() => navigate('/dashboard')}
-                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                style={{
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  background: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
+                  color: 'white',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '14px',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 12px rgba(107, 114, 128, 0.3)'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 8px 20px rgba(107, 114, 128, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(107, 114, 128, 0.3)';
+                }}
               >
                 ← Volver
               </button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-800 flex items-center">
+                <h1 style={{
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                  background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  margin: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}>
                   📋 Procedimientos
                 </h1>
-                <p className="text-gray-600 mt-1">
+                <p style={{
+                  color: '#6b7280',
+                  marginTop: '8px',
+                  fontSize: '16px',
+                  fontWeight: '500'
+                }}>
                   Guías paso a paso detalladas
                 </p>
               </div>
             </div>
-            <div className="text-sm text-gray-500">
+            <div style={{
+              background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+              color: 'white',
+              padding: '12px 20px',
+              borderRadius: '12px',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
+            }}>
               {procedimientos.length} procedimientos disponibles
             </div>
           </div>
         </div>
 
-        {/* Mensaje de estado */}
+        {/* 📢 Mensaje de estado con estilo cítrico */}
         {mensaje && (
-          <div className={`mb-6 p-4 rounded-lg ${
-            mensaje.tipo === 'error' 
-              ? 'bg-red-100 border border-red-300 text-red-700' 
-              : 'bg-green-100 border border-green-300 text-green-700'
-          }`}>
+          <div style={{
+            marginBottom: '24px',
+            padding: '16px 24px',
+            borderRadius: '12px',
+            fontWeight: '500',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            ...(mensaje.tipo === 'error' 
+              ? { 
+                  background: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)',
+                  border: '2px solid #fca5a5',
+                  color: '#dc2626'
+                }
+              : { 
+                  background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                  border: '2px solid #bbf7d0',
+                  color: '#166534'
+                })
+          }}>
             {mensaje.texto}
           </div>
         )}
 
         {!procedimientoSeleccionado ? (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Panel de búsqueda y filtros */}
-            <div className="lg:col-span-1 space-y-6">
-              {/* Búsqueda */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: '1fr 2fr', 
+            gap: '24px',
+            '@media (max-width: 1024px)': {
+              gridTemplateColumns: '1fr'
+            }
+          }}>
+            {/* 🔍 Panel de búsqueda y filtros */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {/* Búsqueda principal */}
+              <div style={{
+                background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                borderRadius: '20px',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                padding: '24px',
+                borderLeft: '6px solid #f97316'
+              }}>
+                <h2 style={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  color: '#1f2937',
+                  marginBottom: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
                   🔍 Buscar Procedimientos
                 </h2>
                 
-                <div className="space-y-4">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
                       Buscar por palabra clave
                     </label>
                     <input
@@ -254,18 +351,56 @@ const Procedimientos = () => {
                       value={busqueda}
                       onChange={(e) => setBusqueda(e.target.value)}
                       placeholder="Ej: poda, fertilización, riego..."
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #e5e7eb',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: 'white'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#e5e7eb';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
                       Filtrar por categoría
                     </label>
                     <select
                       value={categoriaSeleccionada}
                       onChange={(e) => setCategoriaSeleccionada(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #e5e7eb',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        background: 'white',
+                        cursor: 'pointer'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#e5e7eb';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     >
                       <option value="">Todas las categorías</option>
                       {categorias.map(categoria => (
@@ -278,95 +413,278 @@ const Procedimientos = () => {
 
                   <button
                     onClick={limpiarBusqueda}
-                    className="w-full px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      background: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '12px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 4px 12px rgba(107, 114, 128, 0.3)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 8px 20px rgba(107, 114, 128, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = '0 4px 12px rgba(107, 114, 128, 0.3)';
+                    }}
                   >
                     🔄 Limpiar Filtros
                   </button>
                 </div>
               </div>
 
-              {/* Categorías principales */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+              {/* 📂 Categorías principales */}
+              <div style={{
+                background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                borderRadius: '20px',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                padding: '24px',
+                borderLeft: '6px solid #ea580c'
+              }}>
+                <h2 style={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  color: '#1f2937',
+                  marginBottom: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
                   📂 Categorías Principales
                 </h2>
                 
-                <div className="space-y-2">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {categoriasPrincipales.map(categoria => (
                     <button
                       key={categoria.id}
                       onClick={() => setCategoriaSeleccionada(categoria.id)}
-                      className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors hover:shadow-md ${
-                        categoriaSeleccionada === categoria.id 
-                          ? categoria.color 
-                          : 'bg-gray-50 hover:bg-gray-100'
-                      }`}
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '16px',
+                        borderRadius: '12px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        fontWeight: '500',
+                        fontSize: '14px',
+                        ...(categoriaSeleccionada === categoria.id 
+                          ? {
+                              background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                              color: 'white',
+                              transform: 'translateY(-2px)',
+                              boxShadow: '0 8px 20px rgba(249, 115, 22, 0.4)'
+                            }
+                          : {
+                              background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)',
+                              color: '#374151'
+                            })
+                      }}
+                      onMouseEnter={(e) => {
+                        if (categoriaSeleccionada !== categoria.id) {
+                          e.target.style.transform = 'translateY(-1px)';
+                          e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                          e.target.style.background = 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (categoriaSeleccionada !== categoria.id) {
+                          e.target.style.transform = 'translateY(0)';
+                          e.target.style.boxShadow = 'none';
+                          e.target.style.background = 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)';
+                        }
+                      }}
                     >
-                      <span className="text-2xl">{categoria.icono}</span>
-                      <span className="font-medium">{categoria.nombre}</span>
+                      <span style={{ fontSize: '24px' }}>{categoria.icono}</span>
+                      <span>{categoria.nombre}</span>
                     </button>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Lista de procedimientos */}
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+            {/* 📋 Lista de procedimientos */}
+            <div>
+              <div style={{
+                background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                borderRadius: '20px',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                padding: '24px',
+                borderLeft: '6px solid #f97316'
+              }}>
+                <h2 style={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  color: '#1f2937',
+                  marginBottom: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
                   📋 Lista de Procedimientos
                 </h2>
                 
                 {loading ? (
-                  <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="text-gray-600 mt-4">Cargando procedimientos...</p>
+                  <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                    <div style={{
+                      width: '48px',
+                      height: '48px',
+                      border: '4px solid #fbbf24',
+                      borderTop: '4px solid #f97316',
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite',
+                      margin: '0 auto'
+                    }}></div>
+                    <p style={{
+                      color: '#6b7280',
+                      marginTop: '16px',
+                      fontWeight: '500'
+                    }}>
+                      Cargando procedimientos...
+                    </p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {procedimientos.length > 0 ? (
                       procedimientos.map(procedimiento => (
                         <div
                           key={procedimiento.id}
                           onClick={() => seleccionarProcedimiento(procedimiento)}
-                          className="border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                            border: '2px solid #fed7aa',
+                            borderRadius: '16px',
+                            padding: '20px',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'translateY(-2px)';
+                            e.target.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.15)';
+                            e.target.style.borderColor = '#f97316';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'translateY(0)';
+                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.05)';
+                            e.target.style.borderColor = '#fed7aa';
+                          }}
                         >
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                              <div className="flex items-center space-x-2 mb-2">
-                                <span className="text-2xl">{procedimiento.icono}</span>
-                                <h3 className="text-lg font-semibold text-gray-800">
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            justifyContent: 'space-between'
+                          }}>
+                            <div style={{ flex: 1 }}>
+                              <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                marginBottom: '12px'
+                              }}>
+                                <span style={{ fontSize: '28px' }}>{procedimiento.icono}</span>
+                                <h3 style={{
+                                  fontSize: '18px',
+                                  fontWeight: 'bold',
+                                  color: '#1f2937',
+                                  margin: 0
+                                }}>
                                   {procedimiento.titulo}
                                 </h3>
-                                <span className={`px-2 py-1 text-xs rounded-full ${
-                                  procedimiento.dificultad === 'alta' ? 'bg-red-100 text-red-800' :
-                                  procedimiento.dificultad === 'media' ? 'bg-yellow-100 text-yellow-800' :
-                                  'bg-green-100 text-green-800'
-                                }`}>
+                                <span style={{
+                                  padding: '4px 12px',
+                                  fontSize: '12px',
+                                  borderRadius: '20px',
+                                  fontWeight: 'bold',
+                                  ...(procedimiento.dificultad === 'alta' 
+                                    ? { background: '#fef2f2', color: '#dc2626', border: '1px solid #fca5a5' }
+                                    : procedimiento.dificultad === 'media' 
+                                    ? { background: '#fffbeb', color: '#d97706', border: '1px solid #fcd34d' }
+                                    : { background: '#f0fdf4', color: '#166534', border: '1px solid #bbf7d0' })
+                                }}>
                                   {procedimiento.dificultad}
                                 </span>
                               </div>
-                              <p className="text-gray-600 text-sm mb-2">
+                              <p style={{
+                                color: '#6b7280',
+                                fontSize: '14px',
+                                marginBottom: '12px',
+                                lineHeight: '1.5'
+                              }}>
                                 {procedimiento.descripcion}
                               </p>
-                              <div className="flex items-center space-x-4 text-xs text-gray-500 mb-2">
-                                <span>📂 {procedimiento.categoria}</span>
-                                <span>⏱️ {procedimiento.duracionEstimada}</span>
-                                <span>📝 {procedimiento.pasos?.length || 0} pasos</span>
+                              <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '20px',
+                                fontSize: '12px',
+                                color: '#9ca3af',
+                                marginBottom: '12px'
+                              }}>
+                                <span style={{ 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  gap: '4px',
+                                  fontWeight: '500'
+                                }}>
+                                  📂 {procedimiento.categoria}
+                                </span>
+                                <span style={{ 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  gap: '4px',
+                                  fontWeight: '500'
+                                }}>
+                                  ⏱️ {procedimiento.duracionEstimada}
+                                </span>
+                                <span style={{ 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  gap: '4px',
+                                  fontWeight: '500'
+                                }}>
+                                  📝 {procedimiento.pasos?.length || 0} pasos
+                                </span>
                               </div>
                               {/* Barra de progreso */}
-                              <div className="w-full bg-gray-200 rounded-full h-2">
-                                <div 
-                                  className="bg-blue-600 h-2 rounded-full transition-all"
-                                  style={{ width: `${calcularProgreso(procedimiento)}%` }}
-                                ></div>
+                              <div style={{
+                                width: '100%',
+                                background: '#e5e7eb',
+                                borderRadius: '10px',
+                                height: '8px',
+                                overflow: 'hidden',
+                                marginBottom: '8px'
+                              }}>
+                                <div style={{
+                                  background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                  height: '8px',
+                                  borderRadius: '10px',
+                                  width: `${calcularProgreso(procedimiento)}%`,
+                                  transition: 'width 0.3s ease'
+                                }}></div>
                               </div>
-                              <div className="text-xs text-gray-500 mt-1">
+                              <div style={{
+                                fontSize: '12px',
+                                color: '#6b7280',
+                                fontWeight: '500'
+                              }}>
                                 Progreso: {calcularProgreso(procedimiento)}%
                               </div>
                             </div>
-                            <div className="ml-4">
-                              <span className="text-blue-600 hover:text-blue-800">
+                            <div style={{ marginLeft: '16px' }}>
+                              <span style={{
+                                color: '#f97316',
+                                fontSize: '24px',
+                                fontWeight: 'bold'
+                              }}>
                                 →
                               </span>
                             </div>
@@ -374,17 +692,44 @@ const Procedimientos = () => {
                         </div>
                       ))
                     ) : (
-                      <div className="text-center py-8">
-                        <div className="text-6xl mb-4">📋</div>
-                        <h3 className="text-lg font-medium text-gray-800 mb-2">
+                      <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                        <div style={{ fontSize: '64px', marginBottom: '16px' }}>📋</div>
+                        <h3 style={{
+                          fontSize: '18px',
+                          fontWeight: '600',
+                          color: '#1f2937',
+                          marginBottom: '8px'
+                        }}>
                           No se encontraron procedimientos
                         </h3>
-                        <p className="text-gray-600 mb-4">
+                        <p style={{
+                          color: '#6b7280',
+                          marginBottom: '16px',
+                          fontSize: '14px'
+                        }}>
                           Intenta con otros términos de búsqueda o categorías
                         </p>
                         <button
                           onClick={limpiarBusqueda}
-                          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                          style={{
+                            padding: '12px 24px',
+                            background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '12px',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'translateY(-2px)';
+                            e.target.style.boxShadow = '0 8px 20px rgba(249, 115, 22, 0.4)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'translateY(0)';
+                            e.target.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.3)';
+                          }}
                         >
                           Ver todos los procedimientos
                         </button>
@@ -396,209 +741,644 @@ const Procedimientos = () => {
             </div>
           </div>
         ) : (
-          /* Vista del procedimiento seleccionado */
-          <div className="space-y-6">
-            {/* Header del procedimiento */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-3">
-                  <span className="text-3xl">{procedimientoSeleccionado.icono}</span>
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-800">
-                      {procedimientoSeleccionado.titulo}
-                    </h2>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500 mt-1">
-                      <span>📂 {procedimientoSeleccionado.categoria}</span>
-                      <span>⏱️ {procedimientoSeleccionado.duracionEstimada}</span>
-                      <span>📝 {procedimientoSeleccionado.pasos?.length || 0} pasos</span>
-                      <span className={`px-2 py-1 rounded-full ${
-                        procedimientoSeleccionado.dificultad === 'alta' ? 'bg-red-100 text-red-800' :
-                        procedimientoSeleccionado.dificultad === 'media' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-green-100 text-green-800'
-                      }`}>
-                        {procedimientoSeleccionado.dificultad}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setProcedimientoSeleccionado(null)}
-                  className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
-                >
-                  ← Volver a la lista
-                </button>
+          /* 📖 Vista detallada del procedimiento */
+          <div style={{
+            background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+            borderRadius: '20px',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+            padding: '24px',
+            borderLeft: '6px solid #f97316'
+          }}>
+            {/* 🔙 Header con botón volver */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '24px',
+              paddingBottom: '16px',
+              borderBottom: '2px solid #fed7aa'
+            }}>
+              <button
+                onClick={() => setProcedimientoSeleccionado(null)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '12px 16px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '14px',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 8px 20px rgba(249, 115, 22, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.3)';
+                }}
+              >
+                ← Volver a la lista
+              </button>
+              
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px'
+              }}>
+                <span style={{
+                  padding: '6px 16px',
+                  fontSize: '14px',
+                  borderRadius: '20px',
+                  fontWeight: 'bold',
+                  ...(procedimientoSeleccionado.dificultad === 'alta' 
+                    ? { background: '#fef2f2', color: '#dc2626', border: '2px solid #fca5a5' }
+                    : procedimientoSeleccionado.dificultad === 'media' 
+                    ? { background: '#fffbeb', color: '#d97706', border: '2px solid #fcd34d' }
+                    : { background: '#f0fdf4', color: '#166534', border: '2px solid #bbf7d0' })
+                }}>
+                  {procedimientoSeleccionado.dificultad}
+                </span>
+                <span style={{
+                  padding: '6px 16px',
+                  fontSize: '14px',
+                  borderRadius: '20px',
+                  fontWeight: 'bold',
+                  background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                  color: 'white'
+                }}>
+                  {procedimientoSeleccionado.categoria}
+                </span>
               </div>
+            </div>
 
-              {/* Progreso general */}
-              <div className="bg-blue-50 rounded-lg p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium text-blue-800">Progreso General</span>
-                  <span className="text-sm text-blue-600">
-                    {pasosCompletados.size} de {procedimientoSeleccionado.pasos?.length || 0} pasos completados
+            {/* 📋 Información del procedimiento */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '16px',
+              marginBottom: '24px'
+            }}>
+              <span style={{ fontSize: '48px' }}>{procedimientoSeleccionado.icono}</span>
+              <div style={{ flex: 1 }}>
+                <h1 style={{
+                  fontSize: '28px',
+                  fontWeight: 'bold',
+                  color: '#1f2937',
+                  marginBottom: '8px',
+                  lineHeight: '1.2'
+                }}>
+                  {procedimientoSeleccionado.titulo}
+                </h1>
+                <p style={{
+                  color: '#6b7280',
+                  fontSize: '16px',
+                  marginBottom: '16px',
+                  lineHeight: '1.6'
+                }}>
+                  {procedimientoSeleccionado.descripcion}
+                </p>
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                  gap: '16px',
+                  fontSize: '14px',
+                  color: '#6b7280',
+                  fontWeight: '500'
+                }}>
+                  <span style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '6px',
+                    background: '#fef3c7',
+                    padding: '8px 12px',
+                    borderRadius: '12px',
+                    border: '1px solid #fed7aa'
+                  }}>
+                    ⏱️ {procedimientoSeleccionado.duracionEstimada}
                   </span>
-                </div>
-                <div className="w-full bg-blue-200 rounded-full h-3">
-                  <div 
-                    className="bg-blue-600 h-3 rounded-full transition-all"
-                    style={{ width: `${calcularProgreso(procedimientoSeleccionado)}%` }}
-                  ></div>
+                  <span style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '6px',
+                    background: '#fef3c7',
+                    padding: '8px 12px',
+                    borderRadius: '12px',
+                    border: '1px solid #fed7aa'
+                  }}>
+                    📝 {procedimientoSeleccionado.pasos?.length || 0} pasos
+                  </span>
+                  <span style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '6px',
+                    background: '#fef3c7',
+                    padding: '8px 12px',
+                    borderRadius: '12px',
+                    border: '1px solid #fed7aa'
+                  }}>
+                    📈 {calcularProgreso(procedimientoSeleccionado)}% completado
+                  </span>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* 📈 Barra de progreso general */}
+            <div style={{
+              background: '#ffffff',
+              borderRadius: '16px',
+              padding: '20px',
+              marginBottom: '24px',
+              border: '2px solid #fed7aa',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
+            }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '12px'
+              }}>
+                <span style={{
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  color: '#1f2937'
+                }}>
+                  Progreso General
+                </span>
+                <span style={{
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  color: '#f97316'
+                }}>
+                  {pasosCompletados.size} de {procedimientoSeleccionado.pasos?.length || 0} pasos completados
+                </span>
+              </div>
+              <div style={{
+                width: '100%',
+                background: '#e5e7eb',
+                borderRadius: '12px',
+                height: '12px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                  height: '12px',
+                  borderRadius: '12px',
+                  width: `${calcularProgreso(procedimientoSeleccionado)}%`,
+                  transition: 'width 0.5s ease'
+                }}></div>
+              </div>
+            </div>
+
+            {/* 📝 Navegación entre pasos */}
+            <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '24px' }}>
               {/* Lista de pasos */}
-              <div className="lg:col-span-1">
-                <div className="bg-white rounded-xl shadow-lg p-6">
-                  <h3 className="text-lg font-bold text-gray-800 mb-4">📝 Pasos</h3>
-                  <div className="space-y-2">
-                    {procedimientoSeleccionado.pasos?.map((paso, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setPasoActual(index)}
-                        className={`w-full text-left p-3 rounded-lg transition-colors ${
-                          index === pasoActual
-                            ? 'bg-blue-100 border border-blue-300'
-                            : pasosCompletados.has(index)
-                            ? 'bg-green-100 border border-green-300'
-                            : 'bg-gray-50 hover:bg-gray-100 border border-gray-200'
-                        }`}
-                      >
-                        <div className="flex items-center space-x-2">
-                          <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
-                            pasosCompletados.has(index)
-                              ? 'bg-green-500 text-white'
-                              : index === pasoActual
-                              ? 'bg-blue-500 text-white'
-                              : 'bg-gray-300 text-gray-600'
-                          }`}>
-                            {pasosCompletados.has(index) ? '✓' : index + 1}
-                          </span>
-                          <span className="text-sm font-medium">
-                            {paso.titulo}
-                          </span>
-                        </div>
-                      </button>
-                    )) || (
-                      <div className="text-gray-500 text-sm">No hay pasos definidos</div>
-                    )}
-                  </div>
+              <div style={{
+                background: '#ffffff',
+                borderRadius: '16px',
+                padding: '20px',
+                border: '2px solid #fed7aa',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                height: 'fit-content'
+              }}>
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  color: '#1f2937',
+                  marginBottom: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  📝 Pasos
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {procedimientoSeleccionado.pasos?.map((paso, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setPasoActual(index)}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        padding: '12px',
+                        borderRadius: '12px',
+                        border: '2px solid',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        fontWeight: '500',
+                        fontSize: '14px',
+                        ...(index === pasoActual
+                          ? {
+                              background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+                              borderColor: '#3b82f6',
+                              color: '#1e40af'
+                            }
+                          : pasosCompletados.has(index)
+                          ? {
+                              background: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)',
+                              borderColor: '#22c55e',
+                              color: '#166534'
+                            }
+                          : {
+                              background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)',
+                              borderColor: '#d1d5db',
+                              color: '#374151'
+                            })
+                      }}
+                      onMouseEnter={(e) => {
+                        if (index !== pasoActual && !pasosCompletados.has(index)) {
+                          e.target.style.transform = 'translateY(-1px)';
+                          e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (index !== pasoActual && !pasosCompletados.has(index)) {
+                          e.target.style.transform = 'translateY(0)';
+                          e.target.style.boxShadow = 'none';
+                        }
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{
+                          width: '24px',
+                          height: '24px',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '12px',
+                          fontWeight: 'bold',
+                          ...(pasosCompletados.has(index)
+                            ? { background: '#22c55e', color: 'white' }
+                            : index === pasoActual
+                            ? { background: '#3b82f6', color: 'white' }
+                            : { background: '#d1d5db', color: '#6b7280' })
+                        }}>
+                          {pasosCompletados.has(index) ? '✓' : index + 1}
+                        </span>
+                        <span>{paso.titulo}</span>
+                      </div>
+                    </button>
+                  )) || (
+                    <div style={{ textAlign: 'center', color: '#6b7280', fontSize: '14px' }}>
+                      No hay pasos definidos
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Contenido del paso actual */}
-              <div className="lg:col-span-3">
-                <div className="bg-white rounded-xl shadow-lg p-6">
-                  {procedimientoSeleccionado.pasos && procedimientoSeleccionado.pasos[pasoActual] ? (
-                    <div>
-                      <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-xl font-bold text-gray-800">
-                          Paso {pasoActual + 1}: {procedimientoSeleccionado.pasos[pasoActual].titulo}
-                        </h3>
-                        <button
-                          onClick={() => marcarPasoCompletado(pasoActual)}
-                          className={`px-4 py-2 rounded-lg transition-colors ${
-                            pasosCompletados.has(pasoActual)
-                              ? 'bg-green-600 text-white hover:bg-green-700'
-                              : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
-                          }`}
-                        >
-                          {pasosCompletados.has(pasoActual) ? '✓ Completado' : '☐ Marcar completado'}
-                        </button>
-                      </div>
-
-                      <div className="prose max-w-none">
-                        <div className="text-gray-700 leading-relaxed mb-6">
-                          {procedimientoSeleccionado.pasos[pasoActual].descripcion}
-                        </div>
-
-                        {/* Instrucciones detalladas */}
-                        {procedimientoSeleccionado.pasos[pasoActual].instrucciones && (
-                          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                            <h4 className="font-semibold text-gray-800 mb-2">📋 Instrucciones:</h4>
-                            <ol className="list-decimal list-inside space-y-2">
-                              {procedimientoSeleccionado.pasos[pasoActual].instrucciones.map((instruccion, idx) => (
-                                <li key={idx} className="text-gray-700">{instruccion}</li>
-                              ))}
-                            </ol>
-                          </div>
-                        )}
-
-                        {/* Herramientas necesarias */}
-                        {procedimientoSeleccionado.pasos[pasoActual].herramientas && (
-                          <div className="bg-blue-50 rounded-lg p-4 mb-6">
-                            <h4 className="font-semibold text-blue-800 mb-2">🔧 Herramientas necesarias:</h4>
-                            <ul className="list-disc list-inside space-y-1">
-                              {procedimientoSeleccionado.pasos[pasoActual].herramientas.map((herramienta, idx) => (
-                                <li key={idx} className="text-blue-700">{herramienta}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {/* Precauciones */}
-                        {procedimientoSeleccionado.pasos[pasoActual].precauciones && (
-                          <div className="bg-yellow-50 rounded-lg p-4 mb-6">
-                            <h4 className="font-semibold text-yellow-800 mb-2">⚠️ Precauciones:</h4>
-                            <ul className="list-disc list-inside space-y-1">
-                              {procedimientoSeleccionado.pasos[pasoActual].precauciones.map((precaucion, idx) => (
-                                <li key={idx} className="text-yellow-700">{precaucion}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {/* Tiempo estimado */}
-                        {procedimientoSeleccionado.pasos[pasoActual].tiempoEstimado && (
-                          <div className="bg-green-50 rounded-lg p-4 mb-6">
-                            <h4 className="font-semibold text-green-800 mb-2">⏱️ Tiempo estimado:</h4>
-                            <p className="text-green-700">{procedimientoSeleccionado.pasos[pasoActual].tiempoEstimado}</p>
-                          </div>
-                        )}
-
-                        {/* Área de comentarios */}
-                        <div className="bg-gray-50 rounded-lg p-4">
-                          <h4 className="font-semibold text-gray-800 mb-2">💬 Notas del paso:</h4>
-                          <textarea
-                            value={comentarios[pasoActual] || ''}
-                            onChange={(e) => setComentarios({...comentarios, [pasoActual]: e.target.value})}
-                            onBlur={(e) => guardarComentario(pasoActual, e.target.value)}
-                            placeholder="Agrega tus notas sobre este paso..."
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            rows="3"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Navegación */}
-                      <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
-                        <button
-                          onClick={pasoAnterior}
-                          disabled={pasoActual === 0}
-                          className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                          ← Paso anterior
-                        </button>
-                        
-                        <div className="text-sm text-gray-500">
-                          Paso {pasoActual + 1} de {procedimientoSeleccionado.pasos.length}
-                        </div>
-                        
-                        <button
-                          onClick={siguientePaso}
-                          disabled={pasoActual === procedimientoSeleccionado.pasos.length - 1}
-                          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                          Siguiente paso →
-                        </button>
-                      </div>
+              <div style={{
+                background: '#ffffff',
+                borderRadius: '16px',
+                padding: '24px',
+                border: '2px solid #fed7aa',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
+              }}>
+                {procedimientoSeleccionado.pasos && procedimientoSeleccionado.pasos[pasoActual] ? (
+                  <div>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginBottom: '24px'
+                    }}>
+                      <h3 style={{
+                        fontSize: '22px',
+                        fontWeight: 'bold',
+                        color: '#1f2937'
+                      }}>
+                        Paso {pasoActual + 1}: {procedimientoSeleccionado.pasos[pasoActual].titulo}
+                      </h3>
+                      <button
+                        onClick={() => marcarPasoCompletado(pasoActual)}
+                        style={{
+                          padding: '12px 16px',
+                          borderRadius: '12px',
+                          border: 'none',
+                          fontWeight: 'bold',
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          ...(pasosCompletados.has(pasoActual)
+                            ? {
+                                background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                                color: 'white',
+                                boxShadow: '0 4px 12px rgba(34, 197, 94, 0.3)'
+                              }
+                            : {
+                                background: 'linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%)',
+                                color: '#374151',
+                                boxShadow: '0 4px 12px rgba(209, 213, 219, 0.3)'
+                              })
+                        }}
+                        onMouseEnter={(e) => {
+                          e.target.style.transform = 'translateY(-2px)';
+                          e.target.style.boxShadow = pasosCompletados.has(pasoActual) 
+                            ? '0 8px 20px rgba(34, 197, 94, 0.4)'
+                            : '0 8px 20px rgba(209, 213, 219, 0.4)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.transform = 'translateY(0)';
+                          e.target.style.boxShadow = pasosCompletados.has(pasoActual)
+                            ? '0 4px 12px rgba(34, 197, 94, 0.3)'
+                            : '0 4px 12px rgba(209, 213, 219, 0.3)';
+                        }}
+                      >
+                        {pasosCompletados.has(pasoActual) ? '✓ Completado' : '☐ Marcar completado'}
+                      </button>
                     </div>
-                  ) : (
-                    <div className="text-center py-8">
-                      <div className="text-gray-500">No hay información del paso disponible</div>
+
+                    <div style={{
+                      color: '#374151',
+                      fontSize: '16px',
+                      lineHeight: '1.6',
+                      marginBottom: '24px'
+                    }}>
+                      {procedimientoSeleccionado.pasos[pasoActual].descripcion}
                     </div>
-                  )}
-                </div>
+
+                    {/* Instrucciones detalladas */}
+                    {procedimientoSeleccionado.pasos[pasoActual].instrucciones && (
+                      <div style={{
+                        background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)',
+                        borderRadius: '12px',
+                        padding: '16px',
+                        marginBottom: '24px',
+                        border: '1px solid #e5e7eb'
+                      }}>
+                        <h4 style={{
+                          fontWeight: 'bold',
+                          color: '#1f2937',
+                          marginBottom: '12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px'
+                        }}>
+                          📋 Instrucciones:
+                        </h4>
+                        <ol style={{
+                          listStyleType: 'decimal',
+                          paddingLeft: '20px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '8px'
+                        }}>
+                          {procedimientoSeleccionado.pasos[pasoActual].instrucciones.map((instruccion, idx) => (
+                            <li key={idx} style={{ color: '#374151' }}>{instruccion}</li>
+                          ))}
+                        </ol>
+                      </div>
+                    )}
+
+                    {/* Herramientas necesarias */}
+                    {procedimientoSeleccionado.pasos[pasoActual].herramientas && (
+                      <div style={{
+                        background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+                        borderRadius: '12px',
+                        padding: '16px',
+                        marginBottom: '24px',
+                        border: '1px solid #93c5fd'
+                      }}>
+                        <h4 style={{
+                          fontWeight: 'bold',
+                          color: '#1e40af',
+                          marginBottom: '12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px'
+                        }}>
+                          🔧 Herramientas necesarias:
+                        </h4>
+                        <ul style={{
+                          listStyleType: 'disc',
+                          paddingLeft: '20px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '4px'
+                        }}>
+                          {procedimientoSeleccionado.pasos[pasoActual].herramientas.map((herramienta, idx) => (
+                            <li key={idx} style={{ color: '#1e40af' }}>{herramienta}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Precauciones */}
+                    {procedimientoSeleccionado.pasos[pasoActual].precauciones && (
+                      <div style={{
+                        background: 'linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%)',
+                        borderRadius: '12px',
+                        padding: '16px',
+                        marginBottom: '24px',
+                        border: '1px solid #fbbf24'
+                      }}>
+                        <h4 style={{
+                          fontWeight: 'bold',
+                          color: '#d97706',
+                          marginBottom: '12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px'
+                        }}>
+                          ⚠️ Precauciones:
+                        </h4>
+                        <ul style={{
+                          listStyleType: 'disc',
+                          paddingLeft: '20px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '4px'
+                        }}>
+                          {procedimientoSeleccionado.pasos[pasoActual].precauciones.map((precaucion, idx) => (
+                            <li key={idx} style={{ color: '#d97706' }}>{precaucion}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Tiempo estimado */}
+                    {procedimientoSeleccionado.pasos[pasoActual].tiempoEstimado && (
+                      <div style={{
+                        background: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)',
+                        borderRadius: '12px',
+                        padding: '16px',
+                        marginBottom: '24px',
+                        border: '1px solid #86efac'
+                      }}>
+                        <h4 style={{
+                          fontWeight: 'bold',
+                          color: '#166534',
+                          marginBottom: '8px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px'
+                        }}>
+                          ⏱️ Tiempo estimado:
+                        </h4>
+                        <p style={{ color: '#166534' }}>
+                          {procedimientoSeleccionado.pasos[pasoActual].tiempoEstimado}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Área de comentarios */}
+                    <div style={{
+                      background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)',
+                      borderRadius: '12px',
+                      padding: '16px',
+                      marginBottom: '24px',
+                      border: '1px solid #d1d5db'
+                    }}>
+                      <h4 style={{
+                        fontWeight: 'bold',
+                        color: '#1f2937',
+                        marginBottom: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                      }}>
+                        💬 Notas del paso:
+                      </h4>
+                      <textarea
+                        value={comentarios[pasoActual] || ''}
+                        onChange={(e) => setComentarios({...comentarios, [pasoActual]: e.target.value})}
+                        onBlur={(e) => {
+                          guardarComentario(pasoActual, e.target.value);
+                          e.target.style.borderColor = '#e5e7eb';
+                          e.target.style.boxShadow = 'none';
+                        }}
+                        placeholder="Agrega tus notas sobre este paso..."
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          border: '2px solid #e5e7eb',
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          minHeight: '80px',
+                          resize: 'vertical',
+                          fontFamily: 'inherit'
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = '#f97316';
+                          e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        }}
+                      />
+                    </div>
+
+                    {/* Navegación entre pasos */}
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      paddingTop: '24px',
+                      borderTop: '2px solid #fed7aa'
+                    }}>
+                      <button
+                        onClick={pasoAnterior}
+                        disabled={pasoActual === 0}
+                        style={{
+                          padding: '12px 20px',
+                          borderRadius: '12px',
+                          border: 'none',
+                          fontWeight: 'bold',
+                          fontSize: '14px',
+                          cursor: pasoActual === 0 ? 'not-allowed' : 'pointer',
+                          transition: 'all 0.3s ease',
+                          ...(pasoActual === 0 
+                            ? {
+                                background: '#f3f4f6',
+                                color: '#9ca3af',
+                                opacity: 0.5
+                              }
+                            : {
+                                background: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
+                                color: 'white',
+                                boxShadow: '0 4px 12px rgba(107, 114, 128, 0.3)'
+                              })
+                        }}
+                        onMouseEnter={(e) => {
+                          if (pasoActual > 0) {
+                            e.target.style.transform = 'translateY(-2px)';
+                            e.target.style.boxShadow = '0 8px 20px rgba(107, 114, 128, 0.4)';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (pasoActual > 0) {
+                            e.target.style.transform = 'translateY(0)';
+                            e.target.style.boxShadow = '0 4px 12px rgba(107, 114, 128, 0.3)';
+                          }
+                        }}
+                      >
+                        ← Paso anterior
+                      </button>
+                      
+                      <div style={{
+                        fontSize: '14px',
+                        color: '#6b7280',
+                        fontWeight: '500'
+                      }}>
+                        Paso {pasoActual + 1} de {procedimientoSeleccionado.pasos.length}
+                      </div>
+                      
+                      <button
+                        onClick={siguientePaso}
+                        disabled={pasoActual === procedimientoSeleccionado.pasos.length - 1}
+                        style={{
+                          padding: '12px 20px',
+                          borderRadius: '12px',
+                          border: 'none',
+                          fontWeight: 'bold',
+                          fontSize: '14px',
+                          cursor: pasoActual === procedimientoSeleccionado.pasos.length - 1 ? 'not-allowed' : 'pointer',
+                          transition: 'all 0.3s ease',
+                          ...(pasoActual === procedimientoSeleccionado.pasos.length - 1
+                            ? {
+                                background: '#f3f4f6',
+                                color: '#9ca3af',
+                                opacity: 0.5
+                              }
+                            : {
+                                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                color: 'white',
+                                boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
+                              })
+                        }}
+                        onMouseEnter={(e) => {
+                          if (pasoActual < procedimientoSeleccionado.pasos.length - 1) {
+                            e.target.style.transform = 'translateY(-2px)';
+                            e.target.style.boxShadow = '0 8px 20px rgba(249, 115, 22, 0.4)';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (pasoActual < procedimientoSeleccionado.pasos.length - 1) {
+                            e.target.style.transform = 'translateY(0)';
+                            e.target.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.3)';
+                          }
+                        }}
+                      >
+                        Siguiente paso →
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                    <div style={{ fontSize: '64px', marginBottom: '16px' }}>📝</div>
+                    <div style={{
+                      color: '#6b7280',
+                      fontSize: '16px'
+                    }}>
+                      No hay información del paso disponible
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

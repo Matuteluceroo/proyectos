@@ -1,0 +1,38 @@
+{
+  "timestamp": "2025-10-05T15-40-57-905Z",
+  "version": "2.0.0",
+  "configuracion": {
+    "general": {
+      "nombreSistema": "Saber Citrícola",
+      "descripcionSistema": "Sistema de Gestión del Conocimiento Citrícola",
+      "version": "2.0.0",
+      "idioma": "es",
+      "timezone": "America/Argentina/Buenos_Aires"
+    },
+    "seguridad": {
+      "sessionTimeout": 30,
+      "passwordMinLength": 6,
+      "loginAttempts": 3,
+      "requirePasswordChange": false,
+      "enableTwoFactor": false
+    },
+    "usuario": {
+      "maxFileSize": 10,
+      "allowedFileTypes": ".pdf,.doc,.docx,.txt,.jpg,.png,.mp4,.avi",
+      "defaultUserRole": "operador",
+      "autoApproveUsers": false,
+      "enableUserRegistration": true
+    },
+    "sistema": {
+      "backupInterval": 24,
+      "logLevel": "info",
+      "enableDebugMode": false,
+      "maxLogFileSize": 100,
+      "autoCleanupDays": 30
+    }
+  },
+  "estadisticas": {
+    "fecha_creacion": "2025-10-05T15:40:57.905Z",
+    "usuario_creacion": "Juan Administrador"
+  }
+}

@@ -138,56 +138,153 @@ const GuiasRapidas = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="bg-white rounded-xl shadow-lg mb-6 p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)',
+      padding: '24px'
+    }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* ✨ Header con estilo cítrico profesional */}
+        <div style={{
+          background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+          borderRadius: '20px',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+          marginBottom: '24px',
+          padding: '32px',
+          borderLeft: '6px solid #f97316'
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <button
                 onClick={() => navigate('/dashboard')}
-                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                style={{
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  background: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
+                  color: 'white',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '14px',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 12px rgba(107, 114, 128, 0.3)'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 8px 20px rgba(107, 114, 128, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(107, 114, 128, 0.3)';
+                }}
               >
                 ← Volver
               </button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-800 flex items-center">
+                <h1 style={{
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                  background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  margin: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}>
                   ⚡ Guías Rápidas
                 </h1>
-                <p className="text-gray-600 mt-1">
+                <p style={{
+                  color: '#6b7280',
+                  marginTop: '8px',
+                  fontSize: '16px',
+                  fontWeight: '500'
+                }}>
                   Consulta inmediata de información clave
                 </p>
               </div>
             </div>
-            <div className="text-sm text-gray-500">
+            <div style={{
+              background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+              color: 'white',
+              padding: '12px 20px',
+              borderRadius: '12px',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
+            }}>
               {guias.length} guías disponibles
             </div>
           </div>
         </div>
 
-        {/* Mensaje de estado */}
+        {/* 📢 Mensaje de estado con estilo cítrico */}
         {mensaje && (
-          <div className={`mb-6 p-4 rounded-lg ${
-            mensaje.tipo === 'error' 
-              ? 'bg-red-100 border border-red-300 text-red-700' 
-              : 'bg-green-100 border border-green-300 text-green-700'
-          }`}>
+          <div style={{
+            marginBottom: '24px',
+            padding: '16px 24px',
+            borderRadius: '12px',
+            fontWeight: '500',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            ...(mensaje.tipo === 'error' 
+              ? { 
+                  background: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)',
+                  border: '2px solid #fca5a5',
+                  color: '#dc2626'
+                }
+              : { 
+                  background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                  border: '2px solid #bbf7d0',
+                  color: '#166534'
+                })
+          }}>
             {mensaje.texto}
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Panel de búsqueda y filtros */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Búsqueda */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: '1fr 2fr', 
+          gap: '24px',
+          '@media (max-width: 1024px)': {
+            gridTemplateColumns: '1fr'
+          }
+        }}>
+          {/* 🔍 Panel de búsqueda y filtros */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* Búsqueda principal */}
+            <div style={{
+              background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+              borderRadius: '20px',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+              padding: '24px',
+              borderLeft: '6px solid #f97316'
+            }}>
+              <h2 style={{
+                fontSize: '20px',
+                fontWeight: 'bold',
+                color: '#1f2937',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
                 🔍 Buscar Guías
               </h2>
               
-              <div className="space-y-4">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label style={{
+                    display: 'block',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    color: '#374151',
+                    marginBottom: '8px'
+                  }}>
                     Buscar por palabra clave
                   </label>
                   <input
@@ -195,18 +292,56 @@ const GuiasRapidas = () => {
                     value={busqueda}
                     onChange={(e) => setBusqueda(e.target.value)}
                     placeholder="Ej: poda, riego, fertilización..."
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      border: '2px solid #e5e7eb',
+                      borderRadius: '12px',
+                      fontSize: '14px',
+                      transition: 'all 0.3s ease',
+                      background: 'white'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#f97316';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#e5e7eb';
+                      e.target.style.boxShadow = 'none';
+                    }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label style={{
+                    display: 'block',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    color: '#374151',
+                    marginBottom: '8px'
+                  }}>
                     Filtrar por categoría
                   </label>
                   <select
                     value={categoriaSeleccionada}
                     onChange={(e) => setCategoriaSeleccionada(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      border: '2px solid #e5e7eb',
+                      borderRadius: '12px',
+                      fontSize: '14px',
+                      background: 'white',
+                      cursor: 'pointer'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#f97316';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#e5e7eb';
+                      e.target.style.boxShadow = 'none';
+                    }}
                   >
                     <option value="">Todas las categorías</option>
                     {categorias.map(categoria => (
@@ -219,86 +354,254 @@ const GuiasRapidas = () => {
 
                 <button
                   onClick={limpiarBusqueda}
-                  className="w-full px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    background: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 4px 12px rgba(107, 114, 128, 0.3)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateY(-2px)';
+                    e.target.style.boxShadow = '0 8px 20px rgba(107, 114, 128, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = '0 4px 12px rgba(107, 114, 128, 0.3)';
+                  }}
                 >
                   🔄 Limpiar Filtros
                 </button>
               </div>
             </div>
 
-            {/* Categorías populares */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+            {/* 🔥 Categorías populares */}
+            <div style={{
+              background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+              borderRadius: '20px',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+              padding: '24px',
+              borderLeft: '6px solid #ea580c'
+            }}>
+              <h2 style={{
+                fontSize: '20px',
+                fontWeight: 'bold',
+                color: '#1f2937',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
                 🔥 Categorías Populares
               </h2>
               
-              <div className="space-y-2">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {categoriasPopulares.map(categoria => (
                   <button
                     key={categoria.id}
                     onClick={() => setCategoriaSeleccionada(categoria.id)}
-                    className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors hover:shadow-md ${
-                      categoriaSeleccionada === categoria.id 
-                        ? categoria.color 
-                        : 'bg-gray-50 hover:bg-gray-100'
-                    }`}
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '16px',
+                      borderRadius: '12px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      fontWeight: '500',
+                      fontSize: '14px',
+                      ...(categoriaSeleccionada === categoria.id 
+                        ? {
+                            background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                            color: 'white',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 8px 20px rgba(249, 115, 22, 0.4)'
+                          }
+                        : {
+                            background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)',
+                            color: '#374151'
+                          })
+                    }}
+                    onMouseEnter={(e) => {
+                      if (categoriaSeleccionada !== categoria.id) {
+                        e.target.style.transform = 'translateY(-1px)';
+                        e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                        e.target.style.background = 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (categoriaSeleccionada !== categoria.id) {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)';
+                      }
+                    }}
                   >
-                    <span className="text-2xl">{categoria.icono}</span>
-                    <span className="font-medium">{categoria.nombre}</span>
+                    <span style={{ fontSize: '24px' }}>{categoria.icono}</span>
+                    <span>{categoria.nombre}</span>
                   </button>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Lista de guías */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* 📋 Lista de guías */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {!guiaSeleccionada ? (
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+              <div style={{
+                background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                borderRadius: '20px',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                padding: '24px',
+                borderLeft: '6px solid #f97316'
+              }}>
+                <h2 style={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  color: '#1f2937',
+                  marginBottom: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
                   📋 Resultados de Búsqueda
                 </h2>
                 
                 {loading ? (
-                  <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-                    <p className="text-gray-600 mt-4">Cargando guías...</p>
+                  <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                    <div style={{
+                      width: '48px',
+                      height: '48px',
+                      border: '4px solid #fbbf24',
+                      borderTop: '4px solid #f97316',
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite',
+                      margin: '0 auto'
+                    }}></div>
+                    <p style={{
+                      color: '#6b7280',
+                      marginTop: '16px',
+                      fontWeight: '500'
+                    }}>
+                      Cargando guías...
+                    </p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {guias.length > 0 ? (
                       guias.map(guia => (
                         <div
                           key={guia.id}
                           onClick={() => seleccionarGuia(guia)}
-                          className="border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-orange-300 transition-all cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                            border: '2px solid #fed7aa',
+                            borderRadius: '16px',
+                            padding: '20px',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'translateY(-2px)';
+                            e.target.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.15)';
+                            e.target.style.borderColor = '#f97316';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'translateY(0)';
+                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.05)';
+                            e.target.style.borderColor = '#fed7aa';
+                          }}
                         >
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                              <div className="flex items-center space-x-2 mb-2">
-                                <span className="text-2xl">{guia.icono}</span>
-                                <h3 className="text-lg font-semibold text-gray-800">
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            justifyContent: 'space-between'
+                          }}>
+                            <div style={{ flex: 1 }}>
+                              <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                marginBottom: '12px'
+                              }}>
+                                <span style={{ fontSize: '28px' }}>{guia.icono}</span>
+                                <h3 style={{
+                                  fontSize: '18px',
+                                  fontWeight: 'bold',
+                                  color: '#1f2937',
+                                  margin: 0
+                                }}>
                                   {guia.titulo}
                                 </h3>
-                                <span className={`px-2 py-1 text-xs rounded-full ${
-                                  guia.prioridad === 'alta' ? 'bg-red-100 text-red-800' :
-                                  guia.prioridad === 'media' ? 'bg-yellow-100 text-yellow-800' :
-                                  'bg-green-100 text-green-800'
-                                }`}>
+                                <span style={{
+                                  padding: '4px 12px',
+                                  fontSize: '12px',
+                                  borderRadius: '20px',
+                                  fontWeight: 'bold',
+                                  ...(guia.prioridad === 'alta' 
+                                    ? { background: '#fef2f2', color: '#dc2626', border: '1px solid #fca5a5' }
+                                    : guia.prioridad === 'media' 
+                                    ? { background: '#fffbeb', color: '#d97706', border: '1px solid #fcd34d' }
+                                    : { background: '#f0fdf4', color: '#166534', border: '1px solid #bbf7d0' })
+                                }}>
                                   {guia.prioridad}
                                 </span>
                               </div>
-                              <p className="text-gray-600 text-sm mb-2">
+                              <p style={{
+                                color: '#6b7280',
+                                fontSize: '14px',
+                                marginBottom: '12px',
+                                lineHeight: '1.5'
+                              }}>
                                 {guia.descripcion}
                               </p>
-                              <div className="flex items-center space-x-4 text-xs text-gray-500">
-                                <span>📂 {guia.categoria}</span>
-                                <span>⏱️ {guia.tiempoLectura} min</span>
-                                <span>👁️ {guia.vistas} vistas</span>
+                              <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '20px',
+                                fontSize: '12px',
+                                color: '#9ca3af'
+                              }}>
+                                <span style={{ 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  gap: '4px',
+                                  fontWeight: '500'
+                                }}>
+                                  📂 {guia.categoria}
+                                </span>
+                                <span style={{ 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  gap: '4px',
+                                  fontWeight: '500'
+                                }}>
+                                  ⏱️ {guia.tiempoLectura} min
+                                </span>
+                                <span style={{ 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  gap: '4px',
+                                  fontWeight: '500'
+                                }}>
+                                  👁️ {guia.vistas} vistas
+                                </span>
                               </div>
                             </div>
-                            <div className="ml-4">
-                              <span className="text-orange-600 hover:text-orange-800">
+                            <div style={{ marginLeft: '16px' }}>
+                              <span style={{
+                                color: '#f97316',
+                                fontSize: '24px',
+                                fontWeight: 'bold'
+                              }}>
                                 →
                               </span>
                             </div>
@@ -306,17 +609,44 @@ const GuiasRapidas = () => {
                         </div>
                       ))
                     ) : (
-                      <div className="text-center py-8">
-                        <div className="text-6xl mb-4">🔍</div>
-                        <h3 className="text-lg font-medium text-gray-800 mb-2">
+                      <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                        <div style={{ fontSize: '64px', marginBottom: '16px' }}>🔍</div>
+                        <h3 style={{
+                          fontSize: '18px',
+                          fontWeight: '600',
+                          color: '#1f2937',
+                          marginBottom: '8px'
+                        }}>
                           No se encontraron guías
                         </h3>
-                        <p className="text-gray-600 mb-4">
+                        <p style={{
+                          color: '#6b7280',
+                          marginBottom: '16px',
+                          fontSize: '14px'
+                        }}>
                           Intenta con otros términos de búsqueda o categorías
                         </p>
                         <button
                           onClick={limpiarBusqueda}
-                          className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+                          style={{
+                            padding: '12px 24px',
+                            background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '12px',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'translateY(-2px)';
+                            e.target.style.boxShadow = '0 8px 20px rgba(249, 115, 22, 0.4)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'translateY(0)';
+                            e.target.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.3)';
+                          }}
                         >
                           Ver todas las guías
                         </button>
@@ -326,23 +656,66 @@ const GuiasRapidas = () => {
                 )}
               </div>
             ) : (
-              /* Vista detallada de guía */
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-3xl">{guiaSeleccionada.icono}</span>
+              /* 📖 Vista detallada de guía */
+              <div style={{
+                background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                borderRadius: '20px',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                padding: '32px',
+                borderLeft: '6px solid #f97316'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '24px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <span style={{ fontSize: '48px' }}>{guiaSeleccionada.icono}</span>
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-800">
+                      <h2 style={{
+                        fontSize: '28px',
+                        fontWeight: 'bold',
+                        color: '#1f2937',
+                        margin: 0
+                      }}>
                         {guiaSeleccionada.titulo}
                       </h2>
-                      <div className="flex items-center space-x-4 text-sm text-gray-500 mt-1">
-                        <span>📂 {guiaSeleccionada.categoria}</span>
-                        <span>⏱️ {guiaSeleccionada.tiempoLectura} min</span>
-                        <span className={`px-2 py-1 rounded-full ${
-                          guiaSeleccionada.prioridad === 'alta' ? 'bg-red-100 text-red-800' :
-                          guiaSeleccionada.prioridad === 'media' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-green-100 text-green-800'
-                        }`}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '16px',
+                        fontSize: '14px',
+                        color: '#6b7280',
+                        marginTop: '8px'
+                      }}>
+                        <span style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: '4px',
+                          fontWeight: '500'
+                        }}>
+                          📂 {guiaSeleccionada.categoria}
+                        </span>
+                        <span style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: '4px',
+                          fontWeight: '500'
+                        }}>
+                          ⏱️ {guiaSeleccionada.tiempoLectura} min
+                        </span>
+                        <span style={{
+                          padding: '6px 12px',
+                          borderRadius: '20px',
+                          fontSize: '12px',
+                          fontWeight: 'bold',
+                          ...(guiaSeleccionada.prioridad === 'alta' 
+                            ? { background: '#fef2f2', color: '#dc2626', border: '1px solid #fca5a5' }
+                            : guiaSeleccionada.prioridad === 'media' 
+                            ? { background: '#fffbeb', color: '#d97706', border: '1px solid #fcd34d' }
+                            : { background: '#f0fdf4', color: '#166534', border: '1px solid #bbf7d0' })
+                        }}>
                           {guiaSeleccionada.prioridad}
                         </span>
                       </div>
@@ -350,64 +723,175 @@ const GuiasRapidas = () => {
                   </div>
                   <button
                     onClick={() => setGuiaSeleccionada(null)}
-                    className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                    style={{
+                      padding: '12px 20px',
+                      background: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '12px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 4px 12px rgba(107, 114, 128, 0.3)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 8px 20px rgba(107, 114, 128, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = '0 4px 12px rgba(107, 114, 128, 0.3)';
+                    }}
                   >
                     ← Volver a la lista
                   </button>
                 </div>
 
-                <div className="prose max-w-none">
-                  <div className="bg-orange-50 border-l-4 border-orange-400 p-4 mb-6">
-                    <p className="text-gray-700">
+                <div style={{ maxWidth: 'none' }}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)',
+                    borderLeft: '4px solid #f97316',
+                    padding: '20px',
+                    marginBottom: '24px',
+                    borderRadius: '12px'
+                  }}>
+                    <p style={{
+                      color: '#9a3412',
+                      margin: 0,
+                      fontSize: '16px',
+                      lineHeight: '1.6'
+                    }}>
                       <strong>Descripción:</strong> {guiaSeleccionada.descripcion}
                     </p>
                   </div>
 
-                  {/* Contenido de la guía */}
-                  <div className="space-y-4">
+                  {/* 📝 Contenido de la guía */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     {guiaSeleccionada.contenido?.map((seccion, index) => (
-                      <div key={index} className="border-l-2 border-gray-200 pl-4">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                      <div key={index} style={{
+                        borderLeft: '3px solid #fed7aa',
+                        paddingLeft: '20px',
+                        background: 'linear-gradient(135deg, #fefbf6 0%, #fef3c7 100%)',
+                        padding: '20px',
+                        borderRadius: '12px',
+                        marginLeft: '0'
+                      }}>
+                        <h3 style={{
+                          fontSize: '20px',
+                          fontWeight: 'bold',
+                          color: '#1f2937',
+                          marginBottom: '12px'
+                        }}>
                           {seccion.titulo}
                         </h3>
-                        <div className="text-gray-700 leading-relaxed">
+                        <div style={{
+                          color: '#374151',
+                          lineHeight: '1.7',
+                          fontSize: '15px'
+                        }}>
                           {seccion.texto}
                         </div>
                         {seccion.lista && (
-                          <ul className="list-disc list-inside mt-2 space-y-1">
+                          <ul style={{
+                            listStyleType: 'disc',
+                            listStylePosition: 'inside',
+                            marginTop: '12px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '6px'
+                          }}>
                             {seccion.lista.map((item, idx) => (
-                              <li key={idx} className="text-gray-700">{item}</li>
+                              <li key={idx} style={{
+                                color: '#374151',
+                                fontSize: '15px',
+                                lineHeight: '1.6'
+                              }}>
+                                {item}
+                              </li>
                             ))}
                           </ul>
                         )}
                       </div>
                     )) || (
-                      <div className="text-gray-600">
+                      <div style={{
+                        color: '#6b7280',
+                        fontSize: '16px',
+                        padding: '20px',
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)',
+                        borderRadius: '12px'
+                      }}>
                         <p>Contenido de la guía rápida aquí...</p>
                       </div>
                     )}
                   </div>
 
-                  {/* Información adicional */}
+                  {/* ⚠️ Información adicional */}
                   {guiaSeleccionada.notasImportantes && (
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-6">
-                      <h4 className="font-semibold text-yellow-800 mb-2">⚠️ Notas Importantes:</h4>
-                      <ul className="list-disc list-inside space-y-1">
+                    <div style={{
+                      background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)',
+                      border: '2px solid #fcd34d',
+                      borderRadius: '12px',
+                      padding: '20px',
+                      marginTop: '24px'
+                    }}>
+                      <h4 style={{
+                        fontWeight: 'bold',
+                        color: '#d97706',
+                        marginBottom: '12px',
+                        fontSize: '16px'
+                      }}>
+                        ⚠️ Notas Importantes:
+                      </h4>
+                      <ul style={{
+                        listStyleType: 'disc',
+                        listStylePosition: 'inside',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '6px'
+                      }}>
                         {guiaSeleccionada.notasImportantes.map((nota, index) => (
-                          <li key={index} className="text-yellow-700">{nota}</li>
+                          <li key={index} style={{
+                            color: '#92400e',
+                            fontSize: '14px',
+                            lineHeight: '1.6'
+                          }}>
+                            {nota}
+                          </li>
                         ))}
                       </ul>
                     </div>
                   )}
 
-                  {/* Recursos relacionados */}
+                  {/* 🔗 Recursos relacionados */}
                   {guiaSeleccionada.recursosRelacionados && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
-                      <h4 className="font-semibold text-blue-800 mb-2">🔗 Recursos Relacionados:</h4>
-                      <ul className="space-y-2">
+                    <div style={{
+                      background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
+                      border: '2px solid #93c5fd',
+                      borderRadius: '12px',
+                      padding: '20px',
+                      marginTop: '24px'
+                    }}>
+                      <h4 style={{
+                        fontWeight: 'bold',
+                        color: '#1d4ed8',
+                        marginBottom: '12px',
+                        fontSize: '16px'
+                      }}>
+                        🔗 Recursos Relacionados:
+                      </h4>
+                      <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         {guiaSeleccionada.recursosRelacionados.map((recurso, index) => (
                           <li key={index}>
-                            <button className="text-blue-600 hover:text-blue-800 underline">
+                            <button style={{
+                              color: '#2563eb',
+                              textDecoration: 'underline',
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer',
+                              fontSize: '14px',
+                              fontWeight: '500'
+                            }}>
                               {recurso}
                             </button>
                           </li>
@@ -417,15 +901,62 @@ const GuiasRapidas = () => {
                   )}
                 </div>
 
-                <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
-                  <div className="text-sm text-gray-500">
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginTop: '32px',
+                  paddingTop: '24px',
+                  borderTop: '2px solid #fed7aa'
+                }}>
+                  <div style={{
+                    fontSize: '14px',
+                    color: '#6b7280',
+                    fontWeight: '500'
+                  }}>
                     Última actualización: {guiaSeleccionada.fechaActualizacion || 'Hoy'}
                   </div>
-                  <div className="flex space-x-3">
-                    <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <button style={{
+                      padding: '12px 20px',
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '12px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+                    }}>
                       📤 Compartir
                     </button>
-                    <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <button style={{
+                      padding: '12px 20px',
+                      background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '12px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 8px 20px rgba(16, 185, 129, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.3)';
+                    }}>
                       💾 Guardar
                     </button>
                   </div>

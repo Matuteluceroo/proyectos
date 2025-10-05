@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true); // Nuevo estado para carga inicial
 
   // 🌐 URL del backend
   const API_URL = 'http://localhost:5000';
@@ -83,18 +84,25 @@ export const AuthProvider = ({ children }) => {
 
   // 🔄 Verificar si hay usuario guardado al cargar la app
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      try {
-        const userData = JSON.parse(savedUser);
-        setUser(userData);
-        setIsLoggedIn(true);
-        console.log('🔄 Usuario restaurado desde localStorage:', userData);
-      } catch (error) {
-        console.error('❌ Error al restaurar usuario:', error);
-        localStorage.removeItem('user');
+    const initializeAuth = () => {
+      console.log('🔄 Inicializando autenticación...');
+      const savedUser = localStorage.getItem('user');
+      if (savedUser) {
+        try {
+          const userData = JSON.parse(savedUser);
+          setUser(userData);
+          setIsLoggedIn(true);
+          console.log('🔄 Usuario restaurado desde localStorage:', userData);
+        } catch (error) {
+          console.error('❌ Error al restaurar usuario:', error);
+          localStorage.removeItem('user');
+        }
       }
-    }
+      setIsInitializing(false); // Marcar como completada la inicialización
+      console.log('✅ Inicialización de autenticación completada');
+    };
+
+    initializeAuth();
   }, []);
 
   // 📦 Valores que se comparten en toda la aplicación
@@ -103,6 +111,7 @@ export const AuthProvider = ({ children }) => {
     user,
     isLoading,
     isLoggedIn,
+    isInitializing,
     
     // Funciones
     login,

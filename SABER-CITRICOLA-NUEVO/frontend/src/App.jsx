@@ -26,7 +26,25 @@ import MiProgreso from './pages/MiProgreso';
 
 // 🛡️ Componente para rutas protegidas
 const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isInitializing } = useAuth();
+  
+  // Si aún está inicializando, mostrar loading
+  if (isInitializing) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+        color: 'white',
+        fontSize: '18px',
+        fontWeight: 'bold'
+      }}>
+        🍊 Cargando Saber Citrícola...
+      </div>
+    );
+  }
   
   // Si no está logueado, redirigir al login
   if (!isLoggedIn) {
@@ -39,7 +57,25 @@ const ProtectedRoute = ({ children }) => {
 
 // 🔄 Componente para redireccionar si ya está logueado
 const PublicRoute = ({ children }) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isInitializing } = useAuth();
+  
+  // Si aún está inicializando, mostrar loading
+  if (isInitializing) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+        color: 'white',
+        fontSize: '18px',
+        fontWeight: 'bold'
+      }}>
+        🍊 Cargando Saber Citrícola...
+      </div>
+    );
+  }
   
   // Si ya está logueado, redirigir al dashboard
   if (isLoggedIn) {
@@ -50,13 +86,62 @@ const PublicRoute = ({ children }) => {
   return children;
 };
 
-// 🏗️ Componente principal de la aplicación
+// � Componente para la ruta raíz
+const RootRedirect = () => {
+  const { isLoggedIn, isInitializing } = useAuth();
+  
+  // Si aún está inicializando, mostrar loading
+  if (isInitializing) {
+    return (
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+        color: 'white',
+        fontFamily: 'Arial, sans-serif'
+      }}>
+        <div style={{
+          fontSize: '48px',
+          marginBottom: '20px',
+          animation: 'pulse 2s infinite'
+        }}>
+          🍊
+        </div>
+        <div style={{
+          fontSize: '24px',
+          fontWeight: 'bold',
+          marginBottom: '10px'
+        }}>
+          Saber Citrícola
+        </div>
+        <div style={{
+          fontSize: '16px',
+          opacity: 0.9
+        }}>
+          Cargando sistema...
+        </div>
+      </div>
+    );
+  }
+  
+  // Redirigir según estado de autenticación
+  if (isLoggedIn) {
+    return <Navigate to="/dashboard" replace />;
+  } else {
+    return <Navigate to="/login" replace />;
+  }
+};
+
+// �🏗️ Componente principal de la aplicación
 function AppContent() {
   return (
     <div className="app">
       <Routes>
-        {/* 🏠 Ruta raíz - redirige al dashboard */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        {/* 🏠 Ruta raíz - maneja la redirección inteligente */}
+        <Route path="/" element={<RootRedirect />} />
         
         {/* 🔐 Ruta pública - Solo si NO está logueado */}
         <Route 
