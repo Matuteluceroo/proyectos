@@ -71,17 +71,19 @@ const NotificacionesPanel = () => {
       const data = await response.json();
       
       if (data.success) {
-        setNotificaciones(data.data);
+        setNotificaciones(Array.isArray(data.data) ? data.data : []);
         
         // Cargar estadísticas
         await cargarEstadisticas();
       } else {
         setError(data.message || 'Error al cargar notificaciones');
+        setNotificaciones([]); // Asegurar que siempre sea un array
       }
 
     } catch (error) {
       console.error('❌ Error al cargar notificaciones:', error);
       setError('Error de conexión al cargar notificaciones');
+      setNotificaciones([]); // Asegurar que siempre sea un array
     } finally {
       setLoading(false);
     }
@@ -119,11 +121,14 @@ const NotificacionesPanel = () => {
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
-          setNoLeidas(data.data);
+          setNoLeidas(Array.isArray(data.data) ? data.data : []);
+        } else {
+          setNoLeidas([]);
         }
       }
     } catch (error) {
       console.warn('⚠️ Error al cargar notificaciones no leídas:', error);
+      setNoLeidas([]); // Asegurar que siempre sea un array
     }
   };
 
@@ -140,14 +145,14 @@ const NotificacionesPanel = () => {
       if (response.ok) {
         // Actualizar estado local
         setNotificaciones(prev => 
-          prev.map(notif => 
+          (prev || []).map(notif => 
             notif.id === notificacionId 
               ? { ...notif, leida: 1, fecha_lectura: new Date().toISOString() }
               : notif
           )
         );
         
-        setNoLeidas(prev => prev.filter(notif => notif.id !== notificacionId));
+        setNoLeidas(prev => (prev || []).filter(notif => notif.id !== notificacionId));
         
         // Actualizar estadísticas
         setEstadisticas(prev => ({
@@ -176,7 +181,7 @@ const NotificacionesPanel = () => {
         
         // Actualizar estado local
         setNotificaciones(prev => 
-          prev.map(notif => ({ ...notif, leida: 1, fecha_lectura: new Date().toISOString() }))
+          (prev || []).map(notif => ({ ...notif, leida: 1, fecha_lectura: new Date().toISOString() }))
         );
         setNoLeidas([]);
         
@@ -206,8 +211,8 @@ const NotificacionesPanel = () => {
 
       if (response.ok) {
         // Remover de estado local
-        setNotificaciones(prev => prev.filter(notif => notif.id !== notificacionId));
-        setNoLeidas(prev => prev.filter(notif => notif.id !== notificacionId));
+        setNotificaciones(prev => (prev || []).filter(notif => notif.id !== notificacionId));
+        setNoLeidas(prev => (prev || []).filter(notif => notif.id !== notificacionId));
         
         // Actualizar estadísticas
         await cargarEstadisticas();
@@ -339,14 +344,14 @@ const NotificacionesPanel = () => {
     <div className="notificaciones-container" ref={panelRef}>
       {/* Botón de notificaciones */}
       <button 
-        className={`btn-notificaciones ${noLeidas.length > 0 ? 'tiene-nuevas' : ''}`}
+        className={`btn-notificaciones ${(noLeidas || []).length > 0 ? 'tiene-nuevas' : ''}`}
         onClick={() => setMostrarPanel(!mostrarPanel)}
         title="Notificaciones"
       >
         🔔
-        {noLeidas.length > 0 && (
+        {(noLeidas || []).length > 0 && (
           <span className="badge-contador">
-            {noLeidas.length > 99 ? '99+' : noLeidas.length}
+            {(noLeidas || []).length > 99 ? '99+' : (noLeidas || []).length}
           </span>
         )}
       </button>
@@ -450,13 +455,13 @@ const NotificacionesPanel = () => {
                   🔄 Reintentar
                 </button>
               </div>
-            ) : notificaciones.length === 0 ? (
+            ) : notificaciones && notificaciones.length === 0 ? (
               <div className="sin-notificaciones">
                 <p>📭 No tienes notificaciones</p>
               </div>
             ) : (
               <div className="lista-notificaciones">
-                {notificaciones.map((notificacion) => (
+                {(notificaciones || []).map((notificacion) => (
                   <div 
                     key={notificacion.id}
                     className={`notificacion-item ${!notificacion.leida ? 'no-leida' : ''} tipo-${notificacion.tipo}`}
