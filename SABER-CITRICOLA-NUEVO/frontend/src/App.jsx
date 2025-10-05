@@ -16,9 +16,7 @@ import CategoriaDetalle from './pages/CategoriaDetalle/CategoriaDetalle';
 import EditarDocumento from './pages/EditarDocumento/EditarDocumento';
 import CreaCapacitacion from './pages/CreaCapacitacion/CreaCapacitacion';
 import Capacitaciones from './pages/Capacitaciones/Capacitaciones';
-import TestDocumento from './pages/TestDocumento';
 import './App.css';
-import TestFileUpload from './pages/TestFileUpload';
 import GestionContenido from './pages/GestionContenido';
 import Reportes from './pages/Reportes';
 import ConfiguracionAdmin from './pages/ConfiguracionAdmin';
@@ -87,21 +85,6 @@ function AppContent() {
               <Usuarios />
             </ProtectedRoute>
           } 
-        />
-        
-        <Route 
-          path="/test-upload" 
-          element={<TestFileUpload />}
-        />
-        
-        {/* 🧪 Ruta de prueba para debugging */}
-        <Route 
-          path="/test-documento" 
-          element={
-            <ProtectedRoute>
-              <TestDocumento />
-            </ProtectedRoute>
-          }
         />
         
         {/* 📄 Rutas protegidas - Solo si está logueado */}
