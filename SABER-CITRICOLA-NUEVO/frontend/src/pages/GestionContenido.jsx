@@ -166,32 +166,79 @@ const GestionContenido = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
-            {/* Header */}
-            <div className="bg-white shadow-lg border-b-4 border-orange-500">
-                <div className="max-w-7xl mx-auto px-6 py-6">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-6">
+        <div style={{
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 25%, #fed7aa 50%, #fdba74 75%, #fb923c 100%)'
+        }}>
+            {/* 🍊 Header Profesional con Estilo Cítrico */}
+            <div style={{
+                background: 'linear-gradient(135deg, #ea580c 0%, #dc2626 50%, #b91c1c 100%)',
+                boxShadow: '0 8px 32px rgba(234, 88, 12, 0.3)',
+                borderBottom: '4px solid #f97316'
+            }}>
+                <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                             <button
-                                onClick={() => navigate('/dashboard')}
-                                className="flex items-center space-x-2 text-orange-600 hover:text-orange-800 font-bold transition-all duration-200 hover:scale-105"
+                                onClick={() => navigate('/dashboard-admin')}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    color: 'white',
+                                    fontWeight: 'bold',
+                                    fontSize: '16px',
+                                    background: 'rgba(255, 255, 255, 0.1)',
+                                    border: '2px solid rgba(255, 255, 255, 0.2)',
+                                    borderRadius: '12px',
+                                    padding: '10px 20px',
+                                    transition: 'all 0.3s ease',
+                                    cursor: 'pointer'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = 'none';
+                                }}
                             >
                                 🏠 <span>Dashboard</span>
                             </button>
-                            <div className="hidden md:flex items-center space-x-2 text-gray-400">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                                 <span>/</span>
-                                <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+                                <h1 style={{
+                                    fontSize: '28px',
+                                    fontWeight: 'bold',
+                                    color: 'white',
+                                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)',
+                                    margin: 0
+                                }}>
                                     📚 GESTIÓN DE CONTENIDO
-                                </span>
+                                </h1>
                             </div>
                         </div>
                         
-                        <div className="flex items-center space-x-4">
-                            <div className="text-right">
-                                <div className="text-sm text-gray-500">Administrador</div>
-                                <div className="font-bold text-gray-800">Juan</div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                            <div style={{ textAlign: 'right', color: 'white' }}>
+                                <div style={{ fontSize: '14px', opacity: '0.9' }}>Administrador</div>
+                                <div style={{ fontWeight: 'bold', fontSize: '16px' }}>Juan</div>
                             </div>
-                            <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white font-bold">
+                            <div style={{
+                                width: '48px',
+                                height: '48px',
+                                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '20px',
+                                border: '3px solid rgba(255, 255, 255, 0.3)',
+                                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
+                            }}>
                                 👤
                             </div>
                         </div>
@@ -199,137 +246,447 @@ const GestionContenido = () => {
                 </div>
             </div>
 
-            {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-6 py-8">
-                {/* Estadísticas */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-6 border-l-4 border-blue-500 shadow-lg">
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-2xl">📁</span>
-                            </div>
-                            <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Total Categorías</h3>
-                            <div className="text-4xl font-black text-blue-600">{estadisticas.totalCategorias}</div>
+            {/* 📊 Panel de Métricas Mejorado */}
+            <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 24px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '32px' }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #3b82f6',
+                        boxShadow: '0 8px 25px rgba(59, 130, 246, 0.15)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-5px)';
+                        e.currentTarget.style.boxShadow = '0 12px 35px rgba(59, 130, 246, 0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.15)';
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 16px',
+                                fontSize: '24px',
+                                boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)'
+                            }}>📁</div>
+                            <h3 style={{
+                                fontSize: '12px',
+                                fontWeight: 'bold',
+                                color: '#374151',
+                                textTransform: 'uppercase',
+                                letterSpacing: '1px',
+                                marginBottom: '8px'
+                            }}>Total Categorías</h3>
+                            <div style={{
+                                fontSize: '36px',
+                                fontWeight: '900',
+                                color: '#3b82f6',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                            }}>{estadisticas.totalCategorias}</div>
                         </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-green-100 to-green-200 rounded-2xl p-6 border-l-4 border-green-500 shadow-lg">
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-2xl">📄</span>
-                            </div>
-                            <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Total Documentos</h3>
-                            <div className="text-4xl font-black text-green-600">{estadisticas.totalDocumentos}</div>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #10b981',
+                        boxShadow: '0 8px 25px rgba(16, 185, 129, 0.15)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-5px)';
+                        e.currentTarget.style.boxShadow = '0 12px 35px rgba(16, 185, 129, 0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.15)';
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 16px',
+                                fontSize: '24px',
+                                boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)'
+                            }}>📄</div>
+                            <h3 style={{
+                                fontSize: '12px',
+                                fontWeight: 'bold',
+                                color: '#374151',
+                                textTransform: 'uppercase',
+                                letterSpacing: '1px',
+                                marginBottom: '8px'
+                            }}>Total Documentos</h3>
+                            <div style={{
+                                fontSize: '36px',
+                                fontWeight: '900',
+                                color: '#10b981',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                            }}>{estadisticas.totalDocumentos}</div>
                         </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl p-6 border-l-4 border-purple-500 shadow-lg">
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-2xl">🆕</span>
-                            </div>
-                            <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Documentos Recientes</h3>
-                            <div className="text-4xl font-black text-purple-600">{estadisticas.documentosRecientes}</div>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #8b5cf6',
+                        boxShadow: '0 8px 25px rgba(139, 92, 246, 0.15)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-5px)';
+                        e.currentTarget.style.boxShadow = '0 12px 35px rgba(139, 92, 246, 0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(139, 92, 246, 0.15)';
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 16px',
+                                fontSize: '24px',
+                                boxShadow: '0 4px 15px rgba(139, 92, 246, 0.3)'
+                            }}>🆕</div>
+                            <h3 style={{
+                                fontSize: '12px',
+                                fontWeight: 'bold',
+                                color: '#374151',
+                                textTransform: 'uppercase',
+                                letterSpacing: '1px',
+                                marginBottom: '8px'
+                            }}>Documentos Recientes</h3>
+                            <div style={{
+                                fontSize: '36px',
+                                fontWeight: '900',
+                                color: '#8b5cf6',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                            }}>{estadisticas.documentosRecientes}</div>
                         </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-orange-100 to-orange-200 rounded-2xl p-6 border-l-4 border-orange-500 shadow-lg">
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-2xl">📂</span>
-                            </div>
-                            <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Categorías Vacías</h3>
-                            <div className="text-4xl font-black text-orange-600">{estadisticas.categoriasVacias}</div>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #f97316',
+                        boxShadow: '0 8px 25px rgba(249, 115, 22, 0.15)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-5px)';
+                        e.currentTarget.style.boxShadow = '0 12px 35px rgba(249, 115, 22, 0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.15)';
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 16px',
+                                fontSize: '24px',
+                                boxShadow: '0 4px 15px rgba(249, 115, 22, 0.3)'
+                            }}>📂</div>
+                            <h3 style={{
+                                fontSize: '12px',
+                                fontWeight: 'bold',
+                                color: '#374151',
+                                textTransform: 'uppercase',
+                                letterSpacing: '1px',
+                                marginBottom: '8px'
+                            }}>Categorías Vacías</h3>
+                            <div style={{
+                                fontSize: '36px',
+                                fontWeight: '900',
+                                color: '#f97316',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                            }}>{estadisticas.categoriasVacias}</div>
                         </div>
                     </div>
                 </div>
 
-                {/* Pestañas */}
-                <div className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl shadow-xl mb-8 border-l-4 border-orange-500">
-                    <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4 rounded-t-2xl">
-                        <div className="flex space-x-1">
+                {/* 🎛️ Panel de Pestañas Profesional */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                    borderRadius: '20px',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                    marginBottom: '32px',
+                    borderLeft: '6px solid #f97316',
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
+                        padding: '20px 24px'
+                    }}>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                             <button
                                 onClick={() => setActiveTab('categorias')}
-                                className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${
-                                    activeTab === 'categorias'
-                                        ? 'bg-orange-500 text-white transform scale-105'
-                                        : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
-                                }`}
+                                style={{
+                                    padding: '12px 24px',
+                                    borderRadius: '12px',
+                                    fontWeight: 'bold',
+                                    fontSize: '14px',
+                                    transition: 'all 0.3s ease',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    background: activeTab === 'categorias' 
+                                        ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)' 
+                                        : '#374151',
+                                    color: 'white',
+                                    transform: activeTab === 'categorias' ? 'scale(1.05)' : 'scale(1)',
+                                    boxShadow: activeTab === 'categorias' 
+                                        ? '0 6px 20px rgba(249, 115, 22, 0.4)' 
+                                        : 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (activeTab !== 'categorias') {
+                                        e.target.style.background = '#4B5563';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (activeTab !== 'categorias') {
+                                        e.target.style.background = '#374151';
+                                    }
+                                }}
                             >
                                 📁 Categorías
                             </button>
                             <button
                                 onClick={() => setActiveTab('documentos')}
-                                className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${
-                                    activeTab === 'documentos'
-                                        ? 'bg-orange-500 text-white transform scale-105'
-                                        : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
-                                }`}
+                                style={{
+                                    padding: '12px 24px',
+                                    borderRadius: '12px',
+                                    fontWeight: 'bold',
+                                    fontSize: '14px',
+                                    transition: 'all 0.3s ease',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    background: activeTab === 'documentos' 
+                                        ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)' 
+                                        : '#374151',
+                                    color: 'white',
+                                    transform: activeTab === 'documentos' ? 'scale(1.05)' : 'scale(1)',
+                                    boxShadow: activeTab === 'documentos' 
+                                        ? '0 6px 20px rgba(249, 115, 22, 0.4)' 
+                                        : 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (activeTab !== 'documentos') {
+                                        e.target.style.background = '#4B5563';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (activeTab !== 'documentos') {
+                                        e.target.style.background = '#374151';
+                                    }
+                                }}
                             >
                                 📄 Documentos
                             </button>
                         </div>
                     </div>
 
-                    <div className="p-6">
-                        {/* Pestaña de Categorías */}
+                    <div style={{ padding: '32px' }}>
+                        {/* 📁 Pestaña de Categorías Optimizada */}
                         {activeTab === 'categorias' && (
                             <div>
-                                <div className="flex justify-between items-center mb-6">
-                                    <h3 className="text-2xl font-bold text-gray-800">Gestionar Categorías</h3>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+                                    <h3 style={{
+                                        fontSize: '28px',
+                                        fontWeight: 'bold',
+                                        color: '#1f2937',
+                                        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                                    }}>Gestionar Categorías</h3>
                                     <button
                                         onClick={() => {
                                             setMostrarFormCategoria(true);
                                             setEditandoCategoria(null);
                                             setNuevaCategoria({ nombre: '', descripcion: '', color: '#3B82F6' });
                                         }}
-                                        className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                        style={{
+                                            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                                            color: 'white',
+                                            padding: '14px 28px',
+                                            borderRadius: '12px',
+                                            fontWeight: 'bold',
+                                            fontSize: '14px',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.3s ease',
+                                            boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.target.style.transform = 'translateY(-2px)';
+                                            e.target.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.4)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.target.style.transform = 'translateY(0)';
+                                            e.target.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.3)';
+                                        }}
                                     >
                                         ➕ Nueva Categoría
                                     </button>
                                 </div>
 
-                                {/* Formulario de Categoría */}
+                                {/* 📝 Formulario de Categoría Mejorado */}
                                 {mostrarFormCategoria && (
-                                    <div className="bg-white rounded-xl p-6 mb-6 border-2 border-gray-200">
-                                        <h4 className="text-lg font-bold text-gray-800 mb-4">
+                                    <div style={{
+                                        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                                        borderRadius: '16px',
+                                        padding: '32px',
+                                        marginBottom: '32px',
+                                        border: '2px solid #e5e7eb',
+                                        boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)'
+                                    }}>
+                                        <h4 style={{
+                                            fontSize: '20px',
+                                            fontWeight: 'bold',
+                                            color: '#1f2937',
+                                            marginBottom: '24px'
+                                        }}>
                                             {editandoCategoria ? '✏️ Editar Categoría' : '➕ Nueva Categoría'}
                                         </h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
                                             <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Nombre</label>
+                                                <label style={{
+                                                    display: 'block',
+                                                    fontSize: '14px',
+                                                    fontWeight: 'bold',
+                                                    color: '#374151',
+                                                    marginBottom: '8px'
+                                                }}>Nombre</label>
                                                 <input
                                                     type="text"
                                                     value={nuevaCategoria.nombre}
                                                     onChange={(e) => setNuevaCategoria({...nuevaCategoria, nombre: e.target.value})}
-                                                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                                    style={{
+                                                        width: '100%',
+                                                        padding: '12px 16px',
+                                                        border: '2px solid #d1d5db',
+                                                        borderRadius: '12px',
+                                                        fontSize: '14px',
+                                                        transition: 'all 0.3s ease',
+                                                        background: '#ffffff'
+                                                    }}
                                                     placeholder="Nombre de la categoría"
+                                                    onFocus={(e) => {
+                                                        e.target.style.borderColor = '#f97316';
+                                                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        e.target.style.borderColor = '#d1d5db';
+                                                        e.target.style.boxShadow = 'none';
+                                                    }}
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Color</label>
+                                                <label style={{
+                                                    display: 'block',
+                                                    fontSize: '14px',
+                                                    fontWeight: 'bold',
+                                                    color: '#374151',
+                                                    marginBottom: '8px'
+                                                }}>Color</label>
                                                 <input
                                                     type="color"
                                                     value={nuevaCategoria.color}
                                                     onChange={(e) => setNuevaCategoria({...nuevaCategoria, color: e.target.value})}
-                                                    className="w-full h-12 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500"
+                                                    style={{
+                                                        width: '100%',
+                                                        height: '48px',
+                                                        border: '2px solid #d1d5db',
+                                                        borderRadius: '12px',
+                                                        cursor: 'pointer'
+                                                    }}
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Descripción</label>
+                                                <label style={{
+                                                    display: 'block',
+                                                    fontSize: '14px',
+                                                    fontWeight: 'bold',
+                                                    color: '#374151',
+                                                    marginBottom: '8px'
+                                                }}>Descripción</label>
                                                 <input
                                                     type="text"
                                                     value={nuevaCategoria.descripcion}
                                                     onChange={(e) => setNuevaCategoria({...nuevaCategoria, descripcion: e.target.value})}
-                                                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                                    style={{
+                                                        width: '100%',
+                                                        padding: '12px 16px',
+                                                        border: '2px solid #d1d5db',
+                                                        borderRadius: '12px',
+                                                        fontSize: '14px',
+                                                        transition: 'all 0.3s ease',
+                                                        background: '#ffffff'
+                                                    }}
                                                     placeholder="Descripción breve"
+                                                    onFocus={(e) => {
+                                                        e.target.style.borderColor = '#f97316';
+                                                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        e.target.style.borderColor = '#d1d5db';
+                                                        e.target.style.boxShadow = 'none';
+                                                    }}
                                                 />
                                             </div>
                                         </div>
-                                        <div className="flex space-x-4 mt-4">
+                                        <div style={{ display: 'flex', gap: '16px', marginTop: '24px', flexWrap: 'wrap' }}>
                                             <button
                                                 onClick={editandoCategoria ? guardarEdicionCategoria : crearCategoria}
-                                                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300"
+                                                style={{
+                                                    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                                                    color: 'white',
+                                                    padding: '12px 24px',
+                                                    borderRadius: '12px',
+                                                    fontWeight: 'bold',
+                                                    border: 'none',
+                                                    cursor: 'pointer',
+                                                    transition: 'all 0.3s ease'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.target.style.transform = 'translateY(-2px)';
+                                                    e.target.style.boxShadow = '0 4px 15px rgba(59, 130, 246, 0.3)';
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.target.style.transform = 'translateY(0)';
+                                                    e.target.style.boxShadow = 'none';
+                                                }}
                                             >
                                                 {editandoCategoria ? '💾 Guardar Cambios' : '➕ Crear Categoría'}
                                             </button>
@@ -338,7 +695,24 @@ const GestionContenido = () => {
                                                     setMostrarFormCategoria(false);
                                                     setEditandoCategoria(null);
                                                 }}
-                                                className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300"
+                                                style={{
+                                                    background: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
+                                                    color: 'white',
+                                                    padding: '12px 24px',
+                                                    borderRadius: '12px',
+                                                    fontWeight: 'bold',
+                                                    border: 'none',
+                                                    cursor: 'pointer',
+                                                    transition: 'all 0.3s ease'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.target.style.transform = 'translateY(-2px)';
+                                                    e.target.style.boxShadow = '0 4px 15px rgba(107, 114, 128, 0.3)';
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.target.style.transform = 'translateY(0)';
+                                                    e.target.style.boxShadow = 'none';
+                                                }}
                                             >
                                                 ❌ Cancelar
                                             </button>
@@ -346,40 +720,108 @@ const GestionContenido = () => {
                                     </div>
                                 )}
 
-                                {/* Lista de Categorías */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {/* 🎯 Grid de Categorías Optimizado */}
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
                                     {categorias.map(categoria => (
-                                        <div key={categoria.id} className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-200 hover:shadow-xl transition-all duration-300">
-                                            <div className="flex items-center justify-between mb-4">
+                                        <div key={categoria.id} style={{
+                                            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                                            borderRadius: '16px',
+                                            padding: '24px',
+                                            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
+                                            border: '2px solid #e5e7eb',
+                                            transition: 'all 0.3s ease',
+                                            cursor: 'pointer'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(-3px)';
+                                            e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.15)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.1)';
+                                        }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                                                 <div 
-                                                    className="w-6 h-6 rounded-full"
-                                                    style={{ backgroundColor: categoria.color }}
+                                                    style={{
+                                                        width: '24px',
+                                                        height: '24px',
+                                                        borderRadius: '50%',
+                                                        backgroundColor: categoria.color,
+                                                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                                                    }}
                                                 ></div>
-                                                <div className="flex space-x-2">
+                                                <div style={{ display: 'flex', gap: '8px' }}>
                                                     <button
                                                         onClick={() => editarCategoria(categoria)}
-                                                        className="text-blue-600 hover:text-blue-800 font-bold"
-                                                    >
-                                                        ✏️
-                                                    </button>
+                                                        style={{
+                                                            color: '#3b82f6',
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            fontSize: '18px',
+                                                            cursor: 'pointer',
+                                                            padding: '4px',
+                                                            borderRadius: '6px',
+                                                            transition: 'all 0.2s ease'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.target.style.background = '#eff6ff';
+                                                            e.target.style.transform = 'scale(1.1)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.target.style.background = 'none';
+                                                            e.target.style.transform = 'scale(1)';
+                                                        }}
+                                                    >✏️</button>
                                                     <button
                                                         onClick={() => eliminarCategoria(categoria.id)}
-                                                        className="text-red-600 hover:text-red-800 font-bold"
-                                                    >
-                                                        🗑️
-                                                    </button>
+                                                        style={{
+                                                            color: '#ef4444',
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            fontSize: '18px',
+                                                            cursor: 'pointer',
+                                                            padding: '4px',
+                                                            borderRadius: '6px',
+                                                            transition: 'all 0.2s ease'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.target.style.background = '#fef2f2';
+                                                            e.target.style.transform = 'scale(1.1)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.target.style.background = 'none';
+                                                            e.target.style.transform = 'scale(1)';
+                                                        }}
+                                                    >🗑️</button>
                                                 </div>
                                             </div>
-                                            <h5 className="text-xl font-bold text-gray-800 mb-2">{categoria.nombre}</h5>
-                                            <p className="text-gray-600 mb-4">{categoria.descripcion}</p>
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-sm text-gray-500">{categoria.documentos} documentos</span>
-                                                <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                                                    categoria.documentos > 0 
-                                                        ? 'bg-green-100 text-green-800' 
-                                                        : 'bg-orange-100 text-orange-800'
-                                                }`}>
-                                                    {categoria.documentos > 0 ? 'Activa' : 'Vacía'}
+                                            <h5 style={{
+                                                fontSize: '20px',
+                                                fontWeight: 'bold',
+                                                color: '#1f2937',
+                                                marginBottom: '8px'
+                                            }}>{categoria.nombre}</h5>
+                                            <p style={{
+                                                color: '#6b7280',
+                                                marginBottom: '16px',
+                                                lineHeight: '1.5'
+                                            }}>{categoria.descripcion}</p>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                <span style={{
+                                                    fontSize: '14px',
+                                                    color: '#6b7280'
+                                                }}>{categoria.documentos} documentos</span>
+                                                <span style={{
+                                                    padding: '6px 12px',
+                                                    borderRadius: '20px',
+                                                    fontSize: '12px',
+                                                    fontWeight: 'bold',
+                                                    background: categoria.documentos > 0 
+                                                        ? 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)' 
+                                                        : 'linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)',
+                                                    color: categoria.documentos > 0 ? '#065f46' : '#9a3412'
+                                                }}>
+                                                    {categoria.documentos > 0 ? '✅ Activa' : '⚠️ Vacía'}
                                                 </span>
                                             </div>
                                         </div>
@@ -388,37 +830,115 @@ const GestionContenido = () => {
                             </div>
                         )}
 
-                        {/* Pestaña de Documentos */}
+                        {/* 📄 Pestaña de Documentos Optimizada */}
                         {activeTab === 'documentos' && (
                             <div>
-                                <div className="flex justify-between items-center mb-6">
-                                    <h3 className="text-2xl font-bold text-gray-800">Gestionar Documentos</h3>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+                                    <h3 style={{
+                                        fontSize: '28px',
+                                        fontWeight: 'bold',
+                                        color: '#1f2937',
+                                        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                                    }}>Gestionar Documentos</h3>
                                     <button
                                         onClick={() => navigate('/crear-documento')}
-                                        className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                        style={{
+                                            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                                            color: 'white',
+                                            padding: '14px 28px',
+                                            borderRadius: '12px',
+                                            fontWeight: 'bold',
+                                            fontSize: '14px',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.3s ease',
+                                            boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.target.style.transform = 'translateY(-2px)';
+                                            e.target.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.4)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.target.style.transform = 'translateY(0)';
+                                            e.target.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.3)';
+                                        }}
                                     >
                                         ➕ Nuevo Documento
                                     </button>
                                 </div>
 
-                                {/* Filtros */}
-                                <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
-                                    <div className="flex-1">
-                                        <label className="block text-sm font-bold text-gray-700 mb-2">Buscar documento</label>
+                                {/* 🔍 Filtros Mejorados */}
+                                <div style={{ 
+                                    display: 'grid', 
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+                                    gap: '20px', 
+                                    marginBottom: '32px',
+                                    background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
+                                    padding: '24px',
+                                    borderRadius: '16px',
+                                    border: '2px solid #e5e7eb'
+                                }}>
+                                    <div>
+                                        <label style={{
+                                            display: 'block',
+                                            fontSize: '14px',
+                                            fontWeight: 'bold',
+                                            color: '#374151',
+                                            marginBottom: '8px'
+                                        }}>🔍 Buscar documento</label>
                                         <input
                                             type="text"
                                             value={busquedaDocumento}
                                             onChange={(e) => setBusquedaDocumento(e.target.value)}
-                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                            style={{
+                                                width: '100%',
+                                                padding: '12px 16px',
+                                                border: '2px solid #d1d5db',
+                                                borderRadius: '12px',
+                                                fontSize: '14px',
+                                                transition: 'all 0.3s ease',
+                                                background: '#ffffff'
+                                            }}
                                             placeholder="Buscar por título..."
+                                            onFocus={(e) => {
+                                                e.target.style.borderColor = '#f97316';
+                                                e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                                            }}
+                                            onBlur={(e) => {
+                                                e.target.style.borderColor = '#d1d5db';
+                                                e.target.style.boxShadow = 'none';
+                                            }}
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-bold text-gray-700 mb-2">Filtrar por categoría</label>
+                                        <label style={{
+                                            display: 'block',
+                                            fontSize: '14px',
+                                            fontWeight: 'bold',
+                                            color: '#374151',
+                                            marginBottom: '8px'
+                                        }}>📁 Filtrar por categoría</label>
                                         <select
                                             value={filtroCategoria}
                                             onChange={(e) => setFiltroCategoria(e.target.value)}
-                                            className="px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                            style={{
+                                                width: '100%',
+                                                padding: '12px 16px',
+                                                border: '2px solid #d1d5db',
+                                                borderRadius: '12px',
+                                                fontSize: '14px',
+                                                transition: 'all 0.3s ease',
+                                                background: '#ffffff',
+                                                cursor: 'pointer'
+                                            }}
+                                            onFocus={(e) => {
+                                                e.target.style.borderColor = '#f97316';
+                                                e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                                            }}
+                                            onBlur={(e) => {
+                                                e.target.style.borderColor = '#d1d5db';
+                                                e.target.style.boxShadow = 'none';
+                                            }}
                                         >
                                             <option value="todas">Todas las categorías</option>
                                             {categorias.map(cat => (
@@ -428,65 +948,199 @@ const GestionContenido = () => {
                                     </div>
                                 </div>
 
-                                {/* Lista de Documentos */}
-                                <div className="bg-white rounded-xl overflow-hidden shadow-lg">
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full">
-                                            <thead className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
-                                                <tr>
-                                                    <th className="px-6 py-4 text-left font-bold">Documento</th>
-                                                    <th className="px-6 py-4 text-left font-bold">Categoría</th>
-                                                    <th className="px-6 py-4 text-left font-bold">Fecha</th>
-                                                    <th className="px-6 py-4 text-left font-bold">Descargas</th>
-                                                    <th className="px-6 py-4 text-left font-bold">Estado</th>
-                                                    <th className="px-6 py-4 text-left font-bold">Acciones</th>
+                                {/* 📋 Tabla de Documentos Mejorada */}
+                                <div style={{
+                                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                                    borderRadius: '16px',
+                                    overflow: 'hidden',
+                                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)',
+                                    border: '2px solid #e5e7eb'
+                                }}>
+                                    <div style={{ overflowX: 'auto' }}>
+                                        <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0 }}>
+                                            <thead>
+                                                <tr style={{
+                                                    background: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
+                                                    color: 'white'
+                                                }}>
+                                                    <th style={{
+                                                        padding: '16px 24px',
+                                                        textAlign: 'left',
+                                                        fontWeight: 'bold',
+                                                        fontSize: '14px',
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '1px'
+                                                    }}>📄 Documento</th>
+                                                    <th style={{
+                                                        padding: '16px 24px',
+                                                        textAlign: 'left',
+                                                        fontWeight: 'bold',
+                                                        fontSize: '14px',
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '1px'
+                                                    }}>📁 Categoría</th>
+                                                    <th style={{
+                                                        padding: '16px 24px',
+                                                        textAlign: 'left',
+                                                        fontWeight: 'bold',
+                                                        fontSize: '14px',
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '1px'
+                                                    }}>📅 Fecha</th>
+                                                    <th style={{
+                                                        padding: '16px 24px',
+                                                        textAlign: 'left',
+                                                        fontWeight: 'bold',
+                                                        fontSize: '14px',
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '1px'
+                                                    }}>⬇️ Descargas</th>
+                                                    <th style={{
+                                                        padding: '16px 24px',
+                                                        textAlign: 'left',
+                                                        fontWeight: 'bold',
+                                                        fontSize: '14px',
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '1px'
+                                                    }}>📊 Estado</th>
+                                                    <th style={{
+                                                        padding: '16px 24px',
+                                                        textAlign: 'left',
+                                                        fontWeight: 'bold',
+                                                        fontSize: '14px',
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '1px'
+                                                    }}>⚡ Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {documentosFiltrados.map((doc, index) => (
-                                                    <tr key={doc.id} className={`border-b ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-orange-50 transition-all duration-200`}>
-                                                        <td className="px-6 py-4">
-                                                            <div className="font-bold text-gray-800">{doc.titulo}</div>
+                                                    <tr key={doc.id} style={{
+                                                        borderBottom: '1px solid #e5e7eb',
+                                                        background: index % 2 === 0 ? '#ffffff' : '#f9fafb',
+                                                        transition: 'all 0.2s ease',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        e.currentTarget.style.background = 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)';
+                                                        e.currentTarget.style.transform = 'scale(1.01)';
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        e.currentTarget.style.background = index % 2 === 0 ? '#ffffff' : '#f9fafb';
+                                                        e.currentTarget.style.transform = 'scale(1)';
+                                                    }}>
+                                                        <td style={{ padding: '16px 24px' }}>
+                                                            <div style={{
+                                                                fontWeight: 'bold',
+                                                                color: '#1f2937',
+                                                                fontSize: '14px'
+                                                            }}>{doc.titulo}</div>
                                                         </td>
-                                                        <td className="px-6 py-4">
-                                                            <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+                                                        <td style={{ padding: '16px 24px' }}>
+                                                            <span style={{
+                                                                padding: '6px 12px',
+                                                                background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+                                                                color: '#1e40af',
+                                                                borderRadius: '20px',
+                                                                fontSize: '12px',
+                                                                fontWeight: '600'
+                                                            }}>
                                                                 {doc.categoria}
                                                             </span>
                                                         </td>
-                                                        <td className="px-6 py-4 text-gray-600">{doc.fechaSubida}</td>
-                                                        <td className="px-6 py-4 text-gray-600">{doc.descargas}</td>
-                                                        <td className="px-6 py-4">
-                                                            <span className={`px-3 py-1 rounded-full text-sm font-bold ${
-                                                                doc.estado === 'activo' 
-                                                                    ? 'bg-green-100 text-green-800'
-                                                                    : 'bg-yellow-100 text-yellow-800'
-                                                            }`}>
+                                                        <td style={{
+                                                            padding: '16px 24px',
+                                                            color: '#6b7280',
+                                                            fontSize: '14px'
+                                                        }}>{doc.fechaSubida}</td>
+                                                        <td style={{
+                                                            padding: '16px 24px',
+                                                            color: '#6b7280',
+                                                            fontSize: '14px',
+                                                            fontWeight: 'bold'
+                                                        }}>{doc.descargas}</td>
+                                                        <td style={{ padding: '16px 24px' }}>
+                                                            <span style={{
+                                                                padding: '6px 12px',
+                                                                borderRadius: '20px',
+                                                                fontSize: '12px',
+                                                                fontWeight: 'bold',
+                                                                background: doc.estado === 'activo' 
+                                                                    ? 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)' 
+                                                                    : 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+                                                                color: doc.estado === 'activo' ? '#065f46' : '#92400e'
+                                                            }}>
                                                                 {doc.estado === 'activo' ? '✅ Activo' : '📝 Borrador'}
                                                             </span>
                                                         </td>
-                                                        <td className="px-6 py-4">
-                                                            <div className="flex space-x-2">
+                                                        <td style={{ padding: '16px 24px' }}>
+                                                            <div style={{ display: 'flex', gap: '8px' }}>
                                                                 <button
                                                                     onClick={() => navigate(`/editar-documento/${doc.id}`)}
-                                                                    className="text-blue-600 hover:text-blue-800 font-bold"
+                                                                    style={{
+                                                                        color: '#3b82f6',
+                                                                        background: 'none',
+                                                                        border: 'none',
+                                                                        fontSize: '16px',
+                                                                        cursor: 'pointer',
+                                                                        padding: '6px',
+                                                                        borderRadius: '6px',
+                                                                        transition: 'all 0.2s ease'
+                                                                    }}
                                                                     title="Editar"
-                                                                >
-                                                                    ✏️
-                                                                </button>
+                                                                    onMouseEnter={(e) => {
+                                                                        e.target.style.background = '#eff6ff';
+                                                                        e.target.style.transform = 'scale(1.2)';
+                                                                    }}
+                                                                    onMouseLeave={(e) => {
+                                                                        e.target.style.background = 'none';
+                                                                        e.target.style.transform = 'scale(1)';
+                                                                    }}
+                                                                >✏️</button>
                                                                 <button
                                                                     onClick={() => navigate(`/documento/${doc.id}`)}
-                                                                    className="text-green-600 hover:text-green-800 font-bold"
+                                                                    style={{
+                                                                        color: '#10b981',
+                                                                        background: 'none',
+                                                                        border: 'none',
+                                                                        fontSize: '16px',
+                                                                        cursor: 'pointer',
+                                                                        padding: '6px',
+                                                                        borderRadius: '6px',
+                                                                        transition: 'all 0.2s ease'
+                                                                    }}
                                                                     title="Ver"
-                                                                >
-                                                                    👁️
-                                                                </button>
+                                                                    onMouseEnter={(e) => {
+                                                                        e.target.style.background = '#f0fdf4';
+                                                                        e.target.style.transform = 'scale(1.2)';
+                                                                    }}
+                                                                    onMouseLeave={(e) => {
+                                                                        e.target.style.background = 'none';
+                                                                        e.target.style.transform = 'scale(1)';
+                                                                    }}
+                                                                >👁️</button>
                                                                 <button
                                                                     onClick={() => eliminarDocumento(doc.id)}
-                                                                    className="text-red-600 hover:text-red-800 font-bold"
+                                                                    style={{
+                                                                        color: '#ef4444',
+                                                                        background: 'none',
+                                                                        border: 'none',
+                                                                        fontSize: '16px',
+                                                                        cursor: 'pointer',
+                                                                        padding: '6px',
+                                                                        borderRadius: '6px',
+                                                                        transition: 'all 0.2s ease'
+                                                                    }}
                                                                     title="Eliminar"
-                                                                >
-                                                                    🗑️
-                                                                </button>
+                                                                    onMouseEnter={(e) => {
+                                                                        e.target.style.background = '#fef2f2';
+                                                                        e.target.style.transform = 'scale(1.2)';
+                                                                    }}
+                                                                    onMouseLeave={(e) => {
+                                                                        e.target.style.background = 'none';
+                                                                        e.target.style.transform = 'scale(1)';
+                                                                    }}
+                                                                >🗑️</button>
                                                             </div>
                                                         </td>
                                                     </tr>
