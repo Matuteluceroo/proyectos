@@ -285,46 +285,143 @@ const Usuarios = () => {
                         </div>
                     </div>
 
-                    <div className="table-container" style={{ background: 'white', borderRadius: '10px', padding: '20px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', overflowX: 'auto' }}>
+                    <div className="table-container" style={{ 
+                        background: 'linear-gradient(135deg, #2d3748, #4a5568)', 
+                        borderRadius: '15px', 
+                        padding: '25px', 
+                        boxShadow: '0 8px 25px rgba(0,0,0,0.15)', 
+                        overflowX: 'auto',
+                        border: '1px solid #4a5568'
+                    }}>
                         {usuarios.length > 0 ? (
-                            <table className="data-table" style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+                            <table className="data-table" style={{ 
+                                width: '100%', 
+                                borderCollapse: 'collapse', 
+                                fontSize: '14px',
+                                background: 'transparent'
+                            }}>
                                 <thead>
-                                    <tr style={{ background: '#f8f9fa' }}>
-                                        <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #e9ecef', fontWeight: 'bold' }}>👤 Usuario</th>
-                                        <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #e9ecef', fontWeight: 'bold' }}>📧 Email</th>
-                                        <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #e9ecef', fontWeight: 'bold' }}>👨‍💼 Nombre Completo</th>
-                                        <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #e9ecef', fontWeight: 'bold' }}>🎭 Rol</th>
-                                        <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #e9ecef', fontWeight: 'bold' }}>⚡ Acciones</th>
+                                    <tr style={{ 
+                                        background: 'linear-gradient(135deg, #1a202c, #2d3748)',
+                                        borderRadius: '10px'
+                                    }}>
+                                        <th style={{ 
+                                            padding: '15px', 
+                                            textAlign: 'left', 
+                                            borderBottom: '2px solid #4a5568', 
+                                            fontWeight: 'bold',
+                                            color: '#f7fafc',
+                                            fontSize: '15px'
+                                        }}>👤 Usuario</th>
+                                        <th style={{ 
+                                            padding: '15px', 
+                                            textAlign: 'left', 
+                                            borderBottom: '2px solid #4a5568', 
+                                            fontWeight: 'bold',
+                                            color: '#f7fafc',
+                                            fontSize: '15px'
+                                        }}>📧 Email</th>
+                                        <th style={{ 
+                                            padding: '15px', 
+                                            textAlign: 'left', 
+                                            borderBottom: '2px solid #4a5568', 
+                                            fontWeight: 'bold',
+                                            color: '#f7fafc',
+                                            fontSize: '15px'
+                                        }}>👨‍💼 Nombre Completo</th>
+                                        <th style={{ 
+                                            padding: '15px', 
+                                            textAlign: 'left', 
+                                            borderBottom: '2px solid #4a5568', 
+                                            fontWeight: 'bold',
+                                            color: '#f7fafc',
+                                            fontSize: '15px'
+                                        }}>🎭 Rol</th>
+                                        <th style={{ 
+                                            padding: '15px', 
+                                            textAlign: 'left', 
+                                            borderBottom: '2px solid #4a5568', 
+                                            fontWeight: 'bold',
+                                            color: '#f7fafc',
+                                            fontSize: '15px'
+                                        }}>⚡ Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {usuarios.map((usuario) => (
-                                        <tr key={usuario.id} style={{ borderBottom: '1px solid #e9ecef' }}>
-                                            <td style={{ padding: '12px' }}>{usuario.username}</td>
-                                            <td style={{ padding: '12px' }}>{usuario.email}</td>
-                                            <td style={{ padding: '12px' }}>{usuario.nombre_completo}</td>
-                                            <td style={{ padding: '12px' }}>
+                                    {usuarios.map((usuario, index) => (
+                                        <tr 
+                                            key={usuario.id} 
+                                            style={{ 
+                                                borderBottom: '1px solid #4a5568',
+                                                background: index % 2 === 0 ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.1)',
+                                                transition: 'background-color 0.2s ease',
+                                                '&:hover': {
+                                                    background: 'rgba(255,255,255,0.15)'
+                                                }
+                                            }}
+                                            onMouseEnter={(e) => e.target.parentElement.style.background = 'rgba(255,255,255,0.15)'}
+                                            onMouseLeave={(e) => e.target.parentElement.style.background = index % 2 === 0 ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.1)'}
+                                        >
+                                            <td style={{ 
+                                                padding: '15px',
+                                                color: '#e2e8f0',
+                                                fontSize: '14px',
+                                                fontWeight: '500'
+                                            }}>{usuario.username}</td>
+                                            <td style={{ 
+                                                padding: '15px',
+                                                color: '#e2e8f0',
+                                                fontSize: '14px'
+                                            }}>{usuario.email}</td>
+                                            <td style={{ 
+                                                padding: '15px',
+                                                color: '#e2e8f0',
+                                                fontSize: '14px'
+                                            }}>{usuario.nombre_completo}</td>
+                                            <td style={{ padding: '15px' }}>
                                                 <span className={`role-badge ${usuario.rol || 'operador'}`} style={{ 
-                                                    background: usuario.rol === 'admin' || usuario.rol === 'administrador' ? '#e53e3e' : 
-                                                               usuario.rol === 'experto' ? '#3182ce' : '#38a169',
+                                                    background: usuario.rol === 'admin' || usuario.rol === 'administrador' ? 
+                                                        'linear-gradient(135deg, #e53e3e, #c53030)' : 
+                                                        usuario.rol === 'experto' ? 
+                                                        'linear-gradient(135deg, #3182ce, #2c5282)' : 
+                                                        'linear-gradient(135deg, #38a169, #2f855a)',
                                                     color: 'white',
-                                                    padding: '4px 12px',
+                                                    padding: '8px 16px',
                                                     borderRadius: '20px',
                                                     fontSize: '12px',
-                                                    fontWeight: 'bold'
+                                                    fontWeight: 'bold',
+                                                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                                                    border: '1px solid rgba(255,255,255,0.1)'
                                                 }}>
                                                     {usuario.rol === 'admin' || usuario.rol === 'administrador' ? '👑 Admin' :
                                                      usuario.rol === 'experto' ? '🎓 Experto' :
                                                      '🔧 Operador'}
                                                 </span>
                                             </td>
-                                            <td style={{ padding: '12px' }}>
-                                                <div className="action-buttons" style={{ display: 'flex', gap: '8px' }}>
+                                            <td style={{ padding: '15px' }}>
+                                                <div className="action-buttons" style={{ display: 'flex', gap: '10px' }}>
                                                     <button
                                                         onClick={() => openEditModal(usuario)}
                                                         className="btn-edit"
                                                         title="Editar usuario"
-                                                        style={{ background: '#ffa500', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer' }}
+                                                        style={{ 
+                                                            background: 'linear-gradient(135deg, #ffa500, #ff8c00)', 
+                                                            color: 'white', 
+                                                            border: 'none', 
+                                                            padding: '8px 14px', 
+                                                            borderRadius: '8px', 
+                                                            cursor: 'pointer',
+                                                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                                                            transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.target.style.transform = 'translateY(-2px)';
+                                                            e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.target.style.transform = 'translateY(0)';
+                                                            e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+                                                        }}
                                                     >
                                                         ✏️
                                                     </button>
@@ -332,7 +429,24 @@ const Usuarios = () => {
                                                         onClick={() => eliminarUsuario(usuario.id)}
                                                         className="btn-delete"
                                                         title="Eliminar usuario"
-                                                        style={{ background: '#dc3545', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer' }}
+                                                        style={{ 
+                                                            background: 'linear-gradient(135deg, #dc3545, #c82333)', 
+                                                            color: 'white', 
+                                                            border: 'none', 
+                                                            padding: '8px 14px', 
+                                                            borderRadius: '8px', 
+                                                            cursor: 'pointer',
+                                                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                                                            transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.target.style.transform = 'translateY(-2px)';
+                                                            e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.target.style.transform = 'translateY(0)';
+                                                            e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+                                                        }}
                                                     >
                                                         🗑️
                                                     </button>
@@ -343,13 +457,43 @@ const Usuarios = () => {
                                 </tbody>
                             </table>
                         ) : (
-                            <div className="empty-state">
-                                <div className="empty-icon">👥</div>
-                                <h3>No hay usuarios registrados</h3>
-                                <p>Comienza creando el primer usuario del sistema citrícola</p>
+                            <div className="empty-state" style={{
+                                textAlign: 'center',
+                                padding: '60px 20px',
+                                color: '#e2e8f0'
+                            }}>
+                                <div className="empty-icon" style={{
+                                    fontSize: '48px',
+                                    marginBottom: '20px',
+                                    display: 'block'
+                                }}>👥</div>
+                                <h3 style={{
+                                    color: '#f7fafc',
+                                    marginBottom: '10px',
+                                    fontSize: '24px'
+                                }}>No hay usuarios registrados</h3>
+                                <p style={{
+                                    color: '#a0aec0',
+                                    marginBottom: '30px',
+                                    fontSize: '16px'
+                                }}>Comienza creando el primer usuario del sistema citrícola</p>
                                 <button
                                     onClick={openCreateModal}
                                     className="btn-primary"
+                                    style={{
+                                        background: 'linear-gradient(135deg, #e53e3e, #c53030)',
+                                        color: 'white',
+                                        border: 'none',
+                                        padding: '12px 24px',
+                                        borderRadius: '10px',
+                                        fontSize: '16px',
+                                        fontWeight: 'bold',
+                                        cursor: 'pointer',
+                                        boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                                        transition: 'transform 0.2s ease'
+                                    }}
+                                    onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
+                                    onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
                                 >
                                     ➕ Crear Primer Usuario
                                 </button>
