@@ -1,83 +1,207 @@
+/* 🎨 Login.css - Diseño mejorado con contraste y legibilidad optimizada
+   Cambios realizados:
+   1. Incremento significativo del contraste en textos
+   2. Fondo más profesional con gradiente sutil
+   3. Campos de entrada con mejor visibilidad
+   4. Labels y placeholders más legibles
+   5. Botones con mejor contraste y feedback visual
+*/
+
 .login-container {
-  height: 100vh;
-  background-color: rgb(2, 2, 22);
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  position: relative;
+}
+
+/* Mejora visual del fondo con patrón sutil */
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(21, 179, 228, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(21, 179, 228, 0.05) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .login-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 40px;
+  z-index: 1;
+  position: relative;
 }
 
 .login-box {
-  background: transparent;
-  padding: 2rem;
-  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  padding: 3rem 2.5rem;
+  color: #ffffff;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  border-radius: 8px;
-  border: 2px solid rgb(21, 179, 228);
-  box-shadow: 0px 0px 8px 7px rgb(21, 179, 228);
+  border-radius: 16px;
+  border: 1px solid rgba(21, 179, 228, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(21, 179, 228, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   text-align: center;
-  width: 400px;
+  width: 420px;
   max-width: 90%;
+  position: relative;
 }
+
+.login-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(21, 179, 228, 0.1), transparent);
+  pointer-events: none;
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
 }
 
+/* Campos de entrada con mejor contraste y visibilidad */
 .form-group input {
-  font-family: "Ubuntu", sans-serif; /* Fuente Ubuntu */
+  font-family: "Ubuntu", sans-serif;
   font-size: 16px;
-  padding: 8px;
+  font-weight: 400;
+  padding: 16px 20px;
   width: 100%;
-  border: none;
-  border-bottom: 2px solid #333; /* Línea inferior */
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
   outline: none;
-  background: transparent;
-  transition: border-color 0.3s;
-  color: white;
+  background: rgba(128, 128, 128, 0.3);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  color: rgba(128, 128, 128, 0.3);
+  box-sizing: border-box;
 }
-input:focus {
-  border-bottom: 2px solid #007bff; /* Cambia de color al enfocar */
+
+.form-group input:focus {
+  border-color: #15b3e4;
+  background: rgba(128, 128, 128, 0.4);
+  box-shadow: 0 0 15px rgba(21, 179, 228, 0.3);
+  transform: translateY(-2px);
 }
 
 .form-group input::placeholder {
-  color: rgba(255, 255, 255, 0.7); /* Placeholder semi-transparente */
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
 }
 
+/* Mejor contraste para el botón principal */
 .login-button {
   font-family: "Ubuntu", sans-serif;
   font-size: 16px;
-  padding: 10px 20px;
+  font-weight: 600;
+  padding: 16px 24px;
   border: none;
-  border-radius: 5px;
-  background: linear-gradient(45deg, #007bff, #00c6ff); /* Degradado azul */
-  color: white;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #15b3e4 0%, #0891b2 50%, #0369a1 100%);
+  color: #ffffff;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1rem;
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.login-button:hover::before {
+  left: 100%;
 }
 
 .login-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(21, 179, 228, 0.4);
+  background: linear-gradient(135deg, #0891b2 0%, #0369a1 50%, #1e40af 100%);
 }
 
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(21, 179, 228, 0.3);
+}
+
+.login-button:disabled {
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Mensajes de error con mejor visibilidad */
 .error-message {
-  color: red;
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
   margin-bottom: 1rem;
   font-size: 14px;
+  font-weight: 500;
+  text-align: center;
 }
 
+.lockout-message {
+  color: #ffa726;
+  background: rgba(255, 167, 38, 0.1);
+  border: 1px solid rgba(255, 167, 38, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 1rem;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.caps-lock-warning {
+  color: #fff3cd;
+  background: rgba(255, 243, 205, 0.1);
+  border: 1px solid rgba(255, 243, 205, 0.3);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Contenedor de contraseña mejorado */
 .password-container {
   position: relative;
   display: flex;
@@ -87,101 +211,228 @@ input:focus {
 
 .password-container input {
   width: 100%;
-  padding: 10px 40px 10px 10px; /* Espacio a la derecha para el icono */
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.password-container input:focus {
-  border-color: #007bff;
+  padding-right: 50px;
 }
 
 .toggle-password {
   position: absolute;
-  right: 10px;
+  right: 16px;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 18px;
-  color: #555;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.7);
   outline: none;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
 .toggle-password:hover {
-  color: #007bff;
-}
-.caps-lock-warning {
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-.bg-login-image {
-  width: 500px;
-  max-width: 90%;
-  height: auto;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-.bg-login-image:hover {
-  transform: translateY(-20px);
+  color: #15b3e4;
+  background: rgba(21, 179, 228, 0.1);
 }
 
+/* Logo con mejor presentación */
+.bg-login-image {
+  width: 450px;
+  max-width: 90%;
+  height: auto;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+}
+
+.bg-login-image:hover {
+  transform: translateY(-10px) scale(1.02);
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+}
+
+/* Responsive Design Mejorado */
 @media (max-width: 768px) {
   .login-content {
-    flex-direction: column; /* Apilado en pantallas medianas/chicas */
-    gap: 20px;
+    gap: 30px;
   }
 
   .bg-login-image {
-    width: 300px;
+    width: 350px;
   }
 
   .login-box {
-    width: 90%;
-    height: auto;
-    padding: 1rem;
+    width: 95%;
+    padding: 2rem 1.5rem;
+  }
+
+  .form-group input {
+    font-size: 16px;
+    padding: 14px 18px;
+  }
+
+  .login-button {
+    font-size: 15px;
+    padding: 14px 20px;
   }
 }
 
 @media (max-width: 480px) {
+  .login-container {
+    padding: 15px;
+  }
+
   .bg-login-image {
-    width: 250px;
+    width: 280px;
   }
 
   .login-box {
-    padding: 1rem;
+    width: 100%;
+    padding: 2rem 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group input {
+    font-size: 15px;
+    padding: 12px 16px;
   }
 
   .login-button {
     font-size: 14px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .bg-login-image {
-    width: 450px;
+    padding: 12px 18px;
   }
 }
 
 @media (max-width: 400px) {
   .bg-login-image {
-    width: 250px;
+    width: 240px;
   }
 
   .login-box {
-    width: 95%;
+    padding: 1.5rem 1rem;
   }
 
-  .caps-lock-warning {
-    font-size: 14px;
+  .form-group input {
+    padding: 12px 14px;
   }
 
-  .login-button {
-    font-size: 14px;
-    padding: 8px 16px;
+  .password-container input {
+    padding-right: 45px;
   }
+
+  .toggle-password {
+    right: 14px;
+    font-size: 18px;
+  }
+}
+
+/* Animaciones suaves para mejor UX */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-box {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.bg-login-image {
+  animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+/* Estados de focus mejorados para accesibilidad */
+.form-group input:focus,
+.login-button:focus,
+.toggle-password:focus {
+  outline: 2px solid #15b3e4;
+  outline-offset: 2px;
+}
+
+/* Mejoras para modo oscuro nativo del browser */
+@media (prefers-color-scheme: dark) {
+  .login-box {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  .form-group input {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* 🔧 Override específico para .form-input con fondo gris */
+.form-input {
+  width: 100% !important;
+  padding: 16px 20px !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+  background: rgba(128, 128, 128, 0.4) !important;
+  backdrop-filter: blur(10px) !important;
+  color: rgba(128, 128, 128, 0.4) !important;
+}
+
+.form-input:focus {
+  background: rgba(128, 128, 128, 0.5) !important;
+  border-color: #15b3e4 !important;
+  box-shadow: 0 0 15px rgba(21, 179, 228, 0.3) !important;
+}
+
+/* 🎯 Override súper específico para campos del login */
+.login-container .form-input,
+.login-container input.form-input,
+.login-container .inp-txt.form-input,
+#username.form-input,
+input[placeholder="Ingresa tu usuario"].form-input,
+input[placeholder="Ingresa tu contraseña"].form-input {
+  background: rgba(64, 64, 64, 0.8) !important;
+  backdrop-filter: blur(10px) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.login-container .form-input:focus,
+.login-container input.form-input:focus,
+.login-container .inp-txt.form-input:focus,
+#username.form-input:focus,
+input[placeholder="Ingresa tu usuario"].form-input:focus,
+input[placeholder="Ingresa tu contraseña"].form-input:focus {
+  background: rgba(64, 64, 64, 0.9) !important;
+  border-color: #15b3e4 !important;
+  box-shadow: 0 0 15px rgba(21, 179, 228, 0.3) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 🚀 Override ultra específico - último recurso */
+.login-container input[type="text"],
+.login-container input[type="password"] {
+  background: rgba(64, 64, 64, 0.8) !important;
+  backdrop-filter: blur(10px) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 12px !important;
+  padding: 16px 20px !important;
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+  background: rgba(64, 64, 64, 0.9) !important;
+  border-color: #15b3e4 !important;
+  box-shadow: 0 0 15px rgba(21, 179, 228, 0.3) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 🔥 Override directo por ID y clase específica */
+input#username,
+input#password,
+.login-container input {
+  background: rgba(64, 64, 64, 0.8) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
+  text-shadow: none !important;
 }

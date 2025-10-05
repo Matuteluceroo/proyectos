@@ -7,6 +7,7 @@ import Loader from "./components/Loader/Loader"
 import AppRoutes from "./routes/AppRoutes"
 import "bootstrap/dist/css/bootstrap.min.css"
 import SocketStatusBanner from "./testing/SocketStatusBanner"
+import AdminWelcomeToast from "./components/AdminWelcomeToast/AdminWelcomeToast"
 
 const LoaderWrapper = () => {
   const { loading } = useLoader()
@@ -18,6 +19,7 @@ const App = () => (
     <AlertProvider>
       <SocketProvider>
         <AppRoutes />
+        <AdminWelcomeToast />
         <SocketStatusBanner />
         <LoaderWrapper />
       </SocketProvider>

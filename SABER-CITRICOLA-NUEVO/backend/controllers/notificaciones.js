@@ -1,12 +1,30 @@
 // 🔔 NotificacionesController.js - Controlador para manejo de notificaciones
 import NotificacionesModel from '../models/notificaciones.js';
 
+// 🛠️ Helper function para obtener datos del usuario autenticado
+const getUsuarioData = (req) => {
+  const usuario = req.user || req.usuario;
+  return {
+    id: usuario?.id,
+    rol: usuario?.rol || usuario?.role
+  };
+};
+
 class NotificacionesController {
 
   // 📋 Obtener notificaciones del usuario autenticado
   static async obtenerNotificaciones(req, res) {
     try {
-      const usuarioId = req.usuario.id;
+      const { id: usuarioId } = getUsuarioData(req);
+      
+      if (!usuarioId) {
+        return res.status(400).json({
+          success: false,
+          message: 'ID de usuario requerido',
+          error: 'No se pudo obtener el ID del usuario autenticado'
+        });
+      }
+
       const { 
         limite = 50, 
         offset = 0, 
@@ -51,7 +69,14 @@ class NotificacionesController {
   static async marcarComoLeida(req, res) {
     try {
       const { notificacionId } = req.params;
-      const usuarioId = req.usuario.id;
+      const { id: usuarioId } = getUsuarioData(req);
+
+      if (!usuarioId) {
+        return res.status(400).json({
+          success: false,
+          message: 'ID de usuario requerido'
+        });
+      }
 
       const resultado = await NotificacionesModel.marcarComoLeida(
         parseInt(notificacionId),
