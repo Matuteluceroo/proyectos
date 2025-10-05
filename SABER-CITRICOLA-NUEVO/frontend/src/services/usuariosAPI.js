@@ -42,7 +42,8 @@ const getHeaders = () => {
 export const obtenerUsuarios = async () => {
     const response = await fetch(`${API_BASE_URL}/usuarios`, {
         method: 'GET',
-        headers: getHeaders()
+        headers: getHeaders(),
+        credentials: 'include' // 🍪 Incluir cookies para autenticación
     });
     
     if (!response.ok) {
@@ -58,6 +59,7 @@ export const crearUsuario = async (datosUsuario) => {
     const response = await fetch(`${API_BASE_URL}/usuarios`, {
         method: 'POST',
         headers: getHeaders(),
+        credentials: 'include', // 🍪 Incluir cookies para autenticación
         body: JSON.stringify(datosUsuario)
     });
     
@@ -74,6 +76,7 @@ export const actualizarUsuario = async (id, datosUsuario) => {
     const response = await fetch(`${API_BASE_URL}/usuarios/${id}`, {
         method: 'PUT',
         headers: getHeaders(),
+        credentials: 'include', // 🍪 Incluir cookies para autenticación
         body: JSON.stringify(datosUsuario)
     });
     
@@ -89,7 +92,8 @@ export const actualizarUsuario = async (id, datosUsuario) => {
 export const eliminarUsuario = async (id) => {
     const response = await fetch(`${API_BASE_URL}/usuarios/${id}`, {
         method: 'DELETE',
-        headers: getHeaders()
+        headers: getHeaders(),
+        credentials: 'include' // 🍪 Incluir cookies para autenticación
     });
     
     if (!response.ok) {

@@ -600,7 +600,7 @@ export function crearUsuario(datosUsuario, callback) {
         }
         
         const sql = `
-            INSERT INTO usuarios (username, email, password, nombre_completo, rol, fecha_creacion)
+            INSERT INTO usuarios (username, email, password, nombre_completo, rol, created_at)
             VALUES (?, ?, ?, ?, ?, datetime('now'))
         `;
         

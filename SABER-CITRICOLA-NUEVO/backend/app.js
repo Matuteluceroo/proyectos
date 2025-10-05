@@ -60,7 +60,13 @@ app.use(cors({
     },
     credentials: true, // Permitimos cookies
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+    allowedHeaders: [
+        'Content-Type', 
+        'Authorization', 
+        'X-Requested-With',
+        'userRole',     // 🔧 Header personalizado para rol de usuario
+        'userrole'      // 🔧 Alias por compatibilidad
+    ]
 }));
 
 // 📝 Configuramos Express para entender JSON

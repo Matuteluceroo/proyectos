@@ -13,45 +13,41 @@ const router = express.Router();
 
 // Middleware para verificar que el usuario es admin
 const verificarAdmin = (req, res, next) => {
-    const { userRole } = req.headers;
-    
-    console.log('🔍 Headers recibidos:', req.headers);
-    console.log('🔍 Verificando rol de usuario:', { userRole });
+    // Primero verificar si hay usuario autenticado (por devBypassAuth o token real)
+    const usuarioAuth = req.user;
+    if (!usuarioAuth) {
+        return res.status(401).json({ 
+            success: false,
+            error: 'No autenticado. Se requiere login.' 
+        });
+    }
+
+    // Verificar rol del usuario autenticado
+    const rolUsuario = usuarioAuth.rol || usuarioAuth.role;
+    console.log('🔍 Verificando rol de usuario:', { rolUsuario, usuario: usuarioAuth });
     
     // Para desarrollo: permitir todos los roles de admin
     const rolesPermitidos = ['admin', 'administrador', 'ADMINISTRADOR', 'ADMIN'];
     
-    if (!userRole) {
-        console.log('❌ No se encontró userRole en headers');
-        return res.status(403).json({ 
-            success: false,
-            error: 'Acceso denegado. No se encontró información de rol.',
-            debug: { 
-                headersRecibidos: Object.keys(req.headers),
-                userRoleRecibido: userRole
-            }
-        });
-    }
-    
-    if (!rolesPermitidos.includes(userRole)) {
-        console.log('❌ Acceso denegado. Rol actual:', userRole);
+    if (!rolesPermitidos.includes(rolUsuario)) {
+        console.log('❌ Acceso denegado. Rol actual:', rolUsuario);
         return res.status(403).json({ 
             success: false,
             error: 'Acceso denegado. Solo administradores pueden gestionar usuarios.',
             debug: { 
-                rolRecibido: userRole, 
+                rolRecibido: rolUsuario, 
                 rolesPermitidos,
                 esRolValido: false
             }
         });
     }
     
-    console.log('✅ Acceso permitido para rol:', userRole);
+    console.log('✅ Acceso permitido para rol:', rolUsuario);
     next();
 };
 
 // GET /api/usuarios - Obtener todos los usuarios
-router.get('/', devBypassAuth, (req, res) => {
+router.get('/', devBypassAuth, verificarAdmin, (req, res) => {
     console.log('🎯 GET /api/usuarios - Iniciando consulta');
     obtenerTodosUsuarios((err, usuarios) => {
         if (err) {
@@ -72,7 +68,7 @@ router.get('/', devBypassAuth, (req, res) => {
 });
 
 // GET /api/usuarios/:id - Obtener usuario por ID
-router.get('/:id', devBypassAuth, (req, res) => {
+router.get('/:id', devBypassAuth, verificarAdmin, (req, res) => {
     const { id } = req.params;
     
     obtenerUsuarioPorId(id, (err, usuario) => {
@@ -98,11 +94,16 @@ router.get('/:id', devBypassAuth, (req, res) => {
 });
 
 // POST /api/usuarios - Crear nuevo usuario
-router.post('/', devBypassAuth, (req, res) => {
+router.post('/', devBypassAuth, verificarAdmin, (req, res) => {
+    console.log('\n🎯 POST /api/usuarios - Iniciando creación de usuario');
+    console.log('📥 Body recibido:', req.body);
+    console.log('👤 Usuario autenticado:', req.user);
+    
     const { username, email, password, nombre_completo, rol } = req.body;
     
     // Validaciones básicas
     if (!username || !email || !password || !nombre_completo || !rol) {
+        console.log('❌ Faltan campos requeridos');
         return res.status(400).json({
             success: false,
             error: 'Todos los campos son requeridos: username, email, password, nombre_completo, rol'
@@ -112,13 +113,17 @@ router.post('/', devBypassAuth, (req, res) => {
     // Verificar que el rol sea válido
     const rolesValidos = ['admin', 'experto', 'operador'];
     if (!rolesValidos.includes(rol)) {
+        console.log('❌ Rol inválido:', rol);
         return res.status(400).json({
             success: false,
             error: 'Rol inválido. Debe ser: admin, experto o operador'
         });
     }
     
+    console.log('✅ Validaciones básicas pasadas');
+    
     // Verificar si el usuario ya existe
+    console.log('🔍 Verificando si el usuario existe...');
     verificarUsuarioExiste(username, email, (err, existe) => {
         if (err) {
             console.error('❌ Error al verificar usuario:', err);
@@ -128,7 +133,10 @@ router.post('/', devBypassAuth, (req, res) => {
             });
         }
         
+        console.log('📊 Usuario existe:', existe);
+        
         if (existe) {
+            console.log('⚠️ Usuario ya existe');
             return res.status(409).json({
                 success: false,
                 error: 'Ya existe un usuario con ese username o email'
@@ -136,14 +144,22 @@ router.post('/', devBypassAuth, (req, res) => {
         }
         
         // Crear el usuario
+        console.log('🔧 Creando usuario...');
         crearUsuario({ username, email, password, nombre_completo, rol }, (err, usuarioId) => {
             if (err) {
                 console.error('❌ Error al crear usuario:', err);
+                console.error('❌ Error completo:', {
+                    message: err.message,
+                    code: err.code,
+                    errno: err.errno,
+                    stack: err.stack
+                });
                 res.status(500).json({ 
                     success: false,
                     error: 'Error interno del servidor' 
                 });
             } else {
+                console.log('✅ Usuario creado exitosamente con ID:', usuarioId);
                 res.status(201).json({
                     success: true,
                     mensaje: 'Usuario creado correctamente',
@@ -155,7 +171,7 @@ router.post('/', devBypassAuth, (req, res) => {
 });
 
 // PUT /api/usuarios/:id - Actualizar usuario
-router.put('/:id', devBypassAuth, (req, res) => {
+router.put('/:id', devBypassAuth, verificarAdmin, (req, res) => {
     const { id } = req.params;
     const { username, email, password, nombre_completo, rol } = req.body;
     
@@ -204,7 +220,7 @@ router.put('/:id', devBypassAuth, (req, res) => {
 });
 
 // DELETE /api/usuarios/:id - Eliminar usuario
-router.delete('/:id', devBypassAuth, (req, res) => {
+router.delete('/:id', devBypassAuth, verificarAdmin, (req, res) => {
     const { id } = req.params;
     
     eliminarUsuario(id, (err, eliminado) => {
