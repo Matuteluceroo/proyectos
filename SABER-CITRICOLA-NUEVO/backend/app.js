@@ -14,7 +14,6 @@ import {
   obtenerMetricas,
   buscarContenido
 } from './database-citricola.js';
-import { addFileFields } from './migrations/add_file_fields.js';
 import archivosRoutes from './routes/archivos.js';
 import documentosRoutes from './routes/documentos.js';
 import usuariosRoutes from './routes/usuarios.js';
@@ -24,7 +23,6 @@ import configuracionRoutes from './routes/configuracion.js';
 import guiasRapidasRoutes from './routes/guiasRapidas.js';
 import procedimientosRoutes from './routes/procedimientos.js';
 import comentariosRoutes from './routes/comentarios.js';
-import versionesRoutes from './routes/versiones.js';
 import notificacionesRoutes from './routes/notificaciones.js';
 
 // 🏗️ Creamos la aplicación Express
@@ -86,10 +84,7 @@ app.use('/api/procedimientos', procedimientosRoutes);
 // 💬 Rutas de comentarios en documentos
 app.use('/api/comentarios', comentariosRoutes);
 
-// 📚 Rutas de versiones de documentos
-app.use('/api/versiones', versionesRoutes);
-
-// 🔔 Rutas de notificaciones push e internas
+//  Rutas de notificaciones push e internas
 app.use('/api/notificaciones', notificacionesRoutes);
 
 // 👋 Ruta de prueba - Para verificar que funciona
@@ -251,14 +246,7 @@ app.listen(PORT, async () => {
     console.log('🗄️ Inicializando base de datos...');
     await inicializarDB();
     
-    // 📁 Ejecutar migración de archivos
-    console.log('📁 Ejecutando migración de archivos...');
-    try {
-        await addFileFields();
-        console.log('✅ Migración de archivos completada');
-    } catch (error) {
-        console.error('❌ Error en migración de archivos:', error);
-    }
+    console.log('✅ Backend iniciado correctamente');
 });
 
 // 📝 NOTAS PARA ENTENDER:
