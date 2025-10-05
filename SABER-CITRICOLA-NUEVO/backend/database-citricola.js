@@ -533,10 +533,7 @@ const buscarContenido = (query, filtros = {}, callback) => {
 // Obtener usuario por ID
 export function obtenerUsuarioPorId(id, callback) {
     const sql = `
-        SELECT u.*, r.nombre as rol 
-        FROM usuarios u 
-        LEFT JOIN roles r ON u.rol_id = r.id 
-        WHERE u.id = ?
+        SELECT * FROM usuarios WHERE id = ?
     `;
     
     db.get(sql, [id], (err, row) => {
@@ -553,33 +550,25 @@ export function obtenerUsuarioPorId(id, callback) {
 export function crearUsuario(datosUsuario, callback) {
     const { username, email, password, nombre_completo, rol } = datosUsuario;
     
-    // Primero obtener el rol_id
-    const sqlRol = 'SELECT id FROM roles WHERE nombre = ?';
+    console.log('🔄 Creando usuario con datos:', { username, email, nombre_completo, rol });
     
-    db.get(sqlRol, [rol], (err, rolRow) => {
+    // Validar que el rol sea válido
+    const rolesValidos = ['administrador', 'admin', 'experto', 'operador'];
+    const rolFinal = rolesValidos.includes(rol) ? (rol === 'admin' ? 'administrador' : rol) : 'operador';
+    
+    const sql = `
+        INSERT INTO usuarios (username, email, password, nombre_completo, rol, fecha_creacion)
+        VALUES (?, ?, ?, ?, ?, datetime('now'))
+    `;
+    
+    db.run(sql, [username, email, password, nombre_completo, rolFinal], function(err) {
         if (err) {
-            console.error('❌ Error al obtener rol:', err);
-            return callback(err, null);
+            console.error('❌ Error al crear usuario:', err);
+            callback(err, null);
+        } else {
+            console.log(`✅ Usuario creado con ID: ${this.lastID}`);
+            callback(null, this.lastID);
         }
-        
-        if (!rolRow) {
-            return callback(new Error('Rol no encontrado'), null);
-        }
-        
-        const sql = `
-            INSERT INTO usuarios (username, email, password, nombre_completo, rol_id, fecha_creacion)
-            VALUES (?, ?, ?, ?, ?, datetime('now'))
-        `;
-        
-        db.run(sql, [username, email, password, nombre_completo, rolRow.id], function(err) {
-            if (err) {
-                console.error('❌ Error al crear usuario:', err);
-                callback(err, null);
-            } else {
-                console.log(`✅ Usuario creado con ID: ${this.lastID}`);
-                callback(null, this.lastID);
-            }
-        });
     });
 }
 
@@ -587,46 +576,38 @@ export function crearUsuario(datosUsuario, callback) {
 export function actualizarUsuario(id, datosActualizacion, callback) {
     const { username, email, password, nombre_completo, rol } = datosActualizacion;
     
-    // Primero obtener el rol_id
-    const sqlRol = 'SELECT id FROM roles WHERE nombre = ?';
+    console.log('🔄 Actualizando usuario con datos:', { id, username, email, nombre_completo, rol });
     
-    db.get(sqlRol, [rol], (err, rolRow) => {
+    // Validar que el rol sea válido
+    const rolesValidos = ['administrador', 'admin', 'experto', 'operador'];
+    const rolFinal = rolesValidos.includes(rol) ? (rol === 'admin' ? 'administrador' : rol) : 'operador';
+    
+    let sql, params;
+    
+    if (password) {
+        sql = `
+            UPDATE usuarios 
+            SET username = ?, email = ?, password = ?, nombre_completo = ?, rol = ?
+            WHERE id = ?
+        `;
+        params = [username, email, password, nombre_completo, rolFinal, id];
+    } else {
+        sql = `
+            UPDATE usuarios 
+            SET username = ?, email = ?, nombre_completo = ?, rol = ?
+            WHERE id = ?
+        `;
+        params = [username, email, nombre_completo, rolFinal, id];
+    }
+    
+    db.run(sql, params, function(err) {
         if (err) {
-            console.error('❌ Error al obtener rol:', err);
-            return callback(err, null);
-        }
-        
-        if (!rolRow) {
-            return callback(new Error('Rol no encontrado'), null);
-        }
-        
-        let sql, params;
-        
-        if (password) {
-            sql = `
-                UPDATE usuarios 
-                SET username = ?, email = ?, password = ?, nombre_completo = ?, rol_id = ?
-                WHERE id = ?
-            `;
-            params = [username, email, password, nombre_completo, rolRow.id, id];
+            console.error('❌ Error al actualizar usuario:', err);
+            callback(err, null);
         } else {
-            sql = `
-                UPDATE usuarios 
-                SET username = ?, email = ?, nombre_completo = ?, rol_id = ?
-                WHERE id = ?
-            `;
-            params = [username, email, nombre_completo, rolRow.id, id];
+            console.log(`✅ Usuario ${id} actualizado exitosamente`);
+            callback(null, { changes: this.changes });
         }
-        
-        db.run(sql, params, function(err) {
-            if (err) {
-                console.error('❌ Error al actualizar usuario:', err);
-                callback(err, null);
-            } else {
-                console.log(`✅ Usuario actualizado. Filas afectadas: ${this.changes}`);
-                callback(null, this.changes > 0);
-            }
-        });
     });
 }
 

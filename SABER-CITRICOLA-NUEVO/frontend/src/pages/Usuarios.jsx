@@ -93,22 +93,37 @@ const Usuarios = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            console.log('🚀 Enviando datos del formulario:', formData);
+            
             if (modalType === 'create') {
-                await usuariosAPI.crearUsuario(formData);
+                const response = await usuariosAPI.crearUsuario(formData);
+                console.log('✅ Respuesta del servidor:', response);
                 alert('✅ Usuario creado exitosamente');
             } else {
                 const updateData = { ...formData };
                 if (!updateData.password) {
                     delete updateData.password;
                 }
-                await usuariosAPI.actualizarUsuario(selectedUser.id, updateData);
+                const response = await usuariosAPI.actualizarUsuario(selectedUser.id, updateData);
+                console.log('✅ Respuesta del servidor:', response);
                 alert('✅ Usuario actualizado exitosamente');
             }
             setShowModal(false);
             cargarUsuarios();
         } catch (error) {
-            console.error('❌ Error:', error);
-            alert('❌ Error al guardar usuario');
+            console.error('❌ Error completo:', error);
+            console.error('❌ Mensaje del error:', error.message);
+            console.error('❌ Response del error:', error.response);
+            
+            // Mostrar error más específico
+            let errorMessage = 'Error desconocido';
+            if (error.response && error.response.data && error.response.data.mensaje) {
+                errorMessage = error.response.data.mensaje;
+            } else if (error.message) {
+                errorMessage = error.message;
+            }
+            
+            alert(`❌ Error al guardar usuario: ${errorMessage}`);
         }
     };
 
@@ -187,64 +202,70 @@ const Usuarios = () => {
                         <p>Bienvenido, <strong>{userInfo?.nombre_completo || userInfo?.username}</strong></p>
                         <span className="role-badge admin" style={{ background: 'rgba(255, 255, 255, 0.2)', color: 'white', padding: '8px 16px', borderRadius: '20px', fontSize: '0.9em', marginTop: '10px', display: 'inline-block' }}>Administrador del Sistema</span>
                     </div>
-                    <div className="header-actions">
+                    <div className="header-actions" style={{ display: 'flex', gap: '10px' }}>
                         <button 
                             className="btn-secondary" 
                             onClick={() => navigate('/dashboard')}
+                            style={{ background: 'rgba(255,255,255,0.2)', color: 'white', padding: '10px 20px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
                         >
                             🏠 Dashboard
                         </button>
                         <button 
                             className="btn-primary" 
                             onClick={openCreateModal}
+                            style={{ background: 'rgba(255,255,255,0.2)', color: 'white', padding: '10px 20px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
                         >
                             ➕ Nuevo Usuario
                         </button>
-                        <button className="btn-danger" onClick={handleLogout}>
+                        <button 
+                            className="btn-danger" 
+                            onClick={handleLogout}
+                            style={{ background: 'rgba(255,255,255,0.2)', color: 'white', padding: '10px 20px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
+                        >
                             🚪 Cerrar Sesión
                         </button>
                     </div>
                 </div>
 
                 {/* 📊 Métricas principales del sistema */}
-                <div className="metrics-row">
-                    <div className="metric-card admin">
-                        <span className="metric-icon">👥</span>
+                <div className="metrics-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '30px' }}>
+                    <div className="metric-card admin" style={{ background: 'linear-gradient(135deg, #fef3c7, #fde68a)', padding: '20px', borderRadius: '15px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                        <span className="metric-icon" style={{ fontSize: '24px', marginBottom: '10px', display: 'block' }}>👥</span>
                         <div className="metric-info">
-                            <p className="metric-number">
+                            <p className="metric-number" style={{ fontSize: '24px', fontWeight: 'bold', color: '#e53e3e', margin: '0' }}>
                                 {loading ? '⏳' : usuarios.length}
                             </p>
-                            <p className="metric-label">Usuarios Registrados</p>
+                            <p className="metric-label" style={{ fontSize: '14px', color: '#666', margin: '0' }}>Usuarios Registrados</p>
                         </div>
                     </div>
                     
-                    <div className="metric-card admin">
-                        <span className="metric-icon">👑</span>
+                    <div className="metric-card admin" style={{ background: 'linear-gradient(135deg, #fef3c7, #fde68a)', padding: '20px', borderRadius: '15px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                        <span className="metric-icon" style={{ fontSize: '24px', marginBottom: '10px', display: 'block' }}>👑</span>
                         <div className="metric-info">
-                            <p className="metric-number">
+                            <p className="metric-number" style={{ fontSize: '24px', fontWeight: 'bold', color: '#e53e3e', margin: '0' }}>
                                 {loading ? '⏳' : usuarios.filter(u => u.rol === 'administrador' || u.rol === 'admin').length}
                             </p>
-                            <p className="metric-label">Administradores</p>
+                            <p className="metric-label" style={{ fontSize: '14px', color: '#666', margin: '0' }}>Administradores</p>
                         </div>
                     </div>
                     
-                    <div className="metric-card admin">
-                        <span className="metric-icon">🎓</span>
+                    <div className="metric-card admin" style={{ background: 'linear-gradient(135deg, #fef3c7, #fde68a)', padding: '20px', borderRadius: '15px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                        <span className="metric-icon" style={{ fontSize: '24px', marginBottom: '10px', display: 'block' }}>🎓</span>
                         <div className="metric-info">
-                            <p className="metric-number">
+                            <p className="metric-number" style={{ fontSize: '24px', fontWeight: 'bold', color: '#e53e3e', margin: '0' }}>
                                 {loading ? '⏳' : usuarios.filter(u => u.rol === 'experto').length}
                             </p>
-                            <p className="metric-label">Expertos</p>
+                            <p className="metric-label" style={{ fontSize: '14px', color: '#666', margin: '0' }}>Expertos</p>
                         </div>
                     </div>
                     
-                    <div className="metric-card admin">
-                        <span className="metric-icon">🔧</span>
+                    <div className="metric-card admin" style={{ background: 'linear-gradient(135deg, #fef3c7, #fde68a)', padding: '20px', borderRadius: '15px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                        <span className="metric-icon" style={{ fontSize: '24px', marginBottom: '10px', display: 'block' }}>🔧</span>
                         <div className="metric-info">
-                            <p className="metric-number">
+                            <p className="metric-number" style={{ fontSize: '24px', fontWeight: 'bold', color: '#e53e3e', margin: '0' }}>
                                 {loading ? '⏳' : usuarios.filter(u => u.rol === 'operador').length}
                             </p>
-                            <p className="metric-label">Operadores</p>
+                            <p className="metric-label" style={{ fontSize: '14px', color: '#666', margin: '0' }}>Operadores</p>
                         </div>
                     </div>
                 </div>
