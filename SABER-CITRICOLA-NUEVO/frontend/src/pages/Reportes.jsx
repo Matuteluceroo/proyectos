@@ -102,43 +102,119 @@ const Reportes = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center">
-                <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
-                    <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600 mx-auto mb-4"></div>
-                    <div className="text-xl text-gray-800 mb-2">Generando reportes...</div>
-                    <div className="text-gray-600">Analizando datos del sistema</div>
+            <div style={{
+                minHeight: '100vh',
+                background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 25%, #fed7aa 50%, #fdba74 75%, #fb923c 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <div style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                    borderRadius: '20px',
+                    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15)',
+                    padding: '40px',
+                    textAlign: 'center',
+                    borderLeft: '6px solid #f97316'
+                }}>
+                    <div style={{
+                        width: '64px',
+                        height: '64px',
+                        border: '4px solid #f3f4f6',
+                        borderTop: '4px solid #f97316',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite',
+                        margin: '0 auto 24px'
+                    }}></div>
+                    <div style={{
+                        fontSize: '20px',
+                        color: '#1f2937',
+                        marginBottom: '8px',
+                        fontWeight: 'bold'
+                    }}>Generando reportes...</div>
+                    <div style={{
+                        color: '#6b7280',
+                        fontSize: '14px'
+                    }}>Analizando datos del sistema</div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
-            {/* Header */}
-            <div className="bg-white shadow-lg border-b-4 border-orange-500">
-                <div className="max-w-7xl mx-auto px-6 py-6">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-6">
+        <div style={{
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 25%, #fed7aa 50%, #fdba74 75%, #fb923c 100%)'
+        }}>
+            {/* 🍊 Header Profesional con Estilo Cítrico */}
+            <div style={{
+                background: 'linear-gradient(135deg, #ea580c 0%, #dc2626 50%, #b91c1c 100%)',
+                boxShadow: '0 8px 32px rgba(234, 88, 12, 0.3)',
+                borderBottom: '4px solid #f97316'
+            }}>
+                <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                             <button
-                                onClick={() => navigate('/dashboard')}
-                                className="flex items-center space-x-2 text-orange-600 hover:text-orange-800 font-bold transition-all duration-200 hover:scale-105"
+                                onClick={() => navigate('/dashboard-admin')}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    color: 'white',
+                                    fontWeight: 'bold',
+                                    fontSize: '16px',
+                                    background: 'rgba(255, 255, 255, 0.1)',
+                                    border: '2px solid rgba(255, 255, 255, 0.2)',
+                                    borderRadius: '12px',
+                                    padding: '10px 20px',
+                                    transition: 'all 0.3s ease',
+                                    cursor: 'pointer'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = 'none';
+                                }}
                             >
                                 🏠 <span>Dashboard</span>
                             </button>
-                            <div className="hidden md:flex items-center space-x-2 text-gray-400">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                                 <span>/</span>
-                                <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+                                <h1 style={{
+                                    fontSize: '28px',
+                                    fontWeight: 'bold',
+                                    color: 'white',
+                                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)',
+                                    margin: 0
+                                }}>
                                     📊 REPORTES Y ESTADÍSTICAS
-                                </span>
+                                </h1>
                             </div>
                         </div>
                         
-                        <div className="flex items-center space-x-4">
-                            <div className="text-right">
-                                <div className="text-sm text-gray-500">Administrador</div>
-                                <div className="font-bold text-gray-800">Juan</div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                            <div style={{ textAlign: 'right', color: 'white' }}>
+                                <div style={{ fontSize: '14px', opacity: '0.9' }}>Administrador</div>
+                                <div style={{ fontWeight: 'bold', fontSize: '16px' }}>Juan</div>
                             </div>
-                            <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white font-bold">
+                            <div style={{
+                                width: '48px',
+                                height: '48px',
+                                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '20px',
+                                border: '3px solid rgba(255, 255, 255, 0.3)',
+                                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
+                            }}>
                                 👤
                             </div>
                         </div>
@@ -146,48 +222,149 @@ const Reportes = () => {
                 </div>
             </div>
 
-            {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-6 py-8">
-                {/* Filtros de Fecha */}
-                <div className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl shadow-xl mb-8 border-l-4 border-orange-500">
-                    <div className="bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4 rounded-t-2xl">
-                        <h3 className="text-xl font-bold text-white flex items-center space-x-2">
+            {/* 📊 Contenido Principal */}
+            <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 24px' }}>
+                {/* 📅 Panel de Filtros Mejorado */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                    borderRadius: '20px',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                    marginBottom: '32px',
+                    borderLeft: '6px solid #f97316',
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                        padding: '20px 24px'
+                    }}>
+                        <h3 style={{
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                            color: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            margin: 0,
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
+                        }}>
                             <span>📅</span>
                             <span>Filtros de Reporte</span>
                         </h3>
                     </div>
-                    <div className="p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div style={{ padding: '24px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-2">Fecha Desde</label>
+                                <label style={{
+                                    display: 'block',
+                                    fontSize: '14px',
+                                    fontWeight: 'bold',
+                                    color: '#374151',
+                                    marginBottom: '8px'
+                                }}>📆 Fecha Desde</label>
                                 <input
                                     type="date"
                                     value={dateRange.desde}
                                     onChange={(e) => setDateRange({...dateRange, desde: e.target.value})}
-                                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                    style={{
+                                        width: '100%',
+                                        padding: '12px 16px',
+                                        border: '2px solid #d1d5db',
+                                        borderRadius: '12px',
+                                        fontSize: '14px',
+                                        transition: 'all 0.3s ease',
+                                        background: '#ffffff'
+                                    }}
+                                    onFocus={(e) => {
+                                        e.target.style.borderColor = '#f97316';
+                                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.target.style.borderColor = '#d1d5db';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-2">Fecha Hasta</label>
+                                <label style={{
+                                    display: 'block',
+                                    fontSize: '14px',
+                                    fontWeight: 'bold',
+                                    color: '#374151',
+                                    marginBottom: '8px'
+                                }}>📅 Fecha Hasta</label>
                                 <input
                                     type="date"
                                     value={dateRange.hasta}
                                     onChange={(e) => setDateRange({...dateRange, hasta: e.target.value})}
-                                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                    style={{
+                                        width: '100%',
+                                        padding: '12px 16px',
+                                        border: '2px solid #d1d5db',
+                                        borderRadius: '12px',
+                                        fontSize: '14px',
+                                        transition: 'all 0.3s ease',
+                                        background: '#ffffff'
+                                    }}
+                                    onFocus={(e) => {
+                                        e.target.style.borderColor = '#f97316';
+                                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.target.style.borderColor = '#d1d5db';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
                                 />
                             </div>
-                            <div className="flex items-end">
+                            <div style={{ display: 'flex', alignItems: 'end' }}>
                                 <button
                                     onClick={cargarReportes}
-                                    className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                    style={{
+                                        width: '100%',
+                                        background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                                        color: 'white',
+                                        padding: '12px 24px',
+                                        borderRadius: '12px',
+                                        fontWeight: 'bold',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease',
+                                        boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.target.style.transform = 'translateY(-2px)';
+                                        e.target.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.transform = 'translateY(0)';
+                                        e.target.style.boxShadow = '0 4px 15px rgba(59, 130, 246, 0.3)';
+                                    }}
                                 >
                                     🔄 Actualizar
                                 </button>
                             </div>
-                            <div className="flex items-end">
+                            <div style={{ display: 'flex', alignItems: 'end' }}>
                                 <button
                                     onClick={() => exportarReporte('completo')}
-                                    className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                    style={{
+                                        width: '100%',
+                                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                                        color: 'white',
+                                        padding: '12px 24px',
+                                        borderRadius: '12px',
+                                        fontWeight: 'bold',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease',
+                                        boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.target.style.transform = 'translateY(-2px)';
+                                        e.target.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.4)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.transform = 'translateY(0)';
+                                        e.target.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.3)';
+                                    }}
                                 >
                                     📥 Exportar
                                 </button>
@@ -196,199 +373,733 @@ const Reportes = () => {
                     </div>
                 </div>
 
-                {/* Métricas Principales */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {/* 📊 Panel de Métricas Principales */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '32px' }}>
                     {/* Total Usuarios */}
-                    <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-6 border-l-4 border-blue-500 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-2xl">👥</span>
-                            </div>
-                            <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Total Usuarios</h3>
-                            <div className="text-4xl font-black text-blue-600 mb-2">{reportData.usuarios.total}</div>
-                            <p className="text-xs text-gray-600">+{reportData.usuarios.nuevosEsteMes} este mes</p>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #3b82f6',
+                        boxShadow: '0 8px 25px rgba(59, 130, 246, 0.15)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-5px)';
+                        e.currentTarget.style.boxShadow = '0 12px 35px rgba(59, 130, 246, 0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.15)';
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 16px',
+                                fontSize: '24px',
+                                boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)'
+                            }}>👥</div>
+                            <h3 style={{
+                                fontSize: '12px',
+                                fontWeight: 'bold',
+                                color: '#374151',
+                                textTransform: 'uppercase',
+                                letterSpacing: '1px',
+                                marginBottom: '8px'
+                            }}>Total Usuarios</h3>
+                            <div style={{
+                                fontSize: '36px',
+                                fontWeight: '900',
+                                color: '#3b82f6',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+                                marginBottom: '8px'
+                            }}>{reportData.usuarios.total}</div>
+                            <p style={{
+                                fontSize: '12px',
+                                color: '#6b7280',
+                                margin: 0
+                            }}>+{reportData.usuarios.nuevosEsteMes} este mes</p>
                         </div>
                     </div>
 
                     {/* Total Documentos */}
-                    <div className="bg-gradient-to-br from-green-100 to-green-200 rounded-2xl p-6 border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-2xl">📄</span>
-                            </div>
-                            <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Documentos</h3>
-                            <div className="text-4xl font-black text-green-600 mb-2">{reportData.contenido.documentos}</div>
-                            <p className="text-xs text-gray-600">{reportData.contenido.descargas} descargas</p>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #10b981',
+                        boxShadow: '0 8px 25px rgba(16, 185, 129, 0.15)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-5px)';
+                        e.currentTarget.style.boxShadow = '0 12px 35px rgba(16, 185, 129, 0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.15)';
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 16px',
+                                fontSize: '24px',
+                                boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)'
+                            }}>📄</div>
+                            <h3 style={{
+                                fontSize: '12px',
+                                fontWeight: 'bold',
+                                color: '#374151',
+                                textTransform: 'uppercase',
+                                letterSpacing: '1px',
+                                marginBottom: '8px'
+                            }}>Documentos</h3>
+                            <div style={{
+                                fontSize: '36px',
+                                fontWeight: '900',
+                                color: '#10b981',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+                                marginBottom: '8px'
+                            }}>{reportData.contenido.documentos}</div>
+                            <p style={{
+                                fontSize: '12px',
+                                color: '#6b7280',
+                                margin: 0
+                            }}>{reportData.contenido.descargas} descargas</p>
                         </div>
                     </div>
 
                     {/* Usuarios Activos */}
-                    <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl p-6 border-l-4 border-purple-500 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-2xl">⚡</span>
-                            </div>
-                            <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Usuarios Activos</h3>
-                            <div className="text-4xl font-black text-purple-600 mb-2">{reportData.usuarios.activos}</div>
-                            <p className="text-xs text-gray-600">{((reportData.usuarios.activos / reportData.usuarios.total) * 100).toFixed(1)}% del total</p>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #8b5cf6',
+                        boxShadow: '0 8px 25px rgba(139, 92, 246, 0.15)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-5px)';
+                        e.currentTarget.style.boxShadow = '0 12px 35px rgba(139, 92, 246, 0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(139, 92, 246, 0.15)';
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 16px',
+                                fontSize: '24px',
+                                boxShadow: '0 4px 15px rgba(139, 92, 246, 0.3)'
+                            }}>⚡</div>
+                            <h3 style={{
+                                fontSize: '12px',
+                                fontWeight: 'bold',
+                                color: '#374151',
+                                textTransform: 'uppercase',
+                                letterSpacing: '1px',
+                                marginBottom: '8px'
+                            }}>Usuarios Activos</h3>
+                            <div style={{
+                                fontSize: '36px',
+                                fontWeight: '900',
+                                color: '#8b5cf6',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+                                marginBottom: '8px'
+                            }}>{reportData.usuarios.activos}</div>
+                            <p style={{
+                                fontSize: '12px',
+                                color: '#6b7280',
+                                margin: 0
+                            }}>{((reportData.usuarios.activos / reportData.usuarios.total) * 100).toFixed(1)}% del total</p>
                         </div>
                     </div>
 
                     {/* Rendimiento Sistema */}
-                    <div className="bg-gradient-to-br from-orange-100 to-orange-200 rounded-2xl p-6 border-l-4 border-orange-500 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-2xl">🚀</span>
-                            </div>
-                            <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-2">Rendimiento</h3>
-                            <div className="text-4xl font-black text-orange-600 mb-2">{reportData.sistema.rendimiento}%</div>
-                            <p className="text-xs text-gray-600">Sistema optimizado</p>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        borderLeft: '6px solid #f97316',
+                        boxShadow: '0 8px 25px rgba(249, 115, 22, 0.15)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-5px)';
+                        e.currentTarget.style.boxShadow = '0 12px 35px rgba(249, 115, 22, 0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.15)';
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 16px',
+                                fontSize: '24px',
+                                boxShadow: '0 4px 15px rgba(249, 115, 22, 0.3)'
+                            }}>🚀</div>
+                            <h3 style={{
+                                fontSize: '12px',
+                                fontWeight: 'bold',
+                                color: '#374151',
+                                textTransform: 'uppercase',
+                                letterSpacing: '1px',
+                                marginBottom: '8px'
+                            }}>Rendimiento</h3>
+                            <div style={{
+                                fontSize: '36px',
+                                fontWeight: '900',
+                                color: '#f97316',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+                                marginBottom: '8px'
+                            }}>{reportData.sistema.rendimiento}%</div>
+                            <p style={{
+                                fontSize: '12px',
+                                color: '#6b7280',
+                                margin: 0
+                            }}>Sistema optimizado</p>
                         </div>
                     </div>
                 </div>
 
-                {/* Reportes Detallados */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                {/* 📋 Reportes Detallados */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))', gap: '32px', marginBottom: '32px' }}>
                     {/* Distribución por Roles */}
-                    <div className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl shadow-xl border-l-4 border-orange-500">
-                        <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4 rounded-t-2xl">
-                            <h3 className="text-xl font-bold text-white">👑 Distribución por Roles</h3>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                        borderRadius: '20px',
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                        borderLeft: '6px solid #f97316',
+                        overflow: 'hidden'
+                    }}>
+                        <div style={{
+                            background: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
+                            padding: '20px 24px'
+                        }}>
+                            <h3 style={{
+                                fontSize: '20px',
+                                fontWeight: 'bold',
+                                color: 'white',
+                                margin: 0,
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
+                            }}>👑 Distribución por Roles</h3>
                         </div>
-                        <div className="p-6">
-                            <div className="space-y-4">
-                                <div className="flex items-center justify-between p-4 bg-white rounded-xl">
-                                    <div className="flex items-center space-x-3">
-                                        <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                                            <span className="text-white text-sm">👑</span>
-                                        </div>
-                                        <span className="font-semibold">Administradores</span>
+                        <div style={{ padding: '24px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    padding: '16px',
+                                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                                    borderRadius: '12px',
+                                    border: '2px solid #e5e7eb',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateX(4px)';
+                                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateX(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <div style={{
+                                            width: '32px',
+                                            height: '32px',
+                                            background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                                            borderRadius: '50%',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            fontSize: '14px',
+                                            boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)'
+                                        }}>👑</div>
+                                        <span style={{ fontWeight: '600', color: '#1f2937' }}>Administradores</span>
                                     </div>
-                                    <div className="text-xl font-bold text-red-600">{reportData.usuarios.porRol.admin}</div>
+                                    <div style={{
+                                        fontSize: '20px',
+                                        fontWeight: 'bold',
+                                        color: '#ef4444'
+                                    }}>{reportData.usuarios.porRol.admin}</div>
                                 </div>
-                                <div className="flex items-center justify-between p-4 bg-white rounded-xl">
-                                    <div className="flex items-center space-x-3">
-                                        <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                                            <span className="text-white text-sm">🎓</span>
-                                        </div>
-                                        <span className="font-semibold">Expertos</span>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    padding: '16px',
+                                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                                    borderRadius: '12px',
+                                    border: '2px solid #e5e7eb',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateX(4px)';
+                                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateX(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <div style={{
+                                            width: '32px',
+                                            height: '32px',
+                                            background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                                            borderRadius: '50%',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            fontSize: '14px',
+                                            boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'
+                                        }}>🎓</div>
+                                        <span style={{ fontWeight: '600', color: '#1f2937' }}>Expertos</span>
                                     </div>
-                                    <div className="text-xl font-bold text-purple-600">{reportData.usuarios.porRol.experto}</div>
+                                    <div style={{
+                                        fontSize: '20px',
+                                        fontWeight: 'bold',
+                                        color: '#8b5cf6'
+                                    }}>{reportData.usuarios.porRol.experto}</div>
                                 </div>
-                                <div className="flex items-center justify-between p-4 bg-white rounded-xl">
-                                    <div className="flex items-center space-x-3">
-                                        <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                                            <span className="text-white text-sm">🔧</span>
-                                        </div>
-                                        <span className="font-semibold">Operadores</span>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    padding: '16px',
+                                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                                    borderRadius: '12px',
+                                    border: '2px solid #e5e7eb',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateX(4px)';
+                                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateX(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <div style={{
+                                            width: '32px',
+                                            height: '32px',
+                                            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                                            borderRadius: '50%',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            fontSize: '14px',
+                                            boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)'
+                                        }}>🔧</div>
+                                        <span style={{ fontWeight: '600', color: '#1f2937' }}>Operadores</span>
                                     </div>
-                                    <div className="text-xl font-bold text-green-600">{reportData.usuarios.porRol.operador}</div>
+                                    <div style={{
+                                        fontSize: '20px',
+                                        fontWeight: 'bold',
+                                        color: '#10b981'
+                                    }}>{reportData.usuarios.porRol.operador}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Actividad del Sistema */}
-                    <div className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl shadow-xl border-l-4 border-orange-500">
-                        <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4 rounded-t-2xl">
-                            <h3 className="text-xl font-bold text-white">📈 Actividad del Sistema</h3>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                        borderRadius: '20px',
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                        borderLeft: '6px solid #f97316',
+                        overflow: 'hidden'
+                    }}>
+                        <div style={{
+                            background: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
+                            padding: '20px 24px'
+                        }}>
+                            <h3 style={{
+                                fontSize: '20px',
+                                fontWeight: 'bold',
+                                color: 'white',
+                                margin: 0,
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
+                            }}>📈 Actividad del Sistema</h3>
                         </div>
-                        <div className="p-6">
-                            <div className="space-y-4">
-                                <div className="flex items-center justify-between p-4 bg-white rounded-xl">
-                                    <span className="font-semibold">Logins Diarios</span>
-                                    <div className="text-xl font-bold text-blue-600">{reportData.actividad.loginsDiarios}</div>
+                        <div style={{ padding: '24px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    padding: '16px',
+                                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                                    borderRadius: '12px',
+                                    border: '2px solid #e5e7eb'
+                                }}>
+                                    <span style={{ fontWeight: '600', color: '#1f2937' }}>🔑 Logins Diarios</span>
+                                    <div style={{
+                                        fontSize: '20px',
+                                        fontWeight: 'bold',
+                                        color: '#3b82f6'
+                                    }}>{reportData.actividad.loginsDiarios}</div>
                                 </div>
-                                <div className="flex items-center justify-between p-4 bg-white rounded-xl">
-                                    <span className="font-semibold">Sesiones Promedio</span>
-                                    <div className="text-xl font-bold text-green-600">{reportData.actividad.sesionesPromedio}</div>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    padding: '16px',
+                                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                                    borderRadius: '12px',
+                                    border: '2px solid #e5e7eb'
+                                }}>
+                                    <span style={{ fontWeight: '600', color: '#1f2937' }}>📊 Sesiones Promedio</span>
+                                    <div style={{
+                                        fontSize: '20px',
+                                        fontWeight: 'bold',
+                                        color: '#10b981'
+                                    }}>{reportData.actividad.sesionesPromedio}</div>
                                 </div>
-                                <div className="flex items-center justify-between p-4 bg-white rounded-xl">
-                                    <span className="font-semibold">Tiempo Promedio (min)</span>
-                                    <div className="text-xl font-bold text-purple-600">{reportData.actividad.tiempoPromedioSesion}</div>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    padding: '16px',
+                                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                                    borderRadius: '12px',
+                                    border: '2px solid #e5e7eb'
+                                }}>
+                                    <span style={{ fontWeight: '600', color: '#1f2937' }}>⏱️ Tiempo Promedio (min)</span>
+                                    <div style={{
+                                        fontSize: '20px',
+                                        fontWeight: 'bold',
+                                        color: '#8b5cf6'
+                                    }}>{reportData.actividad.tiempoPromedioSesion}</div>
                                 </div>
-                                <div className="flex items-center justify-between p-4 bg-white rounded-xl">
-                                    <span className="font-semibold">Acciones por Día</span>
-                                    <div className="text-xl font-bold text-orange-600">{reportData.actividad.accionesPorDia}</div>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    padding: '16px',
+                                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                                    borderRadius: '12px',
+                                    border: '2px solid #e5e7eb'
+                                }}>
+                                    <span style={{ fontWeight: '600', color: '#1f2937' }}>⚡ Acciones por Día</span>
+                                    <div style={{
+                                        fontSize: '20px',
+                                        fontWeight: 'bold',
+                                        color: '#f97316'
+                                    }}>{reportData.actividad.accionesPorDia}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Estado del Sistema */}
-                <div className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl shadow-xl border-l-4 border-orange-500">
-                    <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4 rounded-t-2xl">
-                        <h3 className="text-xl font-bold text-white">🔧 Estado del Sistema</h3>
+                {/* 🔧 Estado del Sistema */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                    borderRadius: '20px',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                    borderLeft: '6px solid #f97316',
+                    overflow: 'hidden',
+                    marginBottom: '32px'
+                }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
+                        padding: '20px 24px'
+                    }}>
+                        <h3 style={{
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                            color: 'white',
+                            margin: 0,
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
+                        }}>🔧 Estado del Sistema</h3>
                     </div>
-                    <div className="p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                            <div className="text-center">
-                                <div className="text-3xl font-bold text-green-600 mb-2">{reportData.sistema.uptime}%</div>
-                                <div className="text-sm font-semibold text-gray-700">Uptime</div>
-                                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                                    <div 
-                                        className="bg-green-500 h-2 rounded-full" 
-                                        style={{width: `${reportData.sistema.uptime}%`}}
-                                    ></div>
+                    <div style={{ padding: '24px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
+                            <div style={{
+                                textAlign: 'center',
+                                padding: '20px',
+                                background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                                borderRadius: '16px',
+                                border: '2px solid #bbf7d0'
+                            }}>
+                                <div style={{
+                                    fontSize: '32px',
+                                    fontWeight: 'bold',
+                                    color: '#166534',
+                                    marginBottom: '8px'
+                                }}>{reportData.sistema.uptime}%</div>
+                                <div style={{
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    color: '#374151',
+                                    marginBottom: '12px'
+                                }}>🟢 Uptime</div>
+                                <div style={{
+                                    width: '100%',
+                                    background: '#e5e7eb',
+                                    borderRadius: '10px',
+                                    height: '8px',
+                                    overflow: 'hidden'
+                                }}>
+                                    <div style={{
+                                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                                        height: '8px',
+                                        borderRadius: '10px',
+                                        width: `${reportData.sistema.uptime}%`,
+                                        transition: 'width 0.3s ease'
+                                    }}></div>
                                 </div>
                             </div>
-                            <div className="text-center">
-                                <div className="text-3xl font-bold text-blue-600 mb-2">{reportData.sistema.rendimiento}%</div>
-                                <div className="text-sm font-semibold text-gray-700">Rendimiento</div>
-                                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                                    <div 
-                                        className="bg-blue-500 h-2 rounded-full" 
-                                        style={{width: `${reportData.sistema.rendimiento}%`}}
-                                    ></div>
+                            <div style={{
+                                textAlign: 'center',
+                                padding: '20px',
+                                background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
+                                borderRadius: '16px',
+                                border: '2px solid #bfdbfe'
+                            }}>
+                                <div style={{
+                                    fontSize: '32px',
+                                    fontWeight: 'bold',
+                                    color: '#1e40af',
+                                    marginBottom: '8px'
+                                }}>{reportData.sistema.rendimiento}%</div>
+                                <div style={{
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    color: '#374151',
+                                    marginBottom: '12px'
+                                }}>🔵 Rendimiento</div>
+                                <div style={{
+                                    width: '100%',
+                                    background: '#e5e7eb',
+                                    borderRadius: '10px',
+                                    height: '8px',
+                                    overflow: 'hidden'
+                                }}>
+                                    <div style={{
+                                        background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                                        height: '8px',
+                                        borderRadius: '10px',
+                                        width: `${reportData.sistema.rendimiento}%`,
+                                        transition: 'width 0.3s ease'
+                                    }}></div>
                                 </div>
                             </div>
-                            <div className="text-center">
-                                <div className="text-3xl font-bold text-orange-600 mb-2">{reportData.sistema.espacioUsado}%</div>
-                                <div className="text-sm font-semibold text-gray-700">Espacio Usado</div>
-                                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                                    <div 
-                                        className="bg-orange-500 h-2 rounded-full" 
-                                        style={{width: `${reportData.sistema.espacioUsado}%`}}
-                                    ></div>
+                            <div style={{
+                                textAlign: 'center',
+                                padding: '20px',
+                                background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)',
+                                borderRadius: '16px',
+                                border: '2px solid #fed7aa'
+                            }}>
+                                <div style={{
+                                    fontSize: '32px',
+                                    fontWeight: 'bold',
+                                    color: '#ea580c',
+                                    marginBottom: '8px'
+                                }}>{reportData.sistema.espacioUsado}%</div>
+                                <div style={{
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    color: '#374151',
+                                    marginBottom: '12px'
+                                }}>🟠 Espacio Usado</div>
+                                <div style={{
+                                    width: '100%',
+                                    background: '#e5e7eb',
+                                    borderRadius: '10px',
+                                    height: '8px',
+                                    overflow: 'hidden'
+                                }}>
+                                    <div style={{
+                                        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                        height: '8px',
+                                        borderRadius: '10px',
+                                        width: `${reportData.sistema.espacioUsado}%`,
+                                        transition: 'width 0.3s ease'
+                                    }}></div>
                                 </div>
                             </div>
-                            <div className="text-center">
-                                <div className="text-3xl font-bold text-red-600 mb-2">{reportData.sistema.errores}</div>
-                                <div className="text-sm font-semibold text-gray-700">Errores Hoy</div>
-                                <div className="text-xs text-gray-500 mt-2">Sistema estable</div>
+                            <div style={{
+                                textAlign: 'center',
+                                padding: '20px',
+                                background: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)',
+                                borderRadius: '16px',
+                                border: '2px solid #fca5a5'
+                            }}>
+                                <div style={{
+                                    fontSize: '32px',
+                                    fontWeight: 'bold',
+                                    color: '#dc2626',
+                                    marginBottom: '8px'
+                                }}>{reportData.sistema.errores}</div>
+                                <div style={{
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    color: '#374151',
+                                    marginBottom: '12px'
+                                }}>🔴 Errores Hoy</div>
+                                <div style={{
+                                    fontSize: '12px',
+                                    color: '#6b7280'
+                                }}>Sistema estable</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Acciones Rápidas */}
-                <div className="mt-8 bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl shadow-xl border-l-4 border-orange-500">
-                    <div className="bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4 rounded-t-2xl">
-                        <h3 className="text-xl font-bold text-white">⚡ Acciones de Reporte</h3>
+                {/* ⚡ Acciones Rápidas */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+                    borderRadius: '20px',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                    borderLeft: '6px solid #f97316',
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                        padding: '20px 24px'
+                    }}>
+                        <h3 style={{
+                            fontSize: '20px',
+                            fontWeight: 'bold',
+                            color: 'white',
+                            margin: 0,
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
+                        }}>⚡ Acciones de Reporte</h3>
                     </div>
-                    <div className="p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div style={{ padding: '24px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
                             <button
                                 onClick={() => exportarReporte('usuarios')}
-                                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                style={{
+                                    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                                    color: 'white',
+                                    padding: '16px 24px',
+                                    borderRadius: '12px',
+                                    fontWeight: 'bold',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)',
+                                    fontSize: '14px'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 15px rgba(59, 130, 246, 0.3)';
+                                }}
                             >
                                 📊 Reporte Usuarios
                             </button>
                             <button
                                 onClick={() => exportarReporte('contenido')}
-                                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                style={{
+                                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                                    color: 'white',
+                                    padding: '16px 24px',
+                                    borderRadius: '12px',
+                                    fontWeight: 'bold',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)',
+                                    fontSize: '14px'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.4)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.3)';
+                                }}
                             >
                                 📄 Reporte Contenido
                             </button>
                             <button
                                 onClick={() => exportarReporte('actividad')}
-                                className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                style={{
+                                    background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                                    color: 'white',
+                                    padding: '16px 24px',
+                                    borderRadius: '12px',
+                                    fontWeight: 'bold',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: '0 4px 15px rgba(139, 92, 246, 0.3)',
+                                    fontSize: '14px'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 8px 25px rgba(139, 92, 246, 0.4)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 15px rgba(139, 92, 246, 0.3)';
+                                }}
                             >
                                 📈 Reporte Actividad
                             </button>
                             <button
                                 onClick={() => exportarReporte('sistema')}
-                                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                style={{
+                                    background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                    color: 'white',
+                                    padding: '16px 24px',
+                                    borderRadius: '12px',
+                                    fontWeight: 'bold',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: '0 4px 15px rgba(249, 115, 22, 0.3)',
+                                    fontSize: '14px'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.4)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 15px rgba(249, 115, 22, 0.3)';
+                                }}
                             >
                                 🔧 Reporte Sistema
                             </button>

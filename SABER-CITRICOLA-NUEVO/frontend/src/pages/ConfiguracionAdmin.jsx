@@ -146,39 +146,126 @@ const ConfiguracionAdmin = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="bg-white rounded-xl shadow-lg mb-6 p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 25%, #fed7aa 50%, #fdba74 75%, #fb923c 100%)'
+    }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '24px' }}>
+        {/* 🍊 Header Profesional con Estilo Cítrico */}
+        <div style={{
+          background: 'linear-gradient(135deg, #ea580c 0%, #dc2626 50%, #b91c1c 100%)',
+          borderRadius: '20px',
+          boxShadow: '0 8px 32px rgba(234, 88, 12, 0.3)',
+          marginBottom: '32px',
+          padding: '32px',
+          borderLeft: '6px solid #f97316'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
               <button
-                onClick={() => navigate('/admin')}
-                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                onClick={() => navigate('/dashboard-admin')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: '2px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '12px',
+                  padding: '12px 20px',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = 'none';
+                }}
               >
                 ← Volver
               </button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-800 flex items-center">
+                <h1 style={{
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                  color: 'white',
+                  textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)',
+                  margin: '0 0 8px 0'
+                }}>
                   ⚙️ Configuración del Sistema
                 </h1>
-                <p className="text-gray-600 mt-1">
+                <p style={{
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontSize: '16px',
+                  margin: 0
+                }}>
                   Administra la configuración general del sistema
                 </p>
               </div>
             </div>
-            <div className="flex space-x-3">
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
               <button
                 onClick={crearBackup}
                 disabled={loading}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                style={{
+                  padding: '14px 24px',
+                  background: loading ? 'rgba(255, 255, 255, 0.3)' : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                  color: 'white',
+                  borderRadius: '12px',
+                  fontWeight: 'bold',
+                  border: 'none',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)'
+                }}
+                onMouseEnter={(e) => {
+                  if (!loading) {
+                    e.target.style.transform = 'translateY(-2px)';
+                    e.target.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!loading) {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = '0 4px 15px rgba(59, 130, 246, 0.3)';
+                  }
+                }}
               >
                 💾 Crear Backup
               </button>
               <button
                 onClick={guardarConfiguracion}
                 disabled={loading}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
+                style={{
+                  padding: '14px 24px',
+                  background: loading ? 'rgba(255, 255, 255, 0.3)' : 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                  color: 'white',
+                  borderRadius: '12px',
+                  fontWeight: 'bold',
+                  border: 'none',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)'
+                }}
+                onMouseEnter={(e) => {
+                  if (!loading) {
+                    e.target.style.transform = 'translateY(-2px)';
+                    e.target.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.4)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!loading) {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.3)';
+                  }
+                }}
               >
                 {loading ? '⏳ Guardando...' : '💾 Guardar Cambios'}
               </button>
@@ -186,88 +273,239 @@ const ConfiguracionAdmin = () => {
           </div>
         </div>
 
-        {/* Mensaje de estado */}
+        {/* 📢 Mensaje de Estado Mejorado */}
         {mensaje && (
-          <div className={`mb-6 p-4 rounded-lg ${
-            mensaje.tipo === 'error' 
-              ? 'bg-red-100 border border-red-300 text-red-700' 
-              : 'bg-green-100 border border-green-300 text-green-700'
-          }`}>
+          <div style={{
+            marginBottom: '32px',
+            padding: '16px 24px',
+            borderRadius: '16px',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+            background: mensaje.tipo === 'error' 
+              ? 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)' 
+              : 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+            border: `2px solid ${mensaje.tipo === 'error' ? '#fca5a5' : '#bbf7d0'}`,
+            color: mensaje.tipo === 'error' ? '#991b1b' : '#166534'
+          }}>
             {mensaje.texto}
           </div>
         )}
 
-        <div className="flex gap-6">
-          {/* Sidebar con tabs */}
-          <div className="w-64 space-y-2">
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
+          {/* 🎛️ Sidebar de Navegación Mejorado */}
+          <div style={{ width: '280px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                  activeTab === tab.id
-                    ? 'bg-orange-600 text-white shadow-lg'
-                    : 'bg-white text-gray-700 hover:bg-orange-50'
-                }`}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  padding: '16px 20px',
+                  borderRadius: '16px',
+                  transition: 'all 0.3s ease',
+                  fontWeight: 'bold',
+                  fontSize: '14px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  background: activeTab === tab.id
+                    ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'
+                    : 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                  color: activeTab === tab.id ? 'white' : '#374151',
+                  boxShadow: activeTab === tab.id 
+                    ? '0 8px 25px rgba(249, 115, 22, 0.3)' 
+                    : '0 2px 8px rgba(0, 0, 0, 0.1)',
+                  transform: activeTab === tab.id ? 'translateX(4px)' : 'translateX(0)',
+                  borderLeft: activeTab === tab.id ? '4px solid #dc2626' : '4px solid transparent'
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== tab.id) {
+                    e.target.style.background = 'linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)';
+                    e.target.style.transform = 'translateX(2px)';
+                    e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.15)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== tab.id) {
+                    e.target.style.background = 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)';
+                    e.target.style.transform = 'translateX(0)';
+                    e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                  }
+                }}
               >
-                <span className="text-xl">{tab.icon}</span>
-                <span className="font-medium">{tab.label}</span>
+                <span style={{ fontSize: '20px' }}>{tab.icon}</span>
+                <span>{tab.label}</span>
               </button>
             ))}
           </div>
 
-          {/* Contenido principal */}
-          <div className="flex-1 bg-white rounded-xl shadow-lg p-6">
-            {/* Tab: General */}
+          {/* 📋 Panel de Contenido Principal */}
+          <div style={{
+            flex: 1,
+            background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+            borderRadius: '20px',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+            padding: '32px',
+            borderLeft: '6px solid #f97316',
+            minHeight: '600px'
+          }}>
+            {/* ⚙️ Tab: General */}
             {activeTab === 'general' && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">⚙️ Configuración General</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                <h2 style={{
+                  fontSize: '28px',
+                  fontWeight: 'bold',
+                  color: '#1f2937',
+                  marginBottom: '16px',
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                }}>⚙️ Configuración General</h2>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+                  gap: '24px',
+                  background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
+                  padding: '24px',
+                  borderRadius: '16px',
+                  border: '2px solid #e5e7eb'
+                }}>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Nombre del Sistema
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      🏷️ Nombre del Sistema
                     </label>
                     <input
                       type="text"
                       value={configuracion.general.nombreSistema}
                       onChange={(e) => handleConfigChange('general', 'nombreSistema', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Versión
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      🔢 Versión
                     </label>
                     <input
                       type="text"
                       value={configuracion.general.version}
                       onChange={(e) => handleConfigChange('general', 'version', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Descripción del Sistema
+                  <div style={{ gridColumn: '1 / -1' }}>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      📝 Descripción del Sistema
                     </label>
                     <textarea
                       value={configuracion.general.descripcionSistema}
                       onChange={(e) => handleConfigChange('general', 'descripcionSistema', e.target.value)}
                       rows="3"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff',
+                        resize: 'vertical'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Idioma
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      🌐 Idioma
                     </label>
                     <select
                       value={configuracion.general.idioma}
                       onChange={(e) => handleConfigChange('general', 'idioma', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff',
+                        cursor: 'pointer'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     >
                       <option value="es">Español</option>
                       <option value="en">English</option>
@@ -276,13 +514,36 @@ const ConfiguracionAdmin = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Zona Horaria
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      🕐 Zona Horaria
                     </label>
                     <select
                       value={configuracion.general.timezone}
                       onChange={(e) => handleConfigChange('general', 'timezone', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff',
+                        cursor: 'pointer'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     >
                       <option value="America/Argentina/Buenos_Aires">Buenos Aires</option>
                       <option value="America/Montevideo">Montevideo</option>
@@ -294,177 +555,437 @@ const ConfiguracionAdmin = () => {
               </div>
             )}
 
-            {/* Tab: Seguridad */}
+            {/* 🔒 Tab: Seguridad */}
             {activeTab === 'seguridad' && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">🔒 Configuración de Seguridad</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                <h2 style={{
+                  fontSize: '28px',
+                  fontWeight: 'bold',
+                  color: '#1f2937',
+                  marginBottom: '16px',
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                }}>🔒 Configuración de Seguridad</h2>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+                  gap: '24px',
+                  background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
+                  padding: '24px',
+                  borderRadius: '16px',
+                  border: '2px solid #e5e7eb'
+                }}>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tiempo de sesión (minutos)
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      ⏱️ Tiempo de sesión (minutos)
                     </label>
                     <input
                       type="number"
                       value={configuracion.seguridad.sessionTimeout}
                       onChange={(e) => handleConfigChange('seguridad', 'sessionTimeout', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Longitud mínima de contraseña
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      🔐 Longitud mínima de contraseña
                     </label>
                     <input
                       type="number"
                       value={configuracion.seguridad.passwordMinLength}
                       onChange={(e) => handleConfigChange('seguridad', 'passwordMinLength', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Intentos de login máximos
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      🚫 Intentos de login máximos
                     </label>
                     <input
                       type="number"
                       value={configuracion.seguridad.loginAttempts}
                       onChange={(e) => handleConfigChange('seguridad', 'loginAttempts', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
-                  <div className="flex items-center">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', gridColumn: '1 / -1' }}>
                     <input
                       type="checkbox"
                       id="requirePasswordChange"
                       checked={configuracion.seguridad.requirePasswordChange}
                       onChange={(e) => handleConfigChange('seguridad', 'requirePasswordChange', e.target.checked)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                      style={{
+                        width: '18px',
+                        height: '18px',
+                        accentColor: '#f97316',
+                        cursor: 'pointer'
+                      }}
                     />
-                    <label htmlFor="requirePasswordChange" className="ml-2 block text-sm text-gray-900">
-                      Requerir cambio de contraseña periódico
+                    <label htmlFor="requirePasswordChange" style={{
+                      fontSize: '14px',
+                      color: '#1f2937',
+                      fontWeight: '500',
+                      cursor: 'pointer'
+                    }}>
+                      🔄 Requerir cambio de contraseña periódico
                     </label>
                   </div>
 
-                  <div className="flex items-center">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', gridColumn: '1 / -1' }}>
                     <input
                       type="checkbox"
                       id="enableTwoFactor"
                       checked={configuracion.seguridad.enableTwoFactor}
                       onChange={(e) => handleConfigChange('seguridad', 'enableTwoFactor', e.target.checked)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                      style={{
+                        width: '18px',
+                        height: '18px',
+                        accentColor: '#f97316',
+                        cursor: 'pointer'
+                      }}
                     />
-                    <label htmlFor="enableTwoFactor" className="ml-2 block text-sm text-gray-900">
-                      Habilitar autenticación de dos factores
+                    <label htmlFor="enableTwoFactor" style={{
+                      fontSize: '14px',
+                      color: '#1f2937',
+                      fontWeight: '500',
+                      cursor: 'pointer'
+                    }}>
+                      🛡️ Habilitar autenticación de dos factores
                     </label>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Tab: Usuarios */}
+            {/* 👥 Tab: Usuarios */}
             {activeTab === 'usuario' && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">👥 Configuración de Usuarios</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                <h2 style={{
+                  fontSize: '28px',
+                  fontWeight: 'bold',
+                  color: '#1f2937',
+                  marginBottom: '16px',
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                }}>👥 Configuración de Usuarios</h2>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+                  gap: '24px',
+                  background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
+                  padding: '24px',
+                  borderRadius: '16px',
+                  border: '2px solid #e5e7eb'
+                }}>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tamaño máximo de archivo (MB)
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      📁 Tamaño máximo de archivo (MB)
                     </label>
                     <input
                       type="number"
                       value={configuracion.usuario.maxFileSize}
                       onChange={(e) => handleConfigChange('usuario', 'maxFileSize', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Rol por defecto
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      🎭 Rol por defecto
                     </label>
                     <select
                       value={configuracion.usuario.defaultUserRole}
                       onChange={(e) => handleConfigChange('usuario', 'defaultUserRole', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff',
+                        cursor: 'pointer'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     >
                       <option value="operador">Operador</option>
                       <option value="experto">Experto</option>
                     </select>
                   </div>
 
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tipos de archivo permitidos
+                  <div style={{ gridColumn: '1 / -1' }}>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      📄 Tipos de archivo permitidos
                     </label>
                     <input
                       type="text"
                       value={configuracion.usuario.allowedFileTypes}
                       onChange={(e) => handleConfigChange('usuario', 'allowedFileTypes', e.target.value)}
                       placeholder=".pdf,.doc,.docx,.txt,.jpg,.png"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
-                  <div className="flex items-center">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', gridColumn: '1 / -1' }}>
                     <input
                       type="checkbox"
                       id="autoApproveUsers"
                       checked={configuracion.usuario.autoApproveUsers}
                       onChange={(e) => handleConfigChange('usuario', 'autoApproveUsers', e.target.checked)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                      style={{
+                        width: '18px',
+                        height: '18px',
+                        accentColor: '#f97316',
+                        cursor: 'pointer'
+                      }}
                     />
-                    <label htmlFor="autoApproveUsers" className="ml-2 block text-sm text-gray-900">
-                      Aprobar usuarios automáticamente
+                    <label htmlFor="autoApproveUsers" style={{
+                      fontSize: '14px',
+                      color: '#1f2937',
+                      fontWeight: '500',
+                      cursor: 'pointer'
+                    }}>
+                      ✅ Aprobar usuarios automáticamente
                     </label>
                   </div>
 
-                  <div className="flex items-center">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', gridColumn: '1 / -1' }}>
                     <input
                       type="checkbox"
                       id="enableUserRegistration"
                       checked={configuracion.usuario.enableUserRegistration}
                       onChange={(e) => handleConfigChange('usuario', 'enableUserRegistration', e.target.checked)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                      style={{
+                        width: '18px',
+                        height: '18px',
+                        accentColor: '#f97316',
+                        cursor: 'pointer'
+                      }}
                     />
-                    <label htmlFor="enableUserRegistration" className="ml-2 block text-sm text-gray-900">
-                      Permitir registro de usuarios
+                    <label htmlFor="enableUserRegistration" style={{
+                      fontSize: '14px',
+                      color: '#1f2937',
+                      fontWeight: '500',
+                      cursor: 'pointer'
+                    }}>
+                      👥 Permitir registro de usuarios
                     </label>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Tab: Sistema */}
+            {/* 🖥️ Tab: Sistema */}
             {activeTab === 'sistema' && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">🖥️ Configuración del Sistema</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                <h2 style={{
+                  fontSize: '28px',
+                  fontWeight: 'bold',
+                  color: '#1f2937',
+                  marginBottom: '16px',
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                }}>🖥️ Configuración del Sistema</h2>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+                  gap: '24px',
+                  background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
+                  padding: '24px',
+                  borderRadius: '16px',
+                  border: '2px solid #e5e7eb'
+                }}>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Intervalo de backup (horas)
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      💾 Intervalo de backup (horas)
                     </label>
                     <input
                       type="number"
                       value={configuracion.sistema.backupInterval}
                       onChange={(e) => handleConfigChange('sistema', 'backupInterval', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Nivel de log
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      📊 Nivel de log
                     </label>
                     <select
                       value={configuracion.sistema.logLevel}
                       onChange={(e) => handleConfigChange('sistema', 'logLevel', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff',
+                        cursor: 'pointer'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     >
                       <option value="error">Error</option>
                       <option value="warn">Warning</option>
@@ -474,57 +995,166 @@ const ConfiguracionAdmin = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tamaño máximo de log (MB)
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      📏 Tamaño máximo de log (MB)
                     </label>
                     <input
                       type="number"
                       value={configuracion.sistema.maxLogFileSize}
                       onChange={(e) => handleConfigChange('sistema', 'maxLogFileSize', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Limpieza automática (días)
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      color: '#374151',
+                      marginBottom: '8px'
+                    }}>
+                      🗑️ Limpieza automática (días)
                     </label>
                     <input
                       type="number"
                       value={configuracion.sistema.autoCleanupDays}
                       onChange={(e) => handleConfigChange('sistema', 'autoCleanupDays', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '2px solid #d1d5db',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease',
+                        background: '#ffffff'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#f97316';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
-                  <div className="flex items-center">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', gridColumn: '1 / -1' }}>
                     <input
                       type="checkbox"
                       id="enableDebugMode"
                       checked={configuracion.sistema.enableDebugMode}
                       onChange={(e) => handleConfigChange('sistema', 'enableDebugMode', e.target.checked)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                      style={{
+                        width: '18px',
+                        height: '18px',
+                        accentColor: '#f97316',
+                        cursor: 'pointer'
+                      }}
                     />
-                    <label htmlFor="enableDebugMode" className="ml-2 block text-sm text-gray-900">
-                      Habilitar modo debug
+                    <label htmlFor="enableDebugMode" style={{
+                      fontSize: '14px',
+                      color: '#1f2937',
+                      fontWeight: '500',
+                      cursor: 'pointer'
+                    }}>
+                      🐛 Habilitar modo debug
                     </label>
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-gray-200">
-                  <h3 className="text-lg font-medium text-gray-800 mb-4">🔧 Acciones del Sistema</h3>
-                  <div className="flex space-x-4">
+                {/* 🔧 Sección de Acciones del Sistema */}
+                <div style={{
+                  background: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  border: '2px solid #fca5a5'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    color: '#991b1b',
+                    marginBottom: '16px'
+                  }}>🔧 Acciones del Sistema</h3>
+                  <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                     <button
                       onClick={reiniciarServidor}
                       disabled={loading}
-                      className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
+                      style={{
+                        padding: '14px 24px',
+                        background: loading ? 'rgba(239, 68, 68, 0.5)' : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                        color: 'white',
+                        borderRadius: '12px',
+                        fontWeight: 'bold',
+                        border: 'none',
+                        cursor: loading ? 'not-allowed' : 'pointer',
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 4px 15px rgba(239, 68, 68, 0.3)'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!loading) {
+                          e.target.style.transform = 'translateY(-2px)';
+                          e.target.style.boxShadow = '0 8px 25px rgba(239, 68, 68, 0.4)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!loading) {
+                          e.target.style.transform = 'translateY(0)';
+                          e.target.style.boxShadow = '0 4px 15px rgba(239, 68, 68, 0.3)';
+                        }
+                      }}
                     >
                       🔄 Reiniciar Servidor
                     </button>
                     <button
                       onClick={cargarLogs}
                       disabled={loading}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                      style={{
+                        padding: '14px 24px',
+                        background: loading ? 'rgba(59, 130, 246, 0.5)' : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                        color: 'white',
+                        borderRadius: '12px',
+                        fontWeight: 'bold',
+                        border: 'none',
+                        cursor: loading ? 'not-allowed' : 'pointer',
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!loading) {
+                          e.target.style.transform = 'translateY(-2px)';
+                          e.target.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!loading) {
+                          e.target.style.transform = 'translateY(0)';
+                          e.target.style.boxShadow = '0 4px 15px rgba(59, 130, 246, 0.3)';
+                        }
+                      }}
                     >
                       📄 Recargar Logs
                     </button>
@@ -533,39 +1163,98 @@ const ConfiguracionAdmin = () => {
               </div>
             )}
 
-            {/* Tab: Logs */}
+            {/* 📋 Tab: Logs */}
             {activeTab === 'logs' && (
-              <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-2xl font-bold text-gray-800">📋 Logs del Sistema</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+                  <h2 style={{
+                    fontSize: '28px',
+                    fontWeight: 'bold',
+                    color: '#1f2937',
+                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                  }}>📋 Logs del Sistema</h2>
                   <button
                     onClick={cargarLogs}
                     disabled={loading}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                    style={{
+                      padding: '14px 24px',
+                      background: loading ? 'rgba(59, 130, 246, 0.5)' : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                      color: 'white',
+                      borderRadius: '12px',
+                      fontWeight: 'bold',
+                      border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = '0 4px 15px rgba(59, 130, 246, 0.3)';
+                      }
+                    }}
                   >
                     🔄 Actualizar
                   </button>
                 </div>
                 
-                <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm max-h-96 overflow-y-auto">
+                <div style={{
+                  background: 'linear-gradient(135deg, #111827 0%, #1f2937 100%)',
+                  color: '#10b981',
+                  padding: '24px',
+                  borderRadius: '16px',
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                  maxHeight: '500px',
+                  overflowY: 'auto',
+                  border: '2px solid #374151',
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)'
+                }}>
                   {logs.length > 0 ? (
                     logs.map((log, index) => (
-                      <div key={index} className="mb-1">
-                        <span className="text-gray-500">[{log.timestamp}]</span>{' '}
-                        <span className={`${
-                          log.level === 'error' ? 'text-red-400' :
-                          log.level === 'warn' ? 'text-yellow-400' :
-                          log.level === 'info' ? 'text-blue-400' :
-                          'text-green-400'
-                        }`}>
-                          {log.level.toUpperCase()}
+                      <div key={index} style={{ 
+                        marginBottom: '8px',
+                        padding: '8px',
+                        background: 'rgba(0, 0, 0, 0.2)',
+                        borderRadius: '6px',
+                        borderLeft: `4px solid ${
+                          log.level === 'error' ? '#ef4444' :
+                          log.level === 'warn' ? '#f59e0b' :
+                          log.level === 'info' ? '#3b82f6' :
+                          '#10b981'
+                        }`
+                      }}>
+                        <span style={{ color: '#6b7280', fontSize: '12px' }}>[{log.timestamp}]</span>{' '}
+                        <span style={{
+                          color: log.level === 'error' ? '#fca5a5' :
+                                 log.level === 'warn' ? '#fbbf24' :
+                                 log.level === 'info' ? '#93c5fd' :
+                                 '#86efac',
+                          fontWeight: 'bold',
+                          textTransform: 'uppercase',
+                          fontSize: '12px'
+                        }}>
+                          {log.level}
                         </span>{' '}
-                        {log.message}
+                        <span style={{ color: '#e5e7eb' }}>{log.message}</span>
                       </div>
                     ))
                   ) : (
-                    <div className="text-gray-500 text-center py-8">
-                      No hay logs disponibles
+                    <div style={{
+                      textAlign: 'center',
+                      padding: '64px 32px',
+                      color: '#6b7280',
+                      fontSize: '16px'
+                    }}>
+                      <div style={{ fontSize: '48px', marginBottom: '16px' }}>📊</div>
+                      <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>No hay logs disponibles</div>
+                      <div style={{ fontSize: '14px' }}>Los logs del sistema aparecerán aquí</div>
                     </div>
                   )}
                 </div>
