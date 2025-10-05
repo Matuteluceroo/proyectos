@@ -345,12 +345,13 @@ const ConfiguracionAdmin = () => {
           {/* 📋 Panel de Contenido Principal */}
           <div style={{
             flex: 1,
-            background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
+            background: 'linear-gradient(135deg, #1a202c, #2d3748)',
             borderRadius: '20px',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
             padding: '32px',
             borderLeft: '6px solid #f97316',
-            minHeight: '600px'
+            minHeight: '600px',
+            border: '1px solid #4a5568'
           }}>
             {/* ⚙️ Tab: General */}
             {activeTab === 'general' && (
@@ -358,26 +359,27 @@ const ConfiguracionAdmin = () => {
                 <h2 style={{
                   fontSize: '28px',
                   fontWeight: 'bold',
-                  color: '#1f2937',
+                  color: '#f7fafc',
                   marginBottom: '16px',
-                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
                 }}>⚙️ Configuración General</h2>
                 
                 <div style={{ 
                   display: 'grid', 
                   gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
                   gap: '24px',
-                  background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
-                  padding: '24px',
-                  borderRadius: '16px',
-                  border: '2px solid #e5e7eb'
+                  background: 'linear-gradient(135deg, #2d3748, #4a5568)',
+                  padding: '30px',
+                  borderRadius: '20px',
+                  border: '1px solid #4a5568',
+                  boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
                 }}>
                   <div>
                     <label style={{
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       🏷️ Nombre del Sistema
@@ -389,18 +391,19 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff'
+                        background: '#1a202c',
+                        color: '#e2e8f0'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -411,7 +414,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       🔢 Versión
@@ -423,18 +426,19 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff'
+                        background: '#1a202c',
+                        color: '#e2e8f0'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -445,7 +449,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       📝 Descripción del Sistema
@@ -457,19 +461,20 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff',
+                        background: '#1a202c',
+                        color: '#e2e8f0',
                         resize: 'vertical'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -480,7 +485,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       🌐 Idioma
@@ -491,19 +496,20 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff',
+                        background: '#1a202c',
+                        color: '#e2e8f0',
                         cursor: 'pointer'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     >
@@ -518,7 +524,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       🕐 Zona Horaria
@@ -529,19 +535,20 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff',
+                        background: '#1a202c',
+                        color: '#e2e8f0',
                         cursor: 'pointer'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     >
@@ -561,26 +568,27 @@ const ConfiguracionAdmin = () => {
                 <h2 style={{
                   fontSize: '28px',
                   fontWeight: 'bold',
-                  color: '#1f2937',
+                  color: '#f7fafc',
                   marginBottom: '16px',
-                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
                 }}>🔒 Configuración de Seguridad</h2>
                 
                 <div style={{ 
                   display: 'grid', 
                   gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
                   gap: '24px',
-                  background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
-                  padding: '24px',
-                  borderRadius: '16px',
-                  border: '2px solid #e5e7eb'
+                  background: 'linear-gradient(135deg, #2d3748, #4a5568)',
+                  padding: '30px',
+                  borderRadius: '20px',
+                  border: '1px solid #4a5568',
+                  boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
                 }}>
                   <div>
                     <label style={{
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       ⏱️ Tiempo de sesión (minutos)
@@ -592,18 +600,19 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff'
+                        background: '#1a202c',
+                        color: '#e2e8f0'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -614,7 +623,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       🔐 Longitud mínima de contraseña
@@ -626,18 +635,19 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff'
+                        background: '#1a202c',
+                        color: '#e2e8f0'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -648,7 +658,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       🚫 Intentos de login máximos
@@ -660,18 +670,19 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff'
+                        background: '#1a202c',
+                        color: '#e2e8f0'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -692,7 +703,7 @@ const ConfiguracionAdmin = () => {
                     />
                     <label htmlFor="requirePasswordChange" style={{
                       fontSize: '14px',
-                      color: '#1f2937',
+                      color: '#f7fafc',
                       fontWeight: '500',
                       cursor: 'pointer'
                     }}>
@@ -715,7 +726,7 @@ const ConfiguracionAdmin = () => {
                     />
                     <label htmlFor="enableTwoFactor" style={{
                       fontSize: '14px',
-                      color: '#1f2937',
+                      color: '#f7fafc',
                       fontWeight: '500',
                       cursor: 'pointer'
                     }}>
@@ -732,26 +743,27 @@ const ConfiguracionAdmin = () => {
                 <h2 style={{
                   fontSize: '28px',
                   fontWeight: 'bold',
-                  color: '#1f2937',
+                  color: '#f7fafc',
                   marginBottom: '16px',
-                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
                 }}>👥 Configuración de Usuarios</h2>
                 
                 <div style={{ 
                   display: 'grid', 
                   gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
                   gap: '24px',
-                  background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
-                  padding: '24px',
-                  borderRadius: '16px',
-                  border: '2px solid #e5e7eb'
+                  background: 'linear-gradient(135deg, #2d3748, #4a5568)',
+                  padding: '30px',
+                  borderRadius: '20px',
+                  border: '1px solid #4a5568',
+                  boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
                 }}>
                   <div>
                     <label style={{
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       📁 Tamaño máximo de archivo (MB)
@@ -763,18 +775,19 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff'
+                        background: '#1a202c',
+                        color: '#e2e8f0'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -785,7 +798,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       🎭 Rol por defecto
@@ -796,19 +809,20 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff',
+                        background: '#1a202c',
+                        color: '#e2e8f0',
                         cursor: 'pointer'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     >
@@ -822,7 +836,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       📄 Tipos de archivo permitidos
@@ -835,18 +849,19 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff'
+                        background: '#1a202c',
+                        color: '#e2e8f0'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -867,7 +882,7 @@ const ConfiguracionAdmin = () => {
                     />
                     <label htmlFor="autoApproveUsers" style={{
                       fontSize: '14px',
-                      color: '#1f2937',
+                      color: '#f7fafc',
                       fontWeight: '500',
                       cursor: 'pointer'
                     }}>
@@ -890,7 +905,7 @@ const ConfiguracionAdmin = () => {
                     />
                     <label htmlFor="enableUserRegistration" style={{
                       fontSize: '14px',
-                      color: '#1f2937',
+                      color: '#f7fafc',
                       fontWeight: '500',
                       cursor: 'pointer'
                     }}>
@@ -907,26 +922,27 @@ const ConfiguracionAdmin = () => {
                 <h2 style={{
                   fontSize: '28px',
                   fontWeight: 'bold',
-                  color: '#1f2937',
+                  color: '#f7fafc',
                   marginBottom: '16px',
-                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
                 }}>🖥️ Configuración del Sistema</h2>
                 
                 <div style={{ 
                   display: 'grid', 
                   gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
                   gap: '24px',
-                  background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
-                  padding: '24px',
-                  borderRadius: '16px',
-                  border: '2px solid #e5e7eb'
+                  background: 'linear-gradient(135deg, #2d3748, #4a5568)',
+                  padding: '30px',
+                  borderRadius: '20px',
+                  border: '1px solid #4a5568',
+                  boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
                 }}>
                   <div>
                     <label style={{
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       💾 Intervalo de backup (horas)
@@ -938,18 +954,19 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff'
+                        background: '#1a202c',
+                        color: '#e2e8f0'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -960,7 +977,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       📊 Nivel de log
@@ -971,19 +988,20 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff',
+                        background: '#1a202c',
+                        color: '#e2e8f0',
                         cursor: 'pointer'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     >
@@ -999,7 +1017,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       📏 Tamaño máximo de log (MB)
@@ -1011,18 +1029,19 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff'
+                        background: '#1a202c',
+                        color: '#e2e8f0'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -1033,7 +1052,7 @@ const ConfiguracionAdmin = () => {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      color: '#374151',
+                      color: '#f7fafc',
                       marginBottom: '8px'
                     }}>
                       🗑️ Limpieza automática (días)
@@ -1045,18 +1064,19 @@ const ConfiguracionAdmin = () => {
                       style={{
                         width: '100%',
                         padding: '12px 16px',
-                        border: '2px solid #d1d5db',
+                        border: '2px solid #4a5568',
                         borderRadius: '12px',
                         fontSize: '14px',
                         transition: 'all 0.3s ease',
-                        background: '#ffffff'
+                        background: '#1a202c',
+                        color: '#e2e8f0'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#f97316';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.2)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.borderColor = '#4a5568';
                         e.target.style.boxShadow = 'none';
                       }}
                     />
@@ -1077,7 +1097,7 @@ const ConfiguracionAdmin = () => {
                     />
                     <label htmlFor="enableDebugMode" style={{
                       fontSize: '14px',
-                      color: '#1f2937',
+                      color: '#f7fafc',
                       fontWeight: '500',
                       cursor: 'pointer'
                     }}>
@@ -1170,8 +1190,8 @@ const ConfiguracionAdmin = () => {
                   <h2 style={{
                     fontSize: '28px',
                     fontWeight: 'bold',
-                    color: '#1f2937',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)'
+                    color: '#fdfeffff',
+                    textShadow: '1px 1px 2px rgba(240, 237, 237, 0.1)'
                   }}>📋 Logs del Sistema</h2>
                   <button
                     onClick={cargarLogs}
