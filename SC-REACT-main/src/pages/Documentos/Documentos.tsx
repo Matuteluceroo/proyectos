@@ -11,6 +11,7 @@ import { useEnviarContenido } from "../../services/connections/contenido";
 import AlertErrores from "../../components/Alert/AlertErrores";
 import Alert from "../../components/Alert/Alert";
 import TablaContenidos from "./TablaContenidos"; // la tabla que armamos
+import "./Documentos.css"; // 🎨 Estilos del layout balanceado
 
 export default function Documentos() {
   const formRef = useRef<FormReutilizableRef>(null);
@@ -90,36 +91,46 @@ export default function Documentos() {
   };
   return (
     <Estructura>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "2fr 2fr", // 1 parte form, 2 partes tabla
-          gap: "20px",
-          height: "100vh",
-          padding: "20px",
-          boxSizing: "border-box",
-        }}
-      >
-        <div className="container my-4">
-          <h2>📤 Subir Contenido</h2>
-          <FormReutilizable ref={formRef} fields={fields} />
-          <Button
-            className="btnHeader2"
-            onClick={handleSubmit}
-            text={"Guardar"}
-          />
+      <div className="documentos-dashboard">
+        {/* Header principal */}
+        <div className="documentos-header">
+          <h1 className="documentos-title">📚 GESTIÓN DE DOCUMENTOS</h1>
+          <p className="documentos-subtitle">Sistema de administración de contenido citrícola</p>
         </div>
 
-        <div
-          style={{
-            background: "#fff",
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            padding: "10px",
-          }}
-        >
-          <h2>Lista de Contenidos</h2>
-          <TablaContenidos />
+        <div className="documentos-layout">
+          {/* Panel de subida de contenido */}
+          <div className="documentos-upload-panel">
+            <div className="documentos-card">
+              <div className="documentos-card-header">
+                <h2 className="documentos-card-title">
+                  📤 <span>Subir Contenido</span>
+                </h2>
+              </div>
+              <div className="documentos-card-body">
+                <FormReutilizable ref={formRef} fields={fields} />
+                <Button
+                  className="documentos-btn-primary"
+                  onClick={handleSubmit}
+                  text={"📁 Guardar Contenido"}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Panel de lista de contenidos */}
+          <div className="documentos-list-panel">
+            <div className="documentos-card">
+              <div className="documentos-card-header">
+                <h2 className="documentos-card-title">
+                  📋 <span>Lista de Contenidos</span>
+                </h2>
+              </div>
+              <div className="documentos-card-body">
+                <TablaContenidos />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

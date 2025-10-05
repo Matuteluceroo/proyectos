@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import NotificacionesPanel from '../components/NotificacionesPanel/NotificacionesPanel';
+import './DashboardExperto.css'; // 🎨 Estilos del portal del experto
 
 const DashboardExperto = () => {
   const { user, logout, API_URL } = useAuth();

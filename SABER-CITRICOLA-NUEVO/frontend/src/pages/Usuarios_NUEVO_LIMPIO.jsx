@@ -56,7 +56,7 @@ const Usuarios = () => {
             setLoading(true);
             const response = await usuariosAPI.obtenerUsuarios();
             console.log('👥 Usuarios cargados:', response);
-            setUsuarios(response.data || []);
+            setUsuarios(response || []);
         } catch (error) {
             console.error('❌ Error al cargar usuarios:', error);
             setUsuarios([]);
@@ -178,14 +178,14 @@ const Usuarios = () => {
     }
 
     return (
-        <div className="dashboard-page" style={{ background: 'linear-gradient(135deg, #ff9800, #ffeb3b)', minHeight: '100vh', padding: '20px', margin: '0' }}>
-            <div className="admin-dashboard" style={{ background: 'white', borderRadius: '20px', padding: '30px', boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)', width: '100%', maxWidth: 'none', margin: '0' }}>
+        <div className="dashboard-page">
+            <div className="admin-dashboard">
                 {/* 📋 Header del Administrador */}
-                <div className="dashboard-header" style={{ background: 'linear-gradient(135deg, #e53e3e, #ff6b6b)', color: 'white', padding: '25px', borderRadius: '15px', marginBottom: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+                <div className="dashboard-header">
                     <div className="user-welcome">
                         <h1>👥 Gestión de Usuarios</h1>
                         <p>Bienvenido, <strong>{userInfo?.nombre_completo || userInfo?.username}</strong></p>
-                        <span className="role-badge admin" style={{ background: 'rgba(255, 255, 255, 0.2)', color: 'white', padding: '8px 16px', borderRadius: '20px', fontSize: '0.9em', marginTop: '10px', display: 'inline-block' }}>Administrador del Sistema</span>
+                        <span className="role-badge admin">Administrador del Sistema</span>
                     </div>
                     <div className="header-actions">
                         <button 
@@ -250,60 +250,50 @@ const Usuarios = () => {
                 </div>
 
                 {/* 📝 Tabla de Usuarios */}
-                <div className="dashboard-section" style={{ marginBottom: '30px' }}>
-                    <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', padding: '20px', background: 'linear-gradient(135deg, #e53e3e, #ff6b6b)', borderRadius: '15px' }}>
-                        <h2 style={{ color: 'white', margin: '0' }}>📋 Lista de Usuarios</h2>
+                <div className="dashboard-section">
+                    <div className="section-header">
+                        <h2>📋 Lista de Usuarios</h2>
                         <div className="section-actions">
                             <button 
                                 className="btn-primary"
                                 onClick={openCreateModal}
-                                style={{ background: 'rgba(255,255,255,0.2)', color: 'white', padding: '10px 20px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
                             >
                                 ➕ Nuevo Usuario
                             </button>
                         </div>
                     </div>
 
-                    <div className="table-container" style={{ background: 'white', borderRadius: '10px', padding: '20px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', overflowX: 'auto' }}>
+                    <div className="table-container">
                         {usuarios.length > 0 ? (
-                            <table className="data-table" style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+                            <table className="data-table">
                                 <thead>
-                                    <tr style={{ background: '#f8f9fa' }}>
-                                        <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #e9ecef', fontWeight: 'bold' }}>👤 Usuario</th>
-                                        <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #e9ecef', fontWeight: 'bold' }}>📧 Email</th>
-                                        <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #e9ecef', fontWeight: 'bold' }}>👨‍💼 Nombre Completo</th>
-                                        <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #e9ecef', fontWeight: 'bold' }}>🎭 Rol</th>
-                                        <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #e9ecef', fontWeight: 'bold' }}>⚡ Acciones</th>
+                                    <tr>
+                                        <th>👤 Usuario</th>
+                                        <th>📧 Email</th>
+                                        <th>👨‍💼 Nombre Completo</th>
+                                        <th>🎭 Rol</th>
+                                        <th>⚡ Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {usuarios.map((usuario) => (
-                                        <tr key={usuario.id} style={{ borderBottom: '1px solid #e9ecef' }}>
-                                            <td style={{ padding: '12px' }}>{usuario.username}</td>
-                                            <td style={{ padding: '12px' }}>{usuario.email}</td>
-                                            <td style={{ padding: '12px' }}>{usuario.nombre_completo}</td>
-                                            <td style={{ padding: '12px' }}>
-                                                <span className={`role-badge ${usuario.rol || 'operador'}`} style={{ 
-                                                    background: usuario.rol === 'admin' || usuario.rol === 'administrador' ? '#e53e3e' : 
-                                                               usuario.rol === 'experto' ? '#3182ce' : '#38a169',
-                                                    color: 'white',
-                                                    padding: '4px 12px',
-                                                    borderRadius: '20px',
-                                                    fontSize: '12px',
-                                                    fontWeight: 'bold'
-                                                }}>
+                                        <tr key={usuario.id}>
+                                            <td>{usuario.username}</td>
+                                            <td>{usuario.email}</td>
+                                            <td>{usuario.nombre_completo}</td>
+                                            <td>
+                                                <span className={`role-badge ${usuario.rol || 'operador'}`}>
                                                     {usuario.rol === 'admin' || usuario.rol === 'administrador' ? '👑 Admin' :
                                                      usuario.rol === 'experto' ? '🎓 Experto' :
                                                      '🔧 Operador'}
                                                 </span>
                                             </td>
-                                            <td style={{ padding: '12px' }}>
-                                                <div className="action-buttons" style={{ display: 'flex', gap: '8px' }}>
+                                            <td>
+                                                <div className="action-buttons">
                                                     <button
                                                         onClick={() => openEditModal(usuario)}
                                                         className="btn-edit"
                                                         title="Editar usuario"
-                                                        style={{ background: '#ffa500', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer' }}
                                                     >
                                                         ✏️
                                                     </button>
@@ -311,7 +301,6 @@ const Usuarios = () => {
                                                         onClick={() => eliminarUsuario(usuario.id)}
                                                         className="btn-delete"
                                                         title="Eliminar usuario"
-                                                        style={{ background: '#dc3545', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer' }}
                                                     >
                                                         🗑️
                                                     </button>

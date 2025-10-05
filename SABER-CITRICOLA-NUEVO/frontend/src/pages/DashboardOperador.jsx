@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import VoiceSearch from '../components/VoiceSearch/VoiceSearch';
 import NotificacionesPanel from '../components/NotificacionesPanel/NotificacionesPanel';
+import './DashboardOperador.css'; // 🎨 Estilos del portal del operador
 
 const DashboardOperador = () => {
   const { user, logout, API_URL } = useAuth();

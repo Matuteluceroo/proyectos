@@ -235,39 +235,41 @@ const CategoriaDetalle = () => {
       {/* Controles de filtrado */}
       <div className="categoria-controles">
         <div className="controles-busqueda">
-          <input
-            type="text"
-            placeholder="🔍 Buscar en esta categoría..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            className="busqueda-input-categoria"
-          />
+          <div className="filtros-principales">
+            <input
+              type="text"
+              placeholder="🔍 Buscar en esta categoría..."
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              className="busqueda-input-categoria"
+            />
+            
+            <select
+              value={tipoFiltro}
+              onChange={(e) => setTipoFiltro(e.target.value)}
+              className="filtro-select-categoria"
+            >
+              <option value="">Todos los tipos</option>
+              <option value="documento">📄 Documentos</option>
+              <option value="guia">📋 Guías</option>
+              <option value="procedimiento">⚙️ Procedimientos</option>
+              <option value="capacitacion">🎓 Capacitaciones</option>
+            </select>
+            
+            <select
+              value={ordenamiento}
+              onChange={(e) => setOrdenamiento(e.target.value)}
+              className="filtro-select-categoria"
+            >
+              <option value="recientes">📅 Más recientes</option>
+              <option value="populares">🔥 Más populares</option>
+              <option value="alfabetico">🔤 Alfabético</option>
+            </select>
+          </div>
           
-          <select
-            value={tipoFiltro}
-            onChange={(e) => setTipoFiltro(e.target.value)}
-            className="filtro-select-categoria"
-          >
-            <option value="">Todos los tipos</option>
-            <option value="documento">📄 Documentos</option>
-            <option value="guia">📋 Guías</option>
-            <option value="procedimiento">⚙️ Procedimientos</option>
-            <option value="capacitacion">🎓 Capacitaciones</option>
-          </select>
-          
-          <select
-            value={ordenamiento}
-            onChange={(e) => setOrdenamiento(e.target.value)}
-            className="filtro-select-categoria"
-          >
-            <option value="recientes">📅 Más recientes</option>
-            <option value="populares">🔥 Más populares</option>
-            <option value="alfabetico">🔤 Alfabético</option>
-          </select>
-        </div>
-        
-        <div className="resultados-info-categoria">
-          {documentosFiltrados.length} de {documentos.length} documentos
+          <div className="resultados-info-categoria">
+            {documentosFiltrados.length} de {documentos.length} documentos
+          </div>
         </div>
       </div>
 
