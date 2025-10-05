@@ -3,28 +3,7 @@
 > vite
 
 
-  [32m[1mVITE[22m v7.1.7[39m  [2mready in [0m[1m402[22m[2m[0m ms[22m
+  [32m[1mVITE[22m v7.1.7[39m  [2mready in [0m[1m608[22m[2m[0m ms[22m
 
   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
 [2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
-[2m4:04:19 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Usuarios.jsx[22m
-[2m4:04:46 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Usuarios.jsx[22m
-[2m4:05:01 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Usuarios.jsx[22m
-[2m4:34:27 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Usuarios.jsx[22m
-[2m4:37:21 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:37:32 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:38:13 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:38:57 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:39:49 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:40:17 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:40:29 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:40:47 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:41:04 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:41:25 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:41:46 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:43:02 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:43:16 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:43:30 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:43:44 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:44:09 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
-[2m4:45:04 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/ConfiguracionAdmin.jsx[22m
