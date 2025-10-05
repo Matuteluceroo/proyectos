@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import ComentariosSection from '../../components/ComentariosSection/ComentariosSection';
+import HistorialVersiones from '../../components/HistorialVersiones/HistorialVersiones';
 import './DocumentoDetalle.css';
 
 const DocumentoDetalle = () => {
@@ -13,6 +15,7 @@ const DocumentoDetalle = () => {
   const [documento, setDocumento] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [mostrarHistorial, setMostrarHistorial] = useState(false);
 
   // 📄 Cargar documento específico
   const cargarDocumento = async () => {
@@ -254,6 +257,12 @@ const DocumentoDetalle = () => {
             >
               📋 Usar como Base
             </button>
+            <button 
+              onClick={() => setMostrarHistorial(true)} 
+              className="btn-historial"
+            >
+              📚 Ver Historial
+            </button>
           </div>
         </div>
 
@@ -304,6 +313,24 @@ const DocumentoDetalle = () => {
             </div>
           )}
         </div>
+
+        {/* 💬 Sección de comentarios */}
+        <ComentariosSection 
+          documentoId={id}
+          titulo="Comentarios del documento"
+        />
+
+        {/* 📚 Modal de historial de versiones */}
+        {mostrarHistorial && (
+          <HistorialVersiones
+            documentoId={id}
+            onVersionSeleccionada={(version) => {
+              console.log('Versión seleccionada:', version);
+              // Aquí podrías mostrar el contenido de la versión seleccionada
+            }}
+            onCerrar={() => setMostrarHistorial(false)}
+          />
+        )}
       </div>
     </div>
   );

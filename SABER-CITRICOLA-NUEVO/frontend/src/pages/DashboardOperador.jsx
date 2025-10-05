@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import VoiceSearch from '../components/VoiceSearch/VoiceSearch';
+import NotificacionesPanel from '../components/NotificacionesPanel/NotificacionesPanel';
 
 const DashboardOperador = () => {
   const { user, logout, API_URL } = useAuth();
@@ -175,9 +176,12 @@ const DashboardOperador = () => {
               </div>
             )}
           </div>
-          <button className="btn-danger" onClick={handleLogout}>
-            🚪 Cerrar Sesión
-          </button>
+          <div className="header-actions" style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+            <NotificacionesPanel />
+            <button className="btn-danger" onClick={handleLogout}>
+              🚪 Cerrar Sesión
+            </button>
+          </div>
         </div>
 
         {/* 🔍 Búsqueda rápida */}

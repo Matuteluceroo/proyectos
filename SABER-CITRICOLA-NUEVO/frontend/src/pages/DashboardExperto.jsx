@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import NotificacionesPanel from '../components/NotificacionesPanel/NotificacionesPanel';
 
 const DashboardExperto = () => {
   const { user, logout, API_URL } = useAuth();
@@ -112,9 +113,12 @@ const DashboardExperto = () => {
               </div>
             )}
           </div>
-          <button className="btn-danger" onClick={handleLogout}>
-            🚪 Cerrar Sesión
-          </button>
+          <div className="header-actions" style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+            <NotificacionesPanel />
+            <button className="btn-danger" onClick={handleLogout}>
+              🚪 Cerrar Sesión
+            </button>
+          </div>
         </div>
 
         {/* 📊 Métricas del experto */}

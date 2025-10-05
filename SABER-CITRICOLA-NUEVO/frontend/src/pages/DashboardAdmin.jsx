@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import NotificacionesPanel from '../components/NotificacionesPanel/NotificacionesPanel';
 
 const DashboardAdmin = () => {
   const { user, logout, API_URL } = useAuth();
@@ -109,6 +110,7 @@ const DashboardAdmin = () => {
             )}
           </div>
           <div className="header-actions">
+            <NotificacionesPanel />
             <button className="btn-secondary" onClick={handleTestNotifications}>
               🔔 Probar Notificaciones
             </button>

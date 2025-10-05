@@ -1,0 +1,504 @@
+/* 💬 ComentariosSection.css - Estilos para el sistema de comentarios */
+
+.comentarios-section {
+  margin-top: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+/* 📊 Header de comentarios */
+.comentarios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.comentarios-header h3 {
+  margin: 0;
+  color: #374151;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.estadisticas-comentarios {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.estadisticas-comentarios span {
+  background: #f3f4f6;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* 🚨 Mensajes de error */
+.error-message {
+  background: linear-gradient(135deg, #fef2f2, #fecaca);
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #ef4444;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error-message button {
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 1rem;
+}
+
+/* 📝 Formulario de nuevo comentario */
+.nuevo-comentario {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-radius: 12px;
+  border: 2px dashed #cbd5e1;
+  transition: all 0.3s ease;
+}
+
+.nuevo-comentario:focus-within {
+  border-color: #3b82f6;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+}
+
+.nuevo-comentario textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.nuevo-comentario textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.contador-caracteres {
+  text-align: right;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn-comentar {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-comentar:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-comentar:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 📋 Lista de comentarios */
+.comentarios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sin-comentarios {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.sin-comentarios p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* 💬 Comentario individual */
+.comentario-item {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.comentario-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
+}
+
+/* Niveles de anidación */
+.comentario-item.nivel-1 {
+  margin-left: 2rem;
+  background: #f8fafc;
+  border-left: 3px solid #3b82f6;
+}
+
+.comentario-item.nivel-2 {
+  margin-left: 4rem;
+  background: #f1f5f9;
+  border-left: 3px solid #10b981;
+}
+
+.comentario-item.nivel-3 {
+  margin-left: 6rem;
+  background: #fefce8;
+  border-left: 3px solid #f59e0b;
+}
+
+/* 👤 Header del comentario */
+.comentario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.autor-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.autor-nombre {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.autor-rol {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  padding: 0.125rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.fecha {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.editado {
+  color: #f59e0b;
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+/* 🔧 Acciones del comentario */
+.comentario-acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.comentario-acciones button {
+  background: rgba(107, 114, 128, 0.1);
+  border: none;
+  padding: 0.375rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.btn-editar:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.btn-eliminar:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.btn-reportar:hover {
+  background: rgba(245, 158, 11, 0.1);
+}
+
+/* 📄 Contenido del comentario */
+.comentario-contenido {
+  margin-bottom: 1rem;
+}
+
+.comentario-contenido p {
+  margin: 0;
+  line-height: 1.6;
+  color: #374151;
+  word-wrap: break-word;
+}
+
+/* 👍 Footer con reacciones */
+.comentario-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f3f4f6;
+}
+
+.reacciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-reaccion {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.btn-reaccion:hover {
+  background: #f3f4f6;
+  transform: translateY(-1px);
+}
+
+.btn-reaccion.activa {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border-color: #2563eb;
+}
+
+.btn-responder {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.btn-responder:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+/* 📝 Formularios de respuesta y edición */
+.formulario-respuesta,
+.formulario-edicion {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.formulario-respuesta textarea,
+.formulario-edicion textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  resize: vertical;
+  margin-bottom: 0.75rem;
+}
+
+.botones-respuesta,
+.botones-edicion {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-enviar,
+.btn-guardar {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-enviar:hover,
+.btn-guardar:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+}
+
+.btn-cancelar {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancelar:hover {
+  background: #e5e7eb;
+}
+
+/* 📱 Respuestas anidadas */
+.respuestas {
+  margin-top: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid #e5e7eb;
+}
+
+/* 🕐 Loading state */
+.comentarios-loading {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .comentarios-section {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .comentarios-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .comentario-item.nivel-1 {
+    margin-left: 1rem;
+  }
+
+  .comentario-item.nivel-2 {
+    margin-left: 1.5rem;
+  }
+
+  .comentario-item.nivel-3 {
+    margin-left: 2rem;
+  }
+
+  .autor-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .comentario-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .nuevo-comentario {
+    padding: 1rem;
+  }
+}
+
+/* 🌙 Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .comentarios-section {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .comentario-item {
+    background: #111827;
+    border-color: #374151;
+  }
+
+  .comentario-item.nivel-1 {
+    background: #1e293b;
+  }
+
+  .comentario-item.nivel-2 {
+    background: #0f172a;
+  }
+
+  .comentario-contenido p {
+    color: #d1d5db;
+  }
+
+  .autor-nombre {
+    color: #f9fafb;
+  }
+}
+
+/* ♿ Accessibility */
+.comentarios-section *:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.comentarios-section button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 1px;
+}
+
+/* 🎨 Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comentario-item {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.formulario-respuesta,
+.formulario-edicion {
+  animation: fadeIn 0.2s ease-out;
+}
