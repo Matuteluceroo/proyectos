@@ -1,5 +1,6 @@
 // 🗄️ database-citricola.js - Base de datos completa para Saber Citrícola
 import sqlite3 from 'sqlite3';
+import bcrypt from 'bcrypt';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -171,27 +172,36 @@ const insertarDatosPrueba = () => {
       }
 
       if (row.count === 0) {
-        // Crear usuarios de prueba
-        const usuarios = [
-          ['admin', '123456', 'admin@sabercitricola.com', 'Juan Administrador', 'administrador'],
-          ['experto1', '123456', 'experto1@sabercitricola.com', 'María González', 'experto'],
-          ['operador1', '123456', 'operador1@sabercitricola.com', 'Pedro Martínez', 'operador']
-        ];
+        // Solo crear usuarios si no existen (para evitar recrear en cada reinicio)
+        db.get("SELECT COUNT(*) as count FROM usuarios", (err, result) => {
+          if (err) {
+            console.error('❌ Error al verificar usuarios:', err.message);
+          } else if (result.count === 0) {
+            console.log('👤 Creando usuarios de prueba...');
+            
+            // Crear usuarios usando la función que ya hashea contraseñas
+            const usuarios = [
+              { username: 'admin', password: '123456', email: 'admin@sabercitricola.com', nombre_completo: 'Juan Administrador', rol: 'administrador' },
+              { username: 'experto1', password: '123456', email: 'experto1@sabercitricola.com', nombre_completo: 'María González', rol: 'experto' },
+              { username: 'operador1', password: '123456', email: 'operador1@sabercitricola.com', nombre_completo: 'Pedro Martínez', rol: 'operador' }
+            ];
 
-        usuarios.forEach(([username, password, email, nombre, rol]) => {
-          db.run(
-            "INSERT INTO usuarios (username, password, email, nombre_completo, rol) VALUES (?, ?, ?, ?, ?)",
-            [username, password, email, nombre, rol],
-            (err) => {
-              if (err) {
-                console.error(`❌ Error al crear usuario ${username}:`, err.message);
-              } else {
-                console.log(`👤 Usuario ${username} (${rol}) creado`);
-              }
-            }
-          );
+            usuarios.forEach((userData, index) => {
+              setTimeout(() => {
+                crearUsuario(userData, (err, result) => {
+                  if (err) {
+                    console.error(`❌ Error al crear usuario ${userData.username}:`, err.message);
+                  } else {
+                    console.log(`👤 Usuario ${userData.username} (${userData.rol}) creado exitosamente`);
+                  }
+                });
+              }, index * 100); // Pequeño delay para evitar conflictos
+            });
+          } else {
+            console.log('👤 Usuarios de prueba ya existen');
+          }
         });
-
+        
         // Crear categorías de prueba
         const categorias = [
           ['Manejo de Cultivos', 'Técnicas y procedimientos para el manejo de cultivos citrícolas', '#4CAF50', '🌱'],
@@ -226,10 +236,36 @@ const insertarDatosPrueba = () => {
 
 // 🔍 Funciones de consulta
 
-// Obtener usuario con rol
+// Obtener usuario con rol - ahora con verificación de contraseña hasheada
 const obtenerUsuarioConRol = (username, password, callback) => {
-  const sql = "SELECT id, username, email, nombre_completo, rol FROM usuarios WHERE username = ? AND password = ?";
-  db.get(sql, [username, password], callback);
+  // Primero obtenemos el usuario con su contraseña hasheada
+  const sql = "SELECT id, username, email, nombre_completo, rol, password FROM usuarios WHERE username = ?";
+  
+  db.get(sql, [username], (err, usuario) => {
+    if (err) {
+      return callback(err, null);
+    }
+    
+    if (!usuario) {
+      return callback(null, null); // Usuario no encontrado
+    }
+    
+    // Verificar contraseña hasheada
+    bcrypt.compare(password, usuario.password, (bcryptErr, esValida) => {
+      if (bcryptErr) {
+        return callback(bcryptErr, null);
+      }
+      
+      if (esValida) {
+        // Contraseña correcta - devolver usuario sin la contraseña
+        const { password: _, ...usuarioSinPassword } = usuario;
+        callback(null, usuarioSinPassword);
+      } else {
+        // Contraseña incorrecta
+        callback(null, null);
+      }
+    });
+  });
 };
 
 // Obtener todos los usuarios (solo para administradores)
@@ -546,7 +582,7 @@ export function obtenerUsuarioPorId(id, callback) {
     });
 }
 
-// Crear nuevo usuario
+// Crear nuevo usuario - ahora con contraseña hasheada
 export function crearUsuario(datosUsuario, callback) {
     const { username, email, password, nombre_completo, rol } = datosUsuario;
     
@@ -556,23 +592,31 @@ export function crearUsuario(datosUsuario, callback) {
     const rolesValidos = ['administrador', 'admin', 'experto', 'operador'];
     const rolFinal = rolesValidos.includes(rol) ? (rol === 'admin' ? 'administrador' : rol) : 'operador';
     
-    const sql = `
-        INSERT INTO usuarios (username, email, password, nombre_completo, rol, fecha_creacion)
-        VALUES (?, ?, ?, ?, ?, datetime('now'))
-    `;
-    
-    db.run(sql, [username, email, password, nombre_completo, rolFinal], function(err) {
-        if (err) {
-            console.error('❌ Error al crear usuario:', err);
-            callback(err, null);
-        } else {
-            console.log(`✅ Usuario creado con ID: ${this.lastID}`);
-            callback(null, this.lastID);
+    // Hashear contraseña antes de guardarla
+    bcrypt.hash(password, 10, (hashErr, passwordHash) => {
+        if (hashErr) {
+            console.error('❌ Error al hashear contraseña:', hashErr);
+            return callback(hashErr, null);
         }
+        
+        const sql = `
+            INSERT INTO usuarios (username, email, password, nombre_completo, rol, fecha_creacion)
+            VALUES (?, ?, ?, ?, ?, datetime('now'))
+        `;
+        
+        db.run(sql, [username, email, passwordHash, nombre_completo, rolFinal], function(err) {
+            if (err) {
+                console.error('❌ Error al crear usuario:', err);
+                callback(err, null);
+            } else {
+                console.log(`✅ Usuario creado con ID: ${this.lastID}`);
+                callback(null, this.lastID);
+            }
+        });
     });
 }
 
-// Actualizar usuario
+// Actualizar usuario - ahora con contraseña hasheada si se proporciona
 export function actualizarUsuario(id, datosActualizacion, callback) {
     const { username, email, password, nombre_completo, rol } = datosActualizacion;
     
@@ -582,33 +626,50 @@ export function actualizarUsuario(id, datosActualizacion, callback) {
     const rolesValidos = ['administrador', 'admin', 'experto', 'operador'];
     const rolFinal = rolesValidos.includes(rol) ? (rol === 'admin' ? 'administrador' : rol) : 'operador';
     
-    let sql, params;
-    
+    // Si hay nueva contraseña, hashearla
     if (password) {
-        sql = `
-            UPDATE usuarios 
-            SET username = ?, email = ?, password = ?, nombre_completo = ?, rol = ?
-            WHERE id = ?
-        `;
-        params = [username, email, password, nombre_completo, rolFinal, id];
+        bcrypt.hash(password, 10, (hashErr, passwordHash) => {
+            if (hashErr) {
+                console.error('❌ Error al hashear contraseña:', hashErr);
+                return callback(hashErr, null);
+            }
+            
+            const sql = `
+                UPDATE usuarios 
+                SET username = ?, email = ?, password = ?, nombre_completo = ?, rol = ?
+                WHERE id = ?
+            `;
+            const params = [username, email, passwordHash, nombre_completo, rolFinal, id];
+            
+            db.run(sql, params, function(err) {
+                if (err) {
+                    console.error('❌ Error al actualizar usuario:', err);
+                    callback(err, null);
+                } else {
+                    console.log(`✅ Usuario ${id} actualizado exitosamente`);
+                    callback(null, { changes: this.changes });
+                }
+            });
+        });
     } else {
-        sql = `
+        // Actualizar sin cambiar contraseña
+        const sql = `
             UPDATE usuarios 
             SET username = ?, email = ?, nombre_completo = ?, rol = ?
             WHERE id = ?
         `;
-        params = [username, email, nombre_completo, rolFinal, id];
+        const params = [username, email, nombre_completo, rolFinal, id];
+        
+        db.run(sql, params, function(err) {
+            if (err) {
+                console.error('❌ Error al actualizar usuario:', err);
+                callback(err, null);
+            } else {
+                console.log(`✅ Usuario ${id} actualizado exitosamente`);
+                callback(null, { changes: this.changes });
+            }
+        });
     }
-    
-    db.run(sql, params, function(err) {
-        if (err) {
-            console.error('❌ Error al actualizar usuario:', err);
-            callback(err, null);
-        } else {
-            console.log(`✅ Usuario ${id} actualizado exitosamente`);
-            callback(null, { changes: this.changes });
-        }
-    });
 }
 
 // Eliminar usuario

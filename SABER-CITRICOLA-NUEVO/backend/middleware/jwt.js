@@ -77,12 +77,22 @@ export function requireRole(roles) {
 
 // 🧪 Middleware para desarrollo - permite todas las requests
 export function devBypassAuth(req, res, next) {
-  // Simular un usuario para desarrollo
+  // 🚨 SEGURIDAD: Solo permitir bypass en entorno de desarrollo
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(403).json({
+      success: false,
+      message: 'Acceso denegado',
+      error: 'El bypass de autenticación no está permitido en producción'
+    });
+  }
+  
+  // Simular un usuario para desarrollo con estructura completa
   req.user = {
     id: 1,
     username: 'dev_user',
     email: 'dev@example.com',
     rol: 'admin',
+    role: 'admin', // Alias para compatibilidad
     nombre_completo: 'Usuario de Desarrollo'
   };
   next();

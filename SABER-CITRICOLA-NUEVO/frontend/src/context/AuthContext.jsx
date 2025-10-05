@@ -36,6 +36,7 @@ export const AuthProvider = ({ children }) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // 🍪 Incluir cookies
         body: JSON.stringify({ username, password })
       });
 
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }) => {
         setUser(data.usuario);
         setIsLoggedIn(true);
         
-        // 💾 Guardar en localStorage para persistencia
+        // 💾 Guardar en localStorage para compatibilidad (opcional)
         localStorage.setItem('user', JSON.stringify(data.usuario));
         
         console.log('✅ Usuario logueado:', data.usuario);
@@ -75,7 +76,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   // 🚪 Función para logout
-  const logout = () => {
+  const logout = async () => {
+    try {
+      // 🍪 Limpiar cookie del servidor
+      await fetch(`${API_URL}/api/logout`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+    } catch (error) {
+      console.warn('⚠️ Error al limpiar cookie del servidor:', error);
+    }
+    
+    // Limpiar estado local
     setUser(null);
     setIsLoggedIn(false);
     localStorage.removeItem('user');

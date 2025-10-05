@@ -5,6 +5,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import cookieParser from 'cookie-parser'; // Ahora habilitado
 import { 
   inicializarDB, 
   obtenerUsuarioConRol,
@@ -14,6 +15,7 @@ import {
   obtenerMetricas,
   buscarContenido
 } from './database-citricola.js';
+import { generateAccessToken } from './middleware/jwt.js';
 import archivosRoutes from './routes/archivos.js';
 import documentosRoutes from './routes/documentos.js';
 import usuariosRoutes from './routes/usuarios.js';
@@ -32,17 +34,40 @@ const app = express();
 const PORT = 5000; // Puerto donde va a "escuchar" nuestro servidor
 
 // 🌐 Configuramos CORS para que frontend pueda conectarse
+const allowedOrigins = [
+    'http://localhost:3000',    // React en puerto 3000
+    'http://localhost:5173',    // Vite en puerto 5173
+    'http://127.0.0.1:3000',    // Alternativa localhost
+    'http://127.0.0.1:5173',    // Alternativa localhost
+];
+
+// 🔒 Solo en desarrollo permitimos archivos locales
+if (process.env.NODE_ENV !== 'production') {
+    allowedOrigins.push('null'); // Archivos locales HTML solo en desarrollo
+}
+
 app.use(cors({
-    origin: [
-        'http://localhost:3000',    // React en puerto 3000
-        'http://localhost:5173',    // Vite en puerto 5173
-        'null'                      // Archivos locales HTML
-    ],
-    credentials: true // Permitimos cookies
+    origin: function (origin, callback) {
+        // Permitir requests sin origin (ej: aplicaciones móviles, Postman)
+        if (!origin) return callback(null, true);
+        
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            console.warn(`❌ CORS bloqueado para origen: ${origin}`);
+            callback(new Error('No permitido por política CORS'));
+        }
+    },
+    credentials: true, // Permitimos cookies
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 // 📝 Configuramos Express para entender JSON
 app.use(express.json());
+
+// 🍪 Configuramos cookies parser
+app.use(cookieParser());
 
 // 📁 Servir archivos estáticos (uploads) con headers apropiados
 app.use('/uploads', (req, res, next) => {
@@ -136,6 +161,23 @@ app.post('/api/login', (req, res) => {
             res.status(500).json({ error: 'Error interno del servidor' });
         } else if (usuario) {
             console.log('✅ Usuario encontrado:', usuario);
+            
+            // 🔑 Generar token JWT
+            const token = generateAccessToken({
+                id: usuario.id,
+                username: usuario.username,
+                email: usuario.email,
+                rol: usuario.rol
+            });
+            
+            // 🍪 Configurar cookie httpOnly segura
+            res.cookie('token', token, {
+                httpOnly: true,     // Solo accesible desde servidor (no JavaScript)
+                secure: process.env.NODE_ENV === 'production', // HTTPS en producción
+                sameSite: 'strict', // Protección CSRF
+                maxAge: 5 * 60 * 60 * 1000 // 5 horas
+            });
+            
             res.json({
                 mensaje: 'Login exitoso',
                 usuario: {
@@ -144,7 +186,9 @@ app.post('/api/login', (req, res) => {
                     email: usuario.email,
                     nombre_completo: usuario.nombre_completo,
                     rol: usuario.rol
-                }
+                },
+                // 📝 También enviamos el token para compatibilidad con localStorage
+                token: token
             });
         } else {
             console.log('❌ Usuario no encontrado con credenciales:', { username, password });
@@ -152,6 +196,21 @@ app.post('/api/login', (req, res) => {
                 error: 'Credenciales incorrectas' 
             });
         }
+    });
+});
+
+// 🚪 Ruta para logout seguro
+app.post('/api/logout', (req, res) => {
+    // 🍪 Limpiar cookie del token
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict'
+    });
+    
+    res.json({
+        mensaje: 'Logout exitoso',
+        success: true
     });
 });
 
