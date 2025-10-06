@@ -5,9 +5,13 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
+    "start": "NODE_ENV=production node app.js",
     "dev": "nodemon app.js",
-    "migrar-passwords": "node scripts/migrar-passwords.js"
+    "build": "echo 'No build process needed for Node.js'",
+    "test": "echo 'Tests not implemented yet'",
+    "migrar-passwords": "node scripts/migrar-passwords.js",
+    "seed": "node scripts/seed-database.js",
+    "backup": "node scripts/backup-database.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

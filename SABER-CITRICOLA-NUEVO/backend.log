@@ -1,0 +1,887 @@
+
+> saber-citricola-backend@1.0.0 start
+> node app.js
+
+
+🍊 ===================================
+🚀 Servidor Saber Citrícola iniciado
+📍 URL: http://localhost:5000
+🌐 CORS permitido desde: http://localhost:3000
+⏰ Hora: 10/5/2025, 8:55:08 PM
+🍊 ===================================
+    
+🗄️ Inicializando base de datos...
+✅ Backend iniciado correctamente
+✅ Conectado a SQLite exitosamente
+📁 Base de datos ubicada en: C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\saber_citricola.db
+📋 Tabla "categorias" lista
+📋 Tabla "metricas" lista
+📋 Tabla "comentarios" lista
+📋 Tabla "usuarios" lista
+📋 Tabla "progreso_capacitaciones" lista
+📋 Tabla "documentos" lista
+📋 Tabla "capacitaciones" lista
+👤 Datos de prueba ya existen
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+🔐 Intento de login: { username: 'admin', password: '123456' }
+✅ Usuario encontrado: {
+  id: 1,
+  username: 'admin',
+  email: 'admin@sabercitricola.com',
+  nombre_completo: 'Juan Administrador',
+  rol: 'administrador'
+}
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+🔐 Intento de login: { username: 'admin', password: '123456' }
+✅ Usuario encontrado: {
+  id: 1,
+  username: 'admin',
+  email: 'admin@sabercitricola.com',
+  nombre_completo: 'Juan Administrador',
+  rol: 'administrador'
+}
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+🔍 Verificando rol de usuario: {
+  rolUsuario: 'admin',
+  usuario: {
+    id: 1,
+    username: 'dev_user',
+    email: 'dev@example.com',
+    rol: 'admin',
+    role: 'admin',
+    nombre_completo: 'Usuario de Desarrollo'
+  }
+}
+✅ Acceso permitido para rol: admin
+🎯 GET /api/usuarios - Iniciando consulta
+✅ Usuarios obtenidos: 4
+🔍 Verificando rol de usuario: {
+  rolUsuario: 'admin',
+  usuario: {
+    id: 1,
+    username: 'dev_user',
+    email: 'dev@example.com',
+    rol: 'admin',
+    role: 'admin',
+    nombre_completo: 'Usuario de Desarrollo'
+  }
+}
+✅ Acceso permitido para rol: admin
+🎯 GET /api/usuarios - Iniciando consulta
+✅ Usuarios obtenidos: 4
+🔍 Verificando rol de usuario: {
+  rolUsuario: 'admin',
+  usuario: {
+    id: 1,
+    username: 'dev_user',
+    email: 'dev@example.com',
+    rol: 'admin',
+    role: 'admin',
+    nombre_completo: 'Usuario de Desarrollo'
+  }
+}
+✅ Acceso permitido para rol: admin
+✅ Usuario eliminado. Filas afectadas: 1
+🔍 Verificando rol de usuario: {
+  rolUsuario: 'admin',
+  usuario: {
+    id: 1,
+    username: 'dev_user',
+    email: 'dev@example.com',
+    rol: 'admin',
+    role: 'admin',
+    nombre_completo: 'Usuario de Desarrollo'
+  }
+}
+✅ Acceso permitido para rol: admin
+🎯 GET /api/usuarios - Iniciando consulta
+✅ Usuarios obtenidos: 3
+📁 Obteniendo todas las categorías...
+✅ Se encontraron 5 categorías
+📁 Obteniendo todas las categorías...
+✅ Se encontraron 5 categorías
+📄 Obteniendo documentos con filtros: { categoria: undefined, busqueda: undefined, estado: undefined }
+✅ Se encontraron 5 documentos
+📄 Obteniendo documentos con filtros: { categoria: undefined, busqueda: undefined, estado: undefined }
+✅ Se encontraron 5 documentos
+📊 Generando estadísticas de contenido...
+✅ Estadísticas generadas: {
+  totalCategorias: 5,
+  totalDocumentos: 14,
+  documentosRecientes: 3,
+  categoriasVacias: 1,
+  documentosActivos: 11,
+  documentosBorrador: 3,
+  descargasTotales: 1247,
+  documentosMasDescargados: [
+    { titulo: 'Guía de Plantación', descargas: 245 },
+    { titulo: 'Control Biológico de Plagas', descargas: 189 },
+    { titulo: 'Fertilización Orgánica', descargas: 167 }
+  ],
+  categoriasMasUsadas: [
+    { nombre: 'Técnicas de Cultivo', documentos: 5 },
+    { nombre: 'Fertilización', documentos: 4 },
+    { nombre: 'Control de Plagas', documentos: 3 }
+  ]
+}
+📊 Generando estadísticas de contenido...
+✅ Estadísticas generadas: {
+  totalCategorias: 5,
+  totalDocumentos: 14,
+  documentosRecientes: 3,
+  categoriasVacias: 1,
+  documentosActivos: 11,
+  documentosBorrador: 3,
+  descargasTotales: 1247,
+  documentosMasDescargados: [
+    { titulo: 'Guía de Plantación', descargas: 245 },
+    { titulo: 'Control Biológico de Plagas', descargas: 189 },
+    { titulo: 'Fertilización Orgánica', descargas: 167 }
+  ],
+  categoriasMasUsadas: [
+    { nombre: 'Técnicas de Cultivo', documentos: 5 },
+    { nombre: 'Fertilización', documentos: 4 },
+    { nombre: 'Control de Plagas', documentos: 3 }
+  ]
+}
+📁 Obteniendo todas las categorías...
+✅ Se encontraron 5 categorías
+📁 Obteniendo todas las categorías...
+✅ Se encontraron 5 categorías
+📄 Obteniendo documentos con filtros: { categoria: undefined, busqueda: undefined, estado: undefined }
+✅ Se encontraron 5 documentos
+📄 Obteniendo documentos con filtros: { categoria: undefined, busqueda: undefined, estado: undefined }
+✅ Se encontraron 5 documentos
+📊 Generando estadísticas de contenido...
+✅ Estadísticas generadas: {
+  totalCategorias: 5,
+  totalDocumentos: 14,
+  documentosRecientes: 3,
+  categoriasVacias: 1,
+  documentosActivos: 11,
+  documentosBorrador: 3,
+  descargasTotales: 1247,
+  documentosMasDescargados: [
+    { titulo: 'Guía de Plantación', descargas: 245 },
+    { titulo: 'Control Biológico de Plagas', descargas: 189 },
+    { titulo: 'Fertilización Orgánica', descargas: 167 }
+  ],
+  categoriasMasUsadas: [
+    { nombre: 'Técnicas de Cultivo', documentos: 5 },
+    { nombre: 'Fertilización', documentos: 4 },
+    { nombre: 'Control de Plagas', documentos: 3 }
+  ]
+}
+📊 Generando estadísticas de contenido...
+✅ Estadísticas generadas: {
+  totalCategorias: 5,
+  totalDocumentos: 14,
+  documentosRecientes: 3,
+  categoriasVacias: 1,
+  documentosActivos: 11,
+  documentosBorrador: 3,
+  descargasTotales: 1247,
+  documentosMasDescargados: [
+    { titulo: 'Guía de Plantación', descargas: 245 },
+    { titulo: 'Control Biológico de Plagas', descargas: 189 },
+    { titulo: 'Fertilización Orgánica', descargas: 167 }
+  ],
+  categoriasMasUsadas: [
+    { nombre: 'Técnicas de Cultivo', documentos: 5 },
+    { nombre: 'Fertilización', documentos: 4 },
+    { nombre: 'Control de Plagas', documentos: 3 }
+  ]
+}
+🔐 Intento de login: { username: 'experto1', password: '123456' }
+✅ Usuario encontrado: {
+  id: 2,
+  username: 'experto1',
+  email: 'experto1@sabercitricola.com',
+  nombre_completo: 'María González',
+  rol: 'experto'
+}
+🔐 Intento de login: { username: 'operador1', password: '123456' }
+✅ Usuario encontrado: {
+  id: 3,
+  username: 'operador1',
+  email: 'operador1@sabercitricola.com',
+  nombre_completo: 'Pedro Martínez',
+  rol: 'operador'
+}
+🔐 Intento de login: { username: 'admin', password: '123456' }
+✅ Usuario encontrado: {
+  id: 1,
+  username: 'admin',
+  email: 'admin@sabercitricola.com',
+  nombre_completo: 'Juan Administrador',
+  rol: 'administrador'
+}
+📁 Obteniendo todas las categorías...
+✅ Se encontraron 5 categorías
+📁 Obteniendo todas las categorías...
+✅ Se encontraron 5 categorías
+📄 Obteniendo documentos con filtros: { categoria: undefined, busqueda: undefined, estado: undefined }
+✅ Se encontraron 5 documentos
+📄 Obteniendo documentos con filtros: { categoria: undefined, busqueda: undefined, estado: undefined }
+✅ Se encontraron 5 documentos
+📊 Generando estadísticas de contenido...
+✅ Estadísticas generadas: {
+  totalCategorias: 5,
+  totalDocumentos: 14,
+  documentosRecientes: 3,
+  categoriasVacias: 1,
+  documentosActivos: 11,
+  documentosBorrador: 3,
+  descargasTotales: 1247,
+  documentosMasDescargados: [
+    { titulo: 'Guía de Plantación', descargas: 245 },
+    { titulo: 'Control Biológico de Plagas', descargas: 189 },
+    { titulo: 'Fertilización Orgánica', descargas: 167 }
+  ],
+  categoriasMasUsadas: [
+    { nombre: 'Técnicas de Cultivo', documentos: 5 },
+    { nombre: 'Fertilización', documentos: 4 },
+    { nombre: 'Control de Plagas', documentos: 3 }
+  ]
+}
+📊 Generando estadísticas de contenido...
+✅ Estadísticas generadas: {
+  totalCategorias: 5,
+  totalDocumentos: 14,
+  documentosRecientes: 3,
+  categoriasVacias: 1,
+  documentosActivos: 11,
+  documentosBorrador: 3,
+  descargasTotales: 1247,
+  documentosMasDescargados: [
+    { titulo: 'Guía de Plantación', descargas: 245 },
+    { titulo: 'Control Biológico de Plagas', descargas: 189 },
+    { titulo: 'Fertilización Orgánica', descargas: 167 }
+  ],
+  categoriasMasUsadas: [
+    { nombre: 'Técnicas de Cultivo', documentos: 5 },
+    { nombre: 'Fertilización', documentos: 4 },
+    { nombre: 'Control de Plagas', documentos: 3 }
+  ]
+}
+🔐 Intento de login: { username: 'admin', password: '123456' }
+✅ Usuario encontrado: {
+  id: 1,
+  username: 'admin',
+  email: 'admin@sabercitricola.com',
+  nombre_completo: 'Juan Administrador',
+  rol: 'administrador'
+}
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error al obtener notificaciones no leídas: TypeError: Cannot read properties of undefined (reading 'id')
+    at file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/routes/notificaciones.js:162:35
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+❌ Error en obtenerEstadisticas: TypeError: Cannot read properties of undefined (reading 'id')
+    at obtenerEstadisticas (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/controllers/notificaciones.js:167:37)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\index.js:280:10)
+    at devBypassAuth (file:///C:/Users/mauricio.batista/Desktop/proyectos/SABER-CITRICOLA-NUEVO/backend/middleware/jwt.js:98:3)
+    at Layer.handle [as handle_request] (C:\Users\mauricio.batista\Desktop\proyectos\SABER-CITRICOLA-NUEVO\backend\node_modules\express\lib\router\layer.js:95:5)

@@ -1,5 +1,5 @@
 // 📊 reportesAPI.js - Servicio para comunicarse con la API de reportes
-const API_URL = 'http://localhost:5000';
+import { buildApiUrl } from '../config/app.config.js';
 
 // 🔍 Función para obtener headers con autenticación
 const getHeaders = () => {
@@ -43,7 +43,7 @@ export const obtenerReportesCompletos = async () => {
   try {
     console.log('📊 Obteniendo reportes completos...');
     
-    const response = await fetch(`${API_URL}/api/reportes`, {
+    const response = await fetch(buildApiUrl('/reportes'), {
       method: 'GET',
       headers: getHeaders()
     });

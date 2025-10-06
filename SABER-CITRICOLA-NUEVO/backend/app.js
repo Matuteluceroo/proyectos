@@ -41,8 +41,16 @@ const allowedOrigins = [
     'http://127.0.0.1:5173',    // Alternativa localhost
 ];
 
-// 🔒 Solo en desarrollo permitimos archivos locales
-if (process.env.NODE_ENV !== 'production') {
+// � Dominios de producción
+if (process.env.NODE_ENV === 'production') {
+    // Vercel genera URLs como: https://tu-app.vercel.app
+    allowedOrigins.push(process.env.FRONTEND_URL || 'https://*.vercel.app');
+    // También permitir subdominio personalizado si lo tienes
+    if (process.env.CUSTOM_DOMAIN) {
+        allowedOrigins.push(process.env.CUSTOM_DOMAIN);
+    }
+} else {
+    // 🔒 Solo en desarrollo permitimos archivos locales
     allowedOrigins.push('null'); // Archivos locales HTML solo en desarrollo
 }
 
@@ -51,6 +59,19 @@ app.use(cors({
         // Permitir requests sin origin (ej: aplicaciones móviles, Postman)
         if (!origin) return callback(null, true);
         
+        // En producción, verificar dominios de Vercel
+        if (process.env.NODE_ENV === 'production') {
+            // Permitir cualquier subdominio de vercel.app
+            if (origin.endsWith('.vercel.app') || origin === process.env.FRONTEND_URL) {
+                return callback(null, true);
+            }
+            // También permitir dominio personalizado
+            if (process.env.CUSTOM_DOMAIN && origin === process.env.CUSTOM_DOMAIN) {
+                return callback(null, true);
+            }
+        }
+        
+        // Verificar lista de orígenes permitidos (desarrollo y producción específicos)
         if (allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {

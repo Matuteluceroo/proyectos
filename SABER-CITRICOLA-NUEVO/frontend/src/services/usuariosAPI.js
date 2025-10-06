@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+import { buildApiUrl } from '../config/app.config.js';
 
 // Obtener headers con autenticación
 const getHeaders = () => {
@@ -40,7 +40,7 @@ const getHeaders = () => {
 
 // Obtener todos los usuarios
 export const obtenerUsuarios = async () => {
-    const response = await fetch(`${API_BASE_URL}/usuarios`, {
+    const response = await fetch(buildApiUrl('/usuarios'), {
         method: 'GET',
         headers: getHeaders(),
         credentials: 'include' // 🍪 Incluir cookies para autenticación
@@ -56,7 +56,7 @@ export const obtenerUsuarios = async () => {
 
 // Crear nuevo usuario
 export const crearUsuario = async (datosUsuario) => {
-    const response = await fetch(`${API_BASE_URL}/usuarios`, {
+    const response = await fetch(buildApiUrl('/usuarios'), {
         method: 'POST',
         headers: getHeaders(),
         credentials: 'include', // 🍪 Incluir cookies para autenticación
@@ -73,7 +73,7 @@ export const crearUsuario = async (datosUsuario) => {
 
 // Actualizar usuario
 export const actualizarUsuario = async (id, datosUsuario) => {
-    const response = await fetch(`${API_BASE_URL}/usuarios/${id}`, {
+    const response = await fetch(buildApiUrl(`/usuarios/${id}`), {
         method: 'PUT',
         headers: getHeaders(),
         credentials: 'include', // 🍪 Incluir cookies para autenticación
@@ -90,7 +90,7 @@ export const actualizarUsuario = async (id, datosUsuario) => {
 
 // Eliminar usuario
 export const eliminarUsuario = async (id) => {
-    const response = await fetch(`${API_BASE_URL}/usuarios/${id}`, {
+    const response = await fetch(buildApiUrl(`/usuarios/${id}`), {
         method: 'DELETE',
         headers: getHeaders(),
         credentials: 'include' // 🍪 Incluir cookies para autenticación
