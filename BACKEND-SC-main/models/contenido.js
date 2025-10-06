@@ -1,6 +1,27 @@
 // models/contenido.js
 import { sql } from "../connection.js";
 const tableName = "Contenido";
+import fs from "fs";
+import fsP from "fs/promises";
+import path from "path";
+import mime from "mime";
+const BASE_DIR = process.env.RUTA_CONTENIDOS || "uploads";
+const FOLDERS = {
+  PDF: path.join(BASE_DIR, "PDF"),
+  IMAGEN: path.join(BASE_DIR, "IMAGEN"),
+  VIDEO: path.join(BASE_DIR, "VIDEO"),
+};
+const VALID_EXT = {
+  PDF: [".pdf"],
+  IMAGEN: [".jpg", ".jpeg", ".png", ".webp"],
+  VIDEO: [".mp4", ".webm", ".mov", ".mkv"],
+};
+
+function assertTipo(tipo) {
+  if (!Object.prototype.hasOwnProperty.call(FOLDERS, tipo)) {
+    throw new Error("tipo inválido");
+  }
+}
 
 export class ContenidoModel {
   static async crearContenido({ titulo, descripcion, id_tipo, id_usuario }) {
@@ -60,5 +81,92 @@ export class ContenidoModel {
     `);
 
     return result.recordset;
+  }
+  static async findFilesById(id, makeUrl) {
+    console.log("[findFilesById] baseDir:", BASE_DIR, "id:", id);
+    const results = [];
+    const idPrefix = `${id}-`.toLowerCase();
+
+    const tipos = Object.keys(FOLDERS);
+    await Promise.all(
+      tipos.map(async (t) => {
+        const tipo = t; // 'PDF' | 'IMAGEN' | 'VIDEO'
+        const dir = FOLDERS[tipo];
+        let entries = [];
+        try {
+          entries = await fsP.readdir(dir, { withFileTypes: true });
+        } catch (e) {
+          console.warn(`[findFilesById] no existe carpeta ${dir}`, e?.code);
+          return;
+        }
+
+        for (const ent of entries) {
+          if (!ent.isFile()) continue;
+          const ext = path.extname(ent.name).toLowerCase();
+          if (!VALID_EXT[tipo].includes(ext)) continue;
+
+          const nameLc = ent.name.toLowerCase();
+          if (!nameLc.startsWith(idPrefix)) continue;
+
+          results.push({
+            tipo,
+            fileName: ent.name,
+            absPath: path.join(dir, ent.name),
+            url: makeUrl({ tipo, fileName: ent.name }),
+          });
+        }
+      })
+    );
+
+    console.log("[findFilesById] encontrados:", results.length);
+    return results;
+  }
+
+  static async streamFile({ tipo, fileName, req, res }) {
+    assertTipo(tipo);
+    // Evitar path traversal
+    if (fileName.includes("..") || path.isAbsolute(fileName)) {
+      throw new Error("nombre inválido");
+    }
+    const abs = path.join(FOLDERS[tipo], fileName);
+    const stat = await fsP.stat(abs); // lanza si no existe
+    const mimeType = mime.getType(abs) || "application/octet-stream";
+    const isVideo = mimeType.startsWith("video/");
+
+    res.setHeader("Content-Type", mimeType);
+    res.setHeader(
+      "Content-Disposition",
+      `inline; filename="${encodeURIComponent(fileName)}"`
+    );
+
+    if (!isVideo) {
+      fs.createReadStream(abs).pipe(res);
+      return;
+    }
+
+    // Soporte de Range para video
+    const range = req.headers.range;
+    if (!range) {
+      res.setHeader("Content-Length", stat.size.toString());
+      fs.createReadStream(abs).pipe(res);
+      return;
+    }
+
+    const CHUNK_SIZE = 1 * 1024 * 1024;
+    const [startStr, endStr] = range.replace(/bytes=/, "").split("-");
+    const start = parseInt(startStr, 10);
+    const end = Math.min(
+      start + CHUNK_SIZE,
+      endStr ? parseInt(endStr, 10) : stat.size - 1
+    );
+
+    res.status(206).set({
+      "Content-Range": `bytes ${start}-${end}/${stat.size}`,
+      "Accept-Ranges": "bytes",
+      "Content-Length": end - start + 1,
+      "Content-Type": mimeType,
+    });
+
+    fs.createReadStream(abs, { start, end }).pipe(res);
   }
 }

@@ -5,14 +5,14 @@ import React, {
   forwardRef,
   useRef,
   useImperativeHandle,
-} from "react"
-import AutoSizer from "react-virtualized-auto-sizer"
-import HeaderTable from "./HeaderTable"
-import VirtualizedBodyTable from "./VirtualizedBodyTable"
-import { sortData } from "../../services/functions"
-import "./VirtualizedTable.css"
-import { SortConfig, VirtualizedTableProps } from "../../types/TableTypes"
-import { useResizeDetector } from "react-resize-detector"
+} from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
+import HeaderTable from "./HeaderTable";
+import VirtualizedBodyTable from "./VirtualizedBodyTable";
+import { sortData } from "../../services/functions";
+import "./VirtualizedTable.css";
+import { SortConfig, VirtualizedTableProps } from "../../types/TableTypes";
+import { useResizeDetector } from "react-resize-detector";
 
 const VirtualizedTable = forwardRef(
   (
@@ -28,84 +28,79 @@ const VirtualizedTable = forwardRef(
     }: VirtualizedTableProps,
     ref
   ) => {
-    const bodyRef = useRef<any>(null)
-    const { height: headerHeight, ref: headerRef } = useResizeDetector()
+    const bodyRef = useRef<any>(null);
+    const { height: headerHeight, ref: headerRef } = useResizeDetector();
     const [filters, setFilters] = useState(() => {
       if (nombreTabla) {
         try {
           const saved = JSON.parse(
             localStorage.getItem("filters_" + nombreTabla)?.toString() || "{}"
-          )
-          if (!saved) return initialFilters
+          );
+          if (!saved) return initialFilters;
           const hayFiltrosActivos = Object.values(saved).some(
             (arr) => Array.isArray(arr) && arr.length > 0
-          )
+          );
 
-          return hayFiltrosActivos ? saved : initialFilters
+          return hayFiltrosActivos ? saved : initialFilters;
         } catch (e) {
-          return initialFilters
+          return initialFilters;
         }
       }
-      return initialFilters
-    })
+      return initialFilters;
+    });
     const [sortConfig, setSortConfig] = useState<SortConfig>({
       key: null,
       direction: null,
-    })
+    });
 
     useEffect(() => {
       if (nombreTabla) {
-        localStorage.setItem("filters_" + nombreTabla, JSON.stringify(filters))
+        localStorage.setItem("filters_" + nombreTabla, JSON.stringify(filters));
       }
-    }, [filters, nombreTabla])
+    }, [filters, nombreTabla]);
 
     const internalCellChange = (
       changinRow: any,
       columnId: string,
       newValue: any
     ) => {
-      if (onCellChange) return onCellChange(changinRow, columnId, newValue)
-      if (changinRow === undefined) return
+      if (onCellChange) return onCellChange(changinRow, columnId, newValue);
+      if (changinRow === undefined) return;
       if (setRows) {
         setRows((prevRows) =>
           prevRows.map((row) =>
             row === changinRow ? { ...row, [columnId]: newValue } : row
           )
-        )
+        );
       }
-    }
+    };
 
     const filteredSortedRows = useMemo(() => {
-      let filtered = rows
+      let filtered = rows;
 
-      for (let i = 0; i < columns.length; i++) {
-        if (columns[i].options) {
-          const valueFunction = columns[i]?.value
-          if (typeof valueFunction === "function") {
-            for (let j = 0; j < filtered.length; j++) {
-              const newValue = valueFunction(filtered[j])
-              filtered[j].estado = newValue
-            }
-          }
+      filtered = columns.reduce((acc, col) => {
+        if (col.options && typeof col.value === "function") {
+          return acc.map((r) => ({ ...r, [col.id]: col.value!(r) }));
         }
-      }
+        return acc;
+      }, rows);
 
       Object.entries(filters).forEach(([key, selectedValues]) => {
         if (Array.isArray(selectedValues) && selectedValues.length > 0) {
           filtered = filtered.filter((row) =>
             selectedValues.includes(row[key]?.toString())
-          )
+          );
         }
-      })
-      filtered = sortData(filtered, sortConfig, columns)
+      });
+      filtered = sortData(filtered, sortConfig, columns);
 
-      return filtered
-    }, [rows, filters, sortConfig, columns])
+      return filtered;
+    }, [rows, filters, sortConfig, columns]);
 
     const totalTableWidth = columns.reduce((acc, col) => {
-      const w = parseInt(col.width?.replace("px", "") || "100")
-      return acc + w
-    }, 0)
+      const w = parseInt(col.width?.replace("px", "") || "100");
+      return acc + w;
+    }, 0);
 
     useImperativeHandle(ref, () => ({
       getData: () => rows,
@@ -113,47 +108,47 @@ const VirtualizedTable = forwardRef(
       getFilters: () => filters,
       setFilters: (newFilters: any) => setFilters(newFilters),
       scrollToRow: (index: number) => {
-        bodyRef.current?.scrollToRow(index)
+        bodyRef.current?.scrollToRow(index);
       },
-    }))
+    }));
 
     useEffect(() => {
-      if (onFiltersChange) onFiltersChange(filters, filteredSortedRows)
-    }, [filters, filteredSortedRows])
+      if (onFiltersChange) onFiltersChange(filters, filteredSortedRows);
+    }, [filters, filteredSortedRows]);
 
     useEffect(() => {
       const handler = (e: Event) => {
-        const { cellIndex } = (e as CustomEvent).detail
+        const { cellIndex } = (e as CustomEvent).detail;
         setRows((prev) => {
-          const nuevaFila = {} // ← reemplazá con tu generador de fila vacía
-          const newRows = [...prev, nuevaFila]
+          const nuevaFila = {}; // ← reemplazá con tu generador de fila vacía
+          const newRows = [...prev, nuevaFila];
 
           // Esperá al próximo frame, scrollea, y luego enfocá
           requestAnimationFrame(() => {
-            bodyRef.current?.scrollToRow(newRows.length - 1)
+            bodyRef.current?.scrollToRow(newRows.length - 1);
 
             requestAnimationFrame(() => {
-              const table = document.querySelectorAll(".table-row")
-              const nuevaFila = table[table.length - 1]
+              const table = document.querySelectorAll(".table-row");
+              const nuevaFila = table[table.length - 1];
               const nuevaCelda =
-                nuevaFila?.querySelectorAll("textarea, input")[cellIndex]
+                nuevaFila?.querySelectorAll("textarea, input")[cellIndex];
               if (nuevaCelda instanceof HTMLElement) {
-                nuevaCelda.focus()
+                nuevaCelda.focus();
                 if (nuevaCelda instanceof HTMLTextAreaElement) {
-                  const len = nuevaCelda.value.length
-                  nuevaCelda.setSelectionRange(len, len)
+                  const len = nuevaCelda.value.length;
+                  nuevaCelda.setSelectionRange(len, len);
                 }
               }
-            })
-          })
+            });
+          });
 
-          return newRows
-        })
-      }
+          return newRows;
+        });
+      };
 
-      window.addEventListener("add-row", handler)
-      return () => window.removeEventListener("add-row", handler)
-    }, [])
+      window.addEventListener("add-row", handler);
+      return () => window.removeEventListener("add-row", handler);
+    }, []);
 
     return (
       <div
@@ -194,7 +189,7 @@ const VirtualizedTable = forwardRef(
                     onAddRow={(cellIndex) => {
                       window.dispatchEvent(
                         new CustomEvent("add-row", { detail: { cellIndex } })
-                      )
+                      );
                     }}
                   />
                 )}
@@ -203,7 +198,7 @@ const VirtualizedTable = forwardRef(
           </>
         )}
       </div>
-    )
+    );
   }
-)
-export default VirtualizedTable
+);
+export default VirtualizedTable;

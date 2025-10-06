@@ -1,7 +1,7 @@
-import Modal from "../Modal/Modal"
-import { useState, useEffect } from "react"
-import { MultiFilterDropdownProps } from "../../types/TableTypes"
-import "./VirtualizedTable.css"
+import Modal from "../Modal/Modal";
+import { useState, useEffect } from "react";
+import { MultiFilterDropdownProps } from "../../types/TableTypes";
+import "./VirtualizedTable.css";
 
 const MultiFilterDropdown = ({
   columnName,
@@ -15,82 +15,70 @@ const MultiFilterDropdown = ({
   registerOpener,
 }: MultiFilterDropdownProps) => {
   // Guarda si un grupo (yearMonth) está abierto o cerrado
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({})
-  const [isOpen, setIsOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (registerOpener) {
-      registerOpener(() => setIsOpen(true))
+      registerOpener(() => setIsOpen(true));
     }
-  }, [])
+  }, []);
 
   const toggleValue = (val: any) => {
     const next = selectedValues.includes(val)
       ? selectedValues.filter((v) => v !== val)
-      : [...selectedValues, val]
-    onChange(next)
-  }
+      : [...selectedValues, val];
+    onChange(next);
+  };
 
   const toggleGroup = (yearMonth: string, dates: string[]) => {
     // ¿Todas las fechas de este grupo ya están en selectedValues?
-    const allSelected = dates.every((date) => selectedValues.includes(date))
+    const allSelected = dates.every((date) => selectedValues.includes(date));
 
-    let next: string[]
+    let next: string[];
     if (allSelected) {
       // Si estaban todas, las quitamos
-      next = selectedValues.filter((v) => !dates.includes(v))
+      next = selectedValues.filter((v) => !dates.includes(v));
     } else {
       // Si no estaban todas, las añadimos
       // además de las que ya estaban seleccionadas
-      next = Array.from(new Set([...selectedValues, ...dates]))
+      next = Array.from(new Set([...selectedValues, ...dates]));
     }
 
-    onChange(next)
-  }
+    onChange(next);
+  };
 
   const toggleGroupVisibility = (yearMonth: string) => {
     setOpenGroups((prev) => ({
       ...prev,
       [yearMonth]: !prev[yearMonth], // invierte el valor actual (undefined→true)
-    }))
-  }
+    }));
+  };
 
-  const groupByYearOrMonth = (
-    values: string[]
-  ): { yearMonth: string; dates: string[] }[] => {
-    const grouped: { yearMonth: string; dates: string[] }[] = []
-
+  const groupByYearOrMonth = (values: string[]) => {
+    const grouped: { yearMonth: string; dates: string[] }[] = [];
     values.forEach((val) => {
-      const date = new Date(val) // Convierte la cadena a un objeto Date
-      const yearMonth = `${date.getFullYear()}-${date.getMonth() + 1}` // Obtenemos el año y el mes
-
-      // Buscar si ya existe el grupo de año-mes
-      const existingGroup = grouped.find(
-        (group) => group.yearMonth === yearMonth
-      )
-
-      if (existingGroup) {
-        existingGroup.dates.push(val) // Agregamos la fecha al grupo existente
-      } else {
-        // Si no existe, creamos un nuevo grupo
-        grouped.push({
-          yearMonth,
-          dates: [val],
-        })
-      }
-    })
-
-    return grouped
-  }
+      const d = new Date(val);
+      if (isNaN(d.getTime())) return; // saltar valores no fecha
+      const ym = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}`;
+      const g = grouped.find((x) => x.yearMonth === ym);
+      if (g) g.dates.push(val);
+      else grouped.push({ yearMonth: ym, dates: [val] });
+    });
+    return grouped;
+  };
 
   const filteredValues = allValues.filter((val) =>
     val.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  );
 
   const ListaValoresFiltros = () => {
     if (columnType === "date") {
-      const groupedValues = groupByYearOrMonth(filteredValues)
+      const groupedValues = groupByYearOrMonth(filteredValues);
       return (
         <div style={{ maxHeight: "350px", overflowY: "auto" }}>
           {groupedValues.length === 0 ? (
@@ -99,11 +87,11 @@ const MultiFilterDropdown = ({
             </div>
           ) : (
             groupedValues.map((group) => {
-              const { yearMonth, dates } = group
+              const { yearMonth, dates } = group;
               const allSelected = dates.every((date) =>
                 selectedValues.includes(date)
-              )
-              const isOpen = Boolean(openGroups[yearMonth]) // abierto o no
+              );
+              const isOpen = Boolean(openGroups[yearMonth]); // abierto o no
 
               return (
                 <div key={yearMonth}>
@@ -166,11 +154,11 @@ const MultiFilterDropdown = ({
                         </label>
                       ))}
                 </div>
-              )
+              );
             })
           )}
         </div>
-      )
+      );
     } else {
       return (
         <div style={{ maxHeight: "350px", overflowY: "auto" }}>
@@ -196,9 +184,9 @@ const MultiFilterDropdown = ({
               ))
           )}
         </div>
-      )
+      );
     }
-  }
+  };
 
   return (
     <>
@@ -214,8 +202,8 @@ const MultiFilterDropdown = ({
             <button
               className="boton-orden"
               onClick={() => {
-                setSortConfig({ key: columnId, direction: "asc" })
-                setIsOpen(false)
+                setSortConfig({ key: columnId, direction: "asc" });
+                setIsOpen(false);
               }}
             >
               ↑ Ascendente
@@ -223,8 +211,8 @@ const MultiFilterDropdown = ({
             <button
               className="boton-orden"
               onClick={() => {
-                setSortConfig({ key: columnId, direction: "desc" })
-                setIsOpen(false)
+                setSortConfig({ key: columnId, direction: "desc" });
+                setIsOpen(false);
               }}
             >
               ↓ Descendente
@@ -247,16 +235,16 @@ const MultiFilterDropdown = ({
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && searchTerm.trim() !== "") {
-                  e.preventDefault()
-                  const entrada = searchTerm.trim().toLowerCase()
+                  e.preventDefault();
+                  const entrada = searchTerm.trim().toLowerCase();
                   const encontrados = (filteredRows || [])
                     .map((row) => row[columnId]?.toString())
                     .filter(Boolean)
-                    .filter((val) => val.toLowerCase().includes(entrada))
+                    .filter((val) => val.toLowerCase().includes(entrada));
                   if (encontrados.length > 0) {
-                    onChange([...new Set([...selectedValues, ...encontrados])])
+                    onChange([...new Set([...selectedValues, ...encontrados])]);
                   }
-                  setSearchTerm("")
+                  setSearchTerm("");
                 }
               }}
             />
@@ -270,7 +258,7 @@ const MultiFilterDropdown = ({
         </div>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default MultiFilterDropdown
+export default MultiFilterDropdown;

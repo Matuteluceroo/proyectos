@@ -118,17 +118,64 @@ export class ContenidoController {
     }
   }
 
-
   static async listarContenidos(req, res) {
     try {
       const listado = await ContenidoModel.listarContenidos();
 
       if (listado.length === 0)
-        return res.status(404).json({ mensaje: "No hay contenidos almacenados" });
+        return res
+          .status(404)
+          .json({ mensaje: "No hay contenidos almacenados" });
 
       res.json(listado);
     } catch (e) {
-      return res.status(404).json({ mensaje: "Ocurrió un error en la lista de contenidos" });
+      return res
+        .status(404)
+        .json({ mensaje: "Ocurrió un error en la lista de contenidos" });
+    }
+  }
+
+  static async listarArchivosPorId(req, res) {
+    // 🔎 logs para ver qué llega
+    console.log("[listarArchivosPorId] url:", req.originalUrl);
+    console.log("[listarArchivosPorId] params:", req.params);
+    console.log(
+      "[listarArchivosPorId] headers.authorization:",
+      req.headers?.authorization?.slice(0, 20) || "(no auth)"
+    );
+
+    // ✅ aceptar id como string (no forzar Number)
+    const id = String(req.params.id ?? "").trim();
+
+    if (!id) {
+      console.warn("[listarArchivosPorId] id vacío/undefined");
+      return res.status(400).json({ mensaje: "id inválido" });
+    }
+
+    try {
+      const files = await ContenidoModel.findFilesById(
+        id,
+        ({ tipo, fileName }) =>
+          `/api/contenidos/archivo/${tipo}/${encodeURIComponent(fileName)}`
+      );
+      return res.json({ id, files });
+    } catch (e) {
+      console.error("[listarArchivosPorId] error:", e);
+      return res
+        .status(500)
+        .json({ mensaje: "Error al listar archivos", error: e.message });
+    }
+  }
+
+  static async servirArchivo(req, res) {
+    const { tipo, fileName } = req.params;
+    try {
+      await ContenidoModel.streamFile({ tipo, fileName, req, res });
+      // La función ya escribe la respuesta (incluye Range si es video)
+    } catch (e) {
+      return res
+        .status(404)
+        .json({ mensaje: "Archivo no encontrado", error: e.message });
     }
   }
 }

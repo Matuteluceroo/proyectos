@@ -44,3 +44,8 @@ export const useObtenerContenidos = () => {
     });
   };
 };
+export const useObtenerArchivosDeContenido = () => {
+  const apiRequest = useApiRequest();
+  return async (id: string | number) =>
+    await apiRequest(`contenidos/${id}/archivos`, { method: "GET" });
+};

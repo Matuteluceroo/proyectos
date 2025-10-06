@@ -48,3 +48,10 @@ contenidosRouter.get(
   validateToken,
   ContenidoController.listarContenidos
 );
+
+
+// GET /api/contenidos/:id/archivos  -> lista archivos por id
+contenidosRouter.get('/:id/archivos', validateToken, ContenidoController.listarArchivosPorId);
+
+// GET /api/contenidos/archivo/:tipo/:fileName -> sirve archivo (inline/stream)
+contenidosRouter.get('/archivo/:tipo/:fileName', validateToken, ContenidoController.servirArchivo);

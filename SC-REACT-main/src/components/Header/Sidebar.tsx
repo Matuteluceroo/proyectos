@@ -33,7 +33,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   rutaVolver,
 }) => {
   const { currentUser, notificaciones } = useSocket();
-  console.log(currentUser);
 
   const [showNoti, setShowNoti] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
