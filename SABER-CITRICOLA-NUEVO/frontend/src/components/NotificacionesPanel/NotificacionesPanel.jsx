@@ -92,6 +92,19 @@ const NotificacionesPanel = () => {
   // 📊 Cargar estadísticas
   const cargarEstadisticas = async () => {
     try {
+      // 🚧 TEMPORAL: Deshabilitado hasta implementar tabla de notificaciones
+      console.log('📊 Sistema de estadísticas de notificaciones pendiente de implementación');
+      setEstadisticas({
+        total_notificaciones: 0,
+        no_leidas: 0,
+        categoria_comentarios: 0,
+        categoria_versiones: 0,
+        categoria_documentos: 0
+      });
+      return;
+      
+      // TODO: Reactivar cuando se implemente la tabla de notificaciones
+      /*
       const response = await fetch(`${API_URL}/api/notificaciones/estadisticas`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -104,6 +117,7 @@ const NotificacionesPanel = () => {
           setEstadisticas(data.data);
         }
       }
+      */
     } catch (error) {
       console.warn('⚠️ Error al cargar estadísticas:', error);
     }
@@ -112,6 +126,13 @@ const NotificacionesPanel = () => {
   // 🔄 Cargar notificaciones no leídas (para el polling)
   const cargarNoLeidas = async () => {
     try {
+      // 🚧 TEMPORAL: Deshabilitado hasta implementar tabla de notificaciones
+      console.log('📝 Sistema de notificaciones pendiente de implementación');
+      setNoLeidas([]); // Por ahora, array vacío
+      return;
+      
+      // TODO: Reactivar cuando se implemente la tabla de notificaciones
+      /* 
       const response = await fetch(`${API_URL}/api/notificaciones/no-leidas`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -126,6 +147,7 @@ const NotificacionesPanel = () => {
           setNoLeidas([]);
         }
       }
+      */
     } catch (error) {
       console.warn('⚠️ Error al cargar notificaciones no leídas:', error);
       setNoLeidas([]); // Asegurar que siempre sea un array
@@ -135,6 +157,12 @@ const NotificacionesPanel = () => {
   // ✅ Marcar como leída
   const marcarComoLeida = async (notificacionId) => {
     try {
+      // 🚧 TEMPORAL: Deshabilitado hasta implementar tabla de notificaciones
+      console.log('📝 Función marcar como leída pendiente de implementación', notificacionId);
+      return;
+      
+      // TODO: Reactivar cuando se implemente la tabla de notificaciones
+      /*
       const response = await fetch(`${API_URL}/api/notificaciones/${notificacionId}/marcar-leida`, {
         method: 'PUT',
         headers: {
@@ -161,6 +189,7 @@ const NotificacionesPanel = () => {
           leidas: (prev.leidas || 0) + 1
         }));
       }
+      */
     } catch (error) {
       console.error('❌ Error al marcar como leída:', error);
     }
@@ -169,6 +198,12 @@ const NotificacionesPanel = () => {
   // 📊 Marcar todas como leídas
   const marcarTodasComoLeidas = async () => {
     try {
+      // 🚧 TEMPORAL: Deshabilitado hasta implementar tabla de notificaciones
+      console.log('📝 Función marcar todas como leídas pendiente de implementación');
+      return;
+      
+      // TODO: Reactivar cuando se implemente la tabla de notificaciones
+      /*
       const response = await fetch(`${API_URL}/api/notificaciones/marcar-todas-leidas`, {
         method: 'PUT',
         headers: {
@@ -190,6 +225,7 @@ const NotificacionesPanel = () => {
         
         alert(`${data.data.notificaciones_actualizadas} notificaciones marcadas como leídas`);
       }
+      */
     } catch (error) {
       console.error('❌ Error al marcar todas como leídas:', error);
     }
@@ -198,6 +234,12 @@ const NotificacionesPanel = () => {
   // 🗑️ Eliminar notificación
   const eliminarNotificacion = async (notificacionId) => {
     try {
+      // 🚧 TEMPORAL: Deshabilitado hasta implementar tabla de notificaciones
+      console.log('📝 Función eliminar notificación pendiente de implementación', notificacionId);
+      return;
+      
+      // TODO: Reactivar cuando se implemente la tabla de notificaciones
+      /*
       if (!window.confirm('¿Estás seguro de que quieres eliminar esta notificación?')) {
         return;
       }
@@ -217,6 +259,7 @@ const NotificacionesPanel = () => {
         // Actualizar estadísticas
         await cargarEstadisticas();
       }
+      */
     } catch (error) {
       console.error('❌ Error al eliminar notificación:', error);
     }
@@ -225,6 +268,13 @@ const NotificacionesPanel = () => {
   // 📱 Solicitar permisos y crear suscripción push
   const habilitarNotificacionesPush = async () => {
     try {
+      // 🚧 TEMPORAL: Deshabilitado hasta implementar claves VAPID y servicio completo
+      alert('🚧 Las notificaciones push están en desarrollo.\n\nPróximamente podrás recibir notificaciones en tiempo real.');
+      console.log('📱 Sistema de notificaciones push pendiente de implementación completa');
+      return;
+      
+      // TODO: Implementar claves VAPID y service worker
+      /*
       if (!soportaPush) {
         alert('Tu navegador no soporta notificaciones push');
         return;
@@ -269,6 +319,7 @@ const NotificacionesPanel = () => {
         setSuscripcionPush(subscription);
         alert('¡Notificaciones push habilitadas exitosamente!');
       }
+      */
 
     } catch (error) {
       console.error('❌ Error al habilitar notificaciones push:', error);
