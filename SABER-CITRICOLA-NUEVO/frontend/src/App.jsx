@@ -121,7 +121,7 @@ const RootRedirect = () => {
           fontSize: '16px',
           opacity: 0.9
         }}>
-          Cargando sistema...
+          Cargando el sistema...
         </div>
       </div>
     );
