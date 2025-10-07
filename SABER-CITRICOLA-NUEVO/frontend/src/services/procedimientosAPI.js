@@ -1,5 +1,6 @@
 // 📋 procedimientosAPI.js - Servicio para procedimientos paso a paso
-const API_URL = 'http://localhost:5000';
+import { buildApiUrl } from '../config/app.config.js';
+
 
 // 🔐 Función auxiliar para obtener headers con autenticación
 const getHeaders = () => {
@@ -47,7 +48,7 @@ export const obtenerProcedimientos = async () => {
     try {
         console.log('📋 Obteniendo procedimientos...');
         
-        const response = await fetch(`${API_URL}/api/procedimientos`, {
+        const response = await fetch(`buildApiUrl('/procedimientos`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -203,7 +204,7 @@ export const buscarProcedimientos = async (filtros) => {
         if (filtros.busqueda) params.append('busqueda', filtros.busqueda);
         if (filtros.categoria) params.append('categoria', filtros.categoria);
         
-        const response = await fetch(`${API_URL}/api/procedimientos/buscar?${params.toString()}`, {
+        const response = await fetch(`buildApiUrl('/procedimientos/buscar?${params.toString()}`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -237,7 +238,7 @@ export const obtenerCategoriasProcedimientos = async () => {
     try {
         console.log('📂 Obteniendo categorías de procedimientos...');
         
-        const response = await fetch(`${API_URL}/api/procedimientos/categorias`, {
+        const response = await fetch(`buildApiUrl('/procedimientos/categorias`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -271,7 +272,7 @@ export const marcarPasoComoCompletado = async (procedimientoId, pasoIndex, compl
     try {
         console.log('✅ Marcando paso como completado:', { procedimientoId, pasoIndex, completado });
         
-        const response = await fetch(`${API_URL}/api/procedimientos/${procedimientoId}/pasos/${pasoIndex}/completar`, {
+        const response = await fetch(`buildApiUrl('/procedimientos/${procedimientoId}/pasos/${pasoIndex}/completar`, {
             method: 'POST',
             headers: getHeaders(),
             body: JSON.stringify({ completado })
@@ -296,7 +297,7 @@ export const obtenerProgresProcedimiento = async (procedimientoId) => {
     try {
         console.log('📊 Obteniendo progreso del procedimiento:', procedimientoId);
         
-        const response = await fetch(`${API_URL}/api/procedimientos/${procedimientoId}/progreso`, {
+        const response = await fetch(`buildApiUrl('/procedimientos/${procedimientoId}/progreso`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -324,7 +325,7 @@ export const guardarComentarioProcedimiento = async (procedimientoId, pasoIndex,
     try {
         console.log('💬 Guardando comentario:', { procedimientoId, pasoIndex, comentario });
         
-        const response = await fetch(`${API_URL}/api/procedimientos/${procedimientoId}/pasos/${pasoIndex}/comentario`, {
+        const response = await fetch(`buildApiUrl('/procedimientos/${procedimientoId}/pasos/${pasoIndex}/comentario`, {
             method: 'POST',
             headers: getHeaders(),
             body: JSON.stringify({ comentario })
@@ -349,7 +350,7 @@ export const obtenerProcedimientoPorId = async (procedimientoId) => {
     try {
         console.log('📋 Obteniendo procedimiento por ID:', procedimientoId);
         
-        const response = await fetch(`${API_URL}/api/procedimientos/${procedimientoId}`, {
+        const response = await fetch(`buildApiUrl('/procedimientos/${procedimientoId}`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -373,7 +374,7 @@ export const obtenerEstadisticasProcedimientos = async () => {
     try {
         console.log('📊 Obteniendo estadísticas de procedimientos...');
         
-        const response = await fetch(`${API_URL}/api/procedimientos/estadisticas`, {
+        const response = await fetch(`buildApiUrl('/procedimientos/estadisticas`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -402,7 +403,7 @@ export const reiniciarProgresoProcedimiento = async (procedimientoId) => {
     try {
         console.log('🔄 Reiniciando progreso del procedimiento:', procedimientoId);
         
-        const response = await fetch(`${API_URL}/api/procedimientos/${procedimientoId}/reiniciar`, {
+        const response = await fetch(`buildApiUrl('/procedimientos/${procedimientoId}/reiniciar`, {
             method: 'POST',
             headers: getHeaders()
         });

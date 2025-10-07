@@ -1,5 +1,6 @@
 // ⚡ guiasRapidasAPI.js - Servicio para guías rápidas
-const API_URL = 'http://localhost:5000';
+import { buildApiUrl } from '../config/app.config.js';
+
 
 // 🔐 Función auxiliar para obtener headers con autenticación
 const getHeaders = () => {
@@ -47,7 +48,7 @@ export const obtenerGuiasRapidas = async () => {
     try {
         console.log('⚡ Obteniendo guías rápidas...');
         
-        const response = await fetch(`${API_URL}/api/guias-rapidas`, {
+        const response = await fetch(`buildApiUrl('/guias-rapidas`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -145,7 +146,7 @@ export const buscarGuiasRapidas = async (filtros) => {
         if (filtros.busqueda) params.append('busqueda', filtros.busqueda);
         if (filtros.categoria) params.append('categoria', filtros.categoria);
         
-        const response = await fetch(`${API_URL}/api/guias-rapidas/buscar?${params.toString()}`, {
+        const response = await fetch(`buildApiUrl('/guias-rapidas/buscar?${params.toString()}`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -179,7 +180,7 @@ export const obtenerCategoriasGuias = async () => {
     try {
         console.log('📂 Obteniendo categorías de guías...');
         
-        const response = await fetch(`${API_URL}/api/guias-rapidas/categorias`, {
+        const response = await fetch(`buildApiUrl('/guias-rapidas/categorias`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -211,7 +212,7 @@ export const marcarGuiaComoConsultada = async (guiaId) => {
     try {
         console.log('👁️ Marcando guía como consultada:', guiaId);
         
-        const response = await fetch(`${API_URL}/api/guias-rapidas/${guiaId}/consultar`, {
+        const response = await fetch(`buildApiUrl('/guias-rapidas/${guiaId}/consultar`, {
             method: 'POST',
             headers: getHeaders()
         });
@@ -236,7 +237,7 @@ export const marcarGuiaComoFavorita = async (guiaId) => {
     try {
         console.log('⭐ Marcando guía como favorita:', guiaId);
         
-        const response = await fetch(`${API_URL}/api/guias-rapidas/${guiaId}/favorita`, {
+        const response = await fetch(`buildApiUrl('/guias-rapidas/${guiaId}/favorita`, {
             method: 'POST',
             headers: getHeaders()
         });
@@ -260,7 +261,7 @@ export const obtenerEstadisticasGuias = async () => {
     try {
         console.log('📊 Obteniendo estadísticas de guías...');
         
-        const response = await fetch(`${API_URL}/api/guias-rapidas/estadisticas`, {
+        const response = await fetch(`buildApiUrl('/guias-rapidas/estadisticas`, {
             method: 'GET',
             headers: getHeaders()
         });

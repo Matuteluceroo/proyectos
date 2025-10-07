@@ -66,7 +66,7 @@ export const exportarReporte = async (tipo, formato = 'json') => {
   try {
     console.log(`📤 Exportando reporte: ${tipo}, formato: ${formato}`);
     
-    const response = await fetch(`${API_URL}/api/reportes/exportar/${tipo}?formato=${formato}`, {
+    const response = await fetch(`buildApiUrl('/reportes/exportar/${tipo}?formato=${formato}`, {
       method: 'GET',
       headers: getHeaders()
     });
@@ -103,7 +103,7 @@ export const obtenerMetricasEnTiempoReal = async () => {
   try {
     console.log('⚡ Obteniendo métricas en tiempo real...');
     
-    const response = await fetch(`${API_URL}/api/reportes/metricas-tiempo-real`, {
+    const response = await fetch(`buildApiUrl('/reportes/metricas-tiempo-real`, {
       method: 'GET',
       headers: getHeaders()
     });
@@ -132,7 +132,7 @@ export const obtenerReportesFiltrados = async (filtros) => {
     if (hasta) params.append('hasta', hasta);
     if (tipo) params.append('tipo', tipo);
     
-    const url = `${API_URL}/api/reportes?${params.toString()}`;
+    const url = `buildApiUrl('/reportes?${params.toString()}`;
     
     const response = await fetch(url, {
       method: 'GET',

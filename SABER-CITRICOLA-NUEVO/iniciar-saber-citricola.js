@@ -191,17 +191,33 @@ function startService(directory, command, name, logFile) {
         const npm = isWindows ? 'npm.cmd' : 'npm';
         const args = command.split(' ');
         
+        // ✅ CONFIGURAR VARIABLES DE ENTORNO PARA WINDOWS
+        const env = { ...process.env };
+        if (name === 'backend') {
+            env.NODE_ENV = 'development'; // Importante para desarrollo local
+        }
+        
         const service = spawn(npm, args, {
             cwd: directory,
             stdio: 'pipe',
             detached: false,
-            shell: isWindows
+            shell: isWindows,
+            env: env // ✅ Pasar las variables de entorno
         });
         
         // Redirigir logs a archivo
         const logStream = fs.createWriteStream(logFile);
         service.stdout.pipe(logStream);
         service.stderr.pipe(logStream);
+        
+        // ✅ TAMBIÉN MOSTRAR LOGS EN CONSOLA PARA DEBUGGING
+        service.stdout.on('data', (data) => {
+            process.stdout.write(data);
+        });
+        
+        service.stderr.on('data', (data) => {
+            process.stderr.write(data); // ✅ Esto mostrará los errores
+        });
         
         // Verificar que el servicio inició correctamente
         let started = false;
@@ -301,6 +317,24 @@ async function main() {
         printColored('✅ Estructura del proyecto verificada', 'green');
         console.log();
         
+        // ✅ VERIFICACIÓN DEL .ENV
+        const envPath = path.join(backendDir, '.env');
+        const envExamplePath = path.join(backendDir, '.env.example');
+        
+        if (!fs.existsSync(envPath)) {
+            printColored('⚠️  No se encontró archivo .env en backend', 'yellow');
+            if (fs.existsSync(envExamplePath)) {
+                printColored('📋 Copiando .env.example a .env...', 'blue');
+                fs.copyFileSync(envExamplePath, envPath);
+                printColored('✅ Archivo .env creado. Por favor revisa y ajusta las variables si es necesario.', 'green');
+            } else {
+                printColored('❌ ERROR: No se encontró .env.example', 'red');
+                printColored('Crea un archivo .env en backend/ con las variables necesarias', 'yellow');
+                process.exit(1);
+            }
+            console.log();
+        }
+        
         // Verificar y liberar puertos si están ocupados
         printColored('🔍 Verificando puertos...', 'blue');
         const backendPortInUse = await isPortInUse(5000);
@@ -350,6 +384,9 @@ async function main() {
             path.join(currentDir, 'backend.log')
         );
         
+        printColored('✅ Backend iniciado correctamente', 'green');
+        console.log();
+        
         // Esperar un poco antes de iniciar el frontend
         await new Promise(resolve => setTimeout(resolve, 2000));
         
@@ -361,6 +398,9 @@ async function main() {
             'frontend', 
             path.join(currentDir, 'frontend.log')
         );
+        
+        printColored('✅ Frontend iniciado correctamente', 'green');
+        console.log();
         
         // Esperar antes de abrir el navegador
         await new Promise(resolve => setTimeout(resolve, 3000));
@@ -401,14 +441,14 @@ async function main() {
         
         // Monitorear procesos
         backendProcess.on('close', (code) => {
-            if (code !== 0) {
+            if (code !== 0 && code !== null) {
                 printColored('❌ El backend se detuvo inesperadamente', 'red');
                 cleanup();
             }
         });
         
         frontendProcess.on('close', (code) => {
-            if (code !== 0) {
+            if (code !== 0 && code !== null) {
                 printColored('❌ El frontend se detuvo inesperadamente', 'red');
                 cleanup();
             }

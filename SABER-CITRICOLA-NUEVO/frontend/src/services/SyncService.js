@@ -1,6 +1,7 @@
 // 🔄 SyncService.js - Servicio de sincronización automática para datos offline
 import { useOfflineStorage } from './OfflineStorage';
 
+import { buildApiUrl } from '../config/app.config.js';
 class SyncService {
   constructor() {
     this.isOnline = navigator.onLine;

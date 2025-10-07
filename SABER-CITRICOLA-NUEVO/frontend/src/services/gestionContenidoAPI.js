@@ -1,5 +1,6 @@
 // 📚 gestionContenidoAPI.js - Servicio para gestionar categorías y documentos
-const API_URL = 'http://localhost:5000';
+import { buildApiUrl } from '../config/app.config.js';
+
 
 // 🔐 Función auxiliar para obtener headers con autenticación
 const getHeaders = () => {
@@ -51,7 +52,7 @@ export const obtenerCategorias = async () => {
     try {
         console.log('📁 Obteniendo categorías...');
         
-        const response = await fetch(`${API_URL}/api/contenido/categorias`, {
+        const response = await fetch(`buildApiUrl('/contenido/categorias`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -75,7 +76,7 @@ export const crearCategoria = async (categoria) => {
     try {
         console.log('➕ Creando categoría:', categoria);
         
-        const response = await fetch(`${API_URL}/api/contenido/categorias`, {
+        const response = await fetch(`buildApiUrl('/contenido/categorias`, {
             method: 'POST',
             headers: getHeaders(),
             body: JSON.stringify(categoria)
@@ -100,7 +101,7 @@ export const actualizarCategoria = async (id, categoria) => {
     try {
         console.log('✏️ Actualizando categoría:', id, categoria);
         
-        const response = await fetch(`${API_URL}/api/contenido/categorias/${id}`, {
+        const response = await fetch(`buildApiUrl('/contenido/categorias/${id}`, {
             method: 'PUT',
             headers: getHeaders(),
             body: JSON.stringify(categoria)
@@ -125,7 +126,7 @@ export const eliminarCategoria = async (id) => {
     try {
         console.log('🗑️ Eliminando categoría:', id);
         
-        const response = await fetch(`${API_URL}/api/contenido/categorias/${id}`, {
+        const response = await fetch(`buildApiUrl('/contenido/categorias/${id}`, {
             method: 'DELETE',
             headers: getHeaders()
         });
@@ -155,7 +156,7 @@ export const obtenerDocumentos = async (filtros = {}) => {
         if (filtros.busqueda) params.append('busqueda', filtros.busqueda);
         if (filtros.estado) params.append('estado', filtros.estado);
         
-        const url = `${API_URL}/api/contenido/documentos${params.toString() ? '?' + params.toString() : ''}`;
+        const url = `buildApiUrl('/contenido/documentos${params.toString() ? '?' + params.toString() : ''}`;
         
         const response = await fetch(url, {
             method: 'GET',
@@ -181,7 +182,7 @@ export const obtenerDocumentoPorId = async (id) => {
     try {
         console.log('📄 Obteniendo documento:', id);
         
-        const response = await fetch(`${API_URL}/api/contenido/documentos/${id}`, {
+        const response = await fetch(`buildApiUrl('/contenido/documentos/${id}`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -205,7 +206,7 @@ export const actualizarDocumento = async (id, documento) => {
     try {
         console.log('✏️ Actualizando documento:', id, documento);
         
-        const response = await fetch(`${API_URL}/api/contenido/documentos/${id}`, {
+        const response = await fetch(`buildApiUrl('/contenido/documentos/${id}`, {
             method: 'PUT',
             headers: getHeaders(),
             body: JSON.stringify(documento)
@@ -230,7 +231,7 @@ export const eliminarDocumento = async (id) => {
     try {
         console.log('🗑️ Eliminando documento:', id);
         
-        const response = await fetch(`${API_URL}/api/contenido/documentos/${id}`, {
+        const response = await fetch(`buildApiUrl('/contenido/documentos/${id}`, {
             method: 'DELETE',
             headers: getHeaders()
         });
@@ -253,7 +254,7 @@ export const cambiarEstadoDocumento = async (id, estado) => {
     try {
         console.log('🔄 Cambiando estado de documento:', id, estado);
         
-        const response = await fetch(`${API_URL}/api/contenido/documentos/${id}/estado`, {
+        const response = await fetch(`buildApiUrl('/contenido/documentos/${id}/estado`, {
             method: 'PATCH',
             headers: getHeaders(),
             body: JSON.stringify({ estado })
@@ -280,7 +281,7 @@ export const obtenerEstadisticasContenido = async () => {
     try {
         console.log('📊 Obteniendo estadísticas de contenido...');
         
-        const response = await fetch(`${API_URL}/api/contenido/estadisticas`, {
+        const response = await fetch(`buildApiUrl('/contenido/estadisticas`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -304,7 +305,7 @@ export const obtenerDocumentosRecientes = async (limite = 10) => {
     try {
         console.log('📄 Obteniendo documentos recientes...');
         
-        const response = await fetch(`${API_URL}/api/contenido/documentos/recientes?limite=${limite}`, {
+        const response = await fetch(`buildApiUrl('/contenido/documentos/recientes?limite=${limite}`, {
             method: 'GET',
             headers: getHeaders()
         });

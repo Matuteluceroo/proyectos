@@ -1,6 +1,7 @@
 // 📚 OfflineStorage.js - Sistema de almacenamiento offline con IndexedDB
 // Para guardar documentos, categorías y datos cuando no hay conexión
 
+import { buildApiUrl } from '../config/app.config.js';
 class OfflineStorage {
   constructor() {
     this.dbName = 'SaberCitricolaOfflineDB';

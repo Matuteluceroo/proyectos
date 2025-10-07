@@ -1,5 +1,6 @@
 // ⚙️ configuracionAPI.js - Servicio para configuración del sistema
-const API_URL = 'http://localhost:5000';
+import { buildApiUrl } from '../config/app.config.js';
+
 
 // 🔐 Función auxiliar para obtener headers con autenticación
 const getHeaders = () => {
@@ -52,7 +53,7 @@ export const obtenerConfiguracionSistema = async () => {
     try {
         console.log('⚙️ Obteniendo configuración del sistema...');
         
-        const response = await fetch(`${API_URL}/api/configuracion`, {
+        const response = await fetch(`buildApiUrl('/configuracion`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -77,7 +78,7 @@ export const actualizarConfiguracionSistema = async (configuracion) => {
     try {
         console.log('💾 Actualizando configuración del sistema:', configuracion);
         
-        const response = await fetch(`${API_URL}/api/configuracion`, {
+        const response = await fetch(`buildApiUrl('/configuracion`, {
             method: 'PUT',
             headers: getHeaders(),
             body: JSON.stringify(configuracion)
@@ -102,7 +103,7 @@ export const reiniciarSistema = async () => {
     try {
         console.log('🔄 Reiniciando sistema...');
         
-        const response = await fetch(`${API_URL}/api/configuracion/reiniciar`, {
+        const response = await fetch(`buildApiUrl('/configuracion/reiniciar`, {
             method: 'POST',
             headers: getHeaders()
         });
@@ -126,7 +127,7 @@ export const crearBackupSistema = async () => {
     try {
         console.log('💾 Creando backup del sistema...');
         
-        const response = await fetch(`${API_URL}/api/configuracion/backup`, {
+        const response = await fetch(`buildApiUrl('/configuracion/backup`, {
             method: 'POST',
             headers: getHeaders()
         });
@@ -150,7 +151,7 @@ export const obtenerLogsRecientes = async (limite = 50) => {
     try {
         console.log('📋 Obteniendo logs recientes...');
         
-        const response = await fetch(`${API_URL}/api/configuracion/logs?limite=${limite}`, {
+        const response = await fetch(`buildApiUrl('/configuracion/logs?limite=${limite}`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -191,7 +192,7 @@ export const obtenerInfoSistema = async () => {
     try {
         console.log('📊 Obteniendo información del sistema...');
         
-        const response = await fetch(`${API_URL}/api/configuracion/info`, {
+        const response = await fetch(`buildApiUrl('/configuracion/info`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -215,7 +216,7 @@ export const probarConexionConfiguracion = async () => {
     try {
         console.log('🧪 Probando conexión con configuración...');
         
-        const response = await fetch(`${API_URL}/api/configuracion/test`, {
+        const response = await fetch(`buildApiUrl('/configuracion/test`, {
             method: 'GET',
             headers: getHeaders()
         });
