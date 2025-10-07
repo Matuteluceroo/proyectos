@@ -1,0 +1,444 @@
+/* ✏️ EditarDocumento.css - Estilos para la página de edición de documentos */
+
+.editar-documento-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fffe 0%, #f0f9ff 100%);
+  padding: 0;
+}
+
+/* 🏛️ Header de edición */
+.editar-header {
+  background: linear-gradient(135deg, #ed8936 0%, #dd7c28 100%);
+  color: white;
+  padding: 2rem 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-nav {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.btn-nav:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.header-info h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-info p {
+  margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+
+/* 📦 Container principal */
+.editar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+}
+
+/* 📝 Formulario de edición */
+.editar-form {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.form-section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #f7fafc;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.form-section h3 {
+  margin: 0 0 1.5rem 0;
+  color: #2d3748;
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+  color: #2d3748 !important;
+  -webkit-text-fill-color: #2d3748 !important;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ed8936;
+  box-shadow: 0 0 0 3px rgba(237, 137, 54, 0.1);
+  background: white;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #a0aec0 !important;
+  -webkit-text-fill-color: #a0aec0 !important;
+}
+
+.form-group select option {
+  color: #2d3748 !important;
+  -webkit-text-fill-color: #2d3748 !important;
+  background: white !important;
+}
+
+.contenido-textarea {
+  min-height: 200px;
+  resize: vertical;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+/* 🎯 Acciones del formulario */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding-top: 2rem;
+  border-top: 2px solid #f7fafc;
+  margin-top: 2rem;
+}
+
+.btn-cancelar,
+.btn-guardar {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-cancelar {
+  background: #e2e8f0;
+  color: #4a5568;
+}
+
+.btn-cancelar:hover:not(:disabled) {
+  background: #cbd5e0;
+  transform: translateY(-1px);
+}
+
+.btn-guardar {
+  background: linear-gradient(135deg, #ed8936, #dd7c28);
+  color: white;
+  box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
+}
+
+.btn-guardar:hover:not(:disabled) {
+  background: linear-gradient(135deg, #dd7c28, #c66d1a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
+}
+
+.btn-guardar:disabled,
+.btn-cancelar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 📊 Sidebar de información */
+.documento-info-sidebar {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+}
+
+.documento-info-sidebar h3 {
+  margin: 0 0 1.5rem 0;
+  color: #2d3748;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #f7fafc;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f7fafc;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.85rem;
+}
+
+.info-value {
+  color: #2d3748;
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-align: right;
+}
+
+.sidebar-actions {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #f7fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.btn-sidebar {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e2e8f0;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  color: #4a5568;
+}
+
+.btn-sidebar:hover {
+  border-color: #ed8936;
+  color: #ed8936;
+  transform: translateY(-1px);
+}
+
+.btn-sidebar.btn-danger {
+  border-color: #e53e3e;
+  color: #e53e3e;
+}
+
+.btn-sidebar.btn-danger:hover {
+  background: #e53e3e;
+  color: white;
+}
+
+/* 🔄 Estados de carga y error */
+.loading-editar,
+.error-editar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #ed8936;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.error-editar h2 {
+  color: #2d3748;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.error-editar p {
+  color: #718096;
+  margin-bottom: 2rem;
+}
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-volver,
+.btn-ver {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-volver {
+  background: #4a90e2;
+  color: white;
+}
+
+.btn-volver:hover {
+  background: #357abd;
+  transform: translateY(-2px);
+}
+
+.btn-ver {
+  background: #48bb78;
+  color: white;
+}
+
+.btn-ver:hover {
+  background: #38a169;
+  transform: translateY(-2px);
+}
+
+/* 📱 Responsive */
+@media (max-width: 1024px) {
+  .editar-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .documento-info-sidebar {
+    order: -1;
+    position: static;
+  }
+  
+  .sidebar-actions {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 768px) {
+  .editar-header {
+    padding: 1.5rem 1rem;
+  }
+  
+  .header-info h1 {
+    font-size: 2rem;
+  }
+  
+  .editar-container {
+    padding: 1rem;
+  }
+  
+  .editar-form {
+    padding: 1.5rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .header-nav {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .error-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .editar-header {
+    padding: 1rem;
+  }
+  
+  .header-info h1 {
+    font-size: 1.75rem;
+  }
+  
+  .documento-info-sidebar {
+    padding: 1rem;
+  }
+  
+  .btn-guardar,
+  .btn-cancelar {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,444 @@
+/* 📝 RichTextEditor.css - Estilos para el editor de texto enriquecido */
+
+/* Resetear cualquier estilo heredado que pueda causar texto blanco */
+.rich-text-editor,
+.rich-text-editor * {
+  color: inherit;
+}
+
+.rich-text-editor {
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  color: #1a1a1a;
+}
+
+/* Toolbar */
+.editor-toolbar {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 2px solid #dee2e6;
+  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  border-radius: 10px 10px 0 0;
+  transition: all 0.3s ease;
+}
+
+.editor-toolbar.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.toolbar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.group-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.group-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.toolbar-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #ced4da;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.toolbar-btn:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-btn.active {
+  background: #007bff;
+  color: white;
+  border-color: #0056b3;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.toolbar-btn:active {
+  transform: translateY(0);
+}
+
+/* Color Pickers */
+.color-pickers {
+  background: #f8f9fa;
+  padding: 10px 15px;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.color-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.color-group input[type="color"] {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #ced4da;
+  border-radius: 6px;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+}
+
+.color-group input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px;
+}
+
+/* Editor Content */
+.editor-content {
+  padding: 20px;
+  min-height: 400px;
+  max-height: 600px;
+  overflow-y: auto;
+  outline: none;
+  line-height: 1.6;
+  font-size: 16px;
+  color: #1a1a1a !important;
+  background: #ffffff;
+  border: 2px solid #dee2e6;
+  border-radius: 0 0 8px 8px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.editor-content:empty::before {
+  content: attr(data-placeholder);
+  color: #6c757d;
+  font-style: italic;
+}
+
+.editor-content:focus {
+  color: #1a1a1a !important;
+}
+
+/* Estilos para el contenido del editor */
+.editor-content h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 20px 0 15px 0;
+  color: #1a1a1a;
+  border-bottom: 3px solid #007bff;
+  padding-bottom: 8px;
+}
+
+.editor-content h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 18px 0 12px 0;
+  color: #2c3e50;
+  border-bottom: 2px solid #6c757d;
+  padding-bottom: 6px;
+}
+
+.editor-content h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 15px 0 10px 0;
+  color: #343a40;
+}
+
+.editor-content h4 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 12px 0 8px 0;
+  color: #495057;
+}
+
+.editor-content h5 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 10px 0 6px 0;
+  color: #495057;
+}
+
+.editor-content h6 {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 8px 0 4px 0;
+  color: #495057;
+}
+
+.editor-content p {
+  margin: 10px 0;
+  text-align: justify;
+  color: #2c3e50;
+}
+
+.editor-content ul, .editor-content ol {
+  margin: 10px 0;
+  padding-left: 30px;
+  color: #2c3e50;
+}
+
+.editor-content li {
+  margin: 5px 0;
+  line-height: 1.5;
+  color: #2c3e50;
+}
+
+.editor-content blockquote {
+  margin: 15px 0;
+  padding: 12px 20px;
+  background: #f8f9fa;
+  border-left: 4px solid #007bff;
+  font-style: italic;
+  color: #2c3e50;
+}
+
+.editor-content a {
+  color: #007bff;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.editor-content a:hover {
+  color: #0056b3;
+}
+
+.editor-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 10px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.editor-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  color: #2c3e50;
+}
+
+.editor-content th {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.editor-content td {
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+  color: #2c3e50;
+}
+
+.editor-content tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.editor-content tr:hover {
+  background: #e9ecef;
+}
+
+.editor-content hr {
+  border: none;
+  border-top: 2px solid #dee2e6;
+  margin: 20px 0;
+  border-radius: 1px;
+}
+
+.editor-content code {
+  background: #f8f9fa;
+  color: #d63384;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+.editor-content pre {
+  background: #f8f9fa;
+  color: #2c3e50;
+  padding: 15px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 15px 0;
+  border-left: 4px solid #28a745;
+}
+
+/* Status Bar */
+.editor-status {
+  background: #f8f9fa;
+  padding: 8px 15px;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #495057;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .editor-toolbar {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .toolbar-group {
+    min-width: 100%;
+  }
+
+  .group-buttons {
+    justify-content: center;
+  }
+
+  .toolbar-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .color-pickers {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .editor-content {
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  .editor-content h1 {
+    font-size: 24px;
+  }
+
+  .editor-content h2 {
+    font-size: 20px;
+  }
+
+  .editor-content h3 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .editor-toolbar {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .toolbar-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .editor-content {
+    padding: 12px;
+  }
+
+  .editor-status {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.editor-toolbar.sticky {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Estados de enfoque */
+.rich-text-editor:focus-within {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* Estilos para selección de texto en el editor */
+.editor-content::selection {
+  background: rgba(0, 123, 255, 0.2);
+  color: #1a1a1a;
+}
+
+.editor-content *::selection {
+  background: rgba(0, 123, 255, 0.2);
+  color: #1a1a1a;
+}
+
+/* Asegurar contraste en todos los elementos */
+.editor-content *,
+.editor-content div,
+.editor-content span,
+.editor-content p,
+.editor-content strong,
+.editor-content em,
+.editor-content u,
+.editor-content strike {
+  color: #1a1a1a !important;
+}
+
+.editor-content br {
+  content: "";
+  line-height: 1.6;
+}
+
+/* Forzar color en elementos de texto */
+.editor-content[contenteditable="true"] {
+  color: #1a1a1a !important;
+}
+
+.editor-content[contenteditable="true"] * {
+  color: inherit !important;
+}

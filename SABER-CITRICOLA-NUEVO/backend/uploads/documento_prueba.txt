@@ -1,0 +1,15 @@
+# Documento de Prueba - Saber Citrícola
+
+Este es un archivo de prueba para verificar que el sistema de descarga funciona correctamente.
+
+## Contenido de ejemplo:
+
+- ✅ Sistema de descarga funcional
+- 📁 Archivos servidos correctamente  
+- 🔗 URLs construidas apropiadamente
+
+**Fecha:** 2 de octubre de 2025
+**Sistema:** Saber Citrícola
+**Estado:** Funcionando correctamente
+
+Si puedes leer este contenido, significa que el sistema de descarga está funcionando perfectamente.

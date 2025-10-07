@@ -1,0 +1,30 @@
+{
+  "general": {
+    "nombreSistema": "Saber Citrícaola",
+    "descripcionSistema": "Sistema de Gestaión del Conocimiento Citrícola",
+    "version": "2.0.0a",
+    "idioma": "pt",
+    "timezone": "America/Argentina/Buenos_Aires"
+  },
+  "seguridad": {
+    "sessionTimeout": 30,
+    "passwordMinLength": 6,
+    "loginAttempts": 3,
+    "requirePasswordChange": false,
+    "enableTwoFactor": false
+  },
+  "usuario": {
+    "maxFileSize": 10,
+    "allowedFileTypes": ".pdf,.doc,.docx,.txt,.jpg,.png,.mp4,.avi",
+    "defaultUserRole": "operador",
+    "autoApproveUsers": false,
+    "enableUserRegistration": true
+  },
+  "sistema": {
+    "backupInterval": 24,
+    "logLevel": "info",
+    "enableDebugMode": false,
+    "maxLogFileSize": 100,
+    "autoCleanupDays": 30
+  }
+}
