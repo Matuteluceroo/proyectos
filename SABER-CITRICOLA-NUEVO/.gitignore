@@ -1,0 +1,89 @@
+# Dependencias
+node_modules/
+*/node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Logs
+*.log
+logs/
+*.log.*
+backend/logs/*.log
+frontend/logs/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Base de datos
+*.db
+*.db-shm
+*.db-wal
+backend/*.db
+backend/saber_citricola.db
+
+# Backups
+backend/backups/
+!backend/backups/.gitkeep
+
+# Uploads
+backend/uploads/tmp/
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+*.env
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Build y distribución
+dist/
+build/
+*.tgz
+frontend/dist/
+frontend/build/
+backend/dist/
+backend/build/
+
+# Temporales
+*.tmp
+*.temp
+.cache/
+.temp/
+
+# Archivos de test temporales
+test-*.html
+test-output/
+coverage/
+
+# PM2
+.pm2/
+ecosystem.config.js
+
+# Certificados y claves
+*.pem
+*.key
+*.cert
+*.crt
+
+# Archivos específicos de Windows
+*.lnk
+$RECYCLE.BIN/
