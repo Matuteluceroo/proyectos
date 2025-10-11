@@ -475,3 +475,19 @@ if (require.main === module) {
 }
 
 module.exports = { main };
+
+// Importar rutas
+const authRoutes = require('./routes/auth.routes');
+const usuariosRoutes = require('./routes/usuarios.routes');
+const documentosRoutes = require('./routes/documentos.routes');
+const categoriasRoutes = require('./routes/categorias.routes');
+const backupRoutes = require('./routes/backup.routes');
+const reportesRoutes = require('./routes/reportes.routes');
+
+// Registrar rutas
+app.use('/api/auth', authRoutes);
+app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/documentos', documentosRoutes);
+app.use('/api/categorias', categoriasRoutes);
+app.use('/api/backup', backupRoutes);
+app.use('/api/reportes', reportesRoutes);

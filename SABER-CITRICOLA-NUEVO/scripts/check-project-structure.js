@@ -45,6 +45,14 @@ const docFiles = [
   'SEGURIDAD-IMPLEMENTADA.md'
 ];
 
+// Scripts que deberían estar en scripts/
+const scriptFiles = [
+  'iniciar-saber-citricola.js',
+  'iniciar-saber-citricola.bat',
+  'iniciar-saber-citricola.sh',
+  'inicio-rapido.bat'
+];
+
 console.log('🔍 Verificando estructura del proyecto...\n');
 
 let hasIssues = false;
@@ -95,6 +103,22 @@ docFiles.forEach(file => {
     console.log(`  ✅ docs/${file}`);
   } else {
     console.log(`  ℹ️  Archivo no encontrado: ${file}`);
+  }
+});
+
+// Verificar scripts de inicio
+console.log('\n⚙️  Verificando scripts de inicio...');
+scriptFiles.forEach(file => {
+  const rootPath = path.join(rootDir, file);
+  const scriptsPath = path.join(rootDir, 'scripts', file);
+  
+  if (fs.existsSync(rootPath)) {
+    console.log(`  ⚠️  Script en raíz: ${file} (debería estar en scripts/)`);
+    hasIssues = true;
+  } else if (fs.existsSync(scriptsPath)) {
+    console.log(`  ✅ scripts/${file}`);
+  } else {
+    console.log(`  ℹ️  Script no encontrado: ${file}`);
   }
 });
 

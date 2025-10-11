@@ -20,7 +20,8 @@
     "clean:all": "npm run clean && npm run clean:logs && npm run clean:uploads",
     "setup:folders": "node -e \"const fs=require('fs');['docs','scripts','backend/__tests__','backend/backups','backend/uploads'].forEach(d=>{if(!fs.existsSync(d))fs.mkdirSync(d,{recursive:true})});fs.writeFileSync('backend/uploads/.gitkeep','');fs.writeFileSync('backend/backups/.gitkeep','')\"",
     "check:structure": "node scripts/check-project-structure.js",
-    "prepare:git": "npm run clean:logs && npm run clean:db && npm run check:structure"
+    "prepare:git": "npm run clean:logs && npm run clean:db && npm run check:structure",
+    "sync:develop": "node scripts/sync-with-develop.js"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
