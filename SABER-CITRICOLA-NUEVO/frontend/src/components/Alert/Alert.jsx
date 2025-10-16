@@ -1,7 +1,5 @@
-import React, { useEffect, useRef } from "react"
-import "./Alert.css"          
-import "./AlertCuidado.css"   
-import "./AlertOptions.css"   
+import React, { useEffect } from "react"
+import "./Alert.css"
 
 
 const Alert = ({
@@ -10,144 +8,89 @@ const Alert = ({
   setIsOpen,
   title,
   message,
-  duration,             
+  duration,
   onClose,
   onConfirm,
   onCancel,
   confirmText = "Confirmar",
   cancelText = "Cancelar",
 }) => {
-  const overlayRef = useRef(null)
-
   // Defaults por tipo
   const defaults = {
     success: { title: "¡Éxito!", icon: "✔", auto: duration ?? 3000 },
-    warning: { title: "Importante!", icon: "!", auto: duration ?? 3000 },
-    error:   { title: "Error",       icon: "✖", auto: duration ?? 3000 },
+    warning: { title: "Importante", icon: "!", auto: duration ?? 4000 },
+    error:   { title: "Error", icon: "✖", auto: duration ?? 4000 },
     confirm: { title: "¿Estás seguro?", icon: "?", auto: null }, // no autocierre
   }
 
   const cfg = defaults[type] || defaults.success
   const finalTitle = title ?? cfg.title
 
-
   useEffect(() => {
     if (!isOpen) return
-    if (type === "confirm") return
-    if (!cfg.auto) return
+    if (type === "confirm" || !cfg.auto) return
+
     const t = setTimeout(() => {
       setIsOpen(false)
       onClose && onClose()
     }, cfg.auto)
+
     return () => clearTimeout(t)
   }, [isOpen, cfg.auto, onClose, setIsOpen, type])
 
-  if (!isOpen) return null
-
-  
-  const mapClasses = () => {
-    if (type === "success") {
-      return {
-        overlay: "alert-success-overlay",
-        modal: "alert-success-modal",
-        icon: "alert-success-icon",
-        title: "alert-success-title",
-        message: "alert-success-message",
-        footer: null,
-        primaryBtn: "btn-continuar",
-      }
-    }
-    if (type === "confirm") {
-      return {
-        overlay: "alert-overlay",
-        modal: "alert-modal",
-        icon: "alert-icon",
-        title: "alert-title",
-        message: "alert-message",
-        footer: "alert-buttons",
-        cancelBtn: "btn-cancel",
-        confirmBtn: "btnConfirmar",
-      }
-    }
-
-    return {
-      overlay: "alert-cuidado-overlay",
-      modal: "alert-cuidado-modal",
-      icon: "alert-cuidado-icon",
-      title: "alert-cuidado-title",
-      message: "alert-cuidado-message",
-      primaryBtn: "alert-cuidado-btn",
-    }
-  }
-
-  const classes = mapClasses()
-
-
-  const onOverlayClick = (e) => {
-    if (overlayRef.current && e.target === overlayRef.current && type !== "confirm") {
-      setIsOpen(false)
-      onClose && onClose()
-    }
-  }
-
   useEffect(() => {
+    if (!isOpen) return
     const onKey = (e) => {
       if (e.key === "Escape") {
+        setIsOpen(false)
         if (type === "confirm") {
-          onCancel ? onCancel() : setIsOpen(false)
+          onCancel ? onCancel() : onClose && onClose()
         } else {
-          setIsOpen(false)
           onClose && onClose()
         }
       }
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
-  }, [onCancel, onClose, setIsOpen, type])
+  }, [isOpen, onCancel, onClose, setIsOpen, type])
+
+  if (!isOpen) return null
+
+  const isConfirm = type === "confirm"
 
   return (
-    <div
-      className={classes.overlay}
-      ref={overlayRef}
-      onClick={onOverlayClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="alert-title"
-    >
-      <div className={classes.modal}>
-        <div className={classes.icon}>{cfg.icon}</div>
-        <h2 id="alert-title" className={classes.title}>
-          {finalTitle}
-        </h2>
-        {message ? <p className={classes.message}>{message}</p> : null}
-
-        {type === "confirm" ? (
-          <div className={classes.footer}>
-            <button
-              className={classes.cancelBtn}
-              onClick={() => (onCancel ? onCancel() : setIsOpen(false))}
-            >
-              {cancelText}
-            </button>
-            <button
-              className={classes.confirmBtn}
-              onClick={() => (onConfirm ? onConfirm() : setIsOpen(false))}
-            >
-              {confirmText}
-            </button>
-          </div>
-        ) : (
+    <div className={`alert-toast ${type} ${isConfirm ? 'confirm' : ''}`} role="alert">
+      <div className="alert-icon">{cfg.icon}</div>
+      <div className="alert-content">
+        <h3 className="alert-title">{finalTitle}</h3>
+        {message && <p className="alert-message">{message}</p>}
+      </div>
+      {isConfirm ? (
+        <div className="alert-buttons">
           <button
-            className={classes.primaryBtn}
+            className="btn-confirm"
             onClick={() => {
+              onConfirm && onConfirm()
               setIsOpen(false)
-              onClose && onClose()
             }}
           >
-            Continuar
+            {confirmText}
           </button>
-        )}
-      </div>
+          <button
+            className="btn-cancel"
+            onClick={() => {
+              onCancel && onCancel()
+              setIsOpen(false)
+            }}
+          >
+            {cancelText}
+          </button>
+        </div>
+      ) : (
+        <button className="alert-close" onClick={() => setIsOpen(false)}>
+          &times;
+        </button>
+      )}
     </div>
   )
 }
@@ -183,7 +126,7 @@ export default Alert
   message="Revisá tu conexión e intentá de nuevo."
 />
 
-// Confirm (sin autocierre)
+// Confirm (sin autocierre) - Ahora se muestra como un toast especial
 <Alert
   type="confirm"
   isOpen={isOpen}
@@ -191,8 +134,8 @@ export default Alert
   message="Esta acción no se puede deshacer."
   confirmText="Sí, borrar"
   cancelText="Cancelar"
-  onConfirm={() => {  setIsOpen(false) }}
-  onCancel={() => setIsOpen(false)}
+  onConfirm={() => { console.log('Confirmado') }}
+  onCancel={() => console.log('Cancelado')}
 /> 
 
-*/}
+*/

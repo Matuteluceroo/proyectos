@@ -1,4 +1,5 @@
 /* 🎨 Estilos para Saber Citrícola */
+@import url('https://fonts.googleapis.com/css2?family=Share:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 /* Reset y configuración general */
 * {
@@ -9,7 +10,7 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #ff9800, #ffeb3b);
+  /* background: #ffcc80; */ /* Eliminado para evitar conflictos */
   min-height: 100vh;
 }
 
@@ -1430,10 +1431,12 @@ body {
 
 /* 🔐 LOGIN RENOVADO - Diseño moderno y atractivo */
 .login-container {
-  min-height: 100vh;
+  display: inline-block;
   position: relative;
   overflow: hidden;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  border-radius: 24px; /* Esquinas redondeadas */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25); /* Sombra */
 }
 
 .login-background {
@@ -1442,13 +1445,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, 
-    #ff7b00 0%, 
-    #ff9500 25%, 
-    #ffb700 50%, 
-    #ffd700 75%, 
-    #ffe135 100%
-  );
+  background: linear-gradient(135deg, #ff9f20, #ffb74d);
   animation: gradientShift 8s ease-in-out infinite alternate;
 }
 
@@ -1466,54 +1463,56 @@ body {
 
 .shape {
   position: absolute;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  animation: float 6s ease-in-out infinite;
+  background: rgba(255, 255, 255, 0.171); /* Opacidad aumentada */
+  border-radius: 80%;
+  animation: float 20s ease-in-out infinite;
 }
 
 .shape-1 {
-  width: 200px;
-  height: 200px;
-  top: 10%;
-  left: 10%;
-  animation-delay: 0s;
+  width: 100px;
+  height: 100px;
+  top: 50%;
+  left: 0%;
+  animation-delay: 10s;
 }
 
 .shape-2 {
-  width: 150px;
-  height: 150px;
-  top: 60%;
-  right: 15%;
-  animation-delay: 2s;
+  width: 200px;
+  height: 200px;
+  top: 20%;
+  right: 50%;
+  animation-delay: 12s;
 }
 
 .shape-3 {
-  width: 100px;
-  height: 100px;
-  bottom: 20%;
-  left: 20%;
-  animation-delay: 4s;
+  width: 200px;
+  height: 200px;
+  bottom: 60%;
+  left: 10%;
+  animation-delay: 6s;
 }
 
 .shape-4 {
-  width: 80px;
-  height: 80px;
-  top: 30%;
-  right: 30%;
-  animation-delay: 1s;
+  width: 150px;
+  height: 150px;
+  top: 35%;
+  right: 80%;
+  animation-delay: 18s;
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(180deg); }
+  0%, 100% { transform: translateY(1000px); }
+  50% { transform: translateY(-700px); }
 }
 
 .login-content {
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 100vh;
+  width: 100%;
+  height: 100%; /* Ajustado para llenar el contenedor */
   z-index: 1;
+  border-radius: 24px; /* Asegurar que el contenido también tenga esquinas redondeadas */
 }
 
 .login-branding {
@@ -1533,42 +1532,25 @@ body {
 }
 
 .logo-section {
-  margin-bottom: 60px;
-}
-
-.logo-circle {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 30px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  animation: pulse 3s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-  50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+  margin-bottom: 30px;
 }
 
 .logo-icon {
-  font-size: 4rem;
+  width: 400px;
+  height: auto;
+  margin-bottom: -110px;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
 }
 
 .brand-title {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 800;
   margin-bottom: 10px;
-  background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+  background: #ffffff;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-shadow: 0 2px 4px rgba(240, 178, 8, 0.308);
 }
 
 .brand-subtitle {
@@ -1592,7 +1574,7 @@ body {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid #ff9f20;
   transition: all 0.3s ease;
 }
 
@@ -1621,7 +1603,7 @@ body {
 }
 
 .login-form-panel {
-  background: rgba(255, 255, 255, 0.95);
+  background: #ffffff81;
   backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
@@ -1640,15 +1622,16 @@ body {
 }
 
 .form-header h2 {
-  font-size: 2rem;
+  font-family: "Share", sans-serif;
+  font-size: 2.5rem;
   font-weight: 700;
-  color: #1a202c;
+  color: #000000;
   margin-bottom: 8px;
 }
 
 .form-header p {
-  color: #718096;
-  font-size: 1rem;
+  color: #69778d;
+  font-size: 1.1rem;
 }
 
 .login-form {
@@ -1664,7 +1647,7 @@ body {
   align-items: center;
   gap: 8px;
   font-weight: 600;
-  color: #1f2937;
+  color: #000000;
   margin-bottom: 8px;
   font-size: 0.95rem;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
@@ -1676,6 +1659,15 @@ body {
 
 .input-wrapper {
   position: relative;
+}
+
+.input-wrapper input {
+  background-color: #ffffff; /* Fondo blanco */
+  color: #000000;            /* Texto negro */
+  border: 1px solid #ccc;    /* Borde gris claro */
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1rem;
 }
 
 .form-input {
@@ -1692,7 +1684,7 @@ body {
 }
 
 .form-input::placeholder {
-  color: #6b7280;
+  color: #dd9716;
   opacity: 1;
 }
 
@@ -1864,9 +1856,9 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.demo-user.admin:hover { border-color: #3b82f6; background: rgba(59, 130, 246, 0.05); }
-.demo-user.expert:hover { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.05); }
-.demo-user.operator:hover { border-color: #10b981; background: rgba(16, 185, 129, 0.05); }
+.demo-user.admin:hover { border-color: #10b981; background: #A3D6A6; }
+.demo-user.expert:hover { border-color: #10b981; background: #A3D6A6; }
+.demo-user.operator:hover { border-color: #10b981; background: #A3D6A6; }
 
 .demo-icon {
   font-size: 2rem;
@@ -1921,16 +1913,9 @@ body {
   .brand-title {
     font-size: 2rem;
   }
-  
-  .logo-circle {
-    width: 80px;
-    height: 80px;
+  .feature-highlights {
+    gap: 20px;
   }
-  
-  .logo-icon {
-    font-size: 3rem;
-  }
-  
   .feature-item {
     padding: 15px;
   }
@@ -1943,3 +1928,4 @@ body {
     padding: 12px;
   }
 }
+

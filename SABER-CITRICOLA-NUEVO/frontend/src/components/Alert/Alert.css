@@ -1,60 +1,120 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
-.alert-success-overlay {
+/* Contenedor para los toasts. Debe estar en un componente superior como App.jsx */
+.alert-container {
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  top: 20px;
+  right: 20px;
   z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.alert-success-modal {
-  background: #ffffff;
-  padding: 24px;
-  border-radius: 12px;
-  text-align: center;
+.alert-toast {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   width: 100%;
-  max-width: 260px;
+  max-width: 340px;
   font-family: "Nunito", sans-serif;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.25s ease-in-out;
+  animation: slideIn 0.3s ease-out;
+  color: #fff;
+  position: relative;
 }
 
-.alert-success-icon {
-  margin: 0 auto 10px;
-  font-size: 32px;
-  color: #4caf50;
+.alert-icon {
+  font-size: 1.2rem;
+  margin-right: 12px;
+  line-height: 1.4;
 }
 
-.alert-success-title {
-  font-size: 18px;
+.alert-content {
+  flex: 1;
+}
+
+.alert-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.alert-message {
+  font-size: 0.9rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.alert-close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.5rem;
+  cursor: pointer;
+  opacity: 0.7;
+  padding: 0 0 0 10px;
+  line-height: 1;
+}
+.alert-close:hover {
+  opacity: 1;
+}
+
+/* Tipos de Alerta */
+.alert-toast.success {
+  background-color: #2e7d32; /* Verde oscuro */
+}
+.alert-toast.warning {
+  background-color: #ed6c02; /* Naranja */
+}
+.alert-toast.error {
+  background-color: #d32f2f; /* Rojo */
+}
+.alert-toast.confirm {
+  background-color: #0277bd; /* Azul */
+}
+
+/* Estilos para confirmación */
+.alert-toast.confirm {
+  flex-direction: column;
+}
+.alert-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  align-self: flex-end;
+}
+.alert-buttons button {
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.alert-buttons button:hover {
+  opacity: 0.85;
+}
+.btn-confirm {
+  background-color: #fff;
+  color: #0277bd;
+}
+.btn-cancel {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.alert-success-message {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 16px;
-}
 
-@keyframes fadeIn {
+@keyframes slideIn {
   from {
     opacity: 0;
-    transform: scale(0.96);
+    transform: translateX(100%);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateX(0);
   }
-}
-
-html,
-body,
-#root {
-  position: relative;
-  z-index: 0;
 }
