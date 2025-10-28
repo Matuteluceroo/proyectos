@@ -1,0 +1,203 @@
+/* === Login.css simplificado – versión escritorio cítrica === */
+
+:root {
+  --naranja: #ff8c00;
+  --naranja-claro: #ffb347;
+  --amarillo: #ffcc33;
+  --gris-texto: #2b2b2b;
+  --gris-sec: #555;
+  --borde: #ddd;
+  --radio: 16px;
+  --sombra: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+body {
+  font-family: "Inter", Arial, sans-serif;
+  background: linear-gradient(135deg, var(--naranja-claro), var(--amarillo));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Contenedor general */
+.login-content {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  width: 1200px;
+  min-height: 680px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* Panel izquierdo */
+.login-branding {
+  background: linear-gradient(135deg, rgba(255, 153, 0, 0.95), rgba(255, 186, 73, 0.95));
+  color: #fff;
+  padding: 60px 50px;
+  text-align: center;
+}
+
+.logo-circle {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.logo-icon {
+  width: 80px; /* Ajusta el tamaño del logo dentro del círculo */
+  height: auto;
+  object-fit: contain;
+}
+
+.brand-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.brand-subtitle {
+  font-size: 1.05rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.feature-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 40px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+.feature-icon {
+  font-size: 1.4rem;
+}
+
+/* Panel derecho */
+.login-form-panel {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  padding: 60px 70px;
+  box-shadow: var(--sombra);
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.form-header h2 {
+  color: var(--gris-texto);
+  font-weight: 800;
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.form-header p {
+  color: var(--gris-sec);
+}
+
+/* Inputs */
+.input-group {
+  margin-bottom: 18px;
+}
+
+.input-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--gris-sec);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--borde);
+  border-radius: var(--radio);
+  font-size: 1rem;
+  color: var(--gris-texto);
+  background: #fff;
+}
+
+.form-input::placeholder {
+  color: #888;
+}
+
+.form-input:focus {
+  border-color: var(--naranja);
+  outline: none;
+}
+
+/* Botón principal */
+.login-button {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: var(--radio);
+  background: linear-gradient(90deg, var(--naranja), var(--naranja-claro));
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  box-shadow: var(--sombra);
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+}
+
+/* Demo users */
+.demo-users {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.demo-users h3 {
+  text-align: center;
+  color: var(--gris-sec);
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+
+.demo-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: var(--radio);
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.demo-user:hover {
+  border-color: var(--naranja);
+  background: rgba(249, 115, 22, 0.06);
+}
+
+/* Ocultar decoraciones innecesarias */
+.bg-shapes,
+.bg-shapes::before,
+.bg-shapes::after,
+.bg-noise {
+  display: none !important;
+}
