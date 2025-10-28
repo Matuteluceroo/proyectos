@@ -1,18 +1,19 @@
 // 🔐 Login.jsx - Página de login renovada y atractiva
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { useNotification } from '../context/NotificationContext';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useNotification } from "../context/NotificationContext";
+import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
   const { login, isLoading } = useAuth();
   const { showSuccess, showError } = useNotification();
-  
+
   // Estado del formulario
   const [formData, setFormData] = useState({
-    username: '',
-    password: ''
+    username: "",
+    password: "",
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -20,15 +21,15 @@ const Login = () => {
   // Validación
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.username.trim()) {
-      newErrors.username = 'Usuario es requerido';
+      newErrors.username = "Usuario es requerido";
     }
-    
+
     if (!formData.password.trim()) {
-      newErrors.password = 'Contraseña es requerida';
+      newErrors.password = "Contraseña es requerida";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -36,37 +37,40 @@ const Login = () => {
   // Manejar cambios
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
-      showError('Por favor, corrige los errores en el formulario');
+      showError("Por favor, corrige los errores en el formulario");
       return;
     }
 
     try {
       const result = await login(formData.username, formData.password);
-      
+
       if (result.success) {
-        const userName = result.usuario?.nombre_completo || result.usuario?.username || 'Usuario';
+        const userName =
+          result.usuario?.nombre_completo ||
+          result.usuario?.username ||
+          "Usuario";
         showSuccess(`¡Bienvenido ${userName}!`);
-        
+
         // Redirigir al dashboard
-        navigate('/dashboard');
+        navigate("/dashboard");
       } else {
-        showError(result.message || 'Error al iniciar sesión');
+        showError(result.message || "Error al iniciar sesión");
       }
     } catch (error) {
-      console.error('Error durante el login:', error);
-      showError('Error de conexión. Verifica tu conexión a internet.');
+      console.error("Error durante el login:", error);
+      showError("Error de conexión. Verifica tu conexión a internet.");
     }
   };
 
@@ -89,29 +93,32 @@ const Login = () => {
           <div className="branding-content">
             <div className="logo-section">
               <div className="logo-circle">
-                <span className="logo-icon">🍊</span>
+                <img
+                  src="/logo.png"
+                  alt="Logo de Saber Citrícola"
+                  className="logo-icon"
+                />
               </div>
               <h1 className="brand-title">Saber Citrícola</h1>
-              <p className="brand-subtitle">Sistema de Gestión del Conocimiento</p>
+              <p className="brand-subtitle">
+                Sistema de Gestión del Conocimiento
+              </p>
             </div>
-            
+
             <div className="feature-highlights">
               <div className="feature-item">
-                <span className="feature-icon">📚</span>
                 <div>
                   <h3>Biblioteca Digital</h3>
                   <p>Accede a todo el conocimiento citrícola</p>
                 </div>
               </div>
               <div className="feature-item">
-                <span className="feature-icon">🎤</span>
                 <div>
-                  <h3>Búsqueda por Voz</h3>
-                  <p>Encuentra información con comandos de voz</p>
+                  <h3>Búsqueda por Vos</h3>
+                  <p>Encuentra información con comandos de vos</p>
                 </div>
               </div>
               <div className="feature-item">
-                <span className="feature-icon">📊</span>
                 <div>
                   <h3>Reportes Avanzados</h3>
                   <p>Análisis detallados de tu progreso</p>
@@ -132,7 +139,6 @@ const Login = () => {
             <form onSubmit={handleSubmit} className="login-form">
               <div className="input-group">
                 <label htmlFor="username" className="input-label">
-                  <span className="label-icon">👤</span>
                   Usuario
                 </label>
                 <div className="input-wrapper">
@@ -142,31 +148,27 @@ const Login = () => {
                     name="username"
                     value={formData.username}
                     onChange={handleChange}
-                    className={`form-input ${errors.username ? 'error' : ''}`}
+                    className={`form-input ${errors.username ? "error" : ""}`}
                     placeholder="Ingresa tu usuario"
                   />
                 </div>
                 {errors.username && (
-                  <span className="error-message">
-                    <span className="error-icon">⚠️</span>
-                    {errors.username}
-                  </span>
+                  <span className="error-message">{errors.username}</span>
                 )}
               </div>
 
               <div className="input-group">
                 <label htmlFor="password" className="input-label">
-                  <span className="label-icon">🔒</span>
                   Contraseña
                 </label>
                 <div className="input-wrapper">
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className={`form-input ${errors.password ? 'error' : ''}`}
+                    className={`form-input ${errors.password ? "error" : ""}`}
                     placeholder="Ingresa tu contraseña"
                   />
                   <button
@@ -174,14 +176,11 @@ const Login = () => {
                     className="password-toggle"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? '👁️' : '👁️‍🗨️'}
+                    {showPassword ? "👁️" : "👁️‍🗨️"}
                   </button>
                 </div>
                 {errors.password && (
-                  <span className="error-message">
-                    <span className="error-icon">⚠️</span>
-                    {errors.password}
-                  </span>
+                  <span className="error-message">{errors.password}</span>
                 )}
               </div>
 
@@ -208,36 +207,39 @@ const Login = () => {
             <div className="demo-users">
               <h3>Usuarios de demostración</h3>
               <div className="demo-grid">
-                <button 
+                <button
                   type="button"
                   className="demo-user admin"
-                  onClick={() => setFormData({ username: 'admin', password: '123456' })}
+                  onClick={() =>
+                    setFormData({ username: "admin", password: "123456" })
+                  }
                 >
-                  <span className="demo-icon">👨‍💼</span>
                   <div className="demo-info">
                     <span className="demo-role">Administrador</span>
                     <span className="demo-credentials">admin / 123456</span>
                   </div>
                 </button>
 
-                <button 
+                <button
                   type="button"
                   className="demo-user expert"
-                  onClick={() => setFormData({ username: 'experto1', password: '123456' })}
+                  onClick={() =>
+                    setFormData({ username: "experto1", password: "123456" })
+                  }
                 >
-                  <span className="demo-icon">🧠</span>
                   <div className="demo-info">
                     <span className="demo-role">Experto</span>
                     <span className="demo-credentials">experto1 / 123456</span>
                   </div>
                 </button>
 
-                <button 
+                <button
                   type="button"
                   className="demo-user operator"
-                  onClick={() => setFormData({ username: 'operador1', password: '123456' })}
+                  onClick={() =>
+                    setFormData({ username: "operador1", password: "123456" })
+                  }
                 >
-                  <span className="demo-icon">👷‍♂️</span>
                   <div className="demo-info">
                     <span className="demo-role">Operador</span>
                     <span className="demo-credentials">operador1 / 123456</span>
