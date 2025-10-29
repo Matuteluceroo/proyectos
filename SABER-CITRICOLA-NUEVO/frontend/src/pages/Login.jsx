@@ -114,8 +114,8 @@ const Login = () => {
               </div>
               <div className="feature-item">
                 <div>
-                  <h3>Búsqueda por Vos</h3>
-                  <p>Encuentra información con comandos de vos</p>
+                  <h3>Búsqueda por Voz</h3>
+                  <p>Encuentra información con comandos de voz</p>
                 </div>
               </div>
               <div className="feature-item">
