@@ -1,0 +1,534 @@
+/* ===== Usuarios.pro.css ===== */
+.usuarios-modern {
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --surface-2: #f7f9fc;
+  --line: rgba(9, 16, 28, 0.08);
+  --text: #0f172a;
+  --muted: #5b677a;
+  --brand: #2563eb;
+  --ok: #16a34a;
+  --warn: #eab308;
+  --danger: #dc2626;
+
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(10, 20, 40, 0.06);
+  --shadow-sm: 0 3px 10px rgba(10, 20, 40, 0.05);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Arial;
+}
+
+/* Neutraliza App.css / index.css */
+body:has(.usuarios-modern) {
+  background: var(--bg) !important;
+  display: block !important;
+  min-height: 100vh;
+  place-items: initial !important;
+}
+
+/* Lienzo */
+.usuarios-page {
+  min-height: 100vh;
+}
+.usuarios-wrap {
+  width: 1180px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Header */
+.u-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.u-welcome h1 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.u-welcome p {
+  margin: 0;
+  color: var(--muted);
+}
+.u-badge {
+  margin-top: 8px;
+  display: inline-block;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--brand);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+}
+
+.u-actions {
+  display: flex;
+  gap: 10px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: 0.15s;
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn-primary {
+  background: #eaf0ff;
+  color: #1743b3;
+  border-color: rgba(37, 99, 235, 0.25);
+}
+.btn-danger {
+  background: #fff5f5;
+  color: #b91c1c;
+  border-color: rgba(220, 38, 38, 0.25);
+}
+
+/* Métricas */
+.u-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 16px 0;
+}
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.icon-bubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+.icon-bubble .icon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.75;
+}
+.icon-bubble.lg {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+}
+.num {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+}
+.lbl {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Tabla */
+.u-table-section {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.u-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.u-table-wrapper {
+  overflow: auto;
+}
+.u-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.u-table thead th {
+  text-align: left;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #1f2937;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+}
+.u-table tbody td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  color: #111827;
+}
+.u-table tbody tr:hover {
+  background: #f7faff;
+}
+
+.role-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.role-chip.admin {
+  border-left: 4px solid #ef4444;
+}
+.role-chip.expert {
+  border-left: 4px solid #3b82f6;
+}
+.role-chip.operator {
+  border-left: 4px solid #22c55e;
+}
+
+.row-actions {
+  display: flex;
+  gap: 8px;
+}
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: 0.15s;
+}
+.icon-btn .icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.75;
+}
+.icon-btn:hover {
+  transform: translateY(-1px);
+}
+.icon-btn.danger {
+  background: #fff5f5;
+  color: #b91c1c;
+  border-color: rgba(220, 38, 38, 0.25);
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 48px 8px;
+}
+.empty h3 {
+  margin: 14px 0 6px;
+  font-size: 20px;
+}
+.empty p {
+  margin: 0 0 14px;
+  color: var(--muted);
+}
+
+/* Modal */
+.u-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 16, 28, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.u-modal-card {
+  width: 560px;
+  max-width: calc(100vw - 48px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 18px 60px rgba(10, 20, 40, 0.25);
+}
+.u-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.u-modal-head h3 {
+  margin: 0;
+  font-size: 18px;
+}
+.u-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 16px;
+}
+.u-form label span {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.u-form input,
+.u-form select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+}
+.u-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 0 16px 16px;
+}
+/* ===== HOTFIX CONTRASTE USUARIOS (pegar al final) ===== */
+
+/* 1) Texto por defecto dentro de la página de usuarios */
+.usuarios-modern
+  :where(
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    small,
+    li,
+    th,
+    td,
+    div,
+    label,
+    a,
+    strong,
+    b,
+    em
+  ) {
+  color: var(--text) !important;
+}
+
+/* 2) Si quedaron utilidades viejas que fuerzan blanco */
+.usuarios-modern .text-white,
+.usuarios-modern .white,
+.usuarios-modern .texto-blanco {
+  color: var(--text) !important;
+}
+
+/* 3) Cabecera de tabla y celdas */
+.usuarios-modern .u-table thead th {
+  color: #1f2937 !important; /* gris oscuro legible */
+  background: var(--surface-2) !important;
+}
+.usuarios-modern .u-table tbody td {
+  color: #111827 !important;
+}
+
+/* 4) Botones: asegurar color de texto visible */
+.usuarios-modern .btn,
+.usuarios-modern .btn * {
+  color: var(--text) !important;
+}
+.usuarios-modern .btn-primary,
+.usuarios-modern .btn-primary * {
+  color: #1743b3 !important; /* azul legible sobre #eaf0ff */
+}
+.usuarios-modern .btn-danger,
+.usuarios-modern .btn-danger * {
+  color: #b91c1c !important;
+}
+
+/* 5) Chips de rol y badges */
+.usuarios-modern .role-chip {
+  color: var(--text) !important;
+}
+.usuarios-modern .u-badge {
+  color: var(--brand) !important;
+}
+
+/* 6) Quitar degradés/skins viejos que lavan el texto */
+.usuarios-modern .u-header,
+.usuarios-modern .u-table-section,
+.usuarios-modern .metric {
+  background-image: none !important;
+}
+/* ====== BOTONES UNIFICADOS (Usuarios) ====== */
+
+/* Base */
+.usuarios-modern .btn{
+  --btn-h: 40px;
+  --btn-pad-x: 14px;
+
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  height: var(--btn-h);
+  padding: 0 var(--btn-pad-x);
+  border-radius:10px;
+
+  border:1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--text);
+
+  font-weight:600;
+  letter-spacing:.1px;
+  box-shadow: var(--shadow-sm);
+  cursor:pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+
+  /* Evita botones gigantes por estilos globales */
+  width:auto !important;
+  min-width: max-content;
+  flex: 0 0 auto !important;
+}
+.usuarios-modern .btn:hover{ transform: translateY(-1px); }
+
+/* Variantes de color (consistentes) */
+.usuarios-modern .btn-primary{
+  background: #2563eb !important;
+  border-color: #1d4ed8 !important;
+  color: #fff !important;
+}
+.usuarios-modern .btn-primary:hover{ background:#1d4ed8 !important; }
+
+.usuarios-modern .btn-danger{
+  background:#fee2e2 !important;
+  border-color:#fecaca !important;
+  color:#b91c1c !important;
+}
+.usuarios-modern .btn-danger:hover{ background:#ffc9c9 !important; }
+
+/* Tamaños */
+.usuarios-modern .btn--sm{ --btn-h:34px; --btn-pad-x:10px; }
+.usuarios-modern .btn--lg{ --btn-h:44px; --btn-pad-x:16px; }
+
+/* Ícono dentro del botón */
+.usuarios-modern .btn .icon{ width:18px; height:18px; stroke-width:1.75; }
+
+/* Toolbar del header: alineado y sin estirar */
+.usuarios-modern .u-actions .btn{
+  width:auto !important;
+  min-width:max-content;
+}
+
+/* Header de la tabla (título + botón a la derecha) */
+.usuarios-modern .u-table-section{ position:relative; }
+.usuarios-modern .u-table-header{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; margin-bottom:12px;
+}
+.usuarios-modern .u-table-header .btn{
+  width:auto !important;
+  min-width:max-content;
+}
+
+/* Botones de acciones por fila: compactos */
+.usuarios-modern .row-actions{ display:flex; gap:8px; }
+.usuarios-modern .icon-btn{
+  width:32px; height:32px; border-radius:8px;
+  display:inline-flex; align-items:center; justify-content:center;
+  border:1px solid var(--line); background:var(--surface-2);
+  box-shadow:var(--shadow-sm);
+}
+.usuarios-modern .icon-btn .icon{ width:16px; height:16px; stroke-width:1.75; }
+.usuarios-modern .icon-btn.danger{
+  background:#fee2e2; color:#b91c1c; border-color:#fecaca;
+}
+
+/* Métricas: que NO parezcan botones */
+.usuarios-modern .u-metrics .metric{ cursor:default; }
+/* === Unificar botones: fondo blanco + borde negro === */
+
+/* Base para todos los .btn */
+.usuarios-modern .btn{
+  --btn-h: 40px;
+  --btn-pad-x: 14px;
+
+  display:inline-flex !important;
+  align-items:center; justify-content:center; gap:8px;
+
+  height:var(--btn-h);
+  padding:0 var(--btn-pad-x);
+  border-radius:10px;
+
+  background:#fff !important;
+  border:1.5px solid #0f172a !important;   /* borde negro */
+  color:#0f172a !important;
+
+  box-shadow:none !important;
+  font-weight:600; letter-spacing:.1px;
+  width:auto !important; min-width:max-content; flex:0 0 auto !important;
+  transition:background .15s ease, transform .15s ease;
+}
+.usuarios-modern .btn:hover{ background:#f5f6f8 !important; transform:translateY(-1px); }
+.usuarios-modern .btn:active{ transform:translateY(0); }
+
+/* Ignorar colores de variantes antiguas */
+.usuarios-modern .btn-primary,
+.usuarios-modern .btn-danger{
+  background:#fff !important;
+  border-color:#0f172a !important;
+  color:#0f172a !important;
+}
+
+/* Tamaños opcionales coherentes */
+.usuarios-modern .btn--sm{ --btn-h:34px; --btn-pad-x:10px; }
+.usuarios-modern .btn--lg{ --btn-h:44px; --btn-pad-x:16px; }
+
+/* Iconos dentro del botón */
+.usuarios-modern .btn .icon{ width:18px; height:18px; stroke-width:1.75; }
+
+/* Botón “Nuevo Usuario” en header de tabla: igual estilo */
+.usuarios-modern .u-table-header .btn{
+  background:#fff !important;
+  border:1.5px solid #0f172a !important;
+  color:#0f172a !important;
+}
+
+/* Botones de acciones por fila: cuadrados blancos con borde negro */
+.usuarios-modern .icon-btn{
+  width:32px; height:32px; border-radius:8px;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:#fff !important;
+  border:1.5px solid #0f172a !important;
+  color:#0f172a !important;
+  box-shadow:none !important;
+}
+.usuarios-modern .icon-btn .icon{ width:16px; height:16px; stroke-width:1.75; }
+.usuarios-modern .icon-btn:hover{ background:#f5f6f8 !important; }

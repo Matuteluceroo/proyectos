@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { obtenerReportesCompletos, exportarReporte as exportarReporteAPI } from '../services/reportesAPI';
-
+// https://chatgpt.com/share/69018b5e-ada0-8012-ba4a-370e283ecc32
 const Reportes = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
