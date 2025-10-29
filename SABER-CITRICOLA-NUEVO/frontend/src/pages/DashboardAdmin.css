@@ -1,0 +1,471 @@
+/* =========== DashboardAdmin.pro.css =========== */
+/* Paleta minimal (clara) */
+.dashboard-modern {
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --surface-2: #f7f9fc;
+  --line: rgba(9, 16, 28, 0.08);
+  --text: #0f172a;
+  --muted: #5b677a;
+  --brand: #2563eb; /* azul discreto */
+  --ok: #16a34a;
+  --warn: #eab308;
+  --danger: #dc2626;
+
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(10, 20, 40, 0.06);
+  --shadow-sm: 0 2px 8px rgba(10, 20, 40, 0.05);
+  --gap: 16px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Arial;
+}
+
+/* Fondo general sobrio */
+.dashboard-modern {
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+/* Contenedor centrado y ancho fijo para monitor genérico */
+.dashboard-modern .admin-dashboard {
+  width: 1180px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* ---------- Header limpio ---------- */
+.dashboard-modern .dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+}
+.dashboard-modern .user-welcome h1 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.dashboard-modern .user-welcome p {
+  margin: 0;
+  color: var(--muted);
+}
+.dashboard-modern .role-badge {
+  margin-top: 8px;
+  display: inline-block;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--brand);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+}
+
+/* Botones sobrios */
+.dashboard-modern .header-actions {
+  display: flex;
+  gap: 10px;
+}
+.dashboard-modern .btn {
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+.dashboard-modern .btn:hover {
+  transform: translateY(-1px);
+}
+.dashboard-modern .btn-danger {
+  background: #fff5f5;
+  color: #b91c1c;
+  border-color: rgba(220, 38, 38, 0.25);
+}
+
+/* ---------- Métricas ---------- */
+.dashboard-modern .metrics-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+  margin: 16px 0;
+}
+.dashboard-modern .metric-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.dashboard-modern .metric-icon {
+  font-size: 24px;
+  opacity: 0.9;
+}
+.dashboard-modern .metric-number {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+}
+.dashboard-modern .metric-label {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- Distribución por rol ---------- */
+.dashboard-modern .role-metrics {
+  margin-top: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.dashboard-modern .role-metrics h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: #1f2937;
+}
+.dashboard-modern .role-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+.dashboard-modern .role-stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+}
+.dashboard-modern .role-count {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+.dashboard-modern .role-name {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+/* ---------- Acciones ---------- */
+.dashboard-modern .admin-actions {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.dashboard-modern .admin-actions h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: #1f2937;
+}
+.dashboard-modern .action-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+}
+.dashboard-modern .action-card {
+  text-align: left;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  transition: 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+.dashboard-modern .action-card:hover {
+  transform: translateY(-2px);
+}
+.dashboard-modern .action-card .action-title {
+  font-weight: 700;
+}
+.dashboard-modern .action-card .action-desc {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* ---------- Actividad ---------- */
+.dashboard-modern .system-activity {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.dashboard-modern .system-activity h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: #1f2937;
+}
+.dashboard-modern .activity-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 340px;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.dashboard-modern .activity-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.dashboard-modern .activity-time {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ---------- Neutralizar “skins” viejos que ensucian ---------- */
+body:has(.dashboard-modern) {
+  background: var(--bg) !important;
+  display: block !important;
+  place-items: initial !important;
+}
+.dashboard-modern .dashboard-header,
+.dashboard-modern .metric-card,
+.dashboard-modern .role-metrics,
+.dashboard-modern .admin-actions,
+.dashboard-modern .system-activity {
+  /* quita degradés/colores fuertes heredados */
+  background-image: none !important;
+}
+.dashboard-modern .metric-card,
+.dashboard-modern .action-card {
+  /* redondeos y sombras discretas */
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* Estados pequeños reutilizables */
+.dashboard-modern .badge-ok {
+  color: var(--ok);
+}
+.dashboard-modern .badge-warn {
+  color: var(--warn);
+}
+.dashboard-modern .badge-danger {
+  color: var(--danger);
+}
+/* ===== HOTFIX CONTRASTE (pegar al final de DashboardAdmin.pro.css) ===== */
+
+/* 1) Colores por defecto de TODO el texto dentro del dashboard */
+.dashboard-modern
+  :where(
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    small,
+    li,
+    dt,
+    dd,
+    label,
+    div,
+    a,
+    strong,
+    b,
+    em
+  ) {
+  color: var(--text) !important;
+}
+
+/* 2) Si quedaron utilidades/clases viejas que fuerzan blanco */
+.dashboard-modern .text-white,
+.dashboard-modern .white,
+.dashboard-modern .texto-blanco {
+  color: var(--text) !important;
+}
+
+/* 3) Descripciones en gris suave (solo en lugares típicos) */
+.dashboard-modern .metric-label,
+.dashboard-modern .action-desc,
+.dashboard-modern .role-name,
+.dashboard-modern .activity-time {
+  color: var(--muted) !important;
+}
+
+/* 4) Botones y badges con contraste correcto */
+.dashboard-modern .btn,
+.dashboard-modern .btn * {
+  color: var(--text) !important;
+}
+.dashboard-modern .btn-danger,
+.dashboard-modern .btn-danger * {
+  color: #b91c1c !important;
+}
+
+/* 5) Tiles de métricas: evitar texto blanco cuando el fondo tiene tinte */
+.dashboard-modern .metric-card {
+  background: var(--surface) !important;
+}
+.dashboard-modern .metric-card .metric-number {
+  color: var(--text) !important;
+}
+
+/* 6) Paneles de color (rojo/azul/verde claro) para “Distribución por Rol” */
+.dashboard-modern .role-stat {
+  background: var(--surface-2) !important;
+}
+.dashboard-modern .role-stat[data-variant="admin"] {
+  border-left: 4px solid #ef4444;
+}
+.dashboard-modern .role-stat[data-variant="expert"] {
+  border-left: 4px solid #3b82f6;
+}
+.dashboard-modern .role-stat[data-variant="operator"] {
+  border-left: 4px solid #22c55e;
+}
+
+/* 7) Header y cards: quitar cualquier degradé viejo que aclaraba demasiado el texto */
+.dashboard-modern .dashboard-header,
+.dashboard-modern .admin-actions,
+.dashboard-modern .role-metrics,
+.dashboard-modern .system-activity {
+  background-image: none !important;
+}
+
+/* 8) Links: tono azul discreto y foco visible */
+.dashboard-modern a {
+  color: var(--brand) !important;
+  text-decoration: none;
+}
+.dashboard-modern a:hover {
+  text-decoration: underline;
+}
+.dashboard-modern :focus {
+  outline: 2px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 2px;
+}
+.dashboard-modern .dashboard-header {
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+}
+/* Íconos pro */
+.dashboard-modern .icon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1.75; /* trazo más elegante */
+}
+
+/* Variante dentro de cards redondas */
+.dashboard-modern .icon-bubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+.dashboard-modern .icon-bubble .icon {
+  width: 20px;
+  height: 20px;
+}
+/* ===== Ajustes puntuales Actividad Reciente ===== */
+.dashboard-modern .system-activity .toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* Botón compacto con icono, que NO ocupe todo el ancho */
+.dashboard-modern .btn-small {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  box-shadow: var(--shadow-sm);
+  width: auto;
+  min-width: unset;
+}
+
+/* Icono “burbuja” del feed */
+.dashboard-modern .activity-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dashboard-modern .activity-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+.dashboard-modern .activity-icon .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.dashboard-modern .activity-content p {
+  margin: 0 0 4px 0;
+}
+.dashboard-modern .activity-time {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Por si algún estilo previo hacía el botón full-width */
+.dashboard-modern .system-activity .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==== FIX: botón Actualizar gigante en Actividad ==== */
+.dashboard-modern .system-activity .toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.dashboard-modern .system-activity .toolbar h3{ margin:0; }
+
+/* fuerza tamaño contenido del botón, por encima de estilos globales */
+.dashboard-modern .system-activity .toolbar .btn-small{
+  flex: 0 0 auto !important;     /* no crecer */
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  width: auto !important;
+  min-width: 0 !important;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.dashboard-modern .system-activity .toolbar .btn-small .icon{
+  width:16px; height:16px; stroke-width:1.75;
+}
