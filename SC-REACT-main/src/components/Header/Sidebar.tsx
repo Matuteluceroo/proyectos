@@ -165,15 +165,19 @@ const Sidebar: React.FC<SidebarProps> = ({
           </div>
           {!collapsed && <span className="sidebar-text">Notificaciones</span>}
         </button>
-        <button onClick={() => navigate("/informes")} title="Crear Contenido">
+        <button onClick={() => navigate("/informes")} title="DashBoard">
           <FiBarChart2 size={20} style={{ color: "#000" }} />
           {!collapsed && <span className="sidebar-text">DashBoard</span>}
         </button>
         <button onClick={() => navigate("/contenido")} title="Crear Contenido">
           <FiFile size={20} style={{ color: "#000" }} />
-          {!collapsed && <span className="sidebar-text">CrearContenido</span>}
+          {!collapsed && <span className="sidebar-text">Crear Contenido</span>}
         </button>
-        <button onClick={() => navigate("/buscador")} title="Crear Contenido">
+        <button onClick={() => navigate("/subir-contenido")} title="Subir Contenido">
+          <FiSearch size={20} style={{ color: "#000" }} />
+          {!collapsed && <span className="sidebar-text">Subir Contenido</span>}
+        </button>
+        <button onClick={() => navigate("/buscador")} title="Buscar Contenido">
           <FiSearch size={20} style={{ color: "#000" }} />
           {!collapsed && <span className="sidebar-text">Buscar Contenido</span>}
         </button>

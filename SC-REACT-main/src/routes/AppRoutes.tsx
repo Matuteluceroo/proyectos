@@ -11,6 +11,7 @@ import Testing from "../testing/Testing";
 import MenuInformes from "../pages/InformesGerenciales/MenuInformesGerenciales";
 // import InformesProductos from "../pages/InformesGerenciales/InformesProductos"
 import Contenido from "../pages/Contenido/Contenido";
+import Buscador from "../pages/Buscador/Buscador";
 import Documentos from "../pages/Documentos/Documentos";
 import VerDocumento from "../pages/Documentos/VerDocumento";
 
@@ -97,6 +98,28 @@ const AppRoutes = () => (
       />
       <Route
         path="/buscador"
+        element={
+          <PrivateRoute
+            element={<Buscador />}
+            allowedRoles={[
+              "COBRADOR",
+              "LICITADOR",
+              "ADMCOBRANZAS",
+              "TESTER",
+              "GERENTE",
+              "ADMINISTRADOR",
+              "ADM-KAIROS",
+              "LIDER-LICITADOR",
+              "COMPRADOR",
+              "LOGISTICA",
+              "ADMLOGISTICA",
+              "ADMIN-COMPARATIVOS",
+            ]}
+          />
+        }
+      />
+      <Route
+        path="/subir-contenido"
         element={
           <PrivateRoute
             element={<Documentos />}

@@ -49,3 +49,87 @@ export const useObtenerArchivosDeContenido = () => {
   return async (id: string | number) =>
     await apiRequest(`contenidos/${id}/archivos`, { method: "GET" });
 };
+
+export interface Contenido {
+  id?: number;
+  titulo: string;
+  descripcion?: string;
+  id_tipo?: number;
+  tipoNombre?: string;
+  id_usuario?: number;
+  autorNombre?: string;
+  fecha_creacion?: string;
+  url_archivo?: string;
+}
+
+/* ============================
+   HOOKS PARA CONTENIDOS
+   ============================ */
+
+// 🔹 Obtener todos los contenidos
+export const useObtenerContenidosNuevo = () => {
+  const apiRequest = useApiRequest();
+  return async () => await apiRequest(`contenidos`, { method: "GET" });
+};
+
+// 🔹 Buscar contenidos por texto (título, descripción, autor o tipo)
+export const useBuscarContenidos = () => {
+  const apiRequest = useApiRequest();
+  return async (query: string) =>
+    await apiRequest(`contenidos/buscar/${encodeURIComponent(query)}`, {
+      method: "GET",
+    });
+};
+
+// 🔹 Obtener contenido por ID
+export const useObtenerContenidoPorId = () => {
+  const apiRequest = useApiRequest();
+  return async (id: number) =>
+    await apiRequest(`contenidos/${id}`, { method: "GET" });
+};
+
+// 🔹 Crear contenido nuevo
+export const useCrearContenido = () => {
+  const apiRequest = useApiRequest();
+  return async ({
+    titulo,
+    descripcion,
+    id_tipo,
+    id_usuario,
+    url_archivo,
+  }: Contenido) => {
+    return await apiRequest(`contenidos`, {
+      method: "POST",
+      body: JSON.stringify({
+        titulo,
+        descripcion,
+        id_tipo,
+        id_usuario,
+        url_archivo,
+      }),
+    });
+  };
+};
+
+// 🔹 Actualizar contenido existente
+export const useActualizarContenido = () => {
+  const apiRequest = useApiRequest();
+  return async (id: number, datos: Partial<Contenido>) =>
+    await apiRequest(`contenidos/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(datos),
+    });
+};
+
+// 🔹 Eliminar contenido
+export const useEliminarContenido = () => {
+  const apiRequest = useApiRequest();
+  return async (id: number) =>
+    await apiRequest(`contenidos/${id}`, { method: "DELETE" });
+};
+
+// 🔹 GET - Obtener los últimos contenidos creados
+export const useObtenerUltimosContenidos = () => {
+  const apiRequest = useApiRequest();
+  return async () => await apiRequest(`contenidos/ultimos`, { method: "GET" });
+};

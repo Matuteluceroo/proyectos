@@ -20,8 +20,8 @@
   color: white;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 8px;
-  border: 2px solid rgb(21, 179, 228);
-  box-shadow: 0px 0px 8px 7px rgb(21, 179, 228);
+  border: 2px solid rgb(255, 187, 39);
+  box-shadow: 0px 0px 8px 7px rgb(190, 107, 29);
   text-align: center;
   width: 400px;
   max-width: 90%;
@@ -61,15 +61,15 @@ input:focus {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background: linear-gradient(45deg, #007bff, #00c6ff); /* Degradado azul */
-  color: white;
+  background: linear-gradient(45deg, #ecc885, #eea450); /* Degradado azul */
+  color: rgb(0, 0, 0);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .login-button:hover {
   transform: scale(1.05);
-  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3);
 }
 
 .error-message {
@@ -95,9 +95,7 @@ input:focus {
   transition: border-color 0.3s;
 }
 
-.password-container input:focus {
-  border-color: #007bff;
-}
+
 
 .toggle-password {
   position: absolute;

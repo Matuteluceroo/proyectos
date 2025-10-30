@@ -110,7 +110,12 @@ const Login = () => {
   }
 
   return (
-    <div className="login-container">
+    <div
+      className="login-container"
+      style={{
+        background: 'linear-gradient(135deg, #f8a55f, #f07221)',
+      }}
+    >
       <div className="login-content">
         <img
           src={logo}

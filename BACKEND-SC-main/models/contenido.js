@@ -169,4 +169,163 @@ export class ContenidoModel {
 
     fs.createReadStream(abs, { start, end }).pipe(res);
   }
+
+  static async getAll() {
+    const result = await sql.query(`
+      SELECT 
+        C.id_contenido AS id,
+        C.titulo,
+        C.descripcion,
+        C.id_tipo,
+        T.nombre AS tipoNombre,
+        C.id_usuario,
+        U.nombre AS autorNombre,
+        CONVERT(varchar, C.fecha_creacion, 103) AS fecha_creacion,
+        C.url_archivo
+      FROM ${tableName} AS C
+      LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
+      LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
+      ORDER BY C.fecha_creacion DESC;
+    `);
+    return result.recordset;
+  }
+
+  static async getByIdNuevo({ id }) {
+    const result = await sql.query(`
+      SELECT 
+        C.id_contenido AS id,
+        C.titulo,
+        C.descripcion,
+        C.id_tipo,
+        T.nombre AS tipoNombre,
+        C.id_usuario,
+        U.nombre AS autorNombre,
+        CONVERT(varchar, C.fecha_creacion, 103) AS fecha_creacion,
+        C.url_archivo
+      FROM ${tableName} AS C
+      LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
+      LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
+      WHERE C.id_contenido = '${id}';
+    `);
+    return result.recordset[0];
+  }
+
+  static async buscar({ query }) {
+    const request = new sql.Request();
+    request.input("query", sql.VarChar, `%${query}%`);
+
+    const result = await request.query(`
+      SELECT 
+        C.id_contenido AS id,
+        C.titulo,
+        C.descripcion,
+        T.nombre AS tipoNombre,
+        U.nombre AS autorNombre,
+        C.fecha_creacion,
+        C.url_archivo
+      FROM ${tableName} AS C
+      LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
+      LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
+      WHERE C.titulo LIKE @query
+         OR C.descripcion LIKE @query
+         OR T.nombre LIKE @query
+         OR U.nombre LIKE @query
+      ORDER BY C.fecha_creacion DESC;
+    `);
+
+    return result.recordset;
+  }
+
+  static async create({ input }) {
+    const { titulo, descripcion, id_tipo, id_usuario, url_archivo } = input;
+    const request = new sql.Request();
+    request.input("titulo", sql.VarChar, titulo);
+    request.input("descripcion", sql.VarChar, descripcion);
+    request.input("id_tipo", sql.Int, id_tipo);
+    request.input("id_usuario", sql.Int, id_usuario);
+    request.input("url_archivo", sql.VarChar, url_archivo);
+
+    await request.query(`
+      INSERT INTO ${tableName} (titulo, descripcion, id_tipo, id_usuario, fecha_creacion, url_archivo)
+      VALUES (@titulo, @descripcion, @id_tipo, @id_usuario, GETDATE(), @url_archivo);
+    `);
+
+    const nuevo = await sql.query(
+      `SELECT TOP 1 * FROM ${tableName} ORDER BY id_contenido DESC;`
+    );
+    return nuevo.recordset[0];
+  }
+
+  static async delete({ id }) {
+    const request = new sql.Request();
+    request.input("id", sql.Int, id);
+    await request.query(`DELETE FROM ${tableName} WHERE id_contenido = @id;`);
+    return true;
+  }
+
+  static async update({ id, input }) {
+    const { titulo, descripcion, id_tipo, url_archivo } = input;
+    const request = new sql.Request();
+    request.input("id", sql.Int, id);
+    request.input("titulo", sql.VarChar, titulo);
+    request.input("descripcion", sql.VarChar, descripcion);
+    request.input("id_tipo", sql.Int, id_tipo);
+    request.input("url_archivo", sql.VarChar, url_archivo);
+
+    await request.query(`
+      UPDATE ${tableName}
+      SET titulo=@titulo,
+          descripcion=@descripcion,
+          id_tipo=@id_tipo,
+          url_archivo=@url_archivo
+      WHERE id_contenido=@id;
+    `);
+    return true;
+  }
+  static async getUltimos({ limite = 5 } = {}) {
+    const request = new sql.Request();
+    request.input("limite", sql.Int, limite);
+
+    const result = await request.query(`
+    SELECT 
+      C.id_contenido AS id,
+      C.titulo,
+      C.descripcion,
+      C.id_tipo,
+      T.nombre AS tipoNombre,
+      C.id_usuario,
+      U.nombre AS autorNombre,
+      CONVERT(varchar, C.fecha_creacion, 103) AS fecha_creacion,
+      C.url_archivo
+    FROM (
+      SELECT *,
+             ROW_NUMBER() OVER (PARTITION BY id_tipo ORDER BY fecha_creacion DESC) AS rn
+      FROM Contenido
+    ) AS C
+    LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
+    LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
+    WHERE rn <= @limite
+    ORDER BY C.id_tipo, C.fecha_creacion DESC;
+  `);
+
+    // ✅ Agrupar manualmente por tipo
+    const rows = result.recordset;
+    const grupos = {};
+
+    rows.forEach((r) => {
+      if (!grupos[r.tipoNombre]) {
+        grupos[r.tipoNombre] = { tipo: r.tipoNombre, items: [] };
+      }
+      grupos[r.tipoNombre].items.push({
+        id: r.id,
+        titulo: r.titulo,
+        descripcion: r.descripcion,
+        autorNombre: r.autorNombre,
+        fecha_creacion: r.fecha_creacion,
+        url_archivo: r.url_archivo,
+      });
+    });
+
+    return Object.values(grupos); // devuelve [{tipo:"Manual", items:[...]}, ...]
+  }
 }

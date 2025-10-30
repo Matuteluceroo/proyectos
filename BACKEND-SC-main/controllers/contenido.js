@@ -178,4 +178,101 @@ export class ContenidoController {
         .json({ mensaje: "Archivo no encontrado", error: e.message });
     }
   }
+
+  // COSAS NUEVAS
+  static async getAll(req, res) {
+    try {
+      const data = await ContenidoModel.getAll();
+      if (data.length === 0)
+        return res.status(404).json({ mensaje: "No hay contenidos" });
+      return res.json(data);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ mensaje: "Error en getAll", error: error.message });
+    }
+  }
+
+  static async getById(req, res) {
+    const { id } = req.params;
+    try {
+      const contenido = await ContenidoModel.getByIdNuevo({ id });
+      if (!contenido) return res.status(404).json({ mensaje: "No encontrado" });
+      return res.json(contenido);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ mensaje: "Error en getById", error: error.message });
+    }
+  }
+
+  static async buscar(req, res) {
+    const { query } = req.params;
+    try {
+      const resultados = await ContenidoModel.buscar({ query });
+      if (resultados.length === 0)
+        return res.status(404).json({ mensaje: "Sin resultados" });
+      return res.json(resultados);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ mensaje: "Error en búsqueda", error: error.message });
+    }
+  }
+
+  static async create(req, res) {
+    const { titulo, descripcion, id_tipo, id_usuario, url_archivo } = req.body;
+    try {
+      const nuevo = await ContenidoModel.create({
+        input: { titulo, descripcion, id_tipo, id_usuario, url_archivo },
+      });
+      return res.status(201).json({ mensaje: "Contenido creado", nuevo });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ mensaje: "Error en create", error: error.message });
+    }
+  }
+
+  static async delete(req, res) {
+    const { id } = req.params;
+    try {
+      await ContenidoModel.delete({ id });
+      return res.json({ mensaje: "Contenido eliminado" });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ mensaje: "Error en delete", error: error.message });
+    }
+  }
+
+  static async update(req, res) {
+    const { id } = req.params;
+    const { titulo, descripcion, id_tipo, url_archivo } = req.body;
+    try {
+      await ContenidoModel.update({
+        id,
+        input: { titulo, descripcion, id_tipo, url_archivo },
+      });
+      return res.json({ mensaje: "Contenido actualizado" });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ mensaje: "Error en update", error: error.message });
+    }
+  }
+  static async getUltimos(req, res) {
+    try {
+      const limite = parseInt(req.query.limite) || 5;
+      const data = await ContenidoModel.getUltimos({ limite });
+      if (!data || data.length === 0)
+        return res.status(404).json({ mensaje: "No hay contenidos recientes" });
+      return res.json(data);
+    } catch (error) {
+      return res.status(500).json({
+        mensaje: "Error al obtener contenidos recientes",
+        error: error.message,
+      });
+    }
+  }
 }

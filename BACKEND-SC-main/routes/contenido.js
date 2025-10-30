@@ -49,9 +49,31 @@ contenidosRouter.get(
   ContenidoController.listarContenidos
 );
 
-
 // GET /api/contenidos/:id/archivos  -> lista archivos por id
-contenidosRouter.get('/:id/archivos', validateToken, ContenidoController.listarArchivosPorId);
+contenidosRouter.get(
+  "/:id/archivos",
+  validateToken,
+  ContenidoController.listarArchivosPorId
+);
 
 // GET /api/contenidos/archivo/:tipo/:fileName -> sirve archivo (inline/stream)
-contenidosRouter.get('/archivo/:tipo/:fileName', validateToken, ContenidoController.servirArchivo);
+contenidosRouter.get(
+  "/archivo/:tipo/:fileName",
+  validateToken,
+  ContenidoController.servirArchivo
+);
+
+// cosas nueva
+
+// Rutas de consulta y gestión de conocimientos
+contenidosRouter.get("/ultimos", validateToken, ContenidoController.getUltimos);
+contenidosRouter.get(
+  "/buscar/:query",
+  validateToken,
+  ContenidoController.buscar
+);
+contenidosRouter.get("/", validateToken, ContenidoController.getAll);
+contenidosRouter.get("/:id", validateToken, ContenidoController.getById);
+contenidosRouter.post("/", validateToken, ContenidoController.create);
+contenidosRouter.patch("/:id", validateToken, ContenidoController.update);
+contenidosRouter.delete("/:id", validateToken, ContenidoController.delete);
