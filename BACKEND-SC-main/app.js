@@ -1,3 +1,4 @@
+// https://chatgpt.com/g/g-p-690002a139388191a39c392cdf46ea1b-matias/shared/c/6902a817-2894-8333-ad43-c1b4f113d0f1?owner_user_id=user-qx8fYuNEVpFipEOfxQKHCXht
 import { corsMiddleware } from "./middleware/cors.js";
 import { validateToken } from "./middleware/jwt.js";
 import cookieParser from "cookie-parser";
