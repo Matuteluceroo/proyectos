@@ -7,7 +7,7 @@ import {
   useObtenerUltimosContenidos,
 } from "../../services/connections/contenido";
 import { useObtenerTiposConocimiento } from "../../services/connections/tiposConocimiento";
-
+import { useNavigate } from "react-router-dom";
 export default function Buscador() {
   const [query, setQuery] = useState("");
   const [isListening, setIsListening] = useState(false);
@@ -21,7 +21,7 @@ export default function Buscador() {
   const buscarContenidos = useBuscarContenidos();
   const obtenerTipos = useObtenerTiposConocimiento();
   const obtenerUltimos = useObtenerUltimosContenidos();
-
+  const navigate = useNavigate();
   // 🔹 Cargar tipos y últimos contenidos al iniciar
   useEffect(() => {
     const fetchData = async () => {
@@ -115,9 +115,8 @@ export default function Buscador() {
         {/* === Filtros === */}
         <div className="filtros">
           <button
-            className={`filtro-btn ${
-              tipoSeleccionado === "Todos" ? "activo" : ""
-            }`}
+            className={`filtro-btn ${tipoSeleccionado === "Todos" ? "activo" : ""
+              }`}
             onClick={() => setTipoSeleccionado("Todos")}
           >
             Todos
@@ -126,9 +125,8 @@ export default function Buscador() {
             tipos.map((tipo) => (
               <button
                 key={tipo.id_tipo}
-                className={`filtro-btn ${
-                  tipoSeleccionado === tipo.nombre ? "activo" : ""
-                }`}
+                className={`filtro-btn ${tipoSeleccionado === tipo.nombre ? "activo" : ""
+                  }`}
                 onClick={() => setTipoSeleccionado(tipo.nombre)}
               >
                 {tipo.nombre}
@@ -145,7 +143,12 @@ export default function Buscador() {
           {resultados.length > 0 ? (
             <div className="cards-container">
               {resultados.map((item) => (
-                <div key={item.id} className="card">
+                <div
+                  key={item.id}
+                  className="card"
+                  onClick={() => navigate(`/visor/${item.id}`)}
+                  style={{ cursor: "pointer" }}
+                >
                   <img
                     src={
                       item.url_archivo?.endsWith(".pdf")
@@ -156,8 +159,7 @@ export default function Buscador() {
                   />
                   <p className="card-titulo">{item.titulo}</p>
                   <p className="card-autor">
-                    {item.autorNombre || "Sin autor"} —{" "}
-                    {item.tipoNombre || "Sin tipo"}
+                    {item.autorNombre || "Sin autor"} — {item.tipoNombre || "Sin tipo"}
                   </p>
                   <p className="card-descripcion">{item.descripcion}</p>
                 </div>
@@ -176,7 +178,12 @@ export default function Buscador() {
                   <div className="cards-container">
                     {Array.isArray(grupo.items) &&
                       grupo.items.map((item) => (
-                        <div key={item.id} className="card">
+                        <div
+                          key={item.id}
+                          className="card"
+                          onClick={() => navigate(`/visor/${item.id}`)} // 👈 agregado acá también
+                          style={{ cursor: "pointer" }}
+                        >
                           <img
                             src={
                               item.url_archivo?.endsWith(".pdf")
@@ -187,8 +194,7 @@ export default function Buscador() {
                           />
                           <p className="card-titulo">{item.titulo}</p>
                           <p className="card-autor">
-                            {item.autorNombre || "Sin autor"} —{" "}
-                            {item.fecha_creacion}
+                            {item.autorNombre || "Sin autor"} — {item.fecha_creacion}
                           </p>
                         </div>
                       ))}

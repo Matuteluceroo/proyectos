@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Login from "../pages/Login/Login";
 import Administracion from "../pages/Administracion/Administracion";
+import Dashboard from "../pages/Dashboard/Dashboard";
 import InformesLicitaciones from "../pages/InformesGerenciales/InformesLicitaciones/InformesLicitaciones";
 import InformesLaboratorios from "../pages/InformesGerenciales/InformesLaboratorios/InformesLaboratorios";
 import InformesProductos from "../pages/InformesGerenciales/InformesProductos/InformesProductos";
 import Testing from "../testing/Testing";
-
+import Visor from "../pages/Visor/Visor";
 import MenuInformes from "../pages/InformesGerenciales/MenuInformesGerenciales";
 // import InformesProductos from "../pages/InformesGerenciales/InformesProductos"
 import Contenido from "../pages/Contenido/Contenido";
@@ -57,6 +58,50 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<InformesLicitaciones />}
+            allowedRoles={[
+              "COBRADOR",
+              "LICITADOR",
+              "ADMCOBRANZAS",
+              "TESTER",
+              "GERENTE",
+              "ADMINISTRADOR",
+              "ADM-KAIROS",
+              "LIDER-LICITADOR",
+              "COMPRADOR",
+              "LOGISTICA",
+              "ADMLOGISTICA",
+              "ADMIN-COMPARATIVOS",
+            ]}
+          />
+        }
+      />
+      <Route
+        path="/dashboar"
+        element={
+          <PrivateRoute
+            element={<Dashboard />}
+            allowedRoles={[
+              "COBRADOR",
+              "LICITADOR",
+              "ADMCOBRANZAS",
+              "TESTER",
+              "GERENTE",
+              "ADMINISTRADOR",
+              "ADM-KAIROS",
+              "LIDER-LICITADOR",
+              "COMPRADOR",
+              "LOGISTICA",
+              "ADMLOGISTICA",
+              "ADMIN-COMPARATIVOS",
+            ]}
+          />
+        }
+      />
+      <Route
+        path="/visor/:id"
+        element={
+          <PrivateRoute
+            element={<Visor />}
             allowedRoles={[
               "COBRADOR",
               "LICITADOR",
