@@ -1,22 +1,9 @@
 // 🗄️ database-citricola.js - Base de datos completa para Saber Citrícola
-import sqlite3 from 'sqlite3';
+// ⚠️ NOTA: Este archivo será dividido en módulos más pequeños
+// La conexión a la BD ahora está en config/database.js
+
+import db from './config/database.js';
 import bcrypt from 'bcrypt';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const dbPath = join(__dirname, 'saber_citricola.db');
-const sqlite = sqlite3.verbose();
-
-const db = new sqlite.Database(dbPath, (err) => {
-  if (err) {
-    console.error('❌ Error al conectar con SQLite:', err.message);
-  } else {
-    console.log('✅ Conectado a SQLite exitosamente');
-    console.log(`📁 Base de datos ubicada en: ${dbPath}`);
-  }
-});
 
 // 🔧 Funciones para crear todas las tablas
 const crearTablas = () => {
@@ -702,7 +689,6 @@ export function verificarUsuarioExiste(username, email, callback) {
 }
 
 export { 
-  db, 
   inicializarDB, 
   obtenerUsuarioConRol,
   obtenerTodosUsuarios,
