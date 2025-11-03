@@ -1,47 +1,6 @@
 // 📋 procedimientosAPI.js - Servicio para procedimientos paso a paso
 import { buildApiUrl } from '../config/app.config.js';
-
-
-// 🔐 Función auxiliar para obtener headers con autenticación
-const getHeaders = () => {
-    let userData = null;
-    
-    try {
-        userData = JSON.parse(localStorage.getItem('userData'));
-    } catch (error) {
-        console.log('No hay userData en localStorage');
-    }
-    
-    if (!userData) {
-        try {
-            userData = JSON.parse(localStorage.getItem('user'));
-        } catch (error) {
-            console.log('No hay user en localStorage');
-        }
-    }
-    
-    const headers = {
-        'Content-Type': 'application/json',
-    };
-    
-    if (userData && userData.token) {
-        headers['Authorization'] = `Bearer ${userData.token}`;
-    }
-    
-    if (!userData) {
-        const nombre = localStorage.getItem('userName');
-        const rol = localStorage.getItem('userRole');
-        if (nombre && rol) {
-            headers['X-User-Name'] = nombre;
-            headers['X-User-Role'] = rol;
-        }
-    } else {
-        headers['X-User-Name'] = userData.nombre_completo || userData.username;
-        headers['X-User-Role'] = userData.rol;
-    }
-    
-    return headers;
-};
+import { getAuthHeaders } from '../utils/auth.js';
 
 // 📋 Obtener todos los procedimientos
 export const obtenerProcedimientos = async () => {
@@ -50,7 +9,7 @@ export const obtenerProcedimientos = async () => {
         
         const response = await fetch(`buildApiUrl('/procedimientos`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -206,7 +165,7 @@ export const buscarProcedimientos = async (filtros) => {
         
         const response = await fetch(`buildApiUrl('/procedimientos/buscar?${params.toString()}`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -240,7 +199,7 @@ export const obtenerCategoriasProcedimientos = async () => {
         
         const response = await fetch(`buildApiUrl('/procedimientos/categorias`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -274,7 +233,7 @@ export const marcarPasoComoCompletado = async (procedimientoId, pasoIndex, compl
         
         const response = await fetch(`buildApiUrl('/procedimientos/${procedimientoId}/pasos/${pasoIndex}/completar`, {
             method: 'POST',
-            headers: getHeaders(),
+            headers: getAuthHeaders(),
             body: JSON.stringify({ completado })
         });
         
@@ -299,7 +258,7 @@ export const obtenerProgresProcedimiento = async (procedimientoId) => {
         
         const response = await fetch(`buildApiUrl('/procedimientos/${procedimientoId}/progreso`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -327,7 +286,7 @@ export const guardarComentarioProcedimiento = async (procedimientoId, pasoIndex,
         
         const response = await fetch(`buildApiUrl('/procedimientos/${procedimientoId}/pasos/${pasoIndex}/comentario`, {
             method: 'POST',
-            headers: getHeaders(),
+            headers: getAuthHeaders(),
             body: JSON.stringify({ comentario })
         });
         
@@ -352,7 +311,7 @@ export const obtenerProcedimientoPorId = async (procedimientoId) => {
         
         const response = await fetch(`buildApiUrl('/procedimientos/${procedimientoId}`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -376,7 +335,7 @@ export const obtenerEstadisticasProcedimientos = async () => {
         
         const response = await fetch(`buildApiUrl('/procedimientos/estadisticas`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -405,7 +364,7 @@ export const reiniciarProgresoProcedimiento = async (procedimientoId) => {
         
         const response = await fetch(`buildApiUrl('/procedimientos/${procedimientoId}/reiniciar`, {
             method: 'POST',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {

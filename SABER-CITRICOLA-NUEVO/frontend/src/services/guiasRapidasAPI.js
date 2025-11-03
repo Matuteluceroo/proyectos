@@ -1,47 +1,6 @@
 // ⚡ guiasRapidasAPI.js - Servicio para guías rápidas
 import { buildApiUrl } from '../config/app.config.js';
-
-
-// 🔐 Función auxiliar para obtener headers con autenticación
-const getHeaders = () => {
-    let userData = null;
-    
-    try {
-        userData = JSON.parse(localStorage.getItem('userData'));
-    } catch (error) {
-        console.log('No hay userData en localStorage');
-    }
-    
-    if (!userData) {
-        try {
-            userData = JSON.parse(localStorage.getItem('user'));
-        } catch (error) {
-            console.log('No hay user en localStorage');
-        }
-    }
-    
-    const headers = {
-        'Content-Type': 'application/json',
-    };
-    
-    if (userData && userData.token) {
-        headers['Authorization'] = `Bearer ${userData.token}`;
-    }
-    
-    if (!userData) {
-        const nombre = localStorage.getItem('userName');
-        const rol = localStorage.getItem('userRole');
-        if (nombre && rol) {
-            headers['X-User-Name'] = nombre;
-            headers['X-User-Role'] = rol;
-        }
-    } else {
-        headers['X-User-Name'] = userData.nombre_completo || userData.username;
-        headers['X-User-Role'] = userData.rol;
-    }
-    
-    return headers;
-};
+import { getAuthHeaders } from '../utils/auth.js';
 
 // ⚡ Obtener todas las guías rápidas
 export const obtenerGuiasRapidas = async () => {
@@ -50,7 +9,7 @@ export const obtenerGuiasRapidas = async () => {
         
         const response = await fetch(`buildApiUrl('/guias-rapidas`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -148,7 +107,7 @@ export const buscarGuiasRapidas = async (filtros) => {
         
         const response = await fetch(`buildApiUrl('/guias-rapidas/buscar?${params.toString()}`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -182,7 +141,7 @@ export const obtenerCategoriasGuias = async () => {
         
         const response = await fetch(`buildApiUrl('/guias-rapidas/categorias`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -214,7 +173,7 @@ export const marcarGuiaComoConsultada = async (guiaId) => {
         
         const response = await fetch(`buildApiUrl('/guias-rapidas/${guiaId}/consultar`, {
             method: 'POST',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -239,7 +198,7 @@ export const marcarGuiaComoFavorita = async (guiaId) => {
         
         const response = await fetch(`buildApiUrl('/guias-rapidas/${guiaId}/favorita`, {
             method: 'POST',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -263,7 +222,7 @@ export const obtenerEstadisticasGuias = async () => {
         
         const response = await fetch(`buildApiUrl('/guias-rapidas/estadisticas`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {

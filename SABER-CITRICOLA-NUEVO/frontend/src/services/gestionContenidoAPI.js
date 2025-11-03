@@ -1,49 +1,6 @@
 // 📚 gestionContenidoAPI.js - Servicio para gestionar categorías y documentos
 import { buildApiUrl } from '../config/app.config.js';
-
-
-// 🔐 Función auxiliar para obtener headers con autenticación
-const getHeaders = () => {
-    // Buscar datos de usuario en diferentes ubicaciones del localStorage
-    let userData = null;
-    
-    // Intentar obtener de 'userData' primero
-    try {
-        userData = JSON.parse(localStorage.getItem('userData'));
-    } catch (error) {
-        console.log('No hay userData en localStorage');
-    }
-    
-    // Si no se encuentra, intentar con 'user'
-    if (!userData) {
-        try {
-            userData = JSON.parse(localStorage.getItem('user'));
-        } catch (error) {
-            console.log('No hay user en localStorage');
-        }
-    }
-    
-    const headers = {
-        'Content-Type': 'application/json',
-    };
-    
-    // Agregar token si existe
-    if (userData && userData.token) {
-        headers['Authorization'] = `Bearer ${userData.token}`;
-    }
-    
-    // Buscar datos individuales si no hay objeto completo
-    if (!userData) {
-        const nombre = localStorage.getItem('userName');
-        const rol = localStorage.getItem('userRole');
-        if (nombre && rol) {
-            headers['X-User-Name'] = nombre;
-            headers['X-User-Role'] = rol;
-        }
-    }
-    
-    return headers;
-};
+import { getAuthHeaders } from '../utils/auth.js';
 
 // 📁 GESTIÓN DE CATEGORÍAS
 
@@ -54,7 +11,7 @@ export const obtenerCategorias = async () => {
         
         const response = await fetch(`buildApiUrl('/contenido/categorias`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -78,7 +35,7 @@ export const crearCategoria = async (categoria) => {
         
         const response = await fetch(`buildApiUrl('/contenido/categorias`, {
             method: 'POST',
-            headers: getHeaders(),
+            headers: getAuthHeaders(),
             body: JSON.stringify(categoria)
         });
         
@@ -103,7 +60,7 @@ export const actualizarCategoria = async (id, categoria) => {
         
         const response = await fetch(`buildApiUrl('/contenido/categorias/${id}`, {
             method: 'PUT',
-            headers: getHeaders(),
+            headers: getAuthHeaders(),
             body: JSON.stringify(categoria)
         });
         
@@ -128,7 +85,7 @@ export const eliminarCategoria = async (id) => {
         
         const response = await fetch(`buildApiUrl('/contenido/categorias/${id}`, {
             method: 'DELETE',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -160,7 +117,7 @@ export const obtenerDocumentos = async (filtros = {}) => {
         
         const response = await fetch(url, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -184,7 +141,7 @@ export const obtenerDocumentoPorId = async (id) => {
         
         const response = await fetch(`buildApiUrl('/contenido/documentos/${id}`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -208,7 +165,7 @@ export const actualizarDocumento = async (id, documento) => {
         
         const response = await fetch(`buildApiUrl('/contenido/documentos/${id}`, {
             method: 'PUT',
-            headers: getHeaders(),
+            headers: getAuthHeaders(),
             body: JSON.stringify(documento)
         });
         
@@ -233,7 +190,7 @@ export const eliminarDocumento = async (id) => {
         
         const response = await fetch(`buildApiUrl('/contenido/documentos/${id}`, {
             method: 'DELETE',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -256,7 +213,7 @@ export const cambiarEstadoDocumento = async (id, estado) => {
         
         const response = await fetch(`buildApiUrl('/contenido/documentos/${id}/estado`, {
             method: 'PATCH',
-            headers: getHeaders(),
+            headers: getAuthHeaders(),
             body: JSON.stringify({ estado })
         });
         
@@ -283,7 +240,7 @@ export const obtenerEstadisticasContenido = async () => {
         
         const response = await fetch(`buildApiUrl('/contenido/estadisticas`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -307,7 +264,7 @@ export const obtenerDocumentosRecientes = async (limite = 10) => {
         
         const response = await fetch(`buildApiUrl('/contenido/documentos/recientes?limite=${limite}`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {

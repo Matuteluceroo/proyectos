@@ -1,52 +1,6 @@
 // ⚙️ configuracionAPI.js - Servicio para configuración del sistema
 import { buildApiUrl } from '../config/app.config.js';
-
-
-// 🔐 Función auxiliar para obtener headers con autenticación
-const getHeaders = () => {
-    // Buscar datos de usuario en diferentes ubicaciones del localStorage
-    let userData = null;
-    
-    // Intentar obtener de 'userData' primero
-    try {
-        userData = JSON.parse(localStorage.getItem('userData'));
-    } catch (error) {
-        console.log('No hay userData en localStorage');
-    }
-    
-    // Si no se encuentra, intentar con 'user'
-    if (!userData) {
-        try {
-            userData = JSON.parse(localStorage.getItem('user'));
-        } catch (error) {
-            console.log('No hay user en localStorage');
-        }
-    }
-    
-    const headers = {
-        'Content-Type': 'application/json',
-    };
-    
-    // Agregar token si existe
-    if (userData && userData.token) {
-        headers['Authorization'] = `Bearer ${userData.token}`;
-    }
-    
-    // Buscar datos individuales si no hay objeto completo
-    if (!userData) {
-        const nombre = localStorage.getItem('userName');
-        const rol = localStorage.getItem('userRole');
-        if (nombre && rol) {
-            headers['X-User-Name'] = nombre;
-            headers['X-User-Role'] = rol;
-        }
-    } else {
-        headers['X-User-Name'] = userData.nombre_completo || userData.username;
-        headers['X-User-Role'] = userData.rol;
-    }
-    
-    return headers;
-};
+import { getAuthHeaders } from '../utils/auth.js';
 
 // ⚙️ Obtener configuración del sistema
 export const obtenerConfiguracionSistema = async () => {
@@ -55,7 +9,7 @@ export const obtenerConfiguracionSistema = async () => {
         
         const response = await fetch(`buildApiUrl('/configuracion`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -80,7 +34,7 @@ export const actualizarConfiguracionSistema = async (configuracion) => {
         
         const response = await fetch(`buildApiUrl('/configuracion`, {
             method: 'PUT',
-            headers: getHeaders(),
+            headers: getAuthHeaders(),
             body: JSON.stringify(configuracion)
         });
         
@@ -105,7 +59,7 @@ export const reiniciarSistema = async () => {
         
         const response = await fetch(`buildApiUrl('/configuracion/reiniciar`, {
             method: 'POST',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -129,7 +83,7 @@ export const crearBackupSistema = async () => {
         
         const response = await fetch(`buildApiUrl('/configuracion/backup`, {
             method: 'POST',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -153,7 +107,7 @@ export const obtenerLogsRecientes = async (limite = 50) => {
         
         const response = await fetch(`buildApiUrl('/configuracion/logs?limite=${limite}`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -194,7 +148,7 @@ export const obtenerInfoSistema = async () => {
         
         const response = await fetch(`buildApiUrl('/configuracion/info`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {
@@ -218,7 +172,7 @@ export const probarConexionConfiguracion = async () => {
         
         const response = await fetch(`buildApiUrl('/configuracion/test`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAuthHeaders()
         });
         
         if (!response.ok) {

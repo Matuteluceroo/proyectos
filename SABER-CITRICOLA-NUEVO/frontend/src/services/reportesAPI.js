@@ -1,42 +1,6 @@
 // 📊 reportesAPI.js - Servicio para comunicarse con la API de reportes
 import { buildApiUrl } from '../config/app.config.js';
-
-// 🔍 Función para obtener headers con autenticación
-const getHeaders = () => {
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-
-  // Buscar token en diferentes ubicaciones
-  let userData = null;
-  
-  try {
-    // Primero intentar desde localStorage como cadena JSON
-    const userString = localStorage.getItem('user');
-    if (userString) {
-      userData = JSON.parse(userString);
-    }
-  } catch (error) {
-    console.log('No se pudo parsear user desde localStorage');
-  }
-
-  // Si no se encuentra como JSON, buscar datos individuales
-  if (!userData) {
-    const nombre = localStorage.getItem('userName');
-    const rol = localStorage.getItem('userRole');
-    if (nombre && rol) {
-      userData = { nombre, rol };
-    }
-  }
-
-  // Agregar headers de autenticación si hay datos de usuario
-  if (userData) {
-    headers['X-User-Name'] = userData.nombre;
-    headers['X-User-Role'] = userData.rol;
-  }
-
-  return headers;
-};
+import { getAuthHeaders } from '../utils/auth.js';
 
 // 📈 Obtener reporte completo del sistema
 export const obtenerReportesCompletos = async () => {
@@ -45,7 +9,7 @@ export const obtenerReportesCompletos = async () => {
     
     const response = await fetch(buildApiUrl('/reportes'), {
       method: 'GET',
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
 
     if (!response.ok) {
@@ -68,7 +32,7 @@ export const exportarReporte = async (tipo, formato = 'json') => {
     
     const response = await fetch(`buildApiUrl('/reportes/exportar/${tipo}?formato=${formato}`, {
       method: 'GET',
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
 
     if (!response.ok) {
@@ -105,7 +69,7 @@ export const obtenerMetricasEnTiempoReal = async () => {
     
     const response = await fetch(`buildApiUrl('/reportes/metricas-tiempo-real`, {
       method: 'GET',
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
 
     if (!response.ok) {
@@ -136,7 +100,7 @@ export const obtenerReportesFiltrados = async (filtros) => {
     
     const response = await fetch(url, {
       method: 'GET',
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
 
     if (!response.ok) {
