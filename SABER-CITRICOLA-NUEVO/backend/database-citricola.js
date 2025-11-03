@@ -3,6 +3,7 @@
 // La conexión a la BD ahora está en config/database.js
 // Las definiciones de tablas ahora están en models/schemas.js
 // Las funciones de usuarios ahora están en models/User.js
+// Las funciones de documentos/categorías ahora están en models/Document.js
 
 import db from './config/database.js';
 import { initializeDatabase } from './models/schemas.js';
@@ -15,40 +16,12 @@ import {
   eliminarUsuario,
   verificarUsuarioExiste
 } from './models/User.js';
+import {
+  obtenerCategorias,
+  obtenerDocumentos
+} from './models/Document.js';
 
 // 🔍 Funciones de consulta
-
-// Obtener categorías
-const obtenerCategorias = (callback) => {
-  const sql = "SELECT * FROM categorias ORDER BY nombre";
-  db.all(sql, [], callback);
-};
-
-// Obtener documentos por categoría
-const obtenerDocumentos = (categoriaId = null, nivelAcceso = 'publico', callback) => {
-  let sql = `
-    SELECT d.*, c.nombre as categoria_nombre, u.nombre_completo as autor_nombre 
-    FROM documentos d 
-    LEFT JOIN categorias c ON d.categoria_id = c.id 
-    LEFT JOIN usuarios u ON d.autor_id = u.id 
-    WHERE 1=1
-  `;
-  
-  const params = [];
-  
-  if (categoriaId) {
-    sql += " AND d.categoria_id = ?";
-    params.push(categoriaId);
-  }
-  
-  if (nivelAcceso !== 'administrador') {
-    sql += " AND d.nivel_acceso = 'publico'";
-  }
-  
-  sql += " ORDER BY d.created_at DESC";
-  
-  db.all(sql, params, callback);
-};
 
 // ============================================================================
 // HELPERS: Promisify database functions para usar async/await
@@ -399,12 +372,15 @@ const buscarContenido = (query, filtros = {}, callback) => {
   }
 };
 
-// 👥 CRUD DE USUARIOS - Ahora importados desde models/User.js
-// Las funciones se re-exportan abajo para mantener compatibilidad
+// ============================================================================
+// EXPORTACIONES - Re-exportar funciones de módulos para mantener compatibilidad
+// ============================================================================
 
 export { 
+  // 🗄️ Base de datos
   inicializarDB,
-  // Funciones de usuarios (re-exportadas desde models/User.js)
+  
+  // 👥 Usuarios (re-exportadas desde models/User.js)
   obtenerUsuarioConRol,
   obtenerTodosUsuarios,
   obtenerUsuarioPorId,
@@ -412,12 +388,15 @@ export {
   actualizarUsuario,
   eliminarUsuario,
   verificarUsuarioExiste,
-  // Funciones de documentos y categorías
+  
+  // 📄 Documentos y categorías (re-exportadas desde models/Document.js)
   obtenerCategorias,
   obtenerDocumentos,
-  // Funciones de métricas
+  
+  // 📊 Métricas
   obtenerMetricas,
   obtenerMetricasAsync,
-  // Funciones de búsqueda
+  
+  // 🔍 Búsqueda
   buscarContenido
 };
