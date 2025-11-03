@@ -4,6 +4,7 @@
 // Las definiciones de tablas ahora están en models/schemas.js
 // Las funciones de usuarios ahora están en models/User.js
 // Las funciones de documentos/categorías ahora están en models/Document.js
+// Las funciones de búsqueda ahora están en services/SearchService.js
 
 import db from './config/database.js';
 import { initializeDatabase } from './models/schemas.js';
@@ -20,6 +21,10 @@ import {
   obtenerCategorias,
   obtenerDocumentos
 } from './models/Document.js';
+import {
+  buscarContenido,
+  buscarContenidoAsync
+} from './services/SearchService.js';
 
 // 🔍 Funciones de consulta
 
@@ -199,178 +204,8 @@ const inicializarDB = async () => {
   return await initializeDatabase();
 };
 
-// Búsqueda inteligente de contenido
-const buscarContenido = (query, filtros = {}, callback) => {
-  const { tipo, categoria, fechaDesde, fechaHasta } = filtros;
-  const searchTerm = `%${query}%`;
-  let resultados = [];
-  let operacionesPendientes = 0;
-  
-  const finalizarBusqueda = () => {
-    operacionesPendientes--;
-    if (operacionesPendientes === 0) {
-      // Ordenar por relevancia (coincidencias exactas primero)
-      resultados.sort((a, b) => {
-        const aExact = a.titulo?.toLowerCase().includes(query.toLowerCase()) || 
-                      a.nombre?.toLowerCase().includes(query.toLowerCase());
-        const bExact = b.titulo?.toLowerCase().includes(query.toLowerCase()) || 
-                      b.nombre?.toLowerCase().includes(query.toLowerCase());
-        if (aExact && !bExact) return -1;
-        if (!aExact && bExact) return 1;
-        return new Date(b.fecha) - new Date(a.fecha);
-      });
-      
-      callback(null, resultados);
-    }
-  };
-  
-  // Buscar en documentos
-  if (tipo === 'todos' || tipo === 'documentos') {
-    operacionesPendientes++;
-    let sql = `
-      SELECT 
-        d.id,
-        d.titulo,
-        d.descripcion,
-        d.tipo,
-        d.created_at as fecha,
-        c.nombre as categoria_nombre,
-        u.nombre_completo as autor_nombre,
-        'documento' as tipo_resultado
-      FROM documentos d
-      LEFT JOIN categorias c ON d.categoria_id = c.id
-      LEFT JOIN usuarios u ON d.autor_id = u.id
-      WHERE (
-        d.titulo LIKE ? OR 
-        d.descripcion LIKE ? OR 
-        d.contenido LIKE ?
-      )
-    `;
-    
-    const params = [searchTerm, searchTerm, searchTerm];
-    
-    if (categoria) {
-      sql += " AND d.categoria_id = ?";
-      params.push(categoria);
-    }
-    
-    if (fechaDesde) {
-      sql += " AND d.created_at >= ?";
-      params.push(fechaDesde);
-    }
-    
-    if (fechaHasta) {
-      sql += " AND d.created_at <= ?";
-      params.push(fechaHasta);
-    }
-    
-    sql += " ORDER BY d.created_at DESC LIMIT 20";
-    
-    db.all(sql, params, (err, documentos) => {
-      if (!err && documentos) {
-        resultados.push(...documentos.map(doc => ({
-          ...doc,
-          tipo: 'documento'
-        })));
-      }
-      finalizarBusqueda();
-    });
-  }
-  
-  // Buscar en usuarios
-  if (tipo === 'todos' || tipo === 'usuarios') {
-    operacionesPendientes++;
-    let sql = `
-      SELECT 
-        id,
-        username as titulo,
-        nombre_completo as nombre,
-        email as descripcion,
-        rol,
-        created_at as fecha,
-        'usuario' as tipo_resultado
-      FROM usuarios
-      WHERE (
-        username LIKE ? OR 
-        nombre_completo LIKE ? OR 
-        email LIKE ?
-      )
-    `;
-    
-    const params = [searchTerm, searchTerm, searchTerm];
-    
-    if (fechaDesde) {
-      sql += " AND created_at >= ?";
-      params.push(fechaDesde);
-    }
-    
-    if (fechaHasta) {
-      sql += " AND created_at <= ?";
-      params.push(fechaHasta);
-    }
-    
-    sql += " ORDER BY created_at DESC LIMIT 10";
-    
-    db.all(sql, params, (err, usuarios) => {
-      if (!err && usuarios) {
-        resultados.push(...usuarios.map(user => ({
-          ...user,
-          tipo: 'usuario'
-        })));
-      }
-      finalizarBusqueda();
-    });
-  }
-  
-  // Buscar en categorías
-  if (tipo === 'todos' || tipo === 'categorias') {
-    operacionesPendientes++;
-    let sql = `
-      SELECT 
-        id,
-        nombre as titulo,
-        descripcion,
-        icono,
-        color,
-        created_at as fecha,
-        'categoria' as tipo_resultado
-      FROM categorias
-      WHERE (
-        nombre LIKE ? OR 
-        descripcion LIKE ?
-      )
-    `;
-    
-    const params = [searchTerm, searchTerm];
-    
-    if (fechaDesde) {
-      sql += " AND created_at >= ?";
-      params.push(fechaDesde);
-    }
-    
-    if (fechaHasta) {
-      sql += " AND created_at <= ?";
-      params.push(fechaHasta);
-    }
-    
-    sql += " ORDER BY created_at DESC LIMIT 10";
-    
-    db.all(sql, params, (err, categorias) => {
-      if (!err && categorias) {
-        resultados.push(...categorias.map(cat => ({
-          ...cat,
-          tipo: 'categoria'
-        })));
-      }
-      finalizarBusqueda();
-    });
-  }
-  
-  // Si no hay operaciones pendientes, devolver resultados vacíos
-  if (operacionesPendientes === 0) {
-    callback(null, []);
-  }
-};
+// 🔍 Búsqueda - Ahora importada desde services/SearchService.js
+// La función se re-exporta abajo para mantener compatibilidad
 
 // ============================================================================
 // EXPORTACIONES - Re-exportar funciones de módulos para mantener compatibilidad
@@ -397,6 +232,7 @@ export {
   obtenerMetricas,
   obtenerMetricasAsync,
   
-  // 🔍 Búsqueda
-  buscarContenido
+  // 🔍 Búsqueda (re-exportadas desde services/SearchService.js)
+  buscarContenido,
+  buscarContenidoAsync
 };
