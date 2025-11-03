@@ -60,6 +60,8 @@ const Login = () => {
       })
 
       if (response && response.usuario) {
+        console.log("response",response)
+        console.log("response",response.usuario)
         connectSocket(response.usuario, url.substring(0, url.length - 4))
         // 🔁 Obtenés la imagen desde backend
         /* const nuevaFoto = await obtenerFoto({ idUsuario: response.usuario.id })

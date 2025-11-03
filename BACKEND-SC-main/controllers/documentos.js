@@ -85,50 +85,50 @@ export class ContenidoController {
     }
   }
 
-  // static async crear(req, res) {
-  //   const { titulo, descripcion, id_tipo, id_usuario, almacenamiento, url_archivo, html, textoPlano } = req.body
+  static async crearHTML(req, res) {
+    const { titulo, descripcion, id_tipo, id_usuario, almacenamiento, url_archivo, html, textoPlano } = req.body
 
-  //   if (!titulo || !id_tipo || !id_usuario || !almacenamiento) {
-  //     return res.status(400).json({ mensaje: 'Faltan campos obligatorios' })
-  //   }
+    if (!titulo || !id_tipo || !id_usuario || !almacenamiento) {
+      return res.status(400).json({ mensaje: 'Faltan campos obligatorios' })
+    }
 
-  //   try {
-  //     const nuevo = await ContenidoModel.crear({
-  //       titulo,
-  //       descripcion,
-  //       id_tipo,
-  //       id_usuario,
-  //       almacenamiento,
-  //       url_archivo,
-  //       html,
-  //       textoPlano,
-  //     })
-  //     return res.status(201).json({ mensaje: 'Contenido creado', contenido: nuevo })
-  //   } catch (e) {
-  //     return res.status(500).json({ mensaje: 'Error al crear contenido', error: e.message })
-  //   }
-  // }
+    try {
+      const nuevo = await ContenidoModel.crearcrearHTML({
+        titulo,
+        descripcion,
+        id_tipo,
+        id_usuario,
+        almacenamiento,
+        url_archivo,
+        html,
+        textoPlano,
+      })
+      return res.status(201).json({ mensaje: 'Contenido creado', contenido: nuevo })
+    } catch (e) {
+      return res.status(500).json({ mensaje: 'Error al crear contenido', error: e.message })
+    }
+  }
 
-  // static async buscar(req, res) {
-  //   const { q } = req.query
-  //   if (!q) return res.status(400).json({ mensaje: 'Falta parámetro de búsqueda' })
+  static async buscarHTML(req, res) {
+    const { q } = req.query
+    if (!q) return res.status(400).json({ mensaje: 'Falta parámetro de búsqueda' })
 
-  //   try {
-  //     const resultados = await ContenidoModel.buscar({ query: q })
-  //     return res.json(resultados)
-  //   } catch (e) {
-  //     return res.status(500).json({ mensaje: 'Error en la búsqueda', error: e.message })
-  //   }
-  // }
+    try {
+      const resultados = await ContenidoModel.buscarcrearHTML({ query: q })
+      return res.json(resultados)
+    } catch (e) {
+      return res.status(500).json({ mensaje: 'Error en la búsqueda', error: e.message })
+    }
+  }
 
-  // static async getByID(req, res) {
-  //   const { id } = req.params
-  //   try {
-  //     const contenido = await ContenidoModel.getByID({ id })
-  //     if (!contenido) return res.status(404).json({ mensaje: 'Contenido no encontrado' })
-  //     return res.json(contenido)
-  //   } catch (e) {
-  //     return res.status(500).json({ mensaje: 'Error al obtener contenido', error: e.message })
-  //   }
-  // }
+  static async getByIDHTML(req, res) {
+    const { id } = req.params
+    try {
+      const contenido = await ContenidoModel.getByIDcrearHTML({ id })
+      if (!contenido) return res.status(404).json({ mensaje: 'Contenido no encontrado' })
+      return res.json(contenido)
+    } catch (e) {
+      return res.status(500).json({ mensaje: 'Error al obtener contenido', error: e.message })
+    }
+  }
 }

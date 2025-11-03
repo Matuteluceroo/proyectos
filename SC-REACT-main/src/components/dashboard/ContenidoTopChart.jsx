@@ -1,20 +1,31 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
-export default function ContenidoTopChart({ data }) {
+const COLORS = ["#7ab648", "#b9d96c", "#94c43b", "#5a8a1f", "#b4c99c"];
+
+export default function TagsTopChart({ data = [] }) {
   return (
-    <Card className="p-4">
-      <h2 className="text-lg font-semibold mb-2">Contenidos más consultados</h2>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart layout="vertical" data={data}>
-            <XAxis type="number" />
-            <YAxis type="category" dataKey="titulo" width={200} />
+    <div className="p-4 bg-white rounded-lg shadow-md">
+      <h2 className="text-lg font-semibold mb-3 text-[#497b1a]">
+        Temas más consultados
+      </h2>
+      <div style={{ width: "100%", height: 250 }}>
+        <ResponsiveContainer>
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey="total"
+              nameKey="nombre"
+              outerRadius={90}
+              label
+            >
+              {data.map((_, i) => (
+                <Cell key={i} fill={COLORS[i % COLORS.length]} />
+              ))}
+            </Pie>
             <Tooltip />
-            <Bar dataKey="consultas" radius={[0, 6, 6, 0]} />
-          </BarChart>
+          </PieChart>
         </ResponsiveContainer>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

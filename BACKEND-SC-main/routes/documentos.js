@@ -20,6 +20,14 @@ documentosRouter.get("/buscar", validateToken, ContenidoController.buscar);
 documentosRouter.get("/:id", validateToken, ContenidoController.getByID);
 
 // ABM de Contenido
-// documentosRouter.post("/", validateToken, ContenidoController.crear);
-// documentosRouter.get("/buscar", validateToken, ContenidoController.buscar);
-// documentosRouter.get("/:id", validateToken, ContenidoController.getByID);
+documentosRouter.post("/HTML", validateToken, ContenidoController.crearHTML);
+documentosRouter.get(
+  "/buscarHTML",
+  validateToken,
+  ContenidoController.buscarHTML
+);
+documentosRouter.get(
+  "/HTML/:id",
+  validateToken,
+  ContenidoController.getByIDHTML
+);

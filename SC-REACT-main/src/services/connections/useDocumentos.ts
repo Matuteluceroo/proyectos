@@ -1,12 +1,14 @@
-import { useApiRequest } from './apiRequest'
+import { useApiRequest } from "./apiRequest";
 
 export const useObtenerDocumentoByID = () => {
-    const apiRequest = useApiRequest();
-    return async ({ idDocumento }: { idDocumento: number }) =>
-        await apiRequest(`documentos/${idDocumento}`, {
-            method: "GET",
-        });
+  const apiRequest = useApiRequest();
+  return async (idDocumento: number) =>
+    await apiRequest(`documentos/HTML/${idDocumento}`, {
+      method: "GET",
+    });
 };
+
+// 🔹 Crear nuevo documento HTML
 export const useCrearDocumento = () => {
   const apiRequest = useApiRequest();
   return async ({
@@ -28,8 +30,11 @@ export const useCrearDocumento = () => {
     html?: string;
     textoPlano?: string;
   }) =>
-    await apiRequest("documentos", {
+    await apiRequest("documentos/HTML", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         titulo,
         descripcion,
@@ -43,10 +48,11 @@ export const useCrearDocumento = () => {
     });
 };
 
+// 🔹 Buscar documentos HTML
 export const useBuscarDocumentos = () => {
-    const apiRequest = useApiRequest();
-    return async ({ query }: { query: string }) =>
-        await apiRequest(`documentos/buscar?q=${encodeURIComponent(query)}`, {
-            method: "GET",
-        });
+  const apiRequest = useApiRequest();
+  return async (query: string) =>
+    await apiRequest(`documentos/buscarHTML?q=${encodeURIComponent(query)}`, {
+      method: "GET",
+    });
 };

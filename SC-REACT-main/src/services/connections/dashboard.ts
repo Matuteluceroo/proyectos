@@ -13,10 +13,34 @@ export const useObtenerResumenDashboard = () => {
       const response = await apiRequest(`dashboard/resumen?${params.toString()}`, {
         method: "GET",
       })
+
+      if (!response || typeof response !== "object") {
+        console.warn("⚠️ Respuesta vacía o inválida del backend /dashboard/resumen")
+        return {
+          usuarios: { topActivos: [] },
+          entrenamientos: { tasaFinalizacion: 0 },
+          contenido: { topConsultados: [] },
+          tags: { topConsultados: [] },
+          porTipo: [],
+          porMes: [],
+          topAutores: [],
+          totalContenidos: 0,
+        }
+      }
+
       return response
     } catch (error) {
       console.error("Error al obtener resumen del dashboard:", error)
-      return null
+      return {
+        usuarios: { topActivos: [] },
+        entrenamientos: { tasaFinalizacion: 0 },
+        contenido: { topConsultados: [] },
+        tags: { topConsultados: [] },
+        porTipo: [],
+        porMes: [],
+        topAutores: [],
+        totalContenidos: 0,
+      }
     }
   }
 }

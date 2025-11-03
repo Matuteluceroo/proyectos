@@ -84,23 +84,28 @@ const EditorTexto = () => {
 
     const { titulo, descripcion, previewImg, tags } =
       formRef.current.getFormData();
-
     const html = editor.getHTML();
     const textoPlano = editor.getText();
 
     try {
+      const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+
       await crearDocumento({
         titulo,
+        descripcion,
+        id_tipo: 4, // el tipo correspondiente al contenido HTML en tu tabla TiposConocimiento
+        id_usuario: usuario.id_usuario,
+        almacenamiento: "HTML",
+        url_archivo: previewImg || null,
         html,
         textoPlano,
-        autor: 3064, // Reemplazá con el user actual
-        // Podés guardar los metadatos extra si querés extender la API más adelante
       });
 
-      alert("✅ Documento guardado con éxito");
+      alert("✅ Documento guardado correctamente");
       setModalOpen(false);
-    } catch (err) {
-      alert("❌ Error al guardar documento");
+    } catch (error) {
+      console.error("❌ Error al guardar documento:", error);
+      alert("Ocurrió un error al guardar el documento");
     }
   };
 

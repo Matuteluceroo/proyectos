@@ -1,16 +1,18 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-
-export default function EntrenamientosTasaFinalizacion({ porcentaje }) {
+export default function EntrenamientosTasaFinalizacion({ porcentaje = 0 }) {
   return (
-    <Card className="p-4">
-      <h2 className="text-lg font-semibold mb-2">Tasa de finalización de entrenamientos</h2>
-      <CardContent>
-        <div className="flex items-center gap-3">
-          <Progress value={porcentaje} className="flex-1 h-3" />
-          <span className="text-xl font-bold">{porcentaje}%</span>
+    <div className="p-4 bg-white rounded-lg shadow-md flex flex-col justify-center">
+      <h2 className="text-lg font-semibold mb-3 text-[#497b1a]">
+        Tasa de finalización de entrenamientos
+      </h2>
+      <div className="flex items-center gap-3">
+        <div className="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+          <div
+            className="h-3 bg-[#7ab648]"
+            style={{ width: `${porcentaje}%`, transition: "width 0.5s" }}
+          ></div>
         </div>
-      </CardContent>
-    </Card>
+        <span className="text-xl font-bold text-[#497b1a]">{porcentaje}%</span>
+      </div>
+    </div>
   );
 }

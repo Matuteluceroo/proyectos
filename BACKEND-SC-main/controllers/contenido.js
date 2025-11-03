@@ -193,16 +193,72 @@ export class ContenidoController {
     }
   }
 
+  // static async getById(req, res) {
+  //   const { id } = req.params;
+  //   try {
+  //     const contenido = await ContenidoModel.getByIdNuevo({ id });
+  //     if (!contenido) return res.status(404).json({ mensaje: "No encontrado" });
+  //     return res.json(contenido);
+  //   } catch (error) {
+  //     return res
+  //       .status(500)
+  //       .json({ mensaje: "Error en getById", error: error.message });
+  //   }
+  // }
   static async getById(req, res) {
     const { id } = req.params;
     try {
       const contenido = await ContenidoModel.getByIdNuevo({ id });
-      if (!contenido) return res.status(404).json({ mensaje: "No encontrado" });
-      return res.json(contenido);
+      if (!contenido)
+        return res.status(404).json({ mensaje: "Contenido no encontrado" });
+
+      const rutaArchivo = path.join(
+        process.env.RUTA_CONTENIDOS,
+        contenido.url_archivo
+      );
+      const extension = path.extname(rutaArchivo).toLowerCase();
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
+
+      // Si no existe el archivo físico
+      if (!fs.existsSync(rutaArchivo)) {
+        console.warn("⚠️ Archivo no encontrado:", rutaArchivo);
+        return res.json({ ...contenido, url_completa: null });
+      }
+
+      // Detectar tipo y devolver según tamaño
+      const stats = fs.statSync(rutaArchivo);
+      const sizeMB = stats.size / (1024 * 1024);
+      let url_completa = null;
+
+      if ([".jpg", ".jpeg", ".png"].includes(extension) && sizeMB <= 5) {
+        // 📸 Imagen chica → embebida base64
+        const buffer = fs.readFileSync(rutaArchivo);
+        const base64 = buffer.toString("base64");
+        const tipo = extension.replace(".", "");
+        url_completa = `data:image/${tipo};base64,${base64}`;
+      } else if ([".mp4", ".mov", ".webm"].includes(extension)) {
+        // 🎥 Video → URL directa
+        const rutaNormalizada = contenido.url_archivo.replace(/\\/g, "/");
+        console.log("url_completa", rutaNormalizada);
+        const [tipoCarpeta, archivo] = rutaNormalizada.split("/");
+        url_completa = `${baseUrl}/ver-contenido/${tipoCarpeta}/${archivo}`;
+      } else if (extension === ".pdf") {
+        // 📄 PDF → URL directa
+        const rutaNormalizada = contenido.url_archivo.replace(/\\/g, "/");
+        console.log("url_completa", rutaNormalizada);
+        const [tipoCarpeta, archivo] = rutaNormalizada.split("/");
+        url_completa = `${baseUrl}/ver-contenido/${tipoCarpeta}/${archivo}`;
+      } else {
+        // 📝 Texto u otros → descripción
+        url_completa = null;
+      }
+      return res.json({ ...contenido, extension, url_completa });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ mensaje: "Error en getById", error: error.message });
+      console.error("❌ Error al obtener contenido:", error);
+      return res.status(500).json({
+        mensaje: "Error interno al obtener contenido",
+        error: error.message,
+      });
     }
   }
 

@@ -8,7 +8,15 @@ import {
 } from "../../services/connections/contenido";
 import { useObtenerTiposConocimiento } from "../../services/connections/tiposConocimiento";
 import { useNavigate } from "react-router-dom";
+import {
+  useObtenerTopConsultados,
+  useRegistrarHistorial,
+} from "../../services/connections/historial";
+import { useSocket } from "../../services/SocketContext";
+import citricolosprueba from "../../assets/citricolosprueba.jpg";
 export default function Buscador() {
+  const { currentUser, notificaciones } = useSocket();
+  console.log(currentUser);
   const [query, setQuery] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,22 +25,27 @@ export default function Buscador() {
   const [tipos, setTipos] = useState([]);
   const [tipoSeleccionado, setTipoSeleccionado] = useState("Todos");
   const [ultimos, setUltimos] = useState([]);
+  const [topConsultados, setTopConsultados] = useState([]);
 
   const buscarContenidos = useBuscarContenidos();
   const obtenerTipos = useObtenerTiposConocimiento();
   const obtenerUltimos = useObtenerUltimosContenidos();
+  const registrarHistorial = useRegistrarHistorial();
+  const obtenerTopConsultados = useObtenerTopConsultados();
   const navigate = useNavigate();
-  // 🔹 Cargar tipos y últimos contenidos al iniciar
+
+  // === Cargar tipos, últimos contenidos y top consultados ===
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [dataTipos, dataUltimos] = await Promise.all([
+        const [dataTipos, dataUltimos, dataTop] = await Promise.all([
           obtenerTipos(),
           obtenerUltimos(),
+          obtenerTopConsultados(),
         ]);
-        console.log("✅ Últimos desde el servidor:", dataUltimos);
         setTipos(dataTipos || []);
         setUltimos(Array.isArray(dataUltimos) ? dataUltimos : []);
+        setTopConsultados(Array.isArray(dataTop) ? dataTop : []);
       } catch (err) {
         console.error("Error al cargar datos iniciales:", err);
       }
@@ -40,7 +53,7 @@ export default function Buscador() {
     fetchData();
   }, []);
 
-  // 🔹 Buscar contenidos
+  // === Buscar contenidos ===
   const handleSearch = async () => {
     if (!query.trim()) return;
     setIsLoading(true);
@@ -65,7 +78,7 @@ export default function Buscador() {
     }
   };
 
-  // 🔹 Micrófono
+  // === Micrófono ===
   const handleMicClick = () => {
     if (!("webkitSpeechRecognition" in window)) {
       alert("Tu navegador no soporta reconocimiento de voz");
@@ -88,13 +101,30 @@ export default function Buscador() {
     recognition.start();
   };
 
-  // 🔹 Si el backend ya devuelve los datos agrupados por tipo
+  // === Registrar consulta y navegar ===
+  const handleClickCard = async (id_contenido) => {
+    try {
+      console.log("usuariosid", currentUser.id, "id_contenido", id_contenido);
+      if (currentUser.id) {
+        await registrarHistorial({
+          id_usuario: currentUser.id,
+          id_contenido,
+        });
+      }
+      navigate(`/visor/${id_contenido}`);
+    } catch (error) {
+      console.error("❌ Error al registrar consulta:", error);
+      navigate(`/visor/${id_contenido}`);
+    }
+  };
+
+  // === Agrupación de últimos por tipo ===
   const ultimosPorTipo = Array.isArray(ultimos) ? ultimos : [];
 
   return (
     <Estructura>
       <div className="buscador-wrapper">
-        {/* === Buscador === */}
+        {/* === Caja del buscador === */}
         <div className="buscador-box">
           <FaSearch className="icon-search" />
           <input
@@ -115,8 +145,9 @@ export default function Buscador() {
         {/* === Filtros === */}
         <div className="filtros">
           <button
-            className={`filtro-btn ${tipoSeleccionado === "Todos" ? "activo" : ""
-              }`}
+            className={`filtro-btn ${
+              tipoSeleccionado === "Todos" ? "activo" : ""
+            }`}
             onClick={() => setTipoSeleccionado("Todos")}
           >
             Todos
@@ -125,8 +156,9 @@ export default function Buscador() {
             tipos.map((tipo) => (
               <button
                 key={tipo.id_tipo}
-                className={`filtro-btn ${tipoSeleccionado === tipo.nombre ? "activo" : ""
-                  }`}
+                className={`filtro-btn ${
+                  tipoSeleccionado === tipo.nombre ? "activo" : ""
+                }`}
                 onClick={() => setTipoSeleccionado(tipo.nombre)}
               >
                 {tipo.nombre}
@@ -134,11 +166,11 @@ export default function Buscador() {
             ))}
         </div>
 
-        {/* === Mensajes === */}
+        {/* === Estado === */}
         {isLoading && <p style={{ color: "#497b1a" }}>Buscando...</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
 
-        {/* === Resultados o últimos === */}
+        {/* === Resultados o últimos por tipo === */}
         <div className="resultados">
           {resultados.length > 0 ? (
             <div className="cards-container">
@@ -146,20 +178,14 @@ export default function Buscador() {
                 <div
                   key={item.id}
                   className="card"
-                  onClick={() => navigate(`/visor/${item.id}`)}
+                  onClick={() => handleClickCard(item.id)}
                   style={{ cursor: "pointer" }}
                 >
-                  <img
-                    src={
-                      item.url_archivo?.endsWith(".pdf")
-                        ? "/img/pdf-icon.png"
-                        : item.url_archivo || "/img/default.png"
-                    }
-                    alt={item.titulo}
-                  />
+                  <img src={citricolosprueba} alt={item.titulo} />
                   <p className="card-titulo">{item.titulo}</p>
                   <p className="card-autor">
-                    {item.autorNombre || "Sin autor"} — {item.tipoNombre || "Sin tipo"}
+                    {item.autorNombre || "Sin autor"} —{" "}
+                    {item.tipoNombre || "Sin tipo"}
                   </p>
                   <p className="card-descripcion">{item.descripcion}</p>
                 </div>
@@ -181,20 +207,14 @@ export default function Buscador() {
                         <div
                           key={item.id}
                           className="card"
-                          onClick={() => navigate(`/visor/${item.id}`)} // 👈 agregado acá también
+                          onClick={() => handleClickCard(item.id)}
                           style={{ cursor: "pointer" }}
                         >
-                          <img
-                            src={
-                              item.url_archivo?.endsWith(".pdf")
-                                ? "/img/pdf-icon.png"
-                                : item.url_archivo || "/img/default.png"
-                            }
-                            alt={item.titulo}
-                          />
+                          <img src={citricolosprueba} alt={item.titulo} />
                           <p className="card-titulo">{item.titulo}</p>
                           <p className="card-autor">
-                            {item.autorNombre || "Sin autor"} — {item.fecha_creacion}
+                            {item.autorNombre || "Sin autor"} —{" "}
+                            {item.fecha_creacion}
                           </p>
                         </div>
                       ))}
@@ -203,6 +223,32 @@ export default function Buscador() {
               ))
           )}
         </div>
+
+        {/* === Más consultados recientemente === */}
+        {topConsultados.length > 0 && (
+          <div className="categoria-seccion">
+            <h3 className="categoria-titulo">Más consultados recientemente</h3>
+            <div className="cards-container">
+              {topConsultados.map((item) => (
+                <div
+                  key={item.id_contenido}
+                  className="card"
+                  onClick={() => handleClickCard(item.id_contenido)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <img src={citricolosprueba} alt={item.titulo} />
+                  <p className="card-titulo">{item.titulo}</p>
+                  <p className="card-autor">
+                    {item.autorNombre || "Sin autor"} — {item.tipoNombre}
+                  </p>
+                  <p className="card-descripcion">
+                    Consultas: {item.totalConsultas}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </Estructura>
   );
