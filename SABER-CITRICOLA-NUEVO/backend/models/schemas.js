@@ -6,7 +6,7 @@
  */
 
 import db from '../config/database.js';
-import { crearUsuario } from '../database-citricola.js'; // Para insertar usuarios de prueba
+import { crearUsuario } from './User.js'; // Para insertar usuarios de prueba
 
 // 📋 DEFINICIONES DE TABLAS
 // ===========================
