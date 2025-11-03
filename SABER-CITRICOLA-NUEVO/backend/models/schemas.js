@@ -129,6 +129,51 @@ const tablaComentarios = `
   )
 `;
 
+// 🔔 Tabla de notificaciones (push e internas)
+const tablaNotificaciones = `
+  CREATE TABLE IF NOT EXISTS notificaciones (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_destinatario_id INTEGER NOT NULL,
+    usuario_emisor_id INTEGER,
+    tipo TEXT CHECK(tipo IN ('info', 'success', 'warning', 'error', 'documento', 'comentario', 'capacitacion', 'sistema')) DEFAULT 'info',
+    categoria TEXT,
+    titulo TEXT NOT NULL,
+    mensaje TEXT,
+    datos_adicionales TEXT,
+    url_accion TEXT,
+    icono TEXT,
+    prioridad TEXT CHECK(prioridad IN ('baja', 'normal', 'alta', 'urgente')) DEFAULT 'normal',
+    leida BOOLEAN DEFAULT 0,
+    estado TEXT CHECK(estado IN ('activa', 'eliminada', 'archivada')) DEFAULT 'activa',
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fecha_lectura DATETIME,
+    fecha_expiracion DATETIME,
+    fecha_eliminacion DATETIME,
+    FOREIGN KEY (usuario_destinatario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_emisor_id) REFERENCES usuarios(id) ON DELETE SET NULL
+  )
+`;
+
+// 📋 Tabla de plantillas de notificaciones
+const tablaPlantillasNotificaciones = `
+  CREATE TABLE IF NOT EXISTS plantillas_notificaciones (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    codigo TEXT UNIQUE NOT NULL,
+    nombre TEXT NOT NULL,
+    categoria TEXT,
+    titulo_plantilla TEXT NOT NULL,
+    mensaje_plantilla TEXT NOT NULL,
+    tipo TEXT CHECK(tipo IN ('info', 'success', 'warning', 'error', 'documento', 'comentario', 'capacitacion', 'sistema')) DEFAULT 'info',
+    icono TEXT,
+    prioridad TEXT CHECK(prioridad IN ('baja', 'normal', 'alta', 'urgente')) DEFAULT 'normal',
+    activa BOOLEAN DEFAULT 1,
+    descripcion TEXT,
+    variables_requeridas TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )
+`;
+
 // 📋 LISTA DE TABLAS
 // ===================
 const TABLAS = [
@@ -138,7 +183,9 @@ const TABLAS = [
   { nombre: 'capacitaciones', sql: tablaCapacitaciones },
   { nombre: 'progreso_capacitaciones', sql: tablaProgreso },
   { nombre: 'metricas', sql: tablaMetricas },
-  { nombre: 'comentarios', sql: tablaComentarios }
+  { nombre: 'comentarios', sql: tablaComentarios },
+  { nombre: 'notificaciones', sql: tablaNotificaciones },
+  { nombre: 'plantillas_notificaciones', sql: tablaPlantillasNotificaciones }
 ];
 
 // 🏗️ FUNCIÓN: Crear todas las tablas
@@ -291,6 +338,8 @@ export {
   tablaCapacitaciones,
   tablaProgreso,
   tablaMetricas,
-  tablaComentarios
+  tablaComentarios,
+  tablaNotificaciones,
+  tablaPlantillasNotificaciones
 };
 

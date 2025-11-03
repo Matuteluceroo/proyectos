@@ -1,190 +1,75 @@
-// ⚙️ configuracionAPI.js - Servicio para configuración del sistema
 import { buildApiUrl } from '../config/app.config.js';
-import { getAuthHeaders } from '../utils/auth.js';
+/**
+ * ⚙️ CONFIGURACIÓN API - Servicio para configuración del sistema
+ * ================================================================
+ * Todas las funciones de API relacionadas con configuración.
+ * Usa Axios (configurado en api.js) con autenticación automática.
+ */
 
-// ⚙️ Obtener configuración del sistema
+import api from './api.js';
+    
+/**
+ * Obtener configuración del sistema
+ * @returns {Promise<Object>} Configuración actual
+ */
 export const obtenerConfiguracionSistema = async () => {
-    try {
-        console.log('⚙️ Obteniendo configuración del sistema...');
-        
-        const response = await fetch(`buildApiUrl('/configuracion`, {
-            method: 'GET',
-            headers: getAuthHeaders()
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        console.log('✅ Configuración obtenida:', data);
-        
-        return data.configuracion;
-        
-    } catch (error) {
-        console.error('❌ Error al obtener configuración:', error);
-        throw error;
-    }
+    const { data } = await api.get('/configuracion');
+    return data;
 };
 
-// 💾 Actualizar configuración del sistema
+/**
+ * Actualizar configuración del sistema
+ * @param {Object} configuracion - Nueva configuración
+ * @returns {Promise<Object>} Configuración actualizada
+ */
 export const actualizarConfiguracionSistema = async (configuracion) => {
-    try {
-        console.log('💾 Actualizando configuración del sistema:', configuracion);
-        
-        const response = await fetch(`buildApiUrl('/configuracion`, {
-            method: 'PUT',
-            headers: getAuthHeaders(),
-            body: JSON.stringify(configuracion)
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        console.log('✅ Configuración actualizada:', data);
+    const { data } = await api.put('/configuracion', configuracion);
         return data;
-        
-    } catch (error) {
-        console.error('❌ Error al actualizar configuración:', error);
-        throw error;
-    }
 };
 
-// 🔄 Reiniciar sistema
+/**
+ * Reiniciar el sistema
+ * @returns {Promise<Object>} Resultado de la operación
+ */
 export const reiniciarSistema = async () => {
-    try {
-        console.log('🔄 Reiniciando sistema...');
-        
-        const response = await fetch(`buildApiUrl('/configuracion/reiniciar`, {
-            method: 'POST',
-            headers: getAuthHeaders()
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        console.log('✅ Sistema reiniciado:', data);
+    const { data } = await api.post('/configuracion/reiniciar');
         return data;
-        
-    } catch (error) {
-        console.error('❌ Error al reiniciar sistema:', error);
-        throw error;
-    }
 };
 
-// 💾 Crear backup del sistema
+/**
+ * Crear backup del sistema
+ * @returns {Promise<Object>} Información del backup creado
+ */
 export const crearBackupSistema = async () => {
-    try {
-        console.log('💾 Creando backup del sistema...');
-        
-        const response = await fetch(`buildApiUrl('/configuracion/backup`, {
-            method: 'POST',
-            headers: getAuthHeaders()
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        console.log('✅ Backup creado:', data);
+    const { data } = await api.post('/configuracion/backup');
         return data;
-        
-    } catch (error) {
-        console.error('❌ Error al crear backup:', error);
-        throw error;
-    }
 };
 
-// 📋 Obtener logs recientes
+/**
+ * Obtener logs recientes del sistema
+ * @param {number} limite - Número de logs a retornar
+ * @returns {Promise<Array>} Lista de logs
+ */
 export const obtenerLogsRecientes = async (limite = 50) => {
-    try {
-        console.log('📋 Obteniendo logs recientes...');
-        
-        const response = await fetch(`buildApiUrl('/configuracion/logs?limite=${limite}`, {
-            method: 'GET',
-            headers: getAuthHeaders()
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        console.log('✅ Logs obtenidos:', data);
-        return data.logs || [];
-        
-    } catch (error) {
-        console.error('❌ Error al obtener logs:', error);
-        // Retornar logs de ejemplo en caso de error
-        return [
-            {
-                timestamp: new Date().toISOString(),
-                level: 'info',
-                message: 'Sistema iniciado correctamente'
-            },
-            {
-                timestamp: new Date().toISOString(),
-                level: 'error',
-                message: 'Error de conexión simulado'
-            },
-            {
-                timestamp: new Date().toISOString(),
-                level: 'warn',
-                message: 'Advertencia de ejemplo'
-            }
-        ];
-    }
+    const { data } = await api.get(`/configuracion/logs?limite=${limite}`);
+    return data;
 };
 
-// 📊 Obtener información del sistema
+/**
+ * Obtener información del sistema
+ * @returns {Promise<Object>} Información de versión, recursos, etc.
+ */
 export const obtenerInfoSistema = async () => {
-    try {
-        console.log('📊 Obteniendo información del sistema...');
-        
-        const response = await fetch(`buildApiUrl('/configuracion/info`, {
-            method: 'GET',
-            headers: getAuthHeaders()
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        console.log('✅ Información del sistema obtenida:', data);
-        return data.info;
-        
-    } catch (error) {
-        console.error('❌ Error al obtener información del sistema:', error);
-        throw error;
-    }
+    const { data } = await api.get('/configuracion/info-sistema');
+    return data;
 };
 
-// 🧪 Probar conexión con el servidor de configuración
+/**
+ * Probar conexión con configuración
+ * @returns {Promise<Object>} Resultado de la prueba de conexión
+ */
 export const probarConexionConfiguracion = async () => {
-    try {
-        console.log('🧪 Probando conexión con configuración...');
-        
-        const response = await fetch(`buildApiUrl('/configuracion/test`, {
-            method: 'GET',
-            headers: getAuthHeaders()
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        console.log('✅ Conexión exitosa:', data);
+    const { data } = await api.get('/configuracion/probar-conexion');
         return data;
-        
-    } catch (error) {
-        console.error('❌ Error de conexión:', error);
-        throw error;
-    }
 };
+        

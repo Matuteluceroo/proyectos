@@ -53,7 +53,7 @@ router.post('/limpiar-antiguas', NotificacionesController.limpiarNotificacionesA
 router.get('/plantillas', async (req, res) => {
   try {
     // Solo administradores pueden ver todas las plantillas
-    if (req.usuario.rol !== 'administrador') {
+    if (req.user.rol !== 'administrador') {
       return res.status(403).json({
         success: false,
         message: 'No tienes permisos para ver las plantillas'
@@ -89,7 +89,7 @@ router.get('/plantillas', async (req, res) => {
 // Obtener estadísticas globales de notificaciones (solo administradores)
 router.get('/estadisticas-globales', async (req, res) => {
   try {
-    if (req.usuario.rol !== 'administrador') {
+    if (req.user.rol !== 'administrador') {
       return res.status(403).json({
         success: false,
         message: 'No tienes permisos para ver estadísticas globales'
@@ -159,7 +159,7 @@ router.get('/estadisticas-globales', async (req, res) => {
 // Obtener notificaciones no leídas (para polling)
 router.get('/no-leidas', async (req, res) => {
   try {
-    const usuarioId = req.usuario.id;
+    const usuarioId = req.user.id;
 
     const sql = `
       SELECT 
@@ -205,7 +205,7 @@ router.get('/no-leidas', async (req, res) => {
 // Obtener configuración de notificaciones del usuario
 router.get('/configuracion', async (req, res) => {
   try {
-    const usuarioId = req.usuario.id;
+    const usuarioId = req.user.id;
 
     // Obtener suscripciones activas
     const suscripciones = await NotificacionesController.obtenerSuscripcionesPush({ usuario: { id: usuarioId } }, res);
@@ -242,14 +242,14 @@ router.get('/configuracion', async (req, res) => {
 // Probar envío de notificación push (para debugging)
 router.post('/test-push', async (req, res) => {
   try {
-    if (req.usuario.rol !== 'administrador') {
+    if (req.user.rol !== 'administrador') {
       return res.status(403).json({
         success: false,
         message: 'No tienes permisos para enviar notificaciones de prueba'
       });
     }
 
-    const usuarioId = req.usuario.id;
+    const usuarioId = req.user.id;
     const { mensaje = 'Notificación de prueba' } = req.body;
 
     // Crear notificación de prueba

@@ -1,68 +1,49 @@
 import { buildApiUrl } from '../config/app.config.js';
-import { getAuthHeaders } from '../utils/auth.js';
+/**
+ * 👥 USUARIOS API - Servicio para gestión de usuarios
+ * ====================================================
+ * Todas las funciones de API relacionadas con usuarios.
+ * Usa Axios (configurado en api.js) con autenticación automática.
+ */
 
-// Obtener todos los usuarios
+import api from './api.js';
+
+/**
+ * Obtener todos los usuarios del sistema
+ * @returns {Promise<Array>} Lista de usuarios
+ */
 export const obtenerUsuarios = async () => {
-    const response = await fetch(buildApiUrl('/usuarios'), {
-        method: 'GET',
-        headers: getAuthHeaders(),
-        credentials: 'include' // 🍪 Incluir cookies para autenticación
-    });
-    
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al obtener usuarios');
-    }
-    
-    return await response.json();
+    const { data } = await api.get('/usuarios');
+    return data;
 };
 
-// Crear nuevo usuario
+/**
+ * Crear un nuevo usuario
+ * @param {Object} datosUsuario - Datos del nuevo usuario
+ * @returns {Promise<Object>} Usuario creado
+ */
 export const crearUsuario = async (datosUsuario) => {
-    const response = await fetch(buildApiUrl('/usuarios'), {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        credentials: 'include', // 🍪 Incluir cookies para autenticación
-        body: JSON.stringify(datosUsuario)
-    });
-    
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al crear usuario');
-    }
-    
-    return await response.json();
+    const { data } = await api.post('/usuarios', datosUsuario);
+    return data;
 };
 
-// Actualizar usuario
+/**
+ * Actualizar un usuario existente
+ * @param {number} id - ID del usuario
+ * @param {Object} datosUsuario - Datos a actualizar
+ * @returns {Promise<Object>} Usuario actualizado
+ */
 export const actualizarUsuario = async (id, datosUsuario) => {
-    const response = await fetch(buildApiUrl(`/usuarios/${id}`), {
-        method: 'PUT',
-        headers: getAuthHeaders(),
-        credentials: 'include', // 🍪 Incluir cookies para autenticación
-        body: JSON.stringify(datosUsuario)
-    });
-    
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al actualizar usuario');
-    }
-    
-    return await response.json();
+    const { data } = await api.put(`/usuarios/${id}`, datosUsuario);
+    return data;
 };
 
-// Eliminar usuario
+/**
+ * Eliminar un usuario
+ * @param {number} id - ID del usuario a eliminar
+ * @returns {Promise<Object>} Respuesta de confirmación
+ */
 export const eliminarUsuario = async (id) => {
-    const response = await fetch(buildApiUrl(`/usuarios/${id}`), {
-        method: 'DELETE',
-        headers: getAuthHeaders(),
-        credentials: 'include' // 🍪 Incluir cookies para autenticación
-    });
-    
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al eliminar usuario');
-    }
-    
-    return await response.json();
+    const { data } = await api.delete(`/usuarios/${id}`);
+    return data;
 };

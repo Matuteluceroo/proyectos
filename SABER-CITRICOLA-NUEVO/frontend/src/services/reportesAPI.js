@@ -1,117 +1,57 @@
-// 📊 reportesAPI.js - Servicio para comunicarse con la API de reportes
 import { buildApiUrl } from '../config/app.config.js';
-import { getAuthHeaders } from '../utils/auth.js';
+/**
+ * 📊 REPORTES API - Servicio para reportes y estadísticas del sistema
+ * =====================================================================
+ * Todas las funciones de API relacionadas con reportes.
+ * Usa Axios (configurado en api.js) con autenticación automática.
+ */
 
-// 📈 Obtener reporte completo del sistema
+import api from './api.js';
+
+/**
+ * Obtener reporte completo del sistema
+ * @returns {Promise<Object>} Reporte con todas las estadísticas
+ */
 export const obtenerReportesCompletos = async () => {
-  try {
-    console.log('📊 Obteniendo reportes completos...');
-    
-    const response = await fetch(buildApiUrl('/reportes'), {
-      method: 'GET',
-      headers: getAuthHeaders()
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    console.log('✅ Reportes obtenidos exitosamente:', data);
+    const { data } = await api.get('/reportes');
     return data;
-  } catch (error) {
-    console.error('❌ Error al obtener reportes:', error);
-    throw error;
-  }
 };
 
-// 📥 Exportar reporte específico
+/**
+ * Exportar reporte en formato específico
+ * @param {string} tipo - Tipo de reporte ('usuarios', 'documentos', 'actividad')
+ * @param {string} formato - Formato de exportación ('json', 'csv', 'pdf')
+ * @returns {Promise<Blob|Object>} Datos del reporte
+ */
 export const exportarReporte = async (tipo, formato = 'json') => {
-  try {
-    console.log(`📤 Exportando reporte: ${tipo}, formato: ${formato}`);
-    
-    const response = await fetch(`buildApiUrl('/reportes/exportar/${tipo}?formato=${formato}`, {
-      method: 'GET',
-      headers: getAuthHeaders()
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    if (formato === 'csv') {
-      // Para CSV, devolver como blob para descarga
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `reporte_${tipo}.csv`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-      return { success: true, message: 'Archivo descargado' };
-    } else {
-      const data = await response.json();
-      console.log('✅ Reporte exportado exitosamente:', data);
+    const { data } = await api.post(
+        `/reportes/exportar/${tipo}`,
+        { formato },
+        { responseType: formato === 'json' ? 'json' : 'blob' }
+    );
       return data;
-    }
-  } catch (error) {
-    console.error('❌ Error al exportar reporte:', error);
-    throw error;
-  }
 };
 
-// 📊 Obtener métricas en tiempo real
+/**
+ * Obtener métricas en tiempo real
+ * @returns {Promise<Object>} Métricas actuales del sistema
+ */
 export const obtenerMetricasEnTiempoReal = async () => {
-  try {
-    console.log('⚡ Obteniendo métricas en tiempo real...');
-    
-    const response = await fetch(`buildApiUrl('/reportes/metricas-tiempo-real`, {
-      method: 'GET',
-      headers: getAuthHeaders()
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    console.log('✅ Métricas en tiempo real obtenidas:', data);
+    const { data } = await api.get('/reportes/metricas-tiempo-real');
     return data;
-  } catch (error) {
-    console.error('❌ Error al obtener métricas en tiempo real:', error);
-    throw error;
-  }
 };
 
-// 📋 Funciones auxiliares para filtros y rangos de fechas
+/**
+ * Obtener reportes filtrados
+ * @param {Object} filtros - Filtros de búsqueda (fechaInicio, fechaFin, tipo)
+ * @returns {Promise<Object>} Reportes filtrados
+ */
 export const obtenerReportesFiltrados = async (filtros) => {
-  try {
-    const { desde, hasta, tipo } = filtros;
-    console.log('🔍 Obteniendo reportes filtrados:', filtros);
-    
     const params = new URLSearchParams();
-    if (desde) params.append('desde', desde);
-    if (hasta) params.append('hasta', hasta);
-    if (tipo) params.append('tipo', tipo);
+    if (filtros.fechaInicio) params.append('fechaInicio', filtros.fechaInicio);
+    if (filtros.fechaFin) params.append('fechaFin', filtros.fechaFin);
+    if (filtros.tipo) params.append('tipo', filtros.tipo);
     
-    const url = `buildApiUrl('/reportes?${params.toString()}`;
-    
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: getAuthHeaders()
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    console.log('✅ Reportes filtrados obtenidos:', data);
+    const { data } = await api.get(`/reportes/filtrados?${params.toString()}`);
     return data;
-  } catch (error) {
-    console.error('❌ Error al obtener reportes filtrados:', error);
-    throw error;
-  }
 };

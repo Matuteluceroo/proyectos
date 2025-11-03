@@ -1,23 +1,30 @@
 import axios from 'axios';
-
 import { buildApiUrl } from '../config/app.config.js';
+import { getAuthHeaders } from '../utils/auth.js';
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL: API_URL,
   timeout: 30000,
+  withCredentials: true, // Habilitar envío de cookies (equivalente a credentials: 'include')
   headers: {
     'Content-Type': 'application/json'
   }
 });
 
-// Interceptor para agregar token
+// Interceptor para agregar headers de autenticación
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    // Usar getAuthHeaders() para obtener todos los headers necesarios
+    const authHeaders = getAuthHeaders();
+    
+    // Combinar con headers existentes
+    config.headers = {
+      ...config.headers,
+      ...authHeaders
+    };
+    
     return config;
   },
   (error) => {

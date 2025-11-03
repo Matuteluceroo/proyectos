@@ -36,7 +36,7 @@ export class ComentariosController {
         });
       }
 
-      const usuario_id = req.usuario?.id;
+      const usuario_id = req.user?.id;
       if (!usuario_id) {
         return res.status(401).json({
           success: false,
@@ -79,7 +79,7 @@ export class ComentariosController {
   static async obtenerPorDocumento(req, res) {
     try {
       const { documento_id } = req.params;
-      const usuario_id = req.usuario?.id;
+      const usuario_id = req.user?.id;
 
       if (!documento_id) {
         return res.status(400).json({
@@ -151,7 +151,7 @@ export class ComentariosController {
     try {
       const { id } = req.params;
       const { contenido } = req.body;
-      const usuario_id = req.usuario?.id;
+      const usuario_id = req.user?.id;
 
       if (!id || !contenido) {
         return res.status(400).json({
@@ -197,8 +197,8 @@ export class ComentariosController {
   static async eliminar(req, res) {
     try {
       const { id } = req.params;
-      const usuario_id = req.usuario?.id;
-      const es_admin = req.usuario?.rol === 'administrador';
+      const usuario_id = req.user?.id;
+      const es_admin = req.user?.rol === 'administrador';
 
       if (!id) {
         return res.status(400).json({
@@ -238,7 +238,7 @@ export class ComentariosController {
     try {
       const { id } = req.params; // ID del comentario
       const { tipo } = req.body; // 'like' o 'dislike'
-      const usuario_id = req.usuario?.id;
+      const usuario_id = req.user?.id;
 
       if (!id || !tipo) {
         return res.status(400).json({
@@ -307,7 +307,7 @@ export class ComentariosController {
     try {
       const { id } = req.params; // ID del comentario
       const { razon, descripcion } = req.body;
-      const usuario_reportante_id = req.usuario?.id;
+      const usuario_reportante_id = req.user?.id;
 
       if (!id || !razon) {
         return res.status(400).json({

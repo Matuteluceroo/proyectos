@@ -3,7 +3,7 @@ import NotificacionesModel from '../models/notificaciones.js';
 
 // 🛠️ Helper function para obtener datos del usuario autenticado
 const getUsuarioData = (req) => {
-  const usuario = req.user || req.usuario;
+  const usuario = req.user || req.user;
   return {
     id: usuario?.id,
     rol: usuario?.rol || usuario?.role
@@ -108,7 +108,7 @@ class NotificacionesController {
   // 📊 Marcar todas las notificaciones como leídas
   static async marcarTodasComoLeidas(req, res) {
     try {
-      const usuarioId = req.usuario.id;
+      const usuarioId = req.user.id;
 
       const resultado = await NotificacionesModel.marcarTodasComoLeidas(usuarioId);
 
@@ -132,7 +132,7 @@ class NotificacionesController {
   static async eliminarNotificacion(req, res) {
     try {
       const { notificacionId } = req.params;
-      const usuarioId = req.usuario.id;
+      const usuarioId = req.user.id;
 
       const resultado = await NotificacionesModel.eliminarNotificacion(
         parseInt(notificacionId),
@@ -164,7 +164,7 @@ class NotificacionesController {
   // 📊 Obtener estadísticas del usuario
   static async obtenerEstadisticas(req, res) {
     try {
-      const usuarioId = req.usuario.id;
+      const usuarioId = req.user.id;
 
       const resultado = await NotificacionesModel.obtenerEstadisticasUsuario(usuarioId);
 
@@ -187,7 +187,7 @@ class NotificacionesController {
   // 📱 Crear suscripción push
   static async crearSuscripcionPush(req, res) {
     try {
-      const usuarioId = req.usuario.id;
+      const usuarioId = req.user.id;
       const { subscription, deviceInfo = {} } = req.body;
 
       if (!subscription || !subscription.endpoint || !subscription.keys) {
@@ -234,7 +234,7 @@ class NotificacionesController {
   // 📱 Obtener suscripciones push del usuario
   static async obtenerSuscripcionesPush(req, res) {
     try {
-      const usuarioId = req.usuario.id;
+      const usuarioId = req.user.id;
 
       const resultado = await NotificacionesModel.obtenerSuscripcionesUsuario(usuarioId);
 
@@ -258,7 +258,7 @@ class NotificacionesController {
   static async crearNotificacion(req, res) {
     try {
       // Verificar permisos
-      if (req.usuario.rol !== 'administrador') {
+      if (req.user.rol !== 'administrador') {
         return res.status(403).json({
           success: false,
           message: 'No tienes permisos para crear notificaciones'
@@ -288,7 +288,7 @@ class NotificacionesController {
 
       const resultado = await NotificacionesModel.crearNotificacion({
         usuario_destinatario_id,
-        usuario_emisor_id: req.usuario.id,
+        usuario_emisor_id: req.user.id,
         titulo,
         mensaje,
         tipo,
@@ -337,7 +337,7 @@ class NotificacionesController {
         codigo_plantilla,
         usuario_destinatario_id,
         variables,
-        req.usuario.id
+        req.user.id
       );
 
       res.status(201).json({
@@ -360,7 +360,7 @@ class NotificacionesController {
   static async limpiarNotificacionesAntiguas(req, res) {
     try {
       // Verificar permisos
-      if (req.usuario.rol !== 'administrador') {
+      if (req.user.rol !== 'administrador') {
         return res.status(403).json({
           success: false,
           message: 'No tienes permisos para limpiar notificaciones'
