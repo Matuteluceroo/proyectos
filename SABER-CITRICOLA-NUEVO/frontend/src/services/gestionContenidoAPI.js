@@ -1,4 +1,3 @@
-import { buildApiUrl } from '../config/app.config.js';
 /**
  * 📚 GESTIÓN DE CONTENIDO API - Servicio para categorías y documentos
  * ======================================================================
@@ -7,6 +6,7 @@ import { buildApiUrl } from '../config/app.config.js';
  */
 
 import api from './api.js';
+import QueryBuilder from '../utils/queryBuilder.js';
 
 // ============================================================================
 // 📁 GESTIÓN DE CATEGORÍAS
@@ -58,20 +58,45 @@ export const eliminarCategoria = async (id) => {
 
 /**
  * Obtener documentos con filtros opcionales
- * @param {Object} filtros - Filtros de búsqueda (categoria, busqueda, estado)
+ * @param {Object} filtros - Filtros de búsqueda
+ * @param {number} filtros.categoria - ID de categoría
+ * @param {string} filtros.busqueda - Término de búsqueda
+ * @param {string} filtros.estado - Estado del documento (activo/borrador)
+ * @param {string} filtros.tipo - Tipo de documento (pdf/video/texto)
+ * @param {number} filtros.page - Número de página
+ * @param {number} filtros.limit - Cantidad de resultados por página
+ * @param {string} filtros.orden - Campo para ordenar
+ * @param {string} filtros.direccion - Dirección del ordenamiento (ASC/DESC)
  * @returns {Promise<Array>} Lista de documentos
+ * 
+ * @example
+ * // Búsqueda simple
+ * const docs = await obtenerDocumentos({ busqueda: 'fertilizantes' });
+ * 
+ * // Con filtros y paginación
+ * const docs = await obtenerDocumentos({
+ *   categoria: 5,
+ *   estado: 'activo',
+ *   page: 2,
+ *   limit: 20,
+ *   orden: 'titulo',
+ *   direccion: 'ASC'
+ * });
  */
 export const obtenerDocumentos = async (filtros = {}) => {
-        const params = new URLSearchParams();
-        if (filtros.categoria) params.append('categoria', filtros.categoria);
-        if (filtros.busqueda) params.append('busqueda', filtros.busqueda);
-        if (filtros.estado) params.append('estado', filtros.estado);
-        
-    const queryString = params.toString();
-    const url = queryString ? `/contenido/documentos?${queryString}` : '/contenido/documentos';
+    const builder = new QueryBuilder('/contenido/documentos')
+        .addFilter('categoria_id', filtros.categoria)
+        .addFilter('tipo', filtros.tipo)
+        .addFilter('estado', filtros.estado)
+        .addFilter('nivel_acceso', filtros.nivel_acceso)
+        .addSearch(filtros.busqueda)
+        .addPagination(filtros.page, filtros.limit)
+        .addSort(filtros.orden, filtros.direccion)
+        .addDateRange(filtros.fechaDesde, filtros.fechaHasta);
     
+    const url = builder.build();
     const { data } = await api.get(url);
-        return data;
+    return data;
 };
 
 /**
@@ -135,7 +160,11 @@ export const obtenerEstadisticasContenido = async () => {
  * @returns {Promise<Array>} Lista de documentos recientes
  */
 export const obtenerDocumentosRecientes = async (limite = 10) => {
-    const { data } = await api.get(`/contenido/documentos/recientes?limite=${limite}`);
-        return data;
+    const url = new QueryBuilder('/contenido/documentos/recientes')
+        .addLimit(limite)
+        .build();
+    
+    const { data } = await api.get(url);
+    return data;
 };
         
