@@ -6,10 +6,20 @@
 
 import bcrypt from 'bcrypt';
 import jwt from 'jwt-simple';
+import crypto from 'crypto';
 import { asyncHandler, AppError, UnauthorizedError, sendSuccess } from '../middleware/errorHandler.js';
 import sqlite3 from 'sqlite3';
 
 const db = new sqlite3.Database('./saber_citricola.db');
+
+// ✅ Secret seguro: usa .env o genera uno aleatorio para la sesión
+const JWT_SECRET = process.env.JWT_SECRET || (() => {
+  const generated = crypto.randomBytes(32).toString('hex');
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn('⚠️ JWT_SECRET no configurado en authController. Usando secret temporal.');
+  }
+  return generated;
+})();
 
 // Helper para promisificar consultas SQLite
 const dbGet = (query, params = []) => {
@@ -78,8 +88,7 @@ export const login = asyncHandler(async (req, res) => {
     exp: Math.floor(Date.now() / 1000) + (5 * 60 * 60) // 5 horas
   };
 
-  const secret = process.env.JWT_SECRET || 'tu-secreto-super-seguro-cambiar-en-produccion';
-  const token = jwt.encode(payload, secret);
+  const token = jwt.encode(payload, JWT_SECRET);
 
   // Actualizar último login
   await dbRun(
@@ -137,11 +146,9 @@ export const refresh = asyncHandler(async (req, res) => {
   if (!token) {
     throw new UnauthorizedError('No hay token para refrescar');
   }
-
-  const secret = process.env.JWT_SECRET || 'tu-secreto-super-seguro-cambiar-en-produccion';
   
   try {
-    const decoded = jwt.decode(token, secret);
+    const decoded = jwt.decode(token, JWT_SECRET);
     
     // Verificar si el token está próximo a expirar (menos de 1 hora restante)
     const now = Math.floor(Date.now() / 1000);

@@ -1,11 +1,19 @@
 // 🔐 middleware/jwt.js - Middleware para autenticación JWT
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+
+// ✅ Secret seguro: usa .env o genera uno aleatorio para la sesión
+const JWT_SECRET = process.env.JWT_SECRET || process.env.SECRET || (() => {
+  const generated = crypto.randomBytes(32).toString('hex');
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn('⚠️ JWT_SECRET no configurado. Usando secret temporal para demo.');
+  }
+  return generated;
+})();
 
 // 🔑 Función para generar tokens de acceso
 export function generateAccessToken(user) {
-  // Por ahora usamos un secret hardcodeado, en producción debe ser una variable de entorno
-  const secret = process.env.SECRET || 'tu_clave_secreta_muy_segura_123';
-  return jwt.sign(user, secret, { expiresIn: '5h' });
+  return jwt.sign(user, JWT_SECRET, { expiresIn: '5h' });
 }
 
 // 🛡️ Middleware para validar tokens
@@ -26,10 +34,8 @@ export function validateToken(req, res, next) {
       error: 'Se requiere autenticación' 
     });
   }
-
-  const secret = process.env.SECRET || 'tu_clave_secreta_muy_segura_123';
   
-  jwt.verify(accessToken, secret, (err, user) => {
+  jwt.verify(accessToken, JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(403).json({
         success: false,
