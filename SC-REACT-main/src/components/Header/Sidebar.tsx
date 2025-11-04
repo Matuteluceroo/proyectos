@@ -14,6 +14,7 @@ import {
   FiSettings,
   FiSearch,
   FiFile,
+  FiEdit,
 } from "react-icons/fi";
 import { useObtenerImagenPerfil } from "../../services/connections/usuarios";
 import BotonVolver from "../Button/BotonVolver";
@@ -134,26 +135,6 @@ const Sidebar: React.FC<SidebarProps> = ({
           <FiBriefcase size={20} style={{ color: "#000" }} />
           {!collapsed && <span className="sidebar-text">Área de Trabajo</span>}
         </button>
-        {/* <button
-          onClick={() => navigate('/stock')}
-          title="Ver Stock"
-        >
-          <FiPackage
-            size={20}
-            style={{ color: '#000' }}
-          />
-          {!collapsed && <span className="sidebar-text">Ver Stock</span>}
-        </button>
-        <button
-          onClick={() => navigate('/reportes')}
-          title="Ver Reportes"
-        >
-          <FiBarChart2
-            size={20}
-            style={{ color: '#000' }}
-          />
-          {!collapsed && <span className="sidebar-text">Reportes</span>}
-        </button> */}
         <button onClick={() => setShowNoti(true)} title="Ver Notificaciones">
           <div className="noti-container">
             <FiBell size={20} style={{ color: "#000" }} />
@@ -183,6 +164,13 @@ const Sidebar: React.FC<SidebarProps> = ({
         <button onClick={() => navigate("/buscador")} title="Buscar Contenido">
           <FiSearch size={20} style={{ color: "#000" }} />
           {!collapsed && <span className="sidebar-text">Buscar Contenido</span>}
+        </button>
+        <button
+          onClick={() => navigate("/editar-contenido")}
+          title="Editar Contenido"
+        >
+          <FiEdit size={20} style={{ color: "#000" }} />
+          {!collapsed && <span className="sidebar-text">Editar Contenido</span>}
         </button>
         <button
           onClick={() => {

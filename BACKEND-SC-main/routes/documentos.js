@@ -31,3 +31,29 @@ documentosRouter.get(
   validateToken,
   ContenidoController.getByIDHTML
 );
+// documentosRouter.patch(
+//   "/HTML/:id",
+//   validateToken,
+//   ContenidoController.actualizarHTML
+// );
+documentosRouter.get(
+  "/HTML/:id",
+  validateToken,
+  ContenidoController.obtenerHTML
+);
+
+documentosRouter.get(
+  "/listar/HTML",
+  validateToken,
+  ContenidoController.listarHTML
+);
+documentosRouter.put(
+  "/HTML/:id",
+  validateToken,
+  ContenidoController.actualizarHTML
+);
+documentosRouter.delete(
+  "/HTML/:id",
+  validateToken,
+  ContenidoController.eliminarHTML
+);

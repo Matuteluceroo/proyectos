@@ -1,0 +1,28 @@
+.visor-container {
+  padding: 1.5rem;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.visor-titulo {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.visor-descripcion {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.visor-html p {
+  line-height: 1.6;
+  margin-bottom: 1em;
+}
+
+.visor-html img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+  display: block;
+}

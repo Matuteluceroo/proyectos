@@ -22,7 +22,6 @@ import cors from "cors";
 import mime from "mime-types";
 import { historialRouter } from "./routes/historial.js";
 
-
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,7 +35,7 @@ const acepted_origins = [
   "https://9514609c1bc6.ngrok-free.app",
   "http://192.168.100.22:5173",
   "http://7cf5cbce6018.ngrok-free.app",
-  "https://e0e734c70323.ngrok-free.app",
+  "https://bd05875b7ccc.ngrok-free.app",
 ];
 
 const app = express();
@@ -70,7 +69,7 @@ app.options("*", cors());
 if (RUTA_CONTENIDOS && fs.existsSync(RUTA_CONTENIDOS)) {
   const rutaNormalizada = path.resolve(RUTA_CONTENIDOS).replace(/\\/g, "/");
   console.log("📂 Serviendo archivos estáticos desde:", rutaNormalizada);
-  
+
   app.use(
     "/contenidos",
     cors({ origin: "*", methods: ["GET"] }),
@@ -106,16 +105,20 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
     const { tipo, archivo } = req.params;
     const filePath = path.join(process.env.RUTA_CONTENIDOS, tipo, archivo);
     console.log("🧩 Solicitando archivo:", filePath);
-    
+
     if (!fs.existsSync(filePath)) {
       console.error("❌ Archivo no encontrado:", filePath);
       return res.status(404).send("Archivo no encontrado");
     }
-    
+
     const mimeType = mime.lookup(filePath) || "application/octet-stream";
     const stat = fs.statSync(filePath);
-    
+
     // Headers base
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    res.setHeader("Content-Type", "application/pdf");
+    res.sendFile(filePath);
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
       "Access-Control-Allow-Headers",
@@ -127,7 +130,7 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
     );
     res.setHeader("ngrok-skip-browser-warning", "true");
     res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-    
+
     // 🎥 VIDEO → soporta streaming
     if (mimeType.startsWith("video")) {
       const range = req.headers.range;
@@ -137,12 +140,12 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
         const fileStream = fs.createReadStream(filePath);
         return fileStream.pipe(res);
       }
-      
+
       const parts = range.replace(/bytes=/, "").split("-");
       const start = parseInt(parts[0], 10);
       const end = parts[1] ? parseInt(parts[1], 10) : stat.size - 1;
       const chunkSize = end - start + 1;
-      
+
       const fileStream = fs.createReadStream(filePath, { start, end });
       res.writeHead(206, {
         "Content-Range": `bytes ${start}-${end}/${stat.size}`,
@@ -152,7 +155,7 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
       });
       return fileStream.pipe(res);
     }
-    
+
     // 📄 PDF → muestra directo
     if (mimeType === "application/pdf") {
       res.setHeader("Content-Type", "application/pdf");
@@ -160,7 +163,7 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
       const fileStream = fs.createReadStream(filePath);
       return fileStream.pipe(res);
     }
-    
+
     // 🖼️ Imagen o archivo genérico → streaming normal
     res.setHeader("Content-Type", mimeType);
     res.setHeader("Content-Length", stat.size);
@@ -222,14 +225,14 @@ const startServer = async () => {
       const usuarios = Array.from(connectedUsers.values());
       io.emit("usuariosActualizados", usuarios);
     };
-    
+
     io.on("connection", (socket) => {
       socket.on("register", (userData) => {
         const userName = userData["usuario"];
         connectedUsers.set(userName, { socketId: socket.id, userData });
         actualizarUsuariosConectados();
       });
-      
+
       socket.on("enviarNotificacion", ({ receptorId, mensaje }) => {
         const receptorSocketId = connectedUsers.get(receptorId);
         if (receptorSocketId) {
@@ -247,7 +250,7 @@ const startServer = async () => {
         actualizarUsuariosConectados();
       });
     });
-    
+
     server.listen(PORT, "0.0.0.0", () => {
       console.log(`🚀 Server listening on http://0.0.0.0:${PORT}`);
     });

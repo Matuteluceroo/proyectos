@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -11,28 +13,34 @@ import Table from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
-// @ts-ignore
-import html2pdf from "html2pdf.js";
-import ModalImageUploader from "../ImageUploader/ImageUploader";
 import Button from "../../components/Button/Button";
-
-import { useCrearDocumento } from "../../services/connections/documentos";
-
-import "./EditorTexto.css";
-
 import Modal from "../Modal/Modal";
 import FormReutilizable from "../DynamicForm/FormReutilizable";
 import {
   Field,
   FormReutilizableRef,
-} from "../DynamicForm/FormReutilizableTypes"; // ajustá ruta si hace falta
-import { useRef, useState } from "react";
+} from "../DynamicForm/FormReutilizableTypes";
+import ModalImageUploader from "../ImageUploader/ImageUploader";
+import {
+  useBuscarHTML,
+  useActualizarDocumento,
+} from "../../services/connections/documentos";
 import { useSocket } from "../../services/SocketContext";
 
-const EditorTexto = () => {
-  const formRef = useRef<FormReutilizableRef>(null);
+import "./EditorTexto.css";
+
+export default function EditorTextoEditar() {
+  const { id } = useParams<{ id: string }>();
+  const { currentUser } = useSocket();
+  const buscarHTML = useBuscarHTML();
+  const actualizarDocumento = useActualizarDocumento();
+
   const [modalOpen, setModalOpen] = useState(false);
-  const { currentUser, notificaciones } = useSocket();
+  const [titulo, setTitulo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [loading, setLoading] = useState(true);
+  const formRef = useRef<FormReutilizableRef>(null);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -40,7 +48,10 @@ const EditorTexto = () => {
       TextStyle,
       Color,
       Link.configure({ openOnClick: false }),
-      Image.configure({ inline: false }),
+      Image.configure({
+        inline: false,
+        allowBase64: true, // 🔥 necesario para ver imágenes embebidas
+      }),
       Superscript,
       Subscript,
       Table.configure({ resizable: true }),
@@ -48,102 +59,51 @@ const EditorTexto = () => {
       TableCell,
       TableHeader,
     ],
-    content: "<p>Escribí tu contenido acá...</p>",
+    content: "<p>Cargando contenido...</p>",
   });
-  const crearDocumento = useCrearDocumento();
-  const [titulo, setTitulo] = useState("Documento sin título");
-  const camposFormulario: Field[] = [
-    {
-      nombreCampo: "titulo",
-      labelText: "Título",
-      type: "text" as const,
-      width: "100%",
-    },
-    {
-      nombreCampo: "descripcion",
-      labelText: "Descripción",
-      type: "textarea" as const,
-      width: "100%",
-    },
-    {
-      nombreCampo: "previewImg",
-      labelText: "Imagen de portada (URL)",
-      type: "file" as const,
-      width: "100%",
-    },
-    {
-      nombreCampo: "tags",
-      labelText: "Tags (coma separados)",
-      type: "text" as const,
-      width: "100%",
-    },
-  ];
-  const handleAbrirModalGuardar = () => {
-    setModalOpen(true);
-  };
-  const handleConfirmarGuardado = async () => {
-    if (!editor || !formRef.current) return;
 
-    const { titulo, descripcion, previewImg, tags } =
-      formRef.current.getFormData();
+  useEffect(() => {
+    const cargarDocumento = async () => {
+      try {
+        if (!id) return;
+        const data = await buscarHTML(Number(id));
+        if (data.html) editor?.commands.setContent(data.html);
+        setTitulo(data.titulo);
+        setDescripcion(data.descripcion || "");
+      } catch (err) {
+        console.error("❌ Error al cargar documento:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    cargarDocumento();
+  }, [id, editor]);
+
+  const handleAbrirModalGuardar = () => setModalOpen(true);
+
+  const handleConfirmarGuardado = async () => {
+    if (!editor || !id) return;
+
     const html = editor.getHTML();
     const textoPlano = editor.getText();
 
     try {
-      
-
-      await crearDocumento({
+      await actualizarDocumento({
+        id_contenido: Number(id),
         titulo,
         descripcion,
-        id_tipo: 4, // el tipo correspondiente al contenido HTML en tu tabla TiposConocimiento
-        id_usuario: currentUser.id,
-        almacenamiento: "HTML",
-        url_archivo: previewImg || null,
         html,
         textoPlano,
       });
-
-      alert("✅ Documento guardado correctamente");
+      alert("✅ Documento actualizado correctamente");
       setModalOpen(false);
-    } catch (error) {
-      console.error("❌ Error al guardar documento:", error);
-      alert("Ocurrió un error al guardar el documento");
+    } catch (err) {
+      console.error("❌ Error al actualizar documento:", err);
+      alert("Ocurrió un error al guardar los cambios");
     }
   };
 
-  // const handleGuardar = async () => {
-  //   if (!editor) return;
-
-  //   try {
-  //     const html = editor.getHTML();
-  //     const textoPlano = editor.getText();
-
-  //     await crearDocumento({
-  //       titulo,
-  //       html,
-  //       textoPlano,
-  //       autor: 3064, // Reemplazalo con el ID real del usuario logueado
-  //     });
-
-  //     alert("✅ Documento guardado con éxito");
-  //   } catch (e) {
-  //     alert("❌ Error al guardar documento: ");
-  //   }
-  // };
-
-  const exportarPDF = () => {
-    if (!editor) return;
-    const content = editor.getHTML();
-    html2pdf()
-      .from(content)
-      .set({
-        margin: 10,
-        filename: "contenido.pdf",
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      })
-      .save();
-  };
+  if (loading) return <p>Cargando editor...</p>;
 
   return (
     <div className="editor-container">
@@ -156,12 +116,13 @@ const EditorTexto = () => {
           style={{ padding: "0.5rem", marginRight: "1rem", flex: 1 }}
         />
         <Button
-          text="💾 Guardar"
+          text="💾 Guardar cambios"
           className="boton-accion"
           onClick={handleAbrirModalGuardar}
         />
       </div>
 
+      {/* 🔹 Barra de herramientas de formato (copiada de EditorTexto.tsx) */}
       <div className="toolbar">
         <Button
           text="B"
@@ -213,31 +174,48 @@ const EditorTexto = () => {
         <Button
           text="📄 Exportar PDF"
           className="boton-accion"
-          onClick={exportarPDF}
+          onClick={() => {
+            if (!editor) return;
+            const html2pdf = require("html2pdf.js");
+            const content = editor.getHTML();
+            html2pdf()
+              .from(content)
+              .set({
+                margin: 10,
+                filename: `${titulo || "contenido"}.pdf`,
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+              })
+              .save();
+          }}
         />
       </div>
 
       <div className="editor-box">
         <EditorContent editor={editor} className="editor-content" />
       </div>
+
       <Modal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        title="Guardar documento"
-        maxWidth="600px"
+        title="Actualizar documento"
       >
         <FormReutilizable
           ref={formRef}
-          fields={camposFormulario}
+          fields={[
+            {
+              nombreCampo: "descripcion",
+              labelText: "Descripción",
+              type: "textarea",
+              width: "100%",
+            },
+          ]}
           onChangeForm={() => {}}
         />
-
         <div style={{ marginTop: "1rem", textAlign: "right" }}>
           <button onClick={handleConfirmarGuardado}>✅ Confirmar</button>
         </div>
       </Modal>
     </div>
   );
-};
-
-export default EditorTexto;
+}

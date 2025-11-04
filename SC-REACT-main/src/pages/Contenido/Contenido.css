@@ -1,0 +1,38 @@
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+}
+
+.table th,
+.table td {
+  border-bottom: 1px solid #ddd;
+  padding: 8px 12px;
+}
+
+.table th {
+  background-color: #7ab648;
+  color: white;
+}
+
+.table tr:hover {
+  background-color: #f5f9f2;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-outline-danger {
+  color: #c62828;
+  border: 1px solid #c62828;
+  background-color: transparent;
+  transition: background 0.3s, color 0.3s;
+}
+
+.btn-outline-danger:hover {
+  background-color: #c62828;
+  color: white;
+}

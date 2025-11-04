@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useObtenerDocumentoByID } from "../../services/connections/useDocumentos";
+import { useObtenerDocumentoByID } from "../../services/connections/documentos";
 import { useEffect, useState, useContext } from "react";
 import { useSocket } from "../../services/SocketContext";
 //@ts-ignore

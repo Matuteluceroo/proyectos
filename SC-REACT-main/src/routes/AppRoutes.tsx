@@ -15,6 +15,11 @@ import Contenido from "../pages/Contenido/Contenido";
 import Buscador from "../pages/Buscador/Buscador";
 import Documentos from "../pages/Documentos/Documentos";
 import VerDocumento from "../pages/Documentos/VerDocumento";
+import EditorHTML from "../pages/Contenido/EditorHTML";
+import EditarContenido from "../pages/Contenido/EditarContenido";
+import GestorContenido from "../pages/Contenido/GestorContenido";
+import VisorHtml from "../pages/Contenido/VisorHtml";
+import VisorPDF from "../pages/Visor/VisorPDF";
 
 const AppRoutes = () => (
   <Router>
@@ -98,46 +103,54 @@ const AppRoutes = () => (
         }
       />
       <Route
-        path="/visor/:id"
+        path="/visor-pdf/:nombre"
         element={
           <PrivateRoute
-            element={<Visor />}
-            allowedRoles={[
-              "COBRADOR",
-              "LICITADOR",
-              "ADMCOBRANZAS",
-              "TESTER",
-              "GERENTE",
-              "ADMINISTRADOR",
-              "ADM-KAIROS",
-              "LIDER-LICITADOR",
-              "COMPRADOR",
-              "LOGISTICA",
-              "ADMLOGISTICA",
-              "ADMIN-COMPARATIVOS",
-            ]}
+            element={<VisorPDF />}
+            allowedRoles={["ADMINISTRADOR"]}
           />
         }
       />
       <Route
+        path="/visor/:id"
+        element={
+          <PrivateRoute element={<Visor />} allowedRoles={["ADMINISTRADOR"]} />
+        }
+      />
+      <Route
+        path="/editar-contenido/:id"
+        element={
+          <PrivateRoute
+            element={<EditarContenido />}
+            allowedRoles={["ADMINISTRADOR"]}
+          />
+        }
+      />
+      <Route
+        path="/visor-html/:id"
+        element={
+          <PrivateRoute
+            element={<VisorHtml />}
+            allowedRoles={["ADMINISTRADOR"]}
+          />
+        }
+      />
+
+      <Route
         path="/contenido"
         element={
           <PrivateRoute
+            element={<GestorContenido />}
+            allowedRoles={["ADMINISTRADOR"]}
+          />
+        }
+      />
+      <Route
+        path="/crear-contenido"
+        element={
+          <PrivateRoute
             element={<Contenido />}
-            allowedRoles={[
-              "COBRADOR",
-              "LICITADOR",
-              "ADMCOBRANZAS",
-              "TESTER",
-              "GERENTE",
-              "ADMINISTRADOR",
-              "ADM-KAIROS",
-              "LIDER-LICITADOR",
-              "COMPRADOR",
-              "LOGISTICA",
-              "ADMLOGISTICA",
-              "ADMIN-COMPARATIVOS",
-            ]}
+            allowedRoles={["ADMINISTRADOR"]}
           />
         }
       />
