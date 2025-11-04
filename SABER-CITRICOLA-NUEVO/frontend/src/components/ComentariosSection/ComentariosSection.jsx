@@ -1,5 +1,12 @@
 // 💬 ComentariosSection.jsx - Componente para mostrar y gestionar comentarios
 import { useState, useEffect } from 'react';
+import {
+  obtenerComentariosDocumento,
+  crearComentario as crearComentarioAPI,
+  actualizarComentario as actualizarComentarioAPI,
+  eliminarComentario as eliminarComentarioAPI,
+  reaccionarComentario
+} from '../../services/comentariosAPI';
 import './ComentariosSection.css';
 
 const ComentariosSection = ({ documentoId, usuarioActual }) => {
@@ -21,18 +28,17 @@ const ComentariosSection = ({ documentoId, usuarioActual }) => {
   const cargarComentarios = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/comentarios/documento/${documentoId}`);
-      const data = await response.json();
+      const data = await obtenerComentariosDocumento(documentoId);
 
       if (data.success) {
         setComentarios(data.data.comentarios);
         setEstadisticas(data.data.estadisticas);
       } else {
-        setError('Error cargando comentarios');
+        setError(data.message || 'Error cargando comentarios');
       }
     } catch (error) {
       console.error('Error cargando comentarios:', error);
-      setError('Error de conexión');
+      setError(error.message || 'Error de conexión');
     } finally {
       setLoading(false);
     }
@@ -41,21 +47,11 @@ const ComentariosSection = ({ documentoId, usuarioActual }) => {
   // 📝 Crear nuevo comentario
   const crearComentario = async (contenido, comentarioPadreId = null) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/comentarios', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          documento_id: documentoId,
-          contenido,
-          comentario_padre_id: comentarioPadreId
-        })
+      const data = await crearComentarioAPI({
+        documento_id: documentoId,
+        contenido,
+        comentario_padre_id: comentarioPadreId
       });
-
-      const data = await response.json();
 
       if (data.success) {
         await cargarComentarios(); // Recargar comentarios
@@ -68,7 +64,7 @@ const ComentariosSection = ({ documentoId, usuarioActual }) => {
       }
     } catch (error) {
       console.error('Error creando comentario:', error);
-      setError('Error de conexión');
+      setError(error.message || 'Error de conexión');
       return false;
     }
   };
@@ -76,17 +72,7 @@ const ComentariosSection = ({ documentoId, usuarioActual }) => {
   // ✏️ Editar comentario
   const editarComentario = async (comentarioId, nuevoContenido) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/comentarios/${comentarioId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ contenido: nuevoContenido })
-      });
-
-      const data = await response.json();
+      const data = await actualizarComentarioAPI(comentarioId, { contenido: nuevoContenido });
 
       if (data.success) {
         await cargarComentarios();
@@ -98,27 +84,19 @@ const ComentariosSection = ({ documentoId, usuarioActual }) => {
       }
     } catch (error) {
       console.error('Error editando comentario:', error);
-      setError('Error de conexión');
+      setError(error.message || 'Error de conexión');
       return false;
     }
   };
 
   // 🗑️ Eliminar comentario
-  const eliminarComentario = async (comentarioId) => {
+  const eliminar = async (comentarioId) => {
     if (!confirm('¿Estás seguro de que quieres eliminar este comentario?')) {
       return;
     }
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/comentarios/${comentarioId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      const data = await response.json();
+      const data = await eliminarComentarioAPI(comentarioId);
 
       if (data.success) {
         await cargarComentarios();
@@ -127,24 +105,14 @@ const ComentariosSection = ({ documentoId, usuarioActual }) => {
       }
     } catch (error) {
       console.error('Error eliminando comentario:', error);
-      setError('Error de conexión');
+      setError(error.message || 'Error de conexión');
     }
   };
 
   // 👍 Reaccionar a comentario
   const reaccionar = async (comentarioId, tipo) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/comentarios/${comentarioId}/reaccion`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ tipo })
-      });
-
-      const data = await response.json();
+      const data = await reaccionarComentario(comentarioId, tipo);
 
       if (data.success) {
         await cargarComentarios(); // Recargar para actualizar contadores

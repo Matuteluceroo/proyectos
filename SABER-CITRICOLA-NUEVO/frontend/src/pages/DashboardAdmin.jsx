@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
 import NotificacionesPanel from "../components/NotificacionesPanel/NotificacionesPanel";
+import { obtenerMetricasGenerales } from "../services/metricasAPI";
 import "./DashboardAdmin.css";
 import {
   Users,
@@ -44,22 +45,13 @@ const DashboardAdmin = () => {
     try {
       setLoading(true);
       console.log("🔄 Cargando métricas del sistema...");
-      const response = await fetch(`${API_URL}/api/metricas`);
-
-      if (!response.ok) {
-        console.warn("⚠️ Error en respuesta de métricas:", response.status);
-        setBackendConnected(false);
-        showError?.("Error conectando con el servidor", {
-          message: "No se pudieron cargar las métricas del sistema",
-        });
-        return;
-      }
-
-      const data = await response.json();
+      
+      const data = await obtenerMetricasGenerales();
       console.log("📊 Datos de métricas recibidos:", data);
 
       if (data.metricas) {
         setMetricas(data.metricas);
+        setBackendConnected(true);
         showSuccess?.("Métricas actualizadas", {
           message: "Datos del sistema cargados correctamente",
         });
@@ -74,7 +66,7 @@ const DashboardAdmin = () => {
       console.error("❌ Error al cargar métricas:", error);
       setBackendConnected(false);
       showError?.("Error de conexión", {
-        message: "No se pudo conectar con el servidor",
+        message: error.message || "No se pudo conectar con el servidor",
       });
     } finally {
       setLoading(false);
