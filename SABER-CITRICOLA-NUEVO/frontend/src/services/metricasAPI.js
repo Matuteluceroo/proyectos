@@ -1,3 +1,4 @@
+import { buildApiUrl } from '../config/app.config.js';
 /**
  * 📊 MÉTRICAS API - Servicio para métricas del sistema
  * ======================================================

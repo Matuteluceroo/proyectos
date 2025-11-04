@@ -1,3 +1,4 @@
+import { buildApiUrl } from '../config/app.config.js';
 /**
  * 🎓 CAPACITACIONES API - Servicio para módulos de capacitación
  * ============================================================

@@ -1,3 +1,4 @@
+import { buildApiUrl } from '../config/app.config.js';
 /**
  * 🔍 BÚSQUEDA API - Servicio para búsqueda global
  * ================================================

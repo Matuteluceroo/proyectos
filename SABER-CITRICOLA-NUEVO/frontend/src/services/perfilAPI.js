@@ -1,3 +1,4 @@
+import { buildApiUrl } from '../config/app.config.js';
 /**
  * 👤 PERFIL API - Servicio para gestión de perfil de usuario
  * ===========================================================

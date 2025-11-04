@@ -1,3 +1,4 @@
+import { buildApiUrl } from '../config/app.config.js';
 /**
  * 💬 COMENTARIOS API - Servicio para gestión de comentarios
  * ===========================================================
