@@ -1,3 +1,4 @@
+import { buildApiUrl } from '../config/app.config.js';
 /**
  * 📚 GESTIÓN DE CONTENIDO API - Servicio para categorías y documentos
  * ======================================================================
