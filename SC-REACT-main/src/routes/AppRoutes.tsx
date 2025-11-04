@@ -20,6 +20,8 @@ import EditarContenido from "../pages/Contenido/EditarContenido";
 import GestorContenido from "../pages/Contenido/GestorContenido";
 import VisorHtml from "../pages/Contenido/VisorHtml";
 import VisorPDF from "../pages/Visor/VisorPDF";
+import VisorVideo from "../pages/Visor/VisorVideo";
+import VisorImagen from "../pages/Visor/VisorImagen";
 
 const AppRoutes = () => (
   <Router>
@@ -107,6 +109,24 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<VisorPDF />}
+            allowedRoles={["ADMINISTRADOR"]}
+          />
+        }
+      />
+      <Route
+        path="/visor-video/:nombre"
+        element={
+          <PrivateRoute
+            element={<VisorVideo />}
+            allowedRoles={["ADMINISTRADOR"]}
+          />
+        }
+      />
+      <Route
+        path="/visor-imagen/:nombre"
+        element={
+          <PrivateRoute
+            element={<VisorImagen />}
             allowedRoles={["ADMINISTRADOR"]}
           />
         }

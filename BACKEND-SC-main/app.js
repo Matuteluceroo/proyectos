@@ -103,7 +103,12 @@ if (RUTA_CONTENIDOS && fs.existsSync(RUTA_CONTENIDOS)) {
 app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
   try {
     const { tipo, archivo } = req.params;
-    const filePath = path.join(process.env.RUTA_CONTENIDOS, tipo, archivo);
+
+    // 🔹 Normalizamos el tipo de carpeta
+    const tipoFolder = tipo.toUpperCase() === "VIDEO" ? "VIDEO" : tipo;
+    const basePath = process.env.RUTA_CONTENIDOS;
+    const filePath = path.join(basePath, tipoFolder, archivo);
+
     console.log("🧩 Solicitando archivo:", filePath);
 
     if (!fs.existsSync(filePath)) {
@@ -117,9 +122,7 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
     // Headers base
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-    res.setHeader("Content-Type", "application/pdf");
-    res.sendFile(filePath);
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Cross-Origin-Embedder-Policy", "cross-origin");
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Range, Content-Type, ngrok-skip-browser-warning"
@@ -128,10 +131,8 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
       "Access-Control-Expose-Headers",
       "Content-Length, Content-Range"
     );
-    res.setHeader("ngrok-skip-browser-warning", "true");
-    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
 
-    // 🎥 VIDEO → soporta streaming
+    // 🎥 Si es VIDEO → soportar streaming
     if (mimeType.startsWith("video")) {
       const range = req.headers.range;
       if (!range) {
@@ -156,7 +157,7 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
       return fileStream.pipe(res);
     }
 
-    // 📄 PDF → muestra directo
+    // 📄 Si es PDF → mostrar directo
     if (mimeType === "application/pdf") {
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader("Content-Length", stat.size);
@@ -164,7 +165,7 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
       return fileStream.pipe(res);
     }
 
-    // 🖼️ Imagen o archivo genérico → streaming normal
+    // 🖼️ Cualquier otro archivo → envío normal
     res.setHeader("Content-Type", mimeType);
     res.setHeader("Content-Length", stat.size);
     const stream = fs.createReadStream(filePath);
