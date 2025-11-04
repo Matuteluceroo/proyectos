@@ -1,0 +1,67 @@
+/* 📊 EstadisticasPanel.css - Estilos para panel de estadísticas */
+
+.estadisticas-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.estadistica-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid;
+    transition: all 0.3s ease;
+}
+
+.estadistica-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.estadistica-icono {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.estadistica-info {
+    flex: 1;
+}
+
+.estadistica-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #64748B;
+    font-weight: 500;
+}
+
+.estadistica-valor {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.25rem 0;
+    line-height: 1;
+}
+
+.estadistica-descripcion {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.85rem;
+    color: #94A3B8;
+}
+
+@media (max-width: 768px) {
+    .estadisticas-panel {
+        grid-template-columns: 1fr;
+    }
+}
+

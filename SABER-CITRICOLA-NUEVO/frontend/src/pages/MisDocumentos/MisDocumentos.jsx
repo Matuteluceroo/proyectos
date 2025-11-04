@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
+import { obtenerDocumentos, eliminarDocumento as eliminarDocumentoAPI } from '../../services/gestionContenidoAPI';
 import DocumentModal from '../../components/Modal/DocumentModal';
 import './MisDocumentos.css';
 
@@ -36,25 +37,17 @@ const MisDocumentos = () => {
     try {
       setLoading(true);
       
-      const params = new URLSearchParams();
-      params.append('usuario_id', user.id);
-      Object.entries(filtros).forEach(([key, value]) => {
-        if (value !== '' && value !== null && value !== undefined) {
-          params.append(key, value);
-        }
-      });
+      const filtroParams = {
+        usuario_id: user.id,
+        ...filtros
+      };
 
-      const response = await fetch(`http://localhost:5000/api/documentos?${params.toString()}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      
-      const data = await response.json();
+      const data = await obtenerDocumentos(filtroParams);
 
-      if (data.success) {
-        setDocumentos(data.data.documentos || []);
-        calcularEstadisticas(data.data.documentos || []);
+      if (data.success || data.data || data.documentos) {
+        const docs = data.data?.documentos || data.documentos || [];
+        setDocumentos(docs);
+        calcularEstadisticas(docs);
       } else {
         showNotification('Error cargando documentos', 'error');
       }
@@ -100,22 +93,12 @@ const MisDocumentos = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/documentos/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-
-      if (response.ok) {
-        showNotification('Documento eliminado exitosamente', 'success');
-        cargarMisDocumentos();
-      } else {
-        showNotification('Error al eliminar el documento', 'error');
-      }
+      await eliminarDocumentoAPI(id);
+      showNotification('Documento eliminado exitosamente', 'success');
+      cargarMisDocumentos();
     } catch (error) {
       console.error('Error:', error);
-      showNotification('Error conectando con el servidor', 'error');
+      showNotification(error.message || 'Error al eliminar el documento', 'error');
     }
   };
 

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { obtenerDocumentos, obtenerCategorias } from '../services/gestionContenidoAPI';
 import VoiceSearch from '../components/VoiceSearch/VoiceSearch';
 import NotificacionesPanel from '../components/NotificacionesPanel/NotificacionesPanel';
 import './DashboardOperador.css'; // 🎨 Estilos del portal del operador
@@ -19,27 +20,12 @@ const DashboardOperador = () => {
   const cargarDocumentosRecientes = async () => {
     try {
       console.log('🔄 Cargando documentos recientes...');
-      const response = await fetch(`${API_URL}/api/documentos?rol=operador`);
+      const data = await obtenerDocumentos({ limite: 6, orden: 'created_at', direccion: 'DESC' });
       
-      if (!response.ok) {
-        console.warn('⚠️ Error en respuesta de documentos:', response.status);
-        setDocumentosRecientes([]);
-        setBackendConnected(false);
-        return;
-      }
-      
-      const data = await response.json();
       console.log('📄 Datos de documentos recibidos:', data);
-      
-      if (data.success) {
-        // Nueva estructura de API
-        const documentos = data.data?.documentos || [];
-        setDocumentosRecientes(documentos.slice(0, 6));
-      } else {
-        // Fallback para estructura antigua
-        const documentos = data.documentos || [];
-        setDocumentosRecientes(documentos.slice(0, 6));
-      }
+      const documentos = data.data?.documentos || data.documentos || [];
+      setDocumentosRecientes(documentos.slice(0, 6));
+      setBackendConnected(true);
     } catch (error) {
       console.error('❌ Error al cargar documentos:', error);
       setDocumentosRecientes([]);
@@ -51,27 +37,11 @@ const DashboardOperador = () => {
   const cargarCategorias = async () => {
     try {
       console.log('🔄 Cargando categorías...');
-      const response = await fetch(`${API_URL}/api/categorias`);
+      const data = await obtenerCategorias();
       
-      if (!response.ok) {
-        console.warn('⚠️ Error en respuesta de categorías:', response.status);
-        setCategorias([]);
-        setBackendConnected(false);
-        return;
-      }
-      
-      const data = await response.json();
       console.log('📚 Datos de categorías recibidos:', data);
-      
-      if (data.success) {
-        // Nueva estructura de API
-        setCategorias(data.data || []);
-      } else if (data.categorias) {
-        // Fallback para estructura antigua
-        setCategorias(data.categorias || []);
-      } else {
-        setCategorias([]);
-      }
+      setCategorias(Array.isArray(data) ? data : (data.data || data.categorias || []));
+      setBackendConnected(true);
     } catch (error) {
       console.error('❌ Error al cargar categorías:', error);
       setCategorias([]);

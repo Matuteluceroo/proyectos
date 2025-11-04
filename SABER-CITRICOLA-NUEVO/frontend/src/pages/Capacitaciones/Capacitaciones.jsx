@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { obtenerDocumentos, obtenerCategorias } from '../../services/gestionContenidoAPI';
 import './Capacitaciones.css';
 
 const Capacitaciones = () => {
@@ -25,45 +26,35 @@ const Capacitaciones = () => {
       setLoading(true);
       console.log('🔄 Cargando capacitaciones...');
       
-      // Construir query con filtros
-      const params = new URLSearchParams({
+      // Construir filtros
+      const filtroParams = {
         tipo: 'capacitacion',
         estado: 'publicado',
-        limite: '50'
-      });
+        limite: 50
+      };
       
-      if (filtros.busqueda) params.append('busqueda', filtros.busqueda);
-      if (filtros.categoria) params.append('categoria_id', filtros.categoria);
+      if (filtros.busqueda) filtroParams.busqueda = filtros.busqueda;
+      if (filtros.categoria) filtroParams.categoria_id = filtros.categoria;
       
-      const response = await fetch(`${API_URL}/api/documentos?${params}`);
-      
-      if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
-      }
-      
-      const data = await response.json();
+      const data = await obtenerDocumentos(filtroParams);
       console.log('📚 Capacitaciones recibidas:', data);
       
-      if (data.success && data.data) {
-        let capacitacionesData = data.data.documentos || [];
-        
-        // Filtros adicionales en frontend
-        if (filtros.nivel) {
-          capacitacionesData = capacitacionesData.filter(cap => 
-            cap.nivel_dificultad === filtros.nivel
-          );
-        }
-        
-        if (filtros.modalidad) {
-          capacitacionesData = capacitacionesData.filter(cap => 
-            cap.modalidad === filtros.modalidad
-          );
-        }
-        
-        setCapacitaciones(capacitacionesData);
-      } else {
-        setCapacitaciones([]);
+      let capacitacionesData = data.data?.documentos || data.documentos || [];
+      
+      // Filtros adicionales en frontend
+      if (filtros.nivel) {
+        capacitacionesData = capacitacionesData.filter(cap => 
+          cap.nivel_dificultad === filtros.nivel
+        );
       }
+      
+      if (filtros.modalidad) {
+        capacitacionesData = capacitacionesData.filter(cap => 
+          cap.modalidad === filtros.modalidad
+        );
+      }
+      
+      setCapacitaciones(capacitacionesData);
     } catch (error) {
       console.error('❌ Error al cargar capacitaciones:', error);
       setCapacitaciones([]);
@@ -75,11 +66,8 @@ const Capacitaciones = () => {
   // 📚 Cargar categorías
   const cargarCategorias = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/categorias`);
-      if (!response.ok) return;
-      
-      const data = await response.json();
-      const categoriasData = data.success ? data.data : data.categorias || [];
+      const data = await obtenerCategorias();
+      const categoriasData = Array.isArray(data) ? data : (data.data || data.categorias || []);
       setCategorias(categoriasData);
     } catch (error) {
       console.error('❌ Error al cargar categorías:', error);

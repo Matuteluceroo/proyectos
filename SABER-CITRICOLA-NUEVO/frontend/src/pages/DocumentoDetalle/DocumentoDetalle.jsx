@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { obtenerDocumentoPorId } from '../../services/gestionContenidoAPI';
 import ComentariosSection from '../../components/ComentariosSection/ComentariosSection';
 import HistorialVersiones from '../../components/HistorialVersiones/HistorialVersiones';
 import './DocumentoDetalle.css';
@@ -23,17 +24,7 @@ const DocumentoDetalle = () => {
       setLoading(true);
       console.log('🔄 Cargando documento ID:', id);
       
-      const response = await fetch(`${API_URL}/api/documentos/${id}`);
-      
-      if (!response.ok) {
-        if (response.status === 404) {
-          setError('Documento no encontrado');
-          return;
-        }
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
-      }
-      
-      const data = await response.json();
+      const data = await obtenerDocumentoPorId(id);
       console.log('📄 Documento recibido:', data);
       
       if (data.success) {
@@ -43,24 +34,22 @@ const DocumentoDetalle = () => {
       }
     } catch (error) {
       console.error('❌ Error al cargar documento:', error);
-      setError('Error de conexión al cargar el documento');
+      if (error.response?.status === 404) {
+        setError('Documento no encontrado');
+      } else {
+        setError(error.message || 'Error de conexión al cargar el documento');
+      }
     } finally {
       setLoading(false);
     }
   };
 
   // 📊 Incrementar vistas del documento
+  // NOTA: Esta funcionalidad ahora se maneja automáticamente en el backend
+  // al obtener el documento, pero dejamos la función por compatibilidad
   const incrementarVistas = async () => {
-    try {
-      await fetch(`${API_URL}/api/documentos/${id}/vista`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-    } catch (error) {
-      console.warn('⚠️ No se pudo incrementar las vistas:', error);
-    }
+    // El backend incrementa vistas automáticamente en getDocumentById
+    console.log('👁️ Vistas incrementadas automáticamente por el backend');
   };
 
   // 🎯 Efectos

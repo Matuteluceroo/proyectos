@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { obtenerDocumentos, obtenerCategorias } from '../services/gestionContenidoAPI';
 import NotificacionesPanel from '../components/NotificacionesPanel/NotificacionesPanel';
 import './DashboardExperto.css'; // 🎨 Estilos del portal del experto
 
@@ -21,39 +22,20 @@ const DashboardExperto = () => {
   const cargarMisDocumentos = async () => {
     try {
       console.log('🔄 Cargando documentos del experto...');
-      const response = await fetch(`${API_URL}/api/documentos?autor=${user?.id || 1}`);
+      const data = await obtenerDocumentos({ autor: user?.id || 1 });
       
-      if (!response.ok) {
-        console.warn('⚠️ Error en respuesta de documentos:', response.status);
-        setMisDocumentos([]);
-        return;
-      }
-      
-      const data = await response.json();
       console.log('📄 Datos de documentos recibidos:', data);
-      
-      if (data.success) {
-        // Nueva estructura de API
-        const documentos = data.data?.documentos || [];
-        setMisDocumentos(documentos);
-        setStats(prev => ({
-          ...prev,
-          documentosCreados: documentos.length,
-          visualizacionesTotales: documentos.reduce((sum, doc) => sum + (doc.vistas || 0), 0)
-        }));
-      } else {
-        // Fallback para estructura antigua
-        const documentos = data.documentos || [];
-        setMisDocumentos(documentos);
-        setStats(prev => ({
-          ...prev,
-          documentosCreados: documentos.length,
-          visualizacionesTotales: documentos.reduce((sum, doc) => sum + (doc.vistas || 0), 0)
-        }));
-      }
+      const documentos = data.data?.documentos || data.documentos || [];
+      setMisDocumentos(documentos);
+      setStats(prev => ({
+        ...prev,
+        documentosCreados: documentos.length,
+        visualizacionesTotales: documentos.reduce((sum, doc) => sum + (doc.vistas || 0), 0)
+      }));
+      setBackendConnected(true);
     } catch (error) {
       console.error('❌ Error al cargar documentos:', error);
-      setMisDocumentos([]); // Asegurar que sea un array vacío
+      setMisDocumentos([]);
       setBackendConnected(false);
     }
   };
@@ -62,29 +44,14 @@ const DashboardExperto = () => {
   const cargarCategorias = async () => {
     try {
       console.log('🔄 Cargando categorías...');
-      const response = await fetch(`${API_URL}/api/categorias`);
+      const data = await obtenerCategorias();
       
-      if (!response.ok) {
-        console.warn('⚠️ Error en respuesta de categorías:', response.status);
-        setCategorias([]);
-        return;
-      }
-      
-      const data = await response.json();
       console.log('📚 Datos de categorías recibidos:', data);
-      
-      if (data.success) {
-        // Nueva estructura de API
-        setCategorias(data.data || []);
-      } else if (data.categorias) {
-        // Fallback para estructura antigua
-        setCategorias(data.categorias || []);
-      } else {
-        setCategorias([]);
-      }
+      setCategorias(Array.isArray(data) ? data : (data.data || data.categorias || []));
+      setBackendConnected(true);
     } catch (error) {
       console.error('❌ Error al cargar categorías:', error);
-      setCategorias([]); // Asegurar que sea un array vacío
+      setCategorias([]);
       setBackendConnected(false);
     }
   };

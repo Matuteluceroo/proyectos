@@ -1,0 +1,73 @@
+/* 🔍 FiltrosDocumentos.css - Estilos para filtros de documentos */
+
+.filtros-documentos {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filtro-busqueda,
+.filtro-categoria {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    border: 1px solid #E2E8F0;
+    flex: 1;
+    min-width: 200px;
+}
+
+.filtro-icono {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.filtro-input,
+.filtro-select {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 0.95rem;
+    background: transparent;
+    color: #1E293B;
+}
+
+.filtro-input::placeholder {
+    color: #94A3B8;
+}
+
+.filtro-limpiar {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #E2E8F0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #64748B;
+    transition: all 0.2s;
+}
+
+.filtro-limpiar:hover {
+    background: #F8FAFC;
+    color: #1E293B;
+}
+
+@media (max-width: 768px) {
+    .filtros-documentos {
+        flex-direction: column;
+    }
+
+    .filtro-busqueda,
+    .filtro-categoria {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .filtro-limpiar {
+        width: 100%;
+    }
+}
+
