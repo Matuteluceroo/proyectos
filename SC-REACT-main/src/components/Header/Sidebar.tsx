@@ -158,14 +158,14 @@ const Sidebar: React.FC<SidebarProps> = ({
           onClick={() => navigate("/subir-contenido")}
           title="Subir Contenido"
         >
-          <FiSearch size={20} style={{ color: "#000" }} />
+          <FiEdit size={20} style={{ color: "#000" }} />
           {!collapsed && <span className="sidebar-text">Subir Contenido</span>}
         </button>
         <button onClick={() => navigate("/buscador")} title="Buscar Contenido">
           <FiSearch size={20} style={{ color: "#000" }} />
           {!collapsed && <span className="sidebar-text">Buscar Contenido</span>}
         </button>
-        <button
+        {/* <button
           onClick={() => navigate("/editar-contenido")}
           title="Editar Contenido"
         >
@@ -193,7 +193,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               ▶
             </span>
           )}
-        </button>
+        </button> */}
 
         {showRoles && !collapsed && (
           <div className="sidebar-roles-list">

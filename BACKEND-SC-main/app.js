@@ -34,8 +34,11 @@ const acepted_origins = [
   "http://localhost:5173",
   "https://9514609c1bc6.ngrok-free.app",
   "http://192.168.100.22:5173",
-  "http://7cf5cbce6018.ngrok-free.app",
-  "https://bd05875b7ccc.ngrok-free.app",
+  "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app/",
+  "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app",
+  "https://proyectos-black.vercel.app/",
+  "https://proyectos-black.vercel.app",
+  "https://dd4c23bb44eb.ngrok-free.app",
 ];
 
 const app = express();

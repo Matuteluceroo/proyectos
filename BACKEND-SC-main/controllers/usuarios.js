@@ -101,6 +101,8 @@ export class UsuarioController {
 
   static async delete(req, res) {
     const { id } = req.params;
+    console.log("delete", id);
+
     try {
       const result = await UsuarioModel.delete({ id });
 
@@ -119,7 +121,7 @@ export class UsuarioController {
   static async update(req, res) {
     const { id } = req.params;
     const { userName, rol, nombre, otros, idZona } = req.body;
-
+    console.log("update", id, userName, rol, nombre, otros, idZona);
     if (!id) return res.status(401).json({ mensaje: "Falta ID" });
 
     try {
@@ -228,12 +230,10 @@ export class UsuarioController {
           .status(401)
           .json({ mensaje: "No pudo asociarse el rol al usuario" });
 
-      return res
-        .status(201)
-        .json({
-          mensaje: "Nuevo rol asignado al usuario",
-          asociacion: newRolUsuario,
-        });
+      return res.status(201).json({
+        mensaje: "Nuevo rol asignado al usuario",
+        asociacion: newRolUsuario,
+      });
     } catch (e) {
       console.log("ERROR: ", e.message);
       return res
