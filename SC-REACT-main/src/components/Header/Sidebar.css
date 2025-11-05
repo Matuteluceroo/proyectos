@@ -161,6 +161,12 @@
   align-items: center;
   justify-content: center;
 }
+.sidebar-text {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .noti-badge-sidebar {
   position: absolute;

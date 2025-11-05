@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Estructura from "../../components/Estructura/Estructura";
 import "./Buscador.css";
 import { FaSearch, FaMicrophone } from "react-icons/fa";
@@ -14,9 +14,47 @@ import {
 } from "../../services/connections/historial";
 import { useSocket } from "../../services/SocketContext";
 import citricolosprueba from "../../assets/citricolosprueba.jpg";
+
+// === Helpers ===
+const toId = (item) => item?.id ?? item?.id_contenido ?? item?.Id ?? item?.ID ?? null;
+const toTipoNombre = (item) => item?.tipoNombre ?? item?.tipo ?? "";
+const fmtDate = (d) => (d ? new Date(d).toLocaleDateString() : "");
+
+  // === Visor routing provisto por el usuario ===
+  // ====== util: decidir visor según tipo/extension ======
+  const getVisorPath = (item) => {
+    const id = item.id_contenido || item.id;
+    const almacenamiento = (
+      item.almacenamiento ||
+      item.tipoNombre ||
+      ""
+    ).toUpperCase();
+    const file = (item.url_archivo || "")
+      .trim()
+      .replace(/\\/g, "/")
+      .split("/")
+      .pop(); // 🔹 solo el nombre final (sin carpeta)
+    const ext = file.split(".").pop()?.toLowerCase();
+
+    if (almacenamiento === "HTML") return `/visor-html/${id}`;
+    if (
+      almacenamiento === "IMAGEN" ||
+      ["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(ext)
+    )
+      return `/visor-imagen/${file}`;
+    if (
+      almacenamiento === "VIDEO" ||
+      ["mp4", "webm", "ogg", "mov", "mkv", "avi"].includes(ext)
+    )
+      return `/visor-video/${file}`;
+    if (almacenamiento === "PDF" || ext === "pdf") return `/visor-pdf/${file}`;
+
+    // fallback
+    return `/visor-html/${id}`;
+  };
+
 export default function Buscador() {
-  const { currentUser, notificaciones } = useSocket();
-  console.log(currentUser);
+  const { currentUser } = useSocket() ?? {};
   const [query, setQuery] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,42 +74,48 @@ export default function Buscador() {
 
   // === Cargar tipos, últimos contenidos y top consultados ===
   useEffect(() => {
-    const fetchData = async () => {
+    let mounted = true;
+    (async () => {
       try {
         const [dataTipos, dataUltimos, dataTop] = await Promise.all([
           obtenerTipos(),
           obtenerUltimos(),
           obtenerTopConsultados(),
         ]);
-        setTipos(dataTipos || []);
+        if (!mounted) return;
+        setTipos(Array.isArray(dataTipos) ? dataTipos : []);
         setUltimos(Array.isArray(dataUltimos) ? dataUltimos : []);
         setTopConsultados(Array.isArray(dataTop) ? dataTop : []);
       } catch (err) {
         console.error("Error al cargar datos iniciales:", err);
       }
+    })();
+    return () => {
+      mounted = false;
     };
-    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // === Buscar contenidos ===
   const handleSearch = async () => {
-    if (!query.trim()) return;
+    const q = query.trim();
+    if (!q) return;
     setIsLoading(true);
     setError("");
     try {
-      const data = await buscarContenidos(query);
-      if (!data || data.length === 0) {
-        setError("No se encontraron resultados");
+      const data = await buscarContenidos(q);
+      const lista = Array.isArray(data) ? data : [];
+      if (lista.length === 0) {
         setResultados([]);
         return;
       }
       const filtrados =
         tipoSeleccionado === "Todos"
-          ? data
-          : data.filter((c) => c.tipoNombre === tipoSeleccionado);
+          ? lista
+          : lista.filter((c) => toTipoNombre(c) === tipoSeleccionado);
       setResultados(filtrados);
     } catch (err) {
-      console.error("Error:", err);
+      console.error("Error buscando contenidos:", err);
       setError("No se pudo conectar con el servidor");
     } finally {
       setIsLoading(false);
@@ -84,7 +128,6 @@ export default function Buscador() {
       alert("Tu navegador no soporta reconocimiento de voz");
       return;
     }
-
     const recognition = new window.webkitSpeechRecognition();
     recognition.lang = "es-ES";
     recognition.continuous = false;
@@ -93,33 +136,59 @@ export default function Buscador() {
     recognition.onstart = () => setIsListening(true);
     recognition.onend = () => setIsListening(false);
     recognition.onresult = (event) => {
-      const texto = event.results[0][0].transcript;
+      const texto = event.results?.[0]?.[0]?.transcript ?? "";
       setQuery(texto);
-      setTimeout(() => handleSearch(), 300);
+      setTimeout(() => handleSearch(), 250);
     };
 
     recognition.start();
   };
 
   // === Registrar consulta y navegar ===
-  const handleClickCard = async (id_contenido) => {
+  const handleClickCard = async (item) => {
+    const idContenido = toId(item);
+    if (!idContenido) return;
     try {
-      console.log("usuariosid", currentUser.id, "id_contenido", id_contenido);
-      if (currentUser.id) {
-        await registrarHistorial({
-          id_usuario: currentUser.id,
-          id_contenido,
-        });
+      if (currentUser?.id) {
+        await registrarHistorial({ id_usuario: currentUser.id, id_contenido: idContenido });
       }
-      navigate(`/visor/${id_contenido}`);
     } catch (error) {
       console.error("❌ Error al registrar consulta:", error);
-      navigate(`/visor/${id_contenido}`);
+    } finally {
+      const path = getVisorPath(item);
+      navigate(path);
     }
   };
 
   // === Agrupación de últimos por tipo ===
-  const ultimosPorTipo = Array.isArray(ultimos) ? ultimos : [];
+  const ultimosPorTipo = useMemo(() => (Array.isArray(ultimos) ? ultimos : []), [ultimos]);
+
+  const renderCard = (item, showDescripcion = false) => {
+    const id = toId(item);
+    return (
+      <div
+        key={id ?? item?.titulo}
+        className="card"
+        onClick={() => handleClickCard(item)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleClickCard(item)}
+        style={{ cursor: "pointer" }}
+        aria-label={`Abrir ${item?.titulo ?? "contenido"}`}
+      >
+        <img src={citricolosprueba} alt={item?.titulo ?? ""} />
+        <p className="card-titulo">{item?.titulo}</p>
+        <p className="card-autor">
+          {(item?.autorNombre || "Sin autor") + " — " + (toTipoNombre(item) || item?.fecha_creacion || "")}
+        </p>
+        {showDescripcion && item?.descripcion && (
+          <p className="card-descripcion">{item.descripcion}</p>
+        )}
+      </div>
+    );
+  };
+
+  const showEmpty = !isLoading && !error && ((query && resultados.length === 0) || (!query && ultimosPorTipo.length === 0));
 
   return (
     <Estructura>
@@ -134,20 +203,20 @@ export default function Buscador() {
             placeholder="Buscar conocimiento..."
             className="buscador-input"
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            aria-label="Buscar conocimiento"
           />
           <FaMicrophone
             className={`icon-mic ${isListening ? "active" : ""}`}
             onClick={handleMicClick}
             title="Hablar"
+            aria-label="Buscar por voz"
           />
         </div>
 
         {/* === Filtros === */}
         <div className="filtros">
           <button
-            className={`filtro-btn ${
-              tipoSeleccionado === "Todos" ? "activo" : ""
-            }`}
+            className={`filtro-btn ${tipoSeleccionado === "Todos" ? "activo" : ""}`}
             onClick={() => setTipoSeleccionado("Todos")}
           >
             Todos
@@ -155,10 +224,8 @@ export default function Buscador() {
           {Array.isArray(tipos) &&
             tipos.map((tipo) => (
               <button
-                key={tipo.id_tipo}
-                className={`filtro-btn ${
-                  tipoSeleccionado === tipo.nombre ? "activo" : ""
-                }`}
+                key={tipo.id_tipo ?? tipo.nombre}
+                className={`filtro-btn ${tipoSeleccionado === tipo.nombre ? "activo" : ""}`}
                 onClick={() => setTipoSeleccionado(tipo.nombre)}
               >
                 {tipo.nombre}
@@ -167,57 +234,31 @@ export default function Buscador() {
         </div>
 
         {/* === Estado === */}
-        {isLoading && <p style={{ color: "#497b1a" }}>Buscando...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {isLoading && (
+          <div className="estado" style={{ color: "#497b1a" }}>Buscando...</div>
+        )}
+        {error && (
+          <div className="estado" style={{ color: "red" }}>{error}</div>
+        )}
 
         {/* === Resultados o últimos por tipo === */}
         <div className="resultados">
           {resultados.length > 0 ? (
             <div className="cards-container">
-              {resultados.map((item) => (
-                <div
-                  key={item.id}
-                  className="card"
-                  onClick={() => handleClickCard(item.id)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <img src={citricolosprueba} alt={item.titulo} />
-                  <p className="card-titulo">{item.titulo}</p>
-                  <p className="card-autor">
-                    {item.autorNombre || "Sin autor"} —{" "}
-                    {item.tipoNombre || "Sin tipo"}
-                  </p>
-                  <p className="card-descripcion">{item.descripcion}</p>
-                </div>
-              ))}
+              {resultados.map((item) => renderCard(item, true))}
             </div>
           ) : (
             ultimosPorTipo
               .filter(
                 (grupo) =>
                   tipoSeleccionado === "Todos" ||
-                  grupo.tipo.toLowerCase() === tipoSeleccionado.toLowerCase()
+                  (grupo?.tipo ?? "").toLowerCase() === tipoSeleccionado.toLowerCase()
               )
               .map((grupo) => (
-                <div key={grupo.tipo} className="categoria-seccion">
-                  <h3 className="categoria-titulo">Últimos {grupo.tipo}</h3>
+                <div key={grupo?.tipo ?? "otros"} className="categoria-seccion">
+                  <h3 className="categoria-titulo">Últimos {grupo?.tipo}</h3>
                   <div className="cards-container">
-                    {Array.isArray(grupo.items) &&
-                      grupo.items.map((item) => (
-                        <div
-                          key={item.id}
-                          className="card"
-                          onClick={() => handleClickCard(item.id)}
-                          style={{ cursor: "pointer" }}
-                        >
-                          <img src={citricolosprueba} alt={item.titulo} />
-                          <p className="card-titulo">{item.titulo}</p>
-                          <p className="card-autor">
-                            {item.autorNombre || "Sin autor"} —{" "}
-                            {item.fecha_creacion}
-                          </p>
-                        </div>
-                      ))}
+                    {Array.isArray(grupo?.items) && grupo.items.map((item) => renderCard(item))}
                   </div>
                 </div>
               ))
@@ -231,22 +272,34 @@ export default function Buscador() {
             <div className="cards-container">
               {topConsultados.map((item) => (
                 <div
-                  key={item.id_contenido}
+                  key={toId(item) ?? item?.titulo}
                   className="card"
-                  onClick={() => handleClickCard(item.id_contenido)}
+                  onClick={() => handleClickCard(toId(item))}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleClickCard(toId(item))}
                   style={{ cursor: "pointer" }}
+                  aria-label={`Abrir ${item?.titulo ?? "contenido"}`}
                 >
-                  <img src={citricolosprueba} alt={item.titulo} />
-                  <p className="card-titulo">{item.titulo}</p>
+                  <img src={citricolosprueba} alt={item?.titulo ?? ""} />
+                  <p className="card-titulo">{item?.titulo}</p>
                   <p className="card-autor">
-                    {item.autorNombre || "Sin autor"} — {item.tipoNombre}
+                    {(item?.autorNombre || "Sin autor") + " — " + (toTipoNombre(item) || "")}
                   </p>
-                  <p className="card-descripcion">
-                    Consultas: {item.totalConsultas}
-                  </p>
+                  {typeof item?.totalConsultas !== "undefined" && (
+                    <p className="card-descripcion">Consultas: {item.totalConsultas}</p>
+                  )}
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {showEmpty && (
+          <div className="empty-state">
+            {query
+              ? "No se encontraron resultados para tu búsqueda."
+              : "Todavía no hay contenidos para mostrar."}
           </div>
         )}
       </div>

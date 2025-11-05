@@ -8,7 +8,6 @@ import InformesLicitaciones from "../pages/InformesGerenciales/InformesLicitacio
 import InformesLaboratorios from "../pages/InformesGerenciales/InformesLaboratorios/InformesLaboratorios";
 import InformesProductos from "../pages/InformesGerenciales/InformesProductos/InformesProductos";
 import Testing from "../testing/Testing";
-import Visor from "../pages/Visor/Visor";
 import MenuInformes from "../pages/InformesGerenciales/MenuInformesGerenciales";
 // import InformesProductos from "../pages/InformesGerenciales/InformesProductos"
 import Contenido from "../pages/Contenido/Contenido";
@@ -131,12 +130,12 @@ const AppRoutes = () => (
           />
         }
       />
-      <Route
+      {/* <Route
         path="/visor/:id"
         element={
           <PrivateRoute element={<Visor />} allowedRoles={["ADMINISTRADOR"]} />
         }
-      />
+      /> */}
       <Route
         path="/editar-contenido/:id"
         element={

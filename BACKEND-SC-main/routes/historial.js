@@ -10,3 +10,4 @@ historialRouter.post("/agregar", validateToken, HistorialController.registrarCon
 // (opcional) obtener todas las consultas
 historialRouter.get("/", validateToken, HistorialController.getAll);
 historialRouter.get("/top", validateToken, HistorialController.getTopConsultados);
+
