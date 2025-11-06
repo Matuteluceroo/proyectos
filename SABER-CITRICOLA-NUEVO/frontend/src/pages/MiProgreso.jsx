@@ -1,7 +1,7 @@
 // 📊 MiProgreso.jsx - Página detallada de progreso de capacitación
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
 const MiProgreso = () => {
     const navigate = useNavigate();

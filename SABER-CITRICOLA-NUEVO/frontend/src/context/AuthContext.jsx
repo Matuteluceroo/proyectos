@@ -1,17 +1,9 @@
 // 🔐 AuthContext.jsx - Manejo global del estado de autenticación
 import { createContext, useContext, useState, useEffect } from 'react';
+import { SERVER_CONFIG } from '../config/app.config.js';
 
 // 📋 Crear el contexto
 const AuthContext = createContext();
-
-// 🎯 Hook personalizado para usar el contexto fácilmente
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth debe ser usado dentro de AuthProvider');
-  }
-  return context;
-};
 
 // 🏗️ Proveedor del contexto - Envuelve toda la aplicación
 export const AuthProvider = ({ children }) => {
@@ -19,10 +11,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isInitializing, setIsInitializing] = useState(true); // Nuevo estado para carga inicial
+  const [isInitializing, setIsInitializing] = useState(true);
 
   // 🌐 URL del backend
-  const API_URL = 'http://localhost:5000';
+  const API_URL = SERVER_CONFIG.baseUrl;
 
   // 🔐 Función para hacer login
   const login = async (username, password) => {

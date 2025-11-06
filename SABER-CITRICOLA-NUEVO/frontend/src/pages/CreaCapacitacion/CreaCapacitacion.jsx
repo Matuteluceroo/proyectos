@@ -1,7 +1,7 @@
 // 🎓 CreaCapacitacion.jsx - Página para crear capacitaciones
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 import './CreaCapacitacion.css';
 
 const CreaCapacitacion = () => {

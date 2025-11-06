@@ -1,7 +1,7 @@
 // 🧠 DashboardExperto.jsx - Portal del Experto
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { obtenerDocumentos, obtenerCategorias } from '../services/gestionContenidoAPI';
 import NotificacionesPanel from '../components/NotificacionesPanel/NotificacionesPanel';
 import './DashboardExperto.css'; // 🎨 Estilos del portal del experto

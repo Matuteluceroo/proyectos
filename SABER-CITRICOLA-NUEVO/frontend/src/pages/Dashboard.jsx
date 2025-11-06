@@ -1,5 +1,5 @@
 // 🏠 Dashboard.jsx - Enrutador principal que redirige según el rol
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import DashboardAdmin from './DashboardAdmin';
 import DashboardExperto from './DashboardExperto';
 import DashboardOperador from './DashboardOperador';

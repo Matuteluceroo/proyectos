@@ -1,7 +1,7 @@
 // 📋 pages/MisDocumentos/MisDocumentos.jsx - Página para ver documentos del usuario
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 import { useNotification } from '../../context/NotificationContext';
 import { obtenerDocumentos, eliminarDocumento as eliminarDocumentoAPI } from '../../services/gestionContenidoAPI';
 import DocumentModal from '../../components/Modal/DocumentModal';

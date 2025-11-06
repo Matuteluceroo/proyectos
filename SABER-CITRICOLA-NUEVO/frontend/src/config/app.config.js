@@ -1,7 +1,13 @@
 // 🔧 Configuración centralizada de la aplicación
 
-// 🌐 URL base de la API
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// 🌐 URLs del servidor
+export const SERVER_CONFIG = {
+  baseUrl: import.meta.env.VITE_SERVER_URL || 'http://localhost:5000',
+  apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+};
+
+// Para compatibilidad con código existente
+export const API_BASE_URL = SERVER_CONFIG.apiUrl;
 
 // 🏷️ Información de la aplicación
 export const APP_CONFIG = {

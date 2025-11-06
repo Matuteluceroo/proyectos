@@ -1,6 +1,6 @@
 // 📚 HistorialVersiones.jsx - Componente para mostrar y gestionar versiones de documentos
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 import './HistorialVersiones.css';
 
 const HistorialVersiones = ({ documentoId, onVersionSeleccionada, onCerrar }) => {

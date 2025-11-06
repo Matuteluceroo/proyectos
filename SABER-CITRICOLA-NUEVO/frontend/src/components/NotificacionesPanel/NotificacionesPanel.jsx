@@ -1,6 +1,6 @@
 // 🔔 NotificacionesPanel.jsx - Componente para mostrar y gestionar notificaciones
 import { useState, useEffect, useRef } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 import './NotificacionesPanel.css';
 
 const NotificacionesPanel = () => {
