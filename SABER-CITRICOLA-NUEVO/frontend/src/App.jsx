@@ -291,16 +291,6 @@ function AppContent() {
           } 
         />
         
-        {/* ⚙️ Ruta alternativa para admin - Solo si está logueado */}
-        <Route 
-          path="/admin/configuracion" 
-          element={
-            <ProtectedRoute>
-              <ConfiguracionAdmin />
-            </ProtectedRoute>
-          } 
-        />
-        
         {/* ⚡ Ruta para guías rápidas - Solo si está logueado */}
         <Route 
           path="/guias-rapidas" 
@@ -369,13 +359,3 @@ function App() {
 }
 
 export default App;
-
-// 📝 CONCEPTOS IMPORTANTES:
-// 
-// 1. BrowserRouter → Habilita la navegación en la app
-// 2. Routes → Contenedor de todas las rutas
-// 3. Route → Define una ruta específica (path + component)
-// 4. Navigate → Redirige programáticamente
-// 5. ProtectedRoute → Componente personalizado para rutas que requieren login
-// 6. replace → Reemplaza la entrada del historial (no permite "volver")
-// 7. Providers → Envuelven la app para compartir estado global
