@@ -1,6 +1,6 @@
 // 📄 components/Modal/DocumentModal.jsx - Modal para crear/editar documentos
 import { useState, useEffect } from 'react';
-import { useNotification } from '../../context/NotificationContext';
+import { useNotification } from '../../hooks/useNotification';
 import FileUpload from '../FileUpload/FileUpload';
 import './DocumentModal.css';
 

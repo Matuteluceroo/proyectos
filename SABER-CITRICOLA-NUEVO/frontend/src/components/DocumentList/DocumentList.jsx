@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DocumentList.css';
 import DocumentModal from '../Modal/DocumentModal';
-import { useNotification } from '../../context/NotificationContext';
+import { useNotification } from '../../hooks/useNotification';
 
 const DocumentList = () => {
   const navigate = useNavigate();

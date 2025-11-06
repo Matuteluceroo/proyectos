@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { useNotification } from '../../context/NotificationContext';
+import { useNotification } from '../../hooks/useNotification';
 import { obtenerDocumentos, eliminarDocumento as eliminarDocumentoAPI } from '../../services/gestionContenidoAPI';
 import DocumentModal from '../../components/Modal/DocumentModal';
 import './MisDocumentos.css';

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useNotification } from "../context/NotificationContext";
+import { useNotification } from "../hooks/useNotification";
 import NotificacionesPanel from "../components/NotificacionesPanel/NotificacionesPanel";
 import { obtenerMetricasGenerales } from "../services/metricasAPI";
 import "./DashboardAdmin.css";

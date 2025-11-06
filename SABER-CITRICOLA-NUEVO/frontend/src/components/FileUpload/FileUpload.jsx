@@ -1,6 +1,6 @@
 // 📁 components/FileUpload/FileUpload.jsx - Componente para subir archivos
 import { useState, useRef } from 'react';
-import { useNotification } from '../../context/NotificationContext';
+import { useNotification } from '../../hooks/useNotification';
 import './FileUpload.css';
 
 const FileUpload = ({ 

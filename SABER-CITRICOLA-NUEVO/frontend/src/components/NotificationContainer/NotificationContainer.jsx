@@ -1,5 +1,5 @@
 // 🔔 NotificationContainer.jsx - Contenedor visual de notificaciones
-import { useNotification } from '../context/NotificationContext';
+import { useNotification } from '../hooks/useNotification';
 import './NotificationContainer.css';
 
 const NotificationContainer = () => {
