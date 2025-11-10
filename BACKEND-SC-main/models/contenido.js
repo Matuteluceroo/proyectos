@@ -601,4 +601,38 @@ export class ContenidoModel {
     const result = await request.query(queryFinal);
     return result.recordset;
   }
+  static async getTodos() {
+    const result = await sql.query(`
+    SELECT 
+      C.id_contenido AS id,
+      C.titulo,
+      C.descripcion,
+      C.url_archivo,
+      T.nombre AS tipoNombre,
+      U.nombre AS autorNombre,
+      'ARCHIVO' AS origen
+    FROM Contenido C
+    LEFT JOIN TiposConocimiento T ON C.id_tipo = T.id_tipo
+    LEFT JOIN Usuarios U ON C.id_usuario = U.id_Usuario
+    WHERE C.estado = 1
+
+    UNION ALL
+
+    SELECT 
+      H.id_contenido AS id,
+      H.titulo,
+      H.descripcion,
+      H.url_archivo,
+      T.nombre AS tipoNombre,
+      U.nombre AS autorNombre,
+      'HTML' AS origen
+    FROM ContenidoHTML H
+    LEFT JOIN TiposConocimiento T ON H.id_tipo = T.id_tipo
+    LEFT JOIN Usuarios U ON H.id_usuario = U.id_Usuario
+    WHERE H.estado = 1
+
+    ORDER BY titulo;
+  `);
+    return result.recordset;
+  }
 }

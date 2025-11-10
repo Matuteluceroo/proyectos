@@ -20,6 +20,7 @@ import VisorHtml from "../pages/Contenido/VisorHtml";
 import VisorPDF from "../pages/Visor/VisorPDF";
 import VisorVideo from "../pages/Visor/VisorVideo";
 import VisorImagen from "../pages/Visor/VisorImagen";
+import Capacitaciones from "../pages/Capacitaciones/Capacitaciones";
 
 const AppRoutes = () => (
   <Router>
@@ -238,6 +239,28 @@ const AppRoutes = () => (
           />
         }
       /> */}
+      <Route
+        path="/Capacitaciones"
+        element={
+          <PrivateRoute
+            element={<Capacitaciones />}
+            allowedRoles={[
+              "COBRADOR",
+              "LICITADOR",
+              "ADMCOBRANZAS",
+              "TESTER",
+              "GERENTE",
+              "ADMINISTRADOR",
+              "ADM-KAIROS",
+              "LIDER-LICITADOR",
+              "COMPRADOR",
+              "LOGISTICA",
+              "ADMLOGISTICA",
+              "ADMIN-COMPARATIVOS",
+            ]}
+          />
+        }
+      />
     </Routes>
   </Router>
 );

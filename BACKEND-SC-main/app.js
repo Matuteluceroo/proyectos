@@ -21,6 +21,7 @@ import fs from "fs";
 import cors from "cors";
 import mime from "mime-types";
 import { historialRouter } from "./routes/historial.js";
+import { capacitacionesRouter } from "./routes/capacitaciones.js";
 
 dotenv.config();
 
@@ -190,6 +191,7 @@ app.use("/api/kpi", kpiRouter);
 app.use("/api/tipos-conocimiento", tiposConocimientoRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/historial", historialRouter);
+app.use("/api/capacitaciones", capacitacionesRouter);
 
 // ✅ Usuarios conectados (Sockets)
 const connectedUsers = new Map();

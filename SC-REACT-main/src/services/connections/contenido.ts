@@ -1,5 +1,11 @@
 import { useApiRequest } from "./apiRequest";
-
+export const useContenidosCompletos = () => {
+  const apiRequest = useApiRequest();
+  return {
+    getAllCompletos: async () =>
+      await apiRequest("contenidos/todos", { method: "GET" }),
+  };
+};
 export const useEnviarContenido = () => {
   const apiRequest = useApiRequest();
   return async ({

@@ -8,6 +8,20 @@ export class ContenidoController {
   static async subirPDF(req, res) {
     return ContenidoController._guardar(req, res, "application/pdf");
   }
+  static async getTodos(req, res) {
+    try {
+      const result = await ContenidoModel.getTodos();
+      res.json(result);
+    } catch (error) {
+      console.error("❌ Error en getTodos:", error);
+      res
+        .status(500)
+        .json({
+          mensaje: "Error al obtener todos los contenidos",
+          error: error.message,
+        });
+    }
+  }
 
   static async subirVideo(req, res) {
     return ContenidoController._guardar(req, res, "video/");

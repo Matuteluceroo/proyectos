@@ -1,0 +1,50 @@
+.capacitaciones-wrapper {
+  padding: 20px;
+}
+
+.capacitacion-form {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.capacitacion-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.lista-contenidos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.contenido-item {
+  background-color: #e8f1ff;
+  border: 1px solid #b0c4ff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.contenido-item:hover {
+  background-color: #d0e2ff;
+}
+
+.contenido-item.selected {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+.tabla-capacitaciones {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-capacitaciones th,
+.tabla-capacitaciones td {
+  border: 1px solid #ccc;
+  padding: 6px;
+}

@@ -48,6 +48,7 @@ contenidosRouter.get(
   validateToken,
   ContenidoController.listarContenidos
 );
+contenidosRouter.get("/todos", validateToken, ContenidoController.getTodos);
 
 // GET /api/contenidos/:id/archivos  -> lista archivos por id
 contenidosRouter.get(
