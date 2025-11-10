@@ -305,6 +305,8 @@ export class ContenidoController {
   static async update(req, res) {
     const { id } = req.params;
     const { titulo, descripcion, id_tipo, url_archivo } = req.body;
+    console.log(id);
+    console.log(titulo, descripcion, id_tipo, url_archivo);
     try {
       await ContenidoModel.update({
         id,

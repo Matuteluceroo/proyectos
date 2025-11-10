@@ -194,11 +194,10 @@ const FormReutilizable = forwardRef<FormReutilizableRef, Props>(
           ) : type === "textarea" ? (
             <textarea
               id={nombreCampo}
-              className="inp-txt form-textarea"
+              className="inp-txt form-input"
               placeholder={placeholder}
               value={valor}
               onChange={(e) => handleChange(nombreCampo, e.target.value)}
-              rows={4}
               onKeyDown={handleKeyNavigation}
               disabled={f.disabled}
             />
@@ -243,7 +242,7 @@ const FormReutilizable = forwardRef<FormReutilizableRef, Props>(
                   e.preventDefault();
                   const file = e.dataTransfer.files[0];
                   if (file) {
-                    validarArchivo(file, nombreCampo);;
+                    validarArchivo(file, nombreCampo);
                   }
                 }}
                 style={{
@@ -267,7 +266,7 @@ const FormReutilizable = forwardRef<FormReutilizableRef, Props>(
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) {
-                      validarArchivo(file, nombreCampo);;
+                      validarArchivo(file, nombreCampo);
                     }
                   }}
                 />

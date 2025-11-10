@@ -13,8 +13,7 @@ import MenuInformes from "../pages/InformesGerenciales/MenuInformesGerenciales";
 import Contenido from "../pages/Contenido/Contenido";
 import Buscador from "../pages/Buscador/Buscador";
 import Documentos from "../pages/Documentos/Documentos";
-import VerDocumento from "../pages/Documentos/VerDocumento";
-import EditorHTML from "../pages/Contenido/EditorHTML";
+// import VerDocumento from "../pages/Documentos/VerDocumento";
 import EditarContenido from "../pages/Contenido/EditarContenido";
 import GestorContenido from "../pages/Contenido/GestorContenido";
 import VisorHtml from "../pages/Contenido/VisorHtml";
@@ -217,7 +216,7 @@ const AppRoutes = () => (
           />
         }
       />
-      <Route
+      {/* <Route
         path="/documentos/:id"
         element={
           <PrivateRoute
@@ -238,7 +237,7 @@ const AppRoutes = () => (
             ]}
           />
         }
-      />
+      /> */}
     </Routes>
   </Router>
 );

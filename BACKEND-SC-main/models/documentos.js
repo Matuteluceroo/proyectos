@@ -37,18 +37,21 @@ export class ContenidoModel {
 
     const result = await request.query(`
       SELECT * FROM ${tableName}
-      WHERE titulo LIKE @query OR descripcion LIKE @query
+      WHERE estado = 1 AND (titulo LIKE @query OR descripcion LIKE @query)
       ORDER BY fecha_creacion DESC
     `);
+
     return result.recordset;
   }
 
   static async getByID({ id }) {
     const request = new sql.Request();
     request.input("id", sql.Int, id);
-    const result = await request.query(
-      `SELECT * FROM ${tableName} WHERE id_contenido = @id`
-    );
+    const result = await request.query(`
+  SELECT * FROM ${tableName}
+  WHERE id_contenido = @id AND estado = 1
+`);
+
     return result.recordset[0];
   }
 
@@ -88,19 +91,22 @@ export class ContenidoModel {
     const request = new sql.Request();
     request.input("query", sql.VarChar, `%${query}%`);
     const result = await request.query(`
-      SELECT * FROM ${tableName2}
-      WHERE textoPlano LIKE @query OR html LIKE @query OR titulo LIKE @query
-      ORDER BY fecha_creacion DESC
-    `);
+  SELECT * FROM ${tableName2}
+  WHERE estado = 1 AND (textoPlano LIKE @query OR html LIKE @query OR titulo LIKE @query)
+  ORDER BY fecha_creacion DESC
+`);
+
     return result.recordset;
   }
 
   static async getByIDHTML({ id }) {
     const request = new sql.Request();
     request.input("id", sql.Int, id);
-    const result = await request.query(
-      `SELECT * FROM ${tableName2} WHERE id_contenido = @id`
-    );
+    const result = await request.query(`
+  SELECT * FROM ${tableName2}
+  WHERE id_contenido = @id AND estado = 1
+`);
+
     return result.recordset[0];
   }
   // static async actualizarHTML({
@@ -171,18 +177,20 @@ export class ContenidoModel {
 
   static async listarHTML() {
     const result = await sql.query(`
-    SELECT 
-      id_contenido,
-      titulo,
-      descripcion,
-      id_tipo,
-      id_usuario,
-      almacenamiento,
-      url_archivo,
-      fecha_creacion
-    FROM ContenidoHTML
-    ORDER BY fecha_creacion DESC
-  `);
+  SELECT 
+    id_contenido,
+    titulo,
+    descripcion,
+    id_tipo,
+    id_usuario,
+    almacenamiento,
+    url_archivo,
+    fecha_creacion
+  FROM ${tableName2}
+  WHERE estado = 1
+  ORDER BY fecha_creacion DESC
+`);
+
     return result.recordset;
   }
   static async obtenerHTML({ id }) {
@@ -200,8 +208,9 @@ export class ContenidoModel {
     request.input("id_contenido", sql.Int, id);
 
     await request.query(`
-    DELETE FROM ${tableName2}
-    WHERE id_contenido = @id_contenido
-  `);
+  UPDATE ${tableName2}
+  SET estado = 0
+  WHERE id_contenido = @id_contenido
+`);
   }
 }

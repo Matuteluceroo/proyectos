@@ -61,24 +61,28 @@ export class ContenidoModel {
 
   static async listarTodos() {
     const result = await sql.query(`
-      SELECT * FROM ${tableName} ORDER BY fecha_creacion DESC
-    `);
+  SELECT * FROM ${tableName}
+  WHERE estado = 1
+  ORDER BY fecha_creacion DESC
+`);
     return result.recordset;
   }
 
   static async listarContenidos() {
+    // listarContenidos
     const result = await sql.query(`
-      SELECT 
-        c.id_contenido AS id,
-        c.titulo,
-        c.descripcion,
-		tc.nombre,
-        u.userName AS autor
-      FROM Contenido c
-      JOIN Usuarios u ON c.id_usuario = u.id_Usuario
-      JOIN TiposConocimiento tc ON c.id_tipo = tc.id_tipo
-      ORDER BY c.fecha_creacion DESC
-    `);
+  SELECT 
+    c.id_contenido AS id,
+    c.titulo,
+    c.descripcion,
+    tc.nombre,
+    u.userName AS autor
+  FROM Contenido c
+  JOIN Usuarios u ON c.id_usuario = u.id_Usuario
+  JOIN TiposConocimiento tc ON c.id_tipo = tc.id_tipo
+  WHERE c.estado = 1
+  ORDER BY c.fecha_creacion DESC
+`);
 
     return result.recordset;
   }
@@ -192,21 +196,22 @@ export class ContenidoModel {
 
   static async getByIdNuevo({ id }) {
     const result = await sql.query(`
-      SELECT 
-        C.id_contenido AS id,
-        C.titulo,
-        C.descripcion,
-        C.id_tipo,
-        T.nombre AS tipoNombre,
-        C.id_usuario,
-        U.nombre AS autorNombre,
-        CONVERT(varchar, C.fecha_creacion, 103) AS fecha_creacion,
-        C.url_archivo
-      FROM ${tableName} AS C
-      LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
-      LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
-      WHERE C.id_contenido = '${id}';
-    `);
+  SELECT 
+    C.id_contenido AS id,
+    C.titulo,
+    C.descripcion,
+    C.id_tipo,
+    T.nombre AS tipoNombre,
+    C.id_usuario,
+    U.nombre AS autorNombre,
+    CONVERT(varchar, C.fecha_creacion, 103) AS fecha_creacion,
+    C.url_archivo
+  FROM ${tableName} AS C
+  LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
+  LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
+  WHERE C.id_contenido = '${id}' AND C.estado = 1;
+`);
+
     return result.recordset[0];
   }
 
@@ -215,23 +220,21 @@ export class ContenidoModel {
     request.input("query", sql.VarChar, `%${query}%`);
 
     const result = await request.query(`
-      SELECT 
-        C.id_contenido AS id,
-        C.titulo,
-        C.descripcion,
-        T.nombre AS tipoNombre,
-        U.nombre AS autorNombre,
-        C.fecha_creacion,
-        C.url_archivo
-      FROM ${tableName} AS C
-      LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
-      LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
-      WHERE C.titulo LIKE @query
-         OR C.descripcion LIKE @query
-         OR T.nombre LIKE @query
-         OR U.nombre LIKE @query
-      ORDER BY C.fecha_creacion DESC;
-    `);
+  SELECT 
+    C.id_contenido AS id,
+    C.titulo,
+    C.descripcion,
+    T.nombre AS tipoNombre,
+    U.nombre AS autorNombre,
+    C.fecha_creacion,
+    C.url_archivo
+  FROM ${tableName} AS C
+  LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
+  LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
+  WHERE C.estado = 1
+    AND (C.titulo LIKE @query OR C.descripcion LIKE @query OR T.nombre LIKE @query OR U.nombre LIKE @query)
+  ORDER BY C.fecha_creacion DESC;
+`);
 
     return result.recordset;
   }
@@ -246,9 +249,9 @@ export class ContenidoModel {
     request.input("url_archivo", sql.VarChar, url_archivo);
 
     await request.query(`
-      INSERT INTO ${tableName} (titulo, descripcion, id_tipo, id_usuario, fecha_creacion, url_archivo)
-      VALUES (@titulo, @descripcion, @id_tipo, @id_usuario, GETDATE(), @url_archivo);
-    `);
+  INSERT INTO ${tableName} (titulo, descripcion, id_tipo, id_usuario, fecha_creacion, url_archivo, estado)
+  VALUES (@titulo, @descripcion, @id_tipo, @id_usuario, GETDATE(), @url_archivo, 1);
+`);
 
     const nuevo = await sql.query(
       `SELECT TOP 1 * FROM ${tableName} ORDER BY id_contenido DESC;`
@@ -259,29 +262,113 @@ export class ContenidoModel {
   static async delete({ id }) {
     const request = new sql.Request();
     request.input("id", sql.Int, id);
-    await request.query(`DELETE FROM ${tableName} WHERE id_contenido = @id;`);
+    await request.query(`
+  UPDATE ${tableName}
+  SET estado = 0
+  WHERE id_contenido = @id;
+`);
     return true;
   }
 
+  // static async update({ id, input }) {
+  //   const { titulo, descripcion, id_tipo, url_archivo } = input;
+  //   const request = new sql.Request();
+  //   request.input("id", sql.Int, id);
+  //   request.input("titulo", sql.VarChar, titulo);
+  //   request.input("descripcion", sql.VarChar, descripcion);
+  //   request.input("id_tipo", sql.Int, id_tipo);
+  //   request.input("url_archivo", sql.VarChar, url_archivo);
+
+  //   await request.query(`
+  //     UPDATE ${tableName}
+  //     SET titulo=@titulo,
+  //         descripcion=@descripcion,
+  //         id_tipo=@id_tipo,
+  //         url_archivo=@url_archivo
+  //     WHERE id_contenido=@id;
+  //   `);
+  //   return true;
+  // }
   static async update({ id, input }) {
-    const { titulo, descripcion, id_tipo, url_archivo } = input;
+    const { titulo, descripcion, id_tipo } = input;
     const request = new sql.Request();
     request.input("id", sql.Int, id);
-    request.input("titulo", sql.VarChar, titulo);
-    request.input("descripcion", sql.VarChar, descripcion);
-    request.input("id_tipo", sql.Int, id_tipo);
-    request.input("url_archivo", sql.VarChar, url_archivo);
+
+    // 🔹 1. Buscar datos actuales
+    const resultActual = await sql.query(`
+    SELECT titulo, descripcion, id_tipo, url_archivo
+    FROM Contenido
+    WHERE id_contenido = ${id};
+  `);
+
+    if (resultActual.recordset.length === 0) {
+      throw new Error("Contenido no encontrado");
+    }
+
+    const actual = resultActual.recordset[0];
+    const tituloActual = actual.titulo;
+    const idTipoActual = actual.id_tipo;
+    const urlArchivoActual = actual.url_archivo;
+
+    // 🔹 2. Determinar la carpeta (por id_tipo)
+    let subCarpeta = "OTROS";
+    if (id_tipo == 1 || idTipoActual == 1) subCarpeta = "PDF";
+    if (id_tipo == 2 || idTipoActual == 2) subCarpeta = "VIDEO";
+    if (id_tipo == 3 || idTipoActual == 3) subCarpeta = "IMAGEN";
+
+    const basePath = process.env.RUTA_CONTENIDOS;
+    const carpetaDestino = path.join(basePath, subCarpeta);
+
+    // 🔹 3. Obtener extensión actual del archivo
+    const extension = path.extname(urlArchivoActual);
+    const nuevoNombreArchivo = `${id}-${titulo.replace(
+      /\s+/g,
+      "_"
+    )}${extension}`;
+    const nuevaRutaRelativa = path.join(subCarpeta, nuevoNombreArchivo);
+    const rutaVieja = path.join(basePath, urlArchivoActual);
+    const rutaNueva = path.join(carpetaDestino, nuevoNombreArchivo);
+
+    // 🔹 4. Renombrar físicamente el archivo (si existe)
+    try {
+      if (fs.existsSync(rutaVieja)) {
+        fs.renameSync(rutaVieja, rutaNueva);
+      } else {
+        console.warn(
+          "⚠️ Archivo físico no encontrado para renombrar:",
+          rutaVieja
+        );
+      }
+    } catch (err) {
+      console.error("❌ Error al renombrar archivo:", err);
+      throw new Error("Error al renombrar el archivo físico");
+    }
+
+    // 🔹 5. Actualizar la base de datos
+    request.input("titulo", sql.VarChar, titulo || tituloActual);
+    request.input(
+      "descripcion",
+      sql.VarChar,
+      descripcion || actual.descripcion
+    );
+    request.input("id_tipo", sql.Int, id_tipo ?? idTipoActual);
+    request.input("url_archivo", sql.VarChar, nuevaRutaRelativa);
 
     await request.query(`
-      UPDATE ${tableName}
-      SET titulo=@titulo,
-          descripcion=@descripcion,
-          id_tipo=@id_tipo,
-          url_archivo=@url_archivo
-      WHERE id_contenido=@id;
-    `);
-    return true;
+    UPDATE Contenido
+    SET titulo = @titulo,
+        descripcion = @descripcion,
+        id_tipo = @id_tipo,
+        url_archivo = @url_archivo
+    WHERE id_contenido = @id;
+  `);
+
+    return {
+      mensaje: "Contenido actualizado",
+      nuevoArchivo: nuevaRutaRelativa,
+    };
   }
+
   static async getUltimos({ limite = 5 } = {}) {
     const request = new sql.Request();
     request.input("limite", sql.Int, limite);
