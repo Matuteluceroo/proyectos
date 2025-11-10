@@ -60,7 +60,7 @@ export class UsuarioController {
   }
 
   static async create(req, res) {
-    const { userName, rol, nombre, otros, idZona } = req.body;
+    const { userName, rol, nombre, tags, idZona } = req.body;
 
     try {
       const existingUser = await UsuarioModel.buscarUsuario({ userName });
@@ -82,7 +82,7 @@ export class UsuarioController {
           password: hashedPassword,
           rol,
           nombre,
-          otros,
+          tags,
           idZona,
         },
       });
@@ -120,14 +120,14 @@ export class UsuarioController {
 
   static async update(req, res) {
     const { id } = req.params;
-    const { userName, rol, nombre, otros, idZona } = req.body;
-    console.log("update", id, userName, rol, nombre, otros, idZona);
+    const { userName, rol, nombre, tags, idZona } = req.body;
+    console.log("update", id, userName, rol, nombre, tags, idZona);
     if (!id) return res.status(401).json({ mensaje: "Falta ID" });
 
     try {
       const usuarioModificado = await UsuarioModel.update({
         id,
-        input: { userName, rol, nombre, otros, idZona },
+        input: { userName, rol, nombre, tags, idZona },
       });
 
       if (!usuarioModificado) {
@@ -139,6 +139,18 @@ export class UsuarioController {
       return res
         .status(401)
         .json({ mensaje: "Error en Usuarios", error: error.message });
+    }
+  }
+  static async getTopTags(req, res) {
+    try {
+      const tags = await UsuarioModel.getTopTags();
+      if (tags.length === 0)
+        return res.status(404).json({ mensaje: "No hay tags disponibles" });
+      return res.json(tags);
+    } catch (e) {
+      return res
+        .status(500)
+        .json({ mensaje: "Error al obtener tags", error: e.message });
     }
   }
 

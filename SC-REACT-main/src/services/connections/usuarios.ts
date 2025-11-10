@@ -26,13 +26,13 @@ export const useAgregarUsuario = () => {
     userName,
     nombre,
     idZona,
-    otros,
+    tags,
     rol,
   }: {
     userName: string;
     nombre: string;
     idZona: string;
-    otros: string;
+    tags: string;
     rol: Rol;
   }) => {
     return await apiRequest(`usuarios`, {
@@ -41,7 +41,7 @@ export const useAgregarUsuario = () => {
         userName,
         nombre,
         idZona,
-        otros,
+        tags,
         rol,
       }),
     });
@@ -69,7 +69,7 @@ export const useModificarUsuario = () => {
       userName: string;
       nombre: string;
       idZona: string;
-      otros: string;
+      tags: string;
       rol: Rol;
       id: number;
     };
@@ -196,4 +196,8 @@ export const useEliminarFotoPerfil = () => {
       method: "DELETE",
     });
   };
+};
+export const useObtenerTopTags = () => {
+  const apiRequest = useApiRequest();
+  return async () => await apiRequest(`usuarios/tags/top`, { method: "GET" });
 };

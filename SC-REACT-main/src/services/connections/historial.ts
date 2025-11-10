@@ -10,15 +10,18 @@ export const useRegistrarHistorial = () => {
   return async ({
     id_usuario,
     id_contenido,
+    tipo = "ARCHIVO", // 👈 nuevo parámetro opcional
   }: {
     id_usuario: number;
     id_contenido: number;
+    tipo?: "HTML" | "ARCHIVO";
   }) => {
     return await apiRequest("historial/agregar", {
       method: "POST",
       body: JSON.stringify({
         id_usuario,
         id_contenido,
+        tipo, // 👈 enviar tipo al backend
       }),
     });
   };

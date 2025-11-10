@@ -57,14 +57,6 @@ export interface Contenido {
   url_archivo?: string;
 }
 
-// 🔹 Buscar contenidos por texto (título, descripción, autor o tipo)
-export const useBuscarContenidos = () => {
-  const apiRequest = useApiRequest();
-  return async (query: string) =>
-    await apiRequest(`contenidos/buscar/${encodeURIComponent(query)}`, {
-      method: "GET",
-    });
-};
 // 🔹 Actualizar contenido existente
 export const useActualizarContenido = () => {
   const apiRequest = useApiRequest();
@@ -81,8 +73,23 @@ export const useEliminarContenido = () => {
     await apiRequest(`contenidos/${id}`, { method: "DELETE" });
 };
 
-// 🔹 GET - Obtener los últimos contenidos creados
+// 🔹 GET - Obtener los últimos contenidos creados (soporta idUsuario opcional)
 export const useObtenerUltimosContenidos = () => {
   const apiRequest = useApiRequest();
-  return async () => await apiRequest(`contenidos/ultimos`, { method: "GET" });
+  return async (idUsuario?: number) => {
+    const url = idUsuario
+      ? `contenidos/ultimos?idUsuario=${idUsuario}`
+      : `contenidos/ultimos`;
+    return await apiRequest(url, { method: "GET" });
+  };
+};
+
+// 🔹 Buscar contenidos por texto (título, descripción, autor o tipo)
+export const useBuscarContenidos = () => {
+  const apiRequest = useApiRequest();
+  return async (query: string, idUsuario?: number) => {
+    const base = `contenidos/buscar/${encodeURIComponent(query)}`;
+    const url = idUsuario ? `${base}?idUsuario=${idUsuario}` : base;
+    return await apiRequest(url, { method: "GET" });
+  };
 };

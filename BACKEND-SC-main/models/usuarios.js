@@ -8,7 +8,7 @@ export class UsuarioModel {
          [userName],
          [rol],
          [nombre],
-         [otros],
+         [tags],
          [idZona]
   FROM [Usuarios]
   WHERE estado = 1
@@ -28,7 +28,7 @@ export class UsuarioModel {
 
   static async buscarUsuario({ userName }) {
     const result = await sql.query(`
-      SELECT id_Usuario, userName, rol, nombre, otros, idZona 
+      SELECT id_Usuario, userName, rol, nombre, tags, idZona 
       FROM ${tableName} 
       WHERE userName = '${userName}' AND estado = 1;
     `);
@@ -47,38 +47,220 @@ export class UsuarioModel {
     return result.recordset;
   }
 
+  // static async create({ input }) {
+  //   const { userName, password, rol, nombre, tags, idZona } = input;
+  //   const request = new sql.Request();
+
+  //   try {
+  //     // Insertar un nuevo renglón en TalicomRenglones
+  //     //request.input('id', sql.Int, newId); // idLicitacion es de tipo int
+  //     request.input("userName", sql.VarChar, userName); // renglon es de tipo varchar
+  //     request.input("password", sql.VarChar, password); // cantidad es de tipo varchar
+  //     request.input("rol", sql.VarChar, rol); // descripcion es de tipo varchar
+  //     request.input("nombre", sql.VarChar, nombre); // codigoTarot es de tipo varchar
+  //     request.input("tags", sql.VarChar, tags); // codigoTarot es de tipo varchar
+  //     request.input("idZona", sql.VarChar, idZona); // codigoTarot es de tipo varchar
+
+  //     // Realizamos la inserción en TalicomRenglones
+  //     await request.query(`
+  //           INSERT INTO ${tableName}
+  //           ( userName, password, rol, nombre, tags, idZona )
+  //           VALUES ( @userName, @password, @rol, @nombre, @tags, @idZona )
+  //       `);
+
+  //     // Recuperar el renglón recién insertado (sin necesidad de pasar el idLicitacion, ya que es un dato proporcionado)
+  //     const resultNuevo = await request.query(`
+  //           SELECT TOP 1 * FROM ${tableName} ORDER BY id_Usuario DESC
+  //       `);
+
+  //     return resultNuevo.recordset[0]; // Devuelve el nuevo registro con id generado automáticamente
+  //   } catch (e) {
+  //     throw new Error("Error creating Usuarios record: " + e.message);
+  //   }
+  // }
+  // static async update({ id, input }) {
+  //   const { userName, rol, nombre, tags, idZona } = input;
+  //   const request = new sql.Request();
+
+  //   try {
+  //     // Actualizar solo los campos proporcionados
+
+  //     request.input("id_Usuario", sql.Int, id);
+
+  //     if (userName) request.input("userName", sql.VarChar, userName);
+  //     if (rol) request.input("rol", sql.VarChar, rol);
+  //     if (nombre) request.input("nombre", sql.VarChar, nombre);
+  //     if (tags) request.input("tags", sql.VarChar, tags);
+  //     if (idZona) request.input("idZona", sql.VarChar, idZona);
+
+  //     // Crear la consulta de actualización
+  //     let updateQuery = `
+  //               UPDATE ${tableName} SET
+  //           `;
+
+  //     // Generar la parte dinámica de la consulta según los campos que se proporcionaron
+  //     const setClauses = [];
+  //     if (userName) setClauses.push("userName = @userName");
+  //     if (rol) setClauses.push("rol = @rol");
+  //     if (nombre) setClauses.push("nombre = @nombre");
+  //     if (tags) setClauses.push("tags = @tags");
+  //     if (idZona) setClauses.push("idZona = @idZona");
+
+  //     updateQuery += setClauses.join(", ") + " WHERE id_Usuario = @id_Usuario";
+
+  //     // Ejecutar la consulta de actualización
+  //     await request.query(updateQuery);
+
+  //     // Recuperar la licitación actualizada
+  //     const resultActualizado = await request.query(`
+  //               SELECT * FROM ${tableName} WHERE id_Usuario = @id_Usuario
+  //           `);
+
+  //     return resultActualizado.recordset[0];
+  //   } catch (e) {
+  //     throw new Error("Error creating Usuarios record: " + e.message);
+  //   }
+  // }
   static async create({ input }) {
-    const { userName, password, rol, nombre, otros, idZona } = input;
+    const { userName, password, rol, nombre, tags, idZona } = input;
     const request = new sql.Request();
 
     try {
-      // Insertar un nuevo renglón en TalicomRenglones
-      //request.input('id', sql.Int, newId); // idLicitacion es de tipo int
-      request.input("userName", sql.VarChar, userName); // renglon es de tipo varchar
-      request.input("password", sql.VarChar, password); // cantidad es de tipo varchar
-      request.input("rol", sql.VarChar, rol); // descripcion es de tipo varchar
-      request.input("nombre", sql.VarChar, nombre); // codigoTarot es de tipo varchar
-      request.input("otros", sql.VarChar, otros); // codigoTarot es de tipo varchar
-      request.input("idZona", sql.VarChar, idZona); // codigoTarot es de tipo varchar
+      request.input("userName", sql.VarChar, userName);
+      request.input("password", sql.VarChar, password);
+      request.input("rol", sql.VarChar, rol);
+      request.input("nombre", sql.VarChar, nombre);
+      request.input("idZona", sql.VarChar, idZona);
+      request.input("tags", sql.VarChar, tags);
+      request.input("estado", sql.Bit, 1);
 
-      // Realizamos la inserción en TalicomRenglones
-      await request.query(`
-            INSERT INTO ${tableName} 
-            ( userName, password, rol, nombre, otros, idZona ) 
-            VALUES ( @userName, @password, @rol, @nombre, @otros, @idZona )
-        `);
+      // 🔹 Insertar usuario
+      const result = await request.query(`
+        INSERT INTO ${tableName} (userName, password, rol, nombre, idZona, estado,tags)
+        OUTPUT INSERTED.id_Usuario
+        VALUES (@userName, @password, @rol, @nombre, @idZona, @estado, @tags);
+      `);
 
-      // Recuperar el renglón recién insertado (sin necesidad de pasar el idLicitacion, ya que es un dato proporcionado)
-      const resultNuevo = await request.query(`
-            SELECT TOP 1 * FROM ${tableName} ORDER BY id_Usuario DESC
-        `);
+      const idUsuario = result.recordset[0].id_Usuario;
 
-      return resultNuevo.recordset[0]; // Devuelve el nuevo registro con id generado automáticamente
+      // 🔹 Vincular tags si existen
+      if (tags) await UsuarioModel.vincularTagsUsuario(idUsuario, tags);
+
+      // 🔹 Devolver usuario completo
+      const nuevo = await sql.query(
+        `SELECT * FROM ${tableName} WHERE id_Usuario = ${idUsuario}`
+      );
+      return nuevo.recordset[0];
     } catch (e) {
-      throw new Error("Error creating Usuarios record: " + e.message);
+      throw new Error("Error al crear usuario: " + e.message);
     }
   }
 
+  static async update({ id, input }) {
+    const { userName, rol, nombre, tags, idZona } = input;
+    const request = new sql.Request();
+    request.input("id_Usuario", sql.Int, id);
+
+    const setClauses = [];
+    if (userName) {
+      request.input("userName", sql.VarChar, userName);
+      setClauses.push("userName = @userName");
+    }
+    if (rol) {
+      request.input("rol", sql.VarChar, rol);
+      setClauses.push("rol = @rol");
+    }
+    if (nombre) {
+      request.input("nombre", sql.VarChar, nombre);
+      setClauses.push("nombre = @nombre");
+    }
+    if (idZona) {
+      request.input("idZona", sql.VarChar, idZona);
+      setClauses.push("idZona = @idZona");
+    }
+    if (tags) {
+      request.input("tags", sql.VarChar, tags);
+      setClauses.push("tags = @tags");
+    }
+
+    if (setClauses.length > 0) {
+      const updateQuery = `
+        UPDATE ${tableName}
+        SET ${setClauses.join(", ")}
+        WHERE id_Usuario = @id_Usuario;
+      `;
+      await request.query(updateQuery);
+    }
+
+    // 🔹 Actualizar relaciones de tags
+    if (tags) await UsuarioModel.vincularTagsUsuario(id, tags);
+
+    // Devolver usuario actualizado
+    const resultActualizado = await sql.query(`
+      SELECT * FROM ${tableName} WHERE id_Usuario = ${id};
+    `);
+
+    return resultActualizado.recordset[0];
+  }
+
+  // 🔹 Obtener los 10 tags más usados
+  static async getTopTags() {
+    const result = await sql.query(`
+      SELECT TOP 10 T.nombre AS tag, COUNT(UT.id_usuario) AS cantidad
+      FROM Tags T
+      JOIN UsuarioTags UT ON UT.tag = T.id_tag
+      GROUP BY T.nombre
+      ORDER BY COUNT(UT.id_usuario) DESC;
+    `);
+    return result.recordset;
+  }
+
+  // ===========================================
+  // === Manejo de Tags de Usuario ============
+  // ===========================================
+
+  static async vincularTagsUsuario(idUsuario, tagsStr) {
+    const tags = tagsStr
+      .split(";")
+      .map((t) => t.trim())
+      .filter(Boolean);
+    if (tags.length === 0) return;
+
+    // Borrar relaciones previas
+    const borrar = new sql.Request();
+    borrar.input("idUsuario", sql.Int, idUsuario);
+    await borrar.query(
+      `DELETE FROM UsuarioTags WHERE id_usuario = @idUsuario;`
+    );
+
+    for (const tag of tags) {
+      const idTag = await UsuarioModel.buscarOCrearTag(tag);
+      const req = new sql.Request();
+      req.input("idUsuario", sql.Int, idUsuario);
+      req.input("tag", sql.Int, idTag);
+      await req.query(`
+        INSERT INTO UsuarioTags (id_usuario, tag)
+        VALUES (@idUsuario, @tag);
+      `);
+    }
+  }
+
+  static async buscarOCrearTag(nombre) {
+    const request = new sql.Request();
+    request.input("nombre", sql.NVarChar, nombre);
+
+    const existente = await request.query(
+      `SELECT id_tag FROM Tags WHERE nombre = @nombre;`
+    );
+    if (existente.recordset.length > 0) return existente.recordset[0].id_tag;
+
+    const nuevo = await request.query(`
+      INSERT INTO Tags (nombre)
+      OUTPUT INSERTED.id_tag
+      VALUES (@nombre);
+    `);
+    return nuevo.recordset[0].id_tag;
+  }
   static async delete({ id }) {
     const request = new sql.Request();
     request.input("id_Usuario", sql.Int, id);
@@ -102,50 +284,6 @@ export class UsuarioModel {
       return { message: "Usuario eliminado con éxito" };
     } catch (e) {
       throw new Error("Error al eliminar usuario: " + e.message);
-    }
-  }
-
-  static async update({ id, input }) {
-    const { userName, rol, nombre, otros, idZona } = input;
-    const request = new sql.Request();
-
-    try {
-      // Actualizar solo los campos proporcionados
-
-      request.input("id_Usuario", sql.Int, id);
-
-      if (userName) request.input("userName", sql.VarChar, userName);
-      if (rol) request.input("rol", sql.VarChar, rol);
-      if (nombre) request.input("nombre", sql.VarChar, nombre);
-      if (otros) request.input("otros", sql.VarChar, otros);
-      if (idZona) request.input("idZona", sql.VarChar, idZona);
-
-      // Crear la consulta de actualización
-      let updateQuery = `
-                UPDATE ${tableName} SET
-            `;
-
-      // Generar la parte dinámica de la consulta según los campos que se proporcionaron
-      const setClauses = [];
-      if (userName) setClauses.push("userName = @userName");
-      if (rol) setClauses.push("rol = @rol");
-      if (nombre) setClauses.push("nombre = @nombre");
-      if (otros) setClauses.push("otros = @otros");
-      if (idZona) setClauses.push("idZona = @idZona");
-
-      updateQuery += setClauses.join(", ") + " WHERE id_Usuario = @id_Usuario";
-
-      // Ejecutar la consulta de actualización
-      await request.query(updateQuery);
-
-      // Recuperar la licitación actualizada
-      const resultActualizado = await request.query(`
-                SELECT * FROM ${tableName} WHERE id_Usuario = @id_Usuario
-            `);
-
-      return resultActualizado.recordset[0];
-    } catch (e) {
-      throw new Error("Error creating Usuarios record: " + e.message);
     }
   }
 

@@ -52,7 +52,7 @@ export class LoginController {
           usuario: user[0].userName,
           rol: user[0].rol,
           nombre: user[0].nombre,
-          otros: user[0].otros,
+          tags: user[0].tags,
           idZona: user[0].idZona,
           roles_usuario: roles_usuario,
         },

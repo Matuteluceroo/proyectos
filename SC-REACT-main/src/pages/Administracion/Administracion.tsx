@@ -15,6 +15,7 @@ import {
   useRestartPassword,
   useAgregarRolUsuario,
   useEliminarRolUsuario,
+  useObtenerTopTags,
 } from "../../services/connections/usuarios.js";
 import editarIco from "../../assets/edit.svg";
 import eliminarIco from "../../assets/trash.svg";
@@ -31,7 +32,7 @@ import { Rol } from "../../services/connections/usuarios.js";
 import { useNavigate } from "react-router-dom";
 import ModalNotificaciones from "../../components/ModalNotificaciones/ModalNotificaciones";
 import AlertOptions from "../../components/Alert/AlertOptions";
-
+import "./Administracion.css";
 const LISTA_ROLES: Rol[] = [
   "LICITADOR",
   "ADMINISTRADOR",
@@ -46,7 +47,7 @@ type UsuarioType = {
   rol: Rol;
   nombre: string;
   idZona: string;
-  otros: string;
+  tags: string; // 🔹 antes “otros”
   online?: boolean;
   rolesDeUsuario?: { rol: Rol; idUsuario: number }[];
 };
@@ -57,7 +58,7 @@ type FormData = {
   rol: Rol;
   nombre: string;
   idZona: string;
-  otros: string;
+  tags: string;
 };
 
 const Administracion: React.FC = () => {
@@ -106,11 +107,27 @@ const Administracion: React.FC = () => {
     rol: "EMPLEADO",
     nombre: "",
     idZona: "",
-    otros: "",
+    tags: "",
   });
+  const obtenerTopTags = useObtenerTopTags();
+  const [topTags, setTopTags] = useState<string[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await obtenerTopTags();
+        if (Array.isArray(data)) {
+          setTopTags(data.map((t: any) => t.tag));
+        }
+      } catch (err) {
+        console.error("Error al cargar top tags:", err);
+      }
+    })();
+  }, []);
 
   const cargarUsuarios = async () => {
     const dataUsuarios = await obtenerUsuarios();
+    console.log("dataUsuarios", dataUsuarios);
     const usuariosEnLinea = await obtenerUsuariosEnLinea();
 
     dataUsuarios.forEach((user: UsuarioType) => {
@@ -148,7 +165,7 @@ const Administracion: React.FC = () => {
         userName: datosForm.userName ?? "",
         nombre: datosForm.nombre ?? "",
         idZona: datosForm.idZona ?? "",
-        otros: datosForm.otros ?? "",
+        tags: datosForm.tags ?? "", // 👈 aquí
         rol: formData.rol,
       });
 
@@ -192,7 +209,7 @@ const Administracion: React.FC = () => {
         userName: dataParaEditar.userName ?? "",
         nombre: dataParaEditar.nombre ?? "",
         idZona: dataParaEditar.idZona ?? "",
-        otros: dataParaEditar.otros ?? "",
+        tags: dataParaEditar.tags ?? "", // 👈 aquí
         rol: formData.rol,
         id: currentID,
       };
@@ -225,7 +242,7 @@ const Administracion: React.FC = () => {
       rol: "LICITADOR",
       nombre: "",
       idZona: "",
-      otros: "",
+      tags: "",
     };
     setFormData(defaultForm);
     formRef.current?.setAllFields(defaultForm);
@@ -327,7 +344,7 @@ const Administracion: React.FC = () => {
     { nombreCampo: "userName", labelText: "Usuario:" },
     { nombreCampo: "nombre", labelText: "Nombre:" },
     { nombreCampo: "idZona", labelText: "Zona:" },
-    { nombreCampo: "otros", labelText: "Otros:" },
+    { nombreCampo: "tags", labelText: "Tags (separar con ;):" },
   ].map(({ nombreCampo, labelText }) => ({
     nombreCampo,
     labelText,
@@ -360,7 +377,7 @@ const Administracion: React.FC = () => {
     { id: "rol", label: "Rol", width: "120px", options: true },
     { id: "nombre", label: "Nombre", width: "150px", options: true },
     { id: "idZona", label: "Zona", width: "90px", options: true },
-    { id: "otros", label: "Otros", width: "420px" },
+    { id: "tags", label: "Tags", width: "420px" },
     {
       id: "btnEditar",
       label: "Editar",
@@ -417,6 +434,36 @@ const Administracion: React.FC = () => {
               fields={camposFormulario}
               onChangeForm={handleFormChange}
             />
+            {/* 🔹 Sugerencias de tags */}
+            {/* 🔹 Sugerencias de tags */}
+            {topTags.length > 0 && (
+              <div style={{ marginTop: "10px" }}>
+                <b style={{ display: "block", marginBottom: "6px" }}>
+                  Tags populares:
+                </b>
+                <div className="tags-populares">
+                  {topTags.map((t, i) => (
+                    <span
+                      key={i}
+                      className={`tag-chip ${
+                        formData.tags.includes(t) ? "selected" : ""
+                      }`}
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          tags:
+                            prev.tags && !prev.tags.endsWith(";")
+                              ? prev.tags + ";" + t
+                              : prev.tags + t,
+                        }))
+                      }
+                    >
+                      #{t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {!hiddenBtnsOnEdit && (
               <div

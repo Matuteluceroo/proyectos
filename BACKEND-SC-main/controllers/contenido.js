@@ -262,20 +262,6 @@ export class ContenidoController {
     }
   }
 
-  static async buscar(req, res) {
-    const { query } = req.params;
-    try {
-      const resultados = await ContenidoModel.buscar({ query });
-      if (resultados.length === 0)
-        return res.status(404).json({ mensaje: "Sin resultados" });
-      return res.json(resultados);
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ mensaje: "Error en búsqueda", error: error.message });
-    }
-  }
-
   static async create(req, res) {
     const { titulo, descripcion, id_tipo, id_usuario, url_archivo } = req.body;
     try {
@@ -319,10 +305,27 @@ export class ContenidoController {
         .json({ mensaje: "Error en update", error: error.message });
     }
   }
+  // static async getUltimos(req, res) {
+  //   try {
+  //     const limite = parseInt(req.query.limite) || 5;
+  //     const data = await ContenidoModel.getUltimos({ limite });
+  //     if (!data || data.length === 0)
+  //       return res.status(404).json({ mensaje: "No hay contenidos recientes" });
+  //     return res.json(data);
+  //   } catch (error) {
+  //     return res.status(500).json({
+  //       mensaje: "Error al obtener contenidos recientes",
+  //       error: error.message,
+  //     });
+  //   }
+  // }
   static async getUltimos(req, res) {
     try {
       const limite = parseInt(req.query.limite) || 5;
-      const data = await ContenidoModel.getUltimos({ limite });
+      const idUsuario = req.query.idUsuario
+        ? parseInt(req.query.idUsuario)
+        : null;
+      const data = await ContenidoModel.getUltimos({ limite, idUsuario });
       if (!data || data.length === 0)
         return res.status(404).json({ mensaje: "No hay contenidos recientes" });
       return res.json(data);
@@ -331,6 +334,23 @@ export class ContenidoController {
         mensaje: "Error al obtener contenidos recientes",
         error: error.message,
       });
+    }
+  }
+
+  static async buscar(req, res) {
+    const { query } = req.params;
+    const idUsuario = req.query.idUsuario
+      ? parseInt(req.query.idUsuario)
+      : null;
+    try {
+      const resultados = await ContenidoModel.buscar({ query, idUsuario });
+      if (resultados.length === 0)
+        return res.status(404).json({ mensaje: "Sin resultados" });
+      return res.json(resultados);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ mensaje: "Error en búsqueda", error: error.message });
     }
   }
 }

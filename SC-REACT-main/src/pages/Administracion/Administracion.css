@@ -1,0 +1,34 @@
+/* ===== Tags Populares ===== */
+.tags-populares {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.tag-chip {
+  background-color: #e8f1ff;
+  color: #1d4ed8;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.tag-chip:hover {
+  background-color: #dbeafe;
+  border-color: #93c5fd;
+  transform: scale(1.05);
+}
+
+.tag-chip:active {
+  transform: scale(0.97);
+  background-color: #bfdbfe;
+}
+.tag-chip.selected {
+  background-color: #2563eb;
+  color: #fff;
+}

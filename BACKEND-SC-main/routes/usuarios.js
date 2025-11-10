@@ -22,3 +22,5 @@ usuariosRouter.get('/obtener-foto/:idUsuario', validateToken, UsuarioController.
 usuariosRouter.post('/guardar-foto', validateToken, UsuarioController.subirImagen)
 usuariosRouter.delete('/eliminar-foto/:idUsuario', validateToken, UsuarioController.eliminarImagen)
 
+// 🔹 Nueva ruta: obtener los 10 tags más usados
+usuariosRouter.get("/tags/top", validateToken, UsuarioController.getTopTags);

@@ -215,29 +215,29 @@ export class ContenidoModel {
     return result.recordset[0];
   }
 
-  static async buscar({ query }) {
-    const request = new sql.Request();
-    request.input("query", sql.VarChar, `%${query}%`);
+  //   static async buscar({ query }) {
+  //     const request = new sql.Request();
+  //     request.input("query", sql.VarChar, `%${query}%`);
 
-    const result = await request.query(`
-  SELECT 
-    C.id_contenido AS id,
-    C.titulo,
-    C.descripcion,
-    T.nombre AS tipoNombre,
-    U.nombre AS autorNombre,
-    C.fecha_creacion,
-    C.url_archivo
-  FROM ${tableName} AS C
-  LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
-  LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
-  WHERE C.estado = 1
-    AND (C.titulo LIKE @query OR C.descripcion LIKE @query OR T.nombre LIKE @query OR U.nombre LIKE @query)
-  ORDER BY C.fecha_creacion DESC;
-`);
+  //     const result = await request.query(`
+  //   SELECT
+  //     C.id_contenido AS id,
+  //     C.titulo,
+  //     C.descripcion,
+  //     T.nombre AS tipoNombre,
+  //     U.nombre AS autorNombre,
+  //     C.fecha_creacion,
+  //     C.url_archivo
+  //   FROM ${tableName} AS C
+  //   LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
+  //   LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
+  //   WHERE C.estado = 1
+  //     AND (C.titulo LIKE @query OR C.descripcion LIKE @query OR T.nombre LIKE @query OR U.nombre LIKE @query)
+  //   ORDER BY C.fecha_creacion DESC;
+  // `);
 
-    return result.recordset;
-  }
+  //     return result.recordset;
+  //   }
 
   static async create({ input }) {
     const { titulo, descripcion, id_tipo, id_usuario, url_archivo } = input;
@@ -369,11 +369,58 @@ export class ContenidoModel {
     };
   }
 
-  static async getUltimos({ limite = 5 } = {}) {
+  // static async getUltimos({ limite = 5 } = {}) {
+  //   const request = new sql.Request();
+  //   request.input("limite", sql.Int, limite);
+
+  //   const result = await request.query(`
+  //   SELECT
+  //     C.id_contenido AS id,
+  //     C.titulo,
+  //     C.descripcion,
+  //     C.id_tipo,
+  //     T.nombre AS tipoNombre,
+  //     C.id_usuario,
+  //     U.nombre AS autorNombre,
+  //     CONVERT(varchar, C.fecha_creacion, 103) AS fecha_creacion,
+  //     C.url_archivo
+  //   FROM (
+  //     SELECT *,
+  //            ROW_NUMBER() OVER (PARTITION BY id_tipo ORDER BY fecha_creacion DESC) AS rn
+  //     FROM Contenido
+  //   ) AS C
+  //   LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
+  //   LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
+  //   WHERE rn <= @limite
+  //   ORDER BY C.id_tipo, C.fecha_creacion DESC;
+  // `);
+
+  //   // ✅ Agrupar manualmente por tipo
+  //   const rows = result.recordset;
+  //   const grupos = {};
+
+  //   rows.forEach((r) => {
+  //     if (!grupos[r.tipoNombre]) {
+  //       grupos[r.tipoNombre] = { tipo: r.tipoNombre, items: [] };
+  //     }
+  //     grupos[r.tipoNombre].items.push({
+  //       id: r.id,
+  //       titulo: r.titulo,
+  //       descripcion: r.descripcion,
+  //       autorNombre: r.autorNombre,
+  //       fecha_creacion: r.fecha_creacion,
+  //       url_archivo: r.url_archivo,
+  //     });
+  //   });
+
+  //   return Object.values(grupos); // devuelve [{tipo:"Manual", items:[...]}, ...]
+  // }
+  static async getUltimos({ limite = 5, idUsuario = null } = {}) {
     const request = new sql.Request();
     request.input("limite", sql.Int, limite);
+    if (idUsuario) request.input("idUsuario", sql.Int, idUsuario);
 
-    const result = await request.query(`
+    const queryContenido = `
     SELECT 
       C.id_contenido AS id,
       C.titulo,
@@ -383,36 +430,175 @@ export class ContenidoModel {
       C.id_usuario,
       U.nombre AS autorNombre,
       CONVERT(varchar, C.fecha_creacion, 103) AS fecha_creacion,
-      C.url_archivo
+      C.url_archivo,
+      'ARCHIVO' AS origen
     FROM (
       SELECT *,
              ROW_NUMBER() OVER (PARTITION BY id_tipo ORDER BY fecha_creacion DESC) AS rn
       FROM Contenido
+      WHERE estado = 1
     ) AS C
     LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
     LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
     WHERE rn <= @limite
-    ORDER BY C.id_tipo, C.fecha_creacion DESC;
-  `);
+  `;
 
-    // ✅ Agrupar manualmente por tipo
-    const rows = result.recordset;
+    const queryHTML = `
+    SELECT 
+      H.id_contenido AS id,
+      H.titulo,
+      H.descripcion,
+      H.id_tipo,
+      T.nombre AS tipoNombre,
+      H.id_usuario,
+      U.nombre AS autorNombre,
+      CONVERT(varchar, H.fecha_creacion, 103) AS fecha_creacion,
+      H.url_archivo,
+      'HTML' AS origen
+    FROM (
+      SELECT *,
+             ROW_NUMBER() OVER (PARTITION BY id_tipo ORDER BY fecha_creacion DESC) AS rn
+      FROM ContenidoHTML
+      WHERE estado = 1
+    ) AS H
+    LEFT JOIN TiposConocimiento AS T ON H.id_tipo = T.id_tipo
+    LEFT JOIN Usuarios AS U ON H.id_usuario = U.id_Usuario
+    WHERE rn <= @limite
+  `;
+
+    const queryTagsUsuario = idUsuario
+      ? `
+      UNION ALL
+      SELECT 
+        C.id_contenido AS id,
+        C.titulo,
+        C.descripcion,
+        C.id_tipo,
+        T.nombre AS tipoNombre,
+        C.id_usuario,
+        U.nombre AS autorNombre,
+        CONVERT(varchar, C.fecha_creacion, 103) AS fecha_creacion,
+        C.url_archivo,
+        'TAG' AS origen
+      FROM Contenido C
+      JOIN Contenido_Tags CT ON C.id_contenido = CT.id_contenido
+      JOIN Tags TG ON TG.id_tag = CT.id_tag
+      JOIN UsuarioTags UT ON UT.tag = TG.nombre
+      LEFT JOIN TiposConocimiento AS T ON C.id_tipo = T.id_tipo
+      LEFT JOIN Usuarios AS U ON C.id_usuario = U.id_Usuario
+      WHERE C.estado = 1
+        AND UT.id_usuario = @idUsuario
+    `
+      : "";
+
+    const queryFinal = `
+    ${queryContenido}
+    UNION ALL
+    ${queryHTML}
+    ${queryTagsUsuario}
+    ORDER BY fecha_creacion DESC
+  `;
+
+    const result = await request.query(queryFinal);
+
+    // Agrupar por tipo
     const grupos = {};
-
-    rows.forEach((r) => {
-      if (!grupos[r.tipoNombre]) {
-        grupos[r.tipoNombre] = { tipo: r.tipoNombre, items: [] };
-      }
-      grupos[r.tipoNombre].items.push({
-        id: r.id,
-        titulo: r.titulo,
-        descripcion: r.descripcion,
-        autorNombre: r.autorNombre,
-        fecha_creacion: r.fecha_creacion,
-        url_archivo: r.url_archivo,
-      });
+    result.recordset.forEach((r) => {
+      const tipo = r.tipoNombre || "Sin tipo";
+      if (!grupos[tipo]) grupos[tipo] = { tipo, items: [] };
+      grupos[tipo].items.push(r);
     });
 
-    return Object.values(grupos); // devuelve [{tipo:"Manual", items:[...]}, ...]
+    return Object.values(grupos);
+  }
+
+  static async buscar({ query, idUsuario = null }) {
+    const request = new sql.Request();
+    request.input("query", sql.VarChar, `%${query}%`);
+    if (idUsuario) request.input("idUsuario", sql.Int, idUsuario);
+
+    const qContenido = `
+    SELECT 
+      C.id_contenido AS id,
+      C.titulo,
+      C.descripcion,
+      T.nombre AS tipoNombre,
+      U.nombre AS autorNombre,
+      C.fecha_creacion,
+      C.url_archivo,
+      'ARCHIVO' AS origen
+    FROM Contenido C
+    LEFT JOIN TiposConocimiento T ON C.id_tipo = T.id_tipo
+    LEFT JOIN Usuarios U ON C.id_usuario = U.id_Usuario
+    WHERE C.estado = 1
+      AND (
+        C.titulo LIKE @query OR
+        C.descripcion LIKE @query OR
+        T.nombre LIKE @query OR
+        U.nombre LIKE @query
+      )
+  `;
+
+    const qHTML = `
+    SELECT 
+      H.id_contenido AS id,
+      H.titulo,
+      H.descripcion,
+      T.nombre AS tipoNombre,
+      U.nombre AS autorNombre,
+      H.fecha_creacion,
+      H.url_archivo,
+      'HTML' AS origen
+    FROM ContenidoHTML H
+    LEFT JOIN TiposConocimiento T ON H.id_tipo = T.id_tipo
+    LEFT JOIN Usuarios U ON H.id_usuario = U.id_Usuario
+    WHERE H.estado = 1
+      AND (
+        H.titulo LIKE @query OR
+        H.descripcion LIKE @query OR
+        H.textoPlano LIKE @query OR
+        T.nombre LIKE @query OR
+        U.nombre LIKE @query
+      )
+  `;
+
+    const qTags = idUsuario
+      ? `
+      UNION ALL
+      SELECT 
+        C.id_contenido AS id,
+        C.titulo,
+        C.descripcion,
+        T.nombre AS tipoNombre,
+        U.nombre AS autorNombre,
+        C.fecha_creacion,
+        C.url_archivo,
+        'TAG' AS origen
+      FROM Contenido C
+      JOIN Contenido_Tags CT ON C.id_contenido = CT.id_contenido
+      JOIN Tags TG ON CT.id_tag = TG.id_tag
+      JOIN UsuarioTags UT ON UT.tag = TG.nombre
+      LEFT JOIN TiposConocimiento T ON C.id_tipo = T.id_tipo
+      LEFT JOIN Usuarios U ON C.id_usuario = U.id_Usuario
+      WHERE C.estado = 1
+        AND UT.id_usuario = @idUsuario
+        AND (
+          C.titulo LIKE @query OR
+          C.descripcion LIKE @query OR
+          TG.nombre LIKE @query
+        )
+    `
+      : "";
+
+    const queryFinal = `
+    ${qContenido}
+    UNION ALL
+    ${qHTML}
+    ${qTags}
+    ORDER BY fecha_creacion DESC
+  `;
+
+    const result = await request.query(queryFinal);
+    return result.recordset;
   }
 }
