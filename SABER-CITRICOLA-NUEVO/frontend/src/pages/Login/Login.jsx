@@ -1,8 +1,8 @@
 // 🔐 Login.jsx - Página de login renovada y atractiva
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { useNotification } from "../hooks/useNotification";
+import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../hooks/useNotification";
 import "./Login.css";
 
 const Login = () => {

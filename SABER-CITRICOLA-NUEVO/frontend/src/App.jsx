@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { NotificationProvider } from './context/NotificationContext';
 import NotificationContainer from './components/NotificationContainer';
 import ConnectionStatus from './components/ConnectionStatus/ConnectionStatus';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard';
 import Usuarios from './pages/Usuarios';
 import DocumentList from './components/DocumentList/DocumentList';
