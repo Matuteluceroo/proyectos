@@ -1,50 +1,83 @@
-.capacitaciones-wrapper {
-  padding: 20px;
-}
-
-.capacitacion-form {
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.capacitacion-form label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.lista-contenidos {
+.capacitaciones-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
 }
 
-.contenido-item {
-  background-color: #e8f1ff;
-  border: 1px solid #b0c4ff;
-  padding: 4px 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s;
+.capacitaciones-formulario {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
 }
 
-.contenido-item:hover {
-  background-color: #d0e2ff;
+.titulo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 1rem;
 }
 
-.contenido-item.selected {
+.acciones-form {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.btn-primario {
   background-color: #2563eb;
-  color: #fff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primario:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-secundario {
+  background-color: #e2e8f0;
+  color: #334155;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secundario:hover {
+  background-color: #cbd5e1;
+}
+
+.btn-agregar {
+  margin-left: auto;
+  background-color: #16a34a;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-agregar:hover {
+  background-color: #15803d;
+}
+
+.tabla-contenidos {
+  margin-top: 1rem;
+  max-height: 300px;
 }
 
 .tabla-capacitaciones {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.tabla-capacitaciones th,
-.tabla-capacitaciones td {
-  border: 1px solid #ccc;
-  padding: 6px;
+  margin-top: 1.5rem;
 }

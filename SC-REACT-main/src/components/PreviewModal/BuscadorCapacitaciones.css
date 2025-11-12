@@ -1,0 +1,84 @@
+.buscador-capacitaciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1rem;
+  width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.buscador-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.buscador-input input {
+  flex: 1;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.buscador-input input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.buscador-input button {
+  background-color: #2563eb;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.buscador-input button:hover {
+  background-color: #1d4ed8;
+}
+
+.resultados-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.resultado-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.resultado-item:hover {
+  background: #e0f2fe;
+  transform: translateY(-2px);
+}
+
+.resultado-item .titulo {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.resultado-item .detalle {
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.resultado-item .origen {
+  font-weight: 500;
+  color: #2563eb;
+  margin-left: 0.4rem;
+}
+
+.estado {
+  color: #475569;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+}

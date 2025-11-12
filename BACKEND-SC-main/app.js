@@ -39,7 +39,7 @@ const acepted_origins = [
   "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app",
   "https://proyectos-black.vercel.app/",
   "https://proyectos-black.vercel.app",
-  "https://dd4c23bb44eb.ngrok-free.app",
+  "https://937d87274a63.ngrok-free.app",
 ];
 
 const app = express();
