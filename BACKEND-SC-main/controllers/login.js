@@ -7,7 +7,7 @@ dotenv.config();
 export class LoginController {
   static async login(req, res) {
     const { userName, password } = req.body;
-
+    console.log("llego", userName, password);
     const user = await LoginModel.getByAccess({
       userName: userName,
     });
