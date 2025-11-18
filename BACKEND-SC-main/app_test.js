@@ -26,6 +26,7 @@ dotenv.config()
 
 const acepted_origins = [
   'http://localhost:5173',
+  'https://proyectos-git-main-matuteluceroos-projects.vercel.app',
   'https://ktc-react.vercel.app',
   'http://127.0.0.1:5000',
   'http://192.168.0.112:5173',
