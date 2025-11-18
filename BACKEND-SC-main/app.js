@@ -2,12 +2,10 @@ import { corsMiddleware } from "./middleware/cors.js";
 import { validateToken } from "./middleware/jwt.js";
 import cookieParser from "cookie-parser";
 import express from "express";
-import https from "https";         // ← HTTPS agregado
-import fs from "fs";              // ← Para certificados
+import http from "http";
 import dotenv from "dotenv";
 import { Server } from "socket.io";
 import { connectToDatabase } from "./connection_TEST.js";
-
 import { loginRouter } from "./routes/login.js";
 import { generarDOCSRouter } from "./routes/generar_docs.js";
 import { usuariosRouter } from "./routes/usuarios.js";
@@ -17,13 +15,13 @@ import { contenidosRouter } from "./routes/contenido.js";
 import { kpiRouter } from "./routes/kpi.js";
 import { tiposConocimientoRouter } from "./routes/tiposConocimiento.js";
 import { dashboardRouter } from "./routes/dashboard.js";
-import { historialRouter } from "./routes/historial.js";
-import { capacitacionesRouter } from "./routes/capacitaciones.js";
-
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 import cors from "cors";
 import mime from "mime-types";
+import { historialRouter } from "./routes/historial.js";
+import { capacitacionesRouter } from "./routes/capacitaciones.js";
 
 dotenv.config();
 
@@ -32,15 +30,13 @@ const __dirname = path.dirname(__filename);
 
 const RUTA_CONTENIDOS = process.env.RUTA_CONTENIDOS;
 
-// Orígenes permitidos
+// 🔹 Orígenes permitidos
 const acepted_origins = [
   "http://localhost:5173",
   "https://9514609c1bc6.ngrok-free.app",
   "http://192.168.100.22:5173",
   "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app/",
   "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app",
-  "https://proyectos-git-main-matuteluceroos-projects.vercel.app",
-  "https://proyectos-git-main-matuteluceroos-projects.vercel.app/",
   "https://proyectos-black.vercel.app/",
   "https://proyectos-black.vercel.app",
   "https://937d87274a63.ngrok-free.app",
@@ -48,12 +44,11 @@ const acepted_origins = [
 
 const app = express();
 app.disable("x-powered-by");
-
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: "500mb", extended: false }));
 app.use(express.json({ limit: "500mb" }));
 
-// CORS global
+// ✅ CORS global (seguro para login con o sin cookies)
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -69,12 +64,12 @@ app.use(
       "Authorization",
       "ngrok-skip-browser-warning",
     ],
-    credentials: true,
+    credentials: true, // 🔸 Permitir cookies y tokens
   })
 );
 app.options("*", cors());
 
-// Servir carpeta de contenidos estáticos
+// ✅ Servir carpeta de contenidos estáticos (solo imágenes o cosas livianas)
 if (RUTA_CONTENIDOS && fs.existsSync(RUTA_CONTENIDOS)) {
   const rutaNormalizada = path.resolve(RUTA_CONTENIDOS).replace(/\\/g, "/");
   console.log("📂 Serviendo archivos estáticos desde:", rutaNormalizada);
@@ -108,10 +103,12 @@ if (RUTA_CONTENIDOS && fs.existsSync(RUTA_CONTENIDOS)) {
   );
 }
 
-// Endpoint para ver contenidos con headers correctos
+// ✅ Endpoint único para servir videos, PDFs e imágenes con headers correctos
 app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
   try {
     const { tipo, archivo } = req.params;
+
+    // 🔹 Normalizamos el tipo de carpeta
     const tipoFolder = tipo.toUpperCase() === "VIDEO" ? "VIDEO" : tipo;
     const basePath = process.env.RUTA_CONTENIDOS;
     const filePath = path.join(basePath, tipoFolder, archivo);
@@ -126,6 +123,7 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
     const mimeType = mime.lookup(filePath) || "application/octet-stream";
     const stat = fs.statSync(filePath);
 
+    // Headers base
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
     res.setHeader("Cross-Origin-Embedder-Policy", "cross-origin");
@@ -138,7 +136,7 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
       "Content-Length, Content-Range"
     );
 
-    // Videos → streaming
+    // 🎥 Si es VIDEO → soportar streaming
     if (mimeType.startsWith("video")) {
       const range = req.headers.range;
       if (!range) {
@@ -163,24 +161,26 @@ app.get("/ver-contenido/:tipo/:archivo", async (req, res) => {
       return fileStream.pipe(res);
     }
 
-    // PDFs
+    // 📄 Si es PDF → mostrar directo
     if (mimeType === "application/pdf") {
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader("Content-Length", stat.size);
-      return fs.createReadStream(filePath).pipe(res);
+      const fileStream = fs.createReadStream(filePath);
+      return fileStream.pipe(res);
     }
 
-    // Imágenes u otros
+    // 🖼️ Cualquier otro archivo → envío normal
     res.setHeader("Content-Type", mimeType);
     res.setHeader("Content-Length", stat.size);
-    return fs.createReadStream(filePath).pipe(res);
+    const stream = fs.createReadStream(filePath);
+    stream.pipe(res);
   } catch (error) {
     console.error("⚠️ Error mostrando contenido:", error);
     res.status(500).send("Error al mostrar contenido");
   }
 });
 
-// Routers API
+// ✅ Routers API
 app.use("/login", loginRouter);
 app.use("/api/usuarios", usuariosRouter);
 app.use("/api/generar-documento", generarDOCSRouter);
@@ -193,7 +193,7 @@ app.use("/api/dashboard", dashboardRouter);
 app.use("/api/historial", historialRouter);
 app.use("/api/capacitaciones", capacitacionesRouter);
 
-// Usuarios conectados via WebSockets
+// ✅ Usuarios conectados (Sockets)
 const connectedUsers = new Map();
 
 app.get("/api/connected-users", validateToken, (req, res) => {
@@ -201,21 +201,13 @@ app.get("/api/connected-users", validateToken, (req, res) => {
   return res.json(users);
 });
 
-// 🚀 SERVIDOR HTTPS
 const PORT = process.env.PORT ?? 1234;
 
 const startServer = async () => {
   const conn = await connectToDatabase();
   if (conn !== 0) {
+    const server = http.createServer(app);
 
-    // Cargar certificados SSL
-    const key = fs.readFileSync("./key.pem");
-    const cert = fs.readFileSync("./cert.pem");
-
-    // Crear servidor HTTPS
-    const server = https.createServer({ key, cert }, app);
-
-    // Websockets en HTTPS
     const io = new Server(server, {
       cors: {
         origin: (origin, callback) => {
@@ -236,7 +228,8 @@ const startServer = async () => {
     });
 
     const actualizarUsuariosConectados = () => {
-      io.emit("usuariosActualizados", Array.from(connectedUsers.values()));
+      const usuarios = Array.from(connectedUsers.values());
+      io.emit("usuariosActualizados", usuarios);
     };
 
     io.on("connection", (socket) => {
@@ -247,9 +240,9 @@ const startServer = async () => {
       });
 
       socket.on("enviarNotificacion", ({ receptorId, mensaje }) => {
-        const receptorSocket = connectedUsers.get(receptorId);
-        if (receptorSocket) {
-          io.to(receptorSocket.socketId).emit("nuevaNotificacion", mensaje);
+        const receptorSocketId = connectedUsers.get(receptorId);
+        if (receptorSocketId) {
+          io.to(receptorSocketId.socketId).emit("nuevaNotificacion", mensaje);
         }
       });
 
@@ -264,9 +257,8 @@ const startServer = async () => {
       });
     });
 
-    // Iniciar HTTPS
     server.listen(PORT, "0.0.0.0", () => {
-      console.log(`🔐 HTTPS Server running at https://localhost:${PORT}`);
+      console.log(`🚀 Server listening on http://0.0.0.0:${PORT}`);
     });
   }
 };
