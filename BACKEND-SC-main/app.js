@@ -35,6 +35,7 @@ const acepted_origins = [
   "http://localhost:5173",
   "https://9514609c1bc6.ngrok-free.app",
   "http://192.168.100.22:5173",
+  "https://proyectos-git-main-matuteluceroos-projects.vercel.app",
   "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app/",
   "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app",
   "https://proyectos-black.vercel.app/",

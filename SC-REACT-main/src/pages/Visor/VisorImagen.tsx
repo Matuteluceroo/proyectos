@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Estructura from "../../components/Estructura/Estructura";
 import "./VisorImagen.css";
-
+import { url2 } from "../../services/connections/consts";
 /**
  * Visor de imágenes con:
  * - Modo Ajustar a Pantalla (contain)
@@ -33,7 +33,7 @@ export default function VisorImagen() {
   useEffect(() => {
     if (!nombre) return;
     const safe = encodeURIComponent(decodeURIComponent(nombre));
-    setSrc(`http://localhost:1235/ver-contenido/IMAGEN/${safe}`);
+    setSrc(`${url2}/ver-contenido/IMAGEN/${safe}`);
   }, [nombre]);
 
   // Recalcular al cambiar modo / tamaño contenedor

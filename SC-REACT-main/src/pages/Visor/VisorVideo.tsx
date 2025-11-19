@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Estructura from "../../components/Estructura/Estructura";
 import "./VisorVideo.css";
+import { url2 } from "../../services/connections/consts";
 
 type Mode = "fit" | "width" | "actual";
 
@@ -26,7 +27,7 @@ export default function VisorVideo() {
   useEffect(() => {
     if (!nombre) return;
     const safe = encodeURIComponent(decodeURIComponent(nombre));
-    setSrc(`http://localhost:1235/ver-contenido/VIDEO/${safe}`);
+    setSrc(`${url2}/ver-contenido/VIDEO/${safe}`);
   }, [nombre]);
 
   useEffect(() => {

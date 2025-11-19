@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Estructura from "../../components/Estructura/Estructura";
 import "./VisorPDF.css";
-
+import { url2 } from "../../services/connections/consts";
 type Mode = "fit" | "width" | "actual";
 
 export default function VisorPDF() {
@@ -19,7 +19,7 @@ export default function VisorPDF() {
   useEffect(() => {
     if (!nombre) return;
     const safe = encodeURIComponent(decodeURIComponent(nombre));
-    setBaseUrl(`http://localhost:1235/ver-contenido/PDF/${safe}`);
+    setBaseUrl(`${url2}/ver-contenido/PDF/${safe}`);
   }, [nombre]);
 
   // Construir src con parámetros del visor nativo del navegador
