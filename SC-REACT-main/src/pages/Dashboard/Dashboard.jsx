@@ -12,15 +12,11 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Legend,
 } from "recharts";
 import * as XLSX from "xlsx";
 import "./Dashboard.css";
 
 import UsuariosActivosChart from "../../components/dashboard/UsuariosActivosChart.jsx";
-import EntrenamientosTasaFinalizacion from "../../components/dashboard/EntrenamientosTasaFinalizacion.jsx";
-import ContenidoTopChart from "../../components/dashboard/ContenidoTopChart.jsx";
-import TagsTopChart from "../../components/dashboard/TagsTopChart.jsx";
 
 export default function Dashboard() {
   const obtenerResumen = useObtenerResumenDashboard();
@@ -33,171 +29,183 @@ export default function Dashboard() {
     porTipo: [],
     totalContenidos: 0,
   });
+
   const [loading, setLoading] = useState(true);
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
 
   const COLORS = ["#7ab648", "#b9d96c", "#94c43b", "#5a8a1f", "#b4c99c"];
 
-  const fetchData = async (inicio, fin) => {
-    setLoading(true);
-    try {
-      const data = await obtenerResumen(inicio, fin);
-      setResumen(data || {});
-    } catch (err) {
-      console.error("Error al obtener resumen:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await obtenerResumen();
+        setResumen(data);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchData();
   }, []);
 
   const handleExportExcel = () => {
-    if (!resumen) return;
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(
-      wb,
-      XLSX.utils.json_to_sheet(resumen?.porTipo ?? []),
-      "PorTipo"
-    );
-    XLSX.utils.book_append_sheet(
-      wb,
-      XLSX.utils.json_to_sheet(resumen?.contenido?.porMes ?? []),
-      "PorMes"
-    );
-    XLSX.utils.book_append_sheet(
-      wb,
-      XLSX.utils.json_to_sheet(resumen?.topAutores ?? []),
-      "TopAutores"
-    );
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumen?.porTipo ?? []), "PorTipo");
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumen?.contenido?.porMes ?? []), "PorMes");
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumen?.topAutores ?? []), "TopAutores");
     XLSX.writeFile(wb, "Dashboard_SaberCitricola.xlsx");
   };
 
   if (loading)
     return (
       <Estructura>
-        <p style={{ color: "#497b1a" }}>Cargando datos...</p>
+        <p style={{ color: "#497b1a", padding: "20px" }}>Cargando datos...</p>
       </Estructura>
     );
 
+  console.log("TOP CONSULTADOS →", resumen.contenido.topConsultados);
+
+
   return (
     <Estructura>
-      <div className="dashboard-wrapper">
-        <h2 className="titulo-dashboard">📊 Dashboard de Conocimiento</h2>
+      <div className="dashboard">
+        
+        {/* === SECCIÓN SUPERIOR (GRID 70% - 30%) === */}
+        <div className="top-section-grid">
+          
+          {/* COLUMNA IZQUIERDA (70%) */}
+          <div className="main-column">
+            
+            {/* Filtros */}
+            <div className="topbar">
+              <div className="filters">
+                <div className="filter-item">
+                  <label>Desde</label>
+                  <input type="date" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
+                </div>
+                <div className="filter-item">
+                  <label>Hasta</label>
+                  <input type="date" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
+                </div>
+                <button className="btn-action" onClick={() => fetchData(fechaInicio, fechaFin)}>Filtrar</button>
+                <button className="btn-export" onClick={handleExportExcel}>⬇ Exportar</button>
+              </div>
+            </div>
 
-        {/* === Filtros === */}
-        <div className="filtros-dashboard">
-          <div>
-            <label>Desde:</label>
-            <input
-              type="date"
-              value={fechaInicio}
-              onChange={(e) => setFechaInicio(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Hasta:</label>
-            <input
-              type="date"
-              value={fechaFin}
-              onChange={(e) => setFechaFin(e.target.value)}
-            />
-          </div>
-          <button onClick={() => fetchData(fechaInicio, fechaFin)}>Filtrar</button>
-          <button onClick={handleExportExcel}>⬇️ Exportar Excel</button>
-        </div>
+            {/* 4 KPIs Superiores */}
+            <div className="kpi-grid">
+              <div className="kpi-box">
+                <span className="kpi-title">Total Contenidos</span>
+                <span className="kpi-value">{resumen.totalContenidos}</span>
+              </div>
+              <div className="kpi-box">
+                <span className="kpi-title">Tipos Contenido</span>
+                <span className="kpi-value">{resumen.porTipo.length}</span>
+              </div>
+              <div className="kpi-box">
+                <span className="kpi-title">Autores Activos</span>
+                <span className="kpi-value">{resumen.topAutores.length}</span>
+              </div>
+              <div className="kpi-box">
+                <span className="kpi-title">Tasa Finalización</span>
+                <span className="kpi-value">{resumen.entrenamientos.tasaFinalizacion}%</span>
+              </div>
+            </div>
 
-        {/* === CARDS === */}
-        <div className="grid grid-cols-2 gap-4">
-          <UsuariosActivosChart data={resumen?.usuarios?.topActivos ?? []} />
-          <EntrenamientosTasaFinalizacion
-            porcentaje={resumen?.entrenamientos?.tasaFinalizacion ?? 0}
-          />
-          <ContenidoTopChart data={resumen?.contenido?.topConsultados ?? []} />
-          <TagsTopChart data={resumen?.tags?.topConsultados ?? []} />
-        </div>
+            {/* Gráfico Principal (Evolución Mensual) */}
+            <div className="dashboard-card">
+              <h3>Evolución Mensual</h3>
+              <ResponsiveContainer width="100%" height={350}>
+                <LineChart data={resumen.contenido.porMes}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="mes" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="total" stroke="#7ab648" strokeWidth={2} dot={{ r: 4 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
 
-        <div className="cards-dashboard">
-          <div className="card-dash">
-            <h3>Total de Contenidos</h3>
-            <p className="numero">{resumen?.totalContenidos ?? 0}</p>
-          </div>
-          <div className="card-dash">
-            <h3>Tipos de Contenido</h3>
-            <p>{resumen?.porTipo?.length ?? 0}</p>
-          </div>
-          <div className="card-dash">
-            <h3>Autores Activos</h3>
-            <p>{resumen?.topAutores?.length ?? 0}</p>
-          </div>
-        </div>
-
-        {/* === GRAFICO POR TIPO === */}
-        <div className="grafico-seccion">
-          <h3>Distribución por Tipo</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={resumen?.porTipo ?? []}
-                dataKey="cantidad"
-                nameKey="tipo"
-                outerRadius={100}
-                label
-              >
-                {(resumen?.porTipo ?? []).map((_, i) => (
-                  <Cell key={i} fill={COLORS[i % COLORS.length]} />
+          {/* COLUMNA DERECHA (30%) - Sidebar */}
+          <div className="sidebar-column">
+            <div className="sidebar-card full-height">
+              <h3>Top Autores</h3>
+              <ul className="top-list">
+                {resumen.topAutores?.slice(0, 5).map((a, i) => (
+                  <li key={i}>
+                    <span className="author-name">{a.autor}</span>
+                    <span className="author-count">{a.total}</span>
+                  </li>
                 ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
+              </ul>
+
+              <div className="sidebar-separator"></div>
+
+              <h3>Usuarios más activos</h3>
+              <div style={{ flex: 1, minHeight: "200px" }}>
+                <UsuariosActivosChart data={resumen.usuarios.topActivos} />
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* === GRAFICO EVOLUCIÓN MENSUAL === */}
-        <div className="grafico-seccion">
-          <h3>Evolución Mensual</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={resumen?.contenido?.porMes ?? []}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="mes" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="total"
-                stroke="#7ab648"
-                strokeWidth={2}
-                dot={{ r: 4 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+        {/* === SECCIÓN INFERIOR (100%) === */}
+        <div className="bottom-section">
+          {/* Distribución por Tipo */}
+          <div className="dashboard-card">
+            <h3>Distribución por Tipo</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie data={resumen.porTipo} dataKey="cantidad" nameKey="tipo" cx="50%" cy="50%" outerRadius={125} label>
+                  {resumen.porTipo.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Temas más consultados */}
+          <div className="dashboard-card">
+            <h3>Temas más consultados</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={resumen.contenido.topConsultados}
+                  dataKey="consultas"
+                  nameKey="titulo"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={125}
+                  label
+                >
+                  {(resumen.contenido.topConsultados ?? []).map((_, i) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+
+
+
+          {/* Mini KPIs (Para no perder datos) */}
+          <div className="mini-kpi-container">
+            <div className="mini-kpi-box">
+              <span className="mini-kpi-title">Contenidos recientes</span>
+              <span className="mini-kpi-value">{resumen?.contenido?.porMes?.slice(-1)[0]?.total || 0}</span>
+            </div>
+            <div className="mini-kpi-box">
+              <span className="mini-kpi-title">Usuarios nuevos</span>
+              <span className="mini-kpi-value">{resumen?.usuarios?.topActivos?.length || 0}</span>
+            </div>
+          </div>
         </div>
 
-        {/* === TOP AUTORES === */}
-        <div className="grafico-seccion">
-          <h3>Top 5 Autores</h3>
-          <table className="tabla-autores">
-            <thead>
-              <tr>
-                <th>Autor</th>
-                <th>Contenidos</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(resumen?.topAutores ?? []).map((a, i) => (
-                <tr key={i}>
-                  <td>{a.autor}</td>
-                  <td>{a.total}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
       </div>
     </Estructura>
   );
