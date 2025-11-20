@@ -87,7 +87,7 @@ export default function VisorPDF() {
           role="toolbar"
           aria-label="Controles del visor de PDF"
         >
-          <div className="group">
+          {/* <div className="group">
             <button className="btn" onClick={zoomOut} title="Alejar">
               −
             </button>
@@ -144,7 +144,7 @@ export default function VisorPDF() {
             <button className="btn" onClick={goNext} title="Página siguiente">
               ⟹
             </button>
-          </div>
+          </div> */}
 
           <div className="group">
             <a className="btn" href={baseUrl} download title="Descargar PDF">

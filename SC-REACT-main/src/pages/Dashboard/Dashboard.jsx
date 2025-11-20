@@ -20,8 +20,9 @@ import UsuariosActivosChart from "../../components/dashboard/UsuariosActivosChar
 
 export default function Dashboard() {
   const obtenerResumen = useObtenerResumenDashboard();
+
   const [resumen, setResumen] = useState({
-    usuarios: { topActivos: [] },
+    usuarios: { totales: 0, activos: 0, inactivos: 0, topActivos: [] },
     entrenamientos: { tasaFinalizacion: 0, porMes: [] },
     contenido: { topConsultados: [], porMes: [] },
     tags: { topConsultados: [] },
@@ -36,19 +37,24 @@ export default function Dashboard() {
 
   const COLORS = ["#7ab648", "#b9d96c", "#94c43b", "#5a8a1f", "#b4c99c"];
 
-  useEffect(() => {
-    const fetchData = async () => {
+  // === FUNCIÓN GENERAL PARA TRAER DATOS ===
+  const fetchData = async (desde = "", hasta = "") => {
+    try {
       setLoading(true);
-      try {
-        const data = await obtenerResumen();
-        setResumen(data);
-      } finally {
-        setLoading(false);
-      }
-    };
+      const data = await obtenerResumen(desde, hasta); // ← ya preparado para fechas
+      console.log(data);
+      setResumen(data);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // === CARGA INICIAL ===
+  useEffect(() => {
     fetchData();
   }, []);
 
+  // === EXPORTAR EXCEL ===
   const handleExportExcel = () => {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumen?.porTipo ?? []), "PorTipo");
@@ -64,56 +70,67 @@ export default function Dashboard() {
       </Estructura>
     );
 
-  console.log("TOP CONSULTADOS →", resumen.contenido.topConsultados);
-
-
   return (
     <Estructura>
       <div className="dashboard">
-        
-        {/* === SECCIÓN SUPERIOR (GRID 70% - 30%) === */}
+
+        {/* === SECCIÓN SUPERIOR === */}
         <div className="top-section-grid">
-          
-          {/* COLUMNA IZQUIERDA (70%) */}
+
+          {/* IZQUIERDA */}
           <div className="main-column">
-            
+
             {/* Filtros */}
             <div className="topbar">
               <div className="filters">
+
                 <div className="filter-item">
                   <label>Desde</label>
                   <input type="date" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
                 </div>
+
                 <div className="filter-item">
                   <label>Hasta</label>
                   <input type="date" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
                 </div>
-                <button className="btn-action" onClick={() => fetchData(fechaInicio, fechaFin)}>Filtrar</button>
-                <button className="btn-export" onClick={handleExportExcel}>⬇ Exportar</button>
+
+                <button
+                  className="btn-action"
+                  onClick={() => fetchData(fechaInicio, fechaFin)}
+                >
+                  Filtrar
+                </button>
+
+                <button className="btn-export" onClick={handleExportExcel}>
+                  ⬇ Exportar
+                </button>
               </div>
             </div>
 
-            {/* 4 KPIs Superiores */}
+            {/* KPIs */}
             <div className="kpi-grid">
               <div className="kpi-box">
                 <span className="kpi-title">Total Contenidos</span>
-                <span className="kpi-value">{resumen.totalContenidos}</span>
+                <span className="kpi-value">{resumen.contenido.totales}</span>
               </div>
+
               <div className="kpi-box">
                 <span className="kpi-title">Tipos Contenido</span>
                 <span className="kpi-value">{resumen.porTipo.length}</span>
               </div>
+
               <div className="kpi-box">
                 <span className="kpi-title">Autores Activos</span>
                 <span className="kpi-value">{resumen.topAutores.length}</span>
               </div>
+
               <div className="kpi-box">
                 <span className="kpi-title">Tasa Finalización</span>
                 <span className="kpi-value">{resumen.entrenamientos.tasaFinalizacion}%</span>
               </div>
             </div>
 
-            {/* Gráfico Principal (Evolución Mensual) */}
+            {/* Gráfico Evolutivo */}
             <div className="dashboard-card">
               <h3>Evolución Mensual</h3>
               <ResponsiveContainer width="100%" height={350}>
@@ -128,7 +145,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* COLUMNA DERECHA (30%) - Sidebar */}
+          {/* DERECHA */}
           <div className="sidebar-column">
             <div className="sidebar-card full-height">
               <h3>Top Autores</h3>
@@ -149,16 +166,26 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+
         </div>
 
-        {/* === SECCIÓN INFERIOR (100%) === */}
+        {/* === SECCIÓN INFERIOR === */}
         <div className="bottom-section">
-          {/* Distribución por Tipo */}
+
+          {/* Distribución por tipo */}
           <div className="dashboard-card">
             <h3>Distribución por Tipo</h3>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
-                <Pie data={resumen.porTipo} dataKey="cantidad" nameKey="tipo" cx="50%" cy="50%" outerRadius={125} label>
+                <Pie
+                  data={resumen.porTipo}
+                  dataKey="cantidad"
+                  nameKey="tipo"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={125}
+                  label
+                >
                   {resumen.porTipo.map((_, i) => (
                     <Cell key={i} fill={COLORS[i % COLORS.length]} />
                   ))}
@@ -168,7 +195,7 @@ export default function Dashboard() {
             </ResponsiveContainer>
           </div>
 
-          {/* Temas más consultados */}
+          {/* Contenidos más consultados */}
           <div className="dashboard-card">
             <h3>Temas más consultados</h3>
             <ResponsiveContainer width="100%" height={300}>
@@ -191,19 +218,19 @@ export default function Dashboard() {
             </ResponsiveContainer>
           </div>
 
-
-
-          {/* Mini KPIs (Para no perder datos) */}
+          {/* Mini KPIs */}
           <div className="mini-kpi-container">
             <div className="mini-kpi-box">
               <span className="mini-kpi-title">Contenidos recientes</span>
               <span className="mini-kpi-value">{resumen?.contenido?.porMes?.slice(-1)[0]?.total || 0}</span>
             </div>
+
             <div className="mini-kpi-box">
               <span className="mini-kpi-title">Usuarios nuevos</span>
               <span className="mini-kpi-value">{resumen?.usuarios?.topActivos?.length || 0}</span>
             </div>
           </div>
+
         </div>
 
       </div>
