@@ -4,6 +4,12 @@
   min-height: 100vh;
 }
 
+@media (max-width: 768px) {
+  .buscador-wrapper {
+    padding: 1rem;
+  }
+}
+
 /* === Caja del buscador === */
 .buscador-box {
   display: flex;
@@ -107,6 +113,14 @@
   overflow: hidden;
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 100%;
+    max-width: 280px;
+  }
 }
 
 .card img {
