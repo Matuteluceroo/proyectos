@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSocket } from "../../services/SocketContext";
-import NotificationModal from "../Header/NotificacionModal";
-import ProfileModal from "../Header/ProfileModal";
-import porfileIco from "../../assets/porfile.svg";
-import "./Sidebar.css";
+import React, { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { useSocket } from "../../services/SocketContext"
+import NotificationModal from "../Header/NotificacionModal"
+import ProfileModal from "../Header/ProfileModal"
+import porfileIco from "../../assets/porfile.svg"
+import "./Sidebar.css"
 import {
   FiPackage,
   FiBarChart2,
@@ -15,16 +15,16 @@ import {
   FiSearch,
   FiFile,
   FiEdit,
-} from "react-icons/fi";
-import { useObtenerImagenPerfil } from "../../services/connections/usuarios";
-import BotonVolver from "../Button/BotonVolver";
-import BotonCerrarSesion from "../Button/BotonCerrarSesion";
+} from "react-icons/fi"
+import { useObtenerImagenPerfil } from "../../services/connections/usuarios"
+import BotonVolver from "../Button/BotonVolver"
+import BotonCerrarSesion from "../Button/BotonCerrarSesion"
 
 interface SidebarProps {
-  FooterButton?: React.ReactElement<{ collapsed?: boolean }>;
-  onToggleCollapse?: (collapsed: boolean) => void;
-  collapsed: boolean;
-  rutaVolver?: string;
+  FooterButton?: React.ReactElement<{ collapsed?: boolean }>
+  onToggleCollapse?: (collapsed: boolean) => void
+  collapsed: boolean
+  rutaVolver?: string
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -33,49 +33,49 @@ const Sidebar: React.FC<SidebarProps> = ({
   collapsed,
   rutaVolver,
 }) => {
-  const { currentUser, notificaciones } = useSocket();
+  const { currentUser, notificaciones } = useSocket()
 
-  const [showNoti, setShowNoti] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
-  const [fotoPerfil, setFotoPerfil] = useState<string>(porfileIco);
-  const [showRoles, setShowRoles] = useState(false);
-  const [showConfigOptions, setShowConfigOptions] = useState(false);
+  const [showNoti, setShowNoti] = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
+  const [fotoPerfil, setFotoPerfil] = useState<string>(porfileIco)
+  const [showRoles, setShowRoles] = useState(false)
+  const [showConfigOptions, setShowConfigOptions] = useState(false)
   const [activeProfileView, setActiveProfileView] = useState<string | null>(
     null
-  );
+  )
   const [pantallaActual, setPantallaActual] = useState<string>(
     localStorage.getItem("pantallaActual") || "/"
-  );
-  const navigate = useNavigate();
-  const obtenerImagen = useObtenerImagenPerfil();
+  )
+  const navigate = useNavigate()
+  const obtenerImagen = useObtenerImagenPerfil()
 
   useEffect(() => {
     const getFotoPerfil = async () => {
       try {
-        const result = await obtenerImagen({ idUsuario: currentUser.id });
+        const result = await obtenerImagen({ idUsuario: currentUser.id })
         if (result?.imagen?.startsWith("data:image")) {
-          setFotoPerfil(result.imagen);
+          setFotoPerfil(result.imagen)
         } else {
-          setFotoPerfil(porfileIco);
+          setFotoPerfil(porfileIco)
         }
       } catch {
-        setFotoPerfil(porfileIco);
+        setFotoPerfil(porfileIco)
       }
-    };
-    if (currentUser?.id) getFotoPerfil();
-  }, [currentUser]);
+    }
+    if (currentUser?.id) getFotoPerfil()
+  }, [currentUser])
 
   const toggleSidebar = () => {
-    const newState = !collapsed;
-    onToggleCollapse?.(newState);
-  };
+    const newState = !collapsed
+    onToggleCollapse?.(newState)
+  }
 
   const cambioPantallaActual = () => {
-    const url = new URL(window.location.href);
-    if (url.pathname === "/stock" || url.pathname === "/reportes") return;
-    localStorage.setItem("pantallaActual", url.pathname + url.search);
-    setPantallaActual(url.pathname + url.search);
-  };
+    const url = new URL(window.location.href)
+    if (url.pathname === "/stock" || url.pathname === "/reportes") return
+    localStorage.setItem("pantallaActual", url.pathname + url.search)
+    setPantallaActual(url.pathname + url.search)
+  }
 
   const navegarPrincipalRol = (rol: string) => {
     const roles: { [key: string]: string } = {
@@ -83,7 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       "LIDER-LICITADOR": "/menu_licitaciones",
       COMPRADOR: "/cotizaciones",
       "ADM-KAIROS": "/administrador_kairos",
-      ADMINISTRADOR: "menu-informes-gerenciales",
+      ADMINISTRADOR: "/administracion",
       COBRADOR: "/cobranzas",
       ADMCOBRANZAS: "/cobranzas",
       GERENTE: "/menu-informes-gerenciales",
@@ -91,10 +91,11 @@ const Sidebar: React.FC<SidebarProps> = ({
       LOGISTICA: "/logistica/lista-partes",
       "ADMIN-COMPARATIVOS": "/comparativos_admin",
       TESTER: "/testing",
-    };
-    currentUser.rol = rol;
-    navigate(roles[rol] || "/");
-  };
+      EMPLEADO: "/buscador",
+    }
+    currentUser.rol = rol
+    navigate(roles[rol] || "/")
+  }
 
   return (
     <div className={`sidebar-fixed ${collapsed ? "collapsed" : "expanded"}`}>
@@ -146,21 +147,34 @@ const Sidebar: React.FC<SidebarProps> = ({
           </div>
           {!collapsed && <span className="sidebar-text">Notificaciones</span>}
         </button>
-        <button onClick={() => navigate("/dashboard")} title="DashBoard">
-          <FiBarChart2 size={20} style={{ color: "#000" }} />
-          {!collapsed && <span className="sidebar-text">DashBoard</span>}
-        </button>
-        <button onClick={() => navigate("/contenido")} title="Crear Contenido">
-          <FiFile size={20} style={{ color: "#000" }} />
-          {!collapsed && <span className="sidebar-text">Crear Contenido</span>}
-        </button>
-        <button
-          onClick={() => navigate("/subir-contenido")}
-          title="Subir Contenido"
-        >
-          <FiEdit size={20} style={{ color: "#000" }} />
-          {!collapsed && <span className="sidebar-text">Subir Contenido</span>}
-        </button>
+        {currentUser?.rol === "ADMINISTRADOR" && (
+          <button onClick={() => navigate("/dashboard")} title="DashBoard">
+            <FiBarChart2 size={20} style={{ color: "#000" }} />
+            {!collapsed && <span className="sidebar-text">DashBoard</span>}
+          </button>
+        )}
+        {currentUser?.rol === "ADMINISTRADOR" && (
+          <button
+            onClick={() => navigate("/contenido")}
+            title="Crear Contenido"
+          >
+            <FiFile size={20} style={{ color: "#000" }} />
+            {!collapsed && (
+              <span className="sidebar-text">Crear Contenido</span>
+            )}
+          </button>
+        )}
+        {currentUser?.rol === "ADMINISTRADOR" && (
+          <button
+            onClick={() => navigate("/subir-contenido")}
+            title="Subir Contenido"
+          >
+            <FiEdit size={20} style={{ color: "#000" }} />
+            {!collapsed && (
+              <span className="sidebar-text">Subir Contenido</span>
+            )}
+          </button>
+        )}
         <button onClick={() => navigate("/buscador")} title="Buscar Contenido">
           <FiSearch size={20} style={{ color: "#000" }} />
           {!collapsed && <span className="sidebar-text">Buscar Contenido</span>}
@@ -215,8 +229,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           <button
             className="sidebar-button"
             onClick={() => {
-              if (collapsed) toggleSidebar();
-              setShowConfigOptions((prev) => !prev);
+              if (collapsed) toggleSidebar()
+              setShowConfigOptions((prev) => !prev)
             }}
           >
             <FiSettings size={20} />
@@ -241,8 +255,8 @@ const Sidebar: React.FC<SidebarProps> = ({
               <button
                 className="sidebar-subitem"
                 onClick={() => {
-                  setActiveProfileView("cambiarFoto");
-                  setShowProfile(true);
+                  setActiveProfileView("cambiarFoto")
+                  setShowProfile(true)
                 }}
               >
                 Elegir Foto de Perfil
@@ -250,16 +264,16 @@ const Sidebar: React.FC<SidebarProps> = ({
               <button
                 className="sidebar-subitem"
                 onClick={() => {
-                  setActiveProfileView("cambiarContraseña");
-                  setShowProfile(true);
+                  setActiveProfileView("cambiarContraseña")
+                  setShowProfile(true)
                 }}
               >
                 Cambiar Contraseña
               </button>
               <BotonCerrarSesion
                 onClick={() => {
-                  localStorage.clear();
-                  window.location.href = "/";
+                  localStorage.clear()
+                  window.location.href = "/"
                 }}
                 collapsed={collapsed}
               />
@@ -276,8 +290,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       <ProfileModal
         isModalOpen={showProfile}
         handleCloseModal={() => {
-          setShowProfile(false);
-          setActiveProfileView(null);
+          setShowProfile(false)
+          setActiveProfileView(null)
         }}
         currentUser={currentUser}
         porfilePhoto={fotoPerfil}
@@ -285,7 +299,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         initialView={activeProfileView}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar
