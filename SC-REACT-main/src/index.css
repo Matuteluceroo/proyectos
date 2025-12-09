@@ -34,7 +34,22 @@ body {
   background-color: rgba(240, 240, 240, 0.389);
   margin: 0;
   padding: 0;
-  font-size: 11px;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 11px;
+  }
 }
 .sub-title {
   font-size: 18px;
@@ -69,4 +84,21 @@ h1 {
 }
 * {
   font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
+}
+
+/* Mobile-first: Ensure touch-friendly elements */
+@media (max-width: 768px) {
+  button,
+  .btn,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    font-size: 16px;
+  }
 }
