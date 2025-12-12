@@ -89,6 +89,7 @@ const Login = () => {
           GERENTE: '/menu-informes-gerenciales',
           TESTER: '/testing',
           'ADMIN-COMPARATIVOS': '/comparativos_admin',
+          EMPLEADO: "/buscador"
         }
         navigate(roles[response.usuario.rol] || '/')
       } else {
