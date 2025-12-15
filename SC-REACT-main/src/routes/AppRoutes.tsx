@@ -21,6 +21,7 @@ import VisorPDF from "../pages/Visor/VisorPDF";
 import VisorVideo from "../pages/Visor/VisorVideo";
 import VisorImagen from "../pages/Visor/VisorImagen";
 import Capacitaciones from "../pages/Capacitaciones/Capacitaciones";
+import BuscadorVoz from "../pages/Buscador/BuscadorVoz";
 
 const AppRoutes = () => (
   <Router>
@@ -71,6 +72,7 @@ const AppRoutes = () => (
               "TESTER",
               "GERENTE",
               "ADMINISTRADOR",
+              "EMPLEADO",
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -93,6 +95,7 @@ const AppRoutes = () => (
               "TESTER",
               "GERENTE",
               "ADMINISTRADOR",
+              "EMPLEADO",
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -185,6 +188,30 @@ const AppRoutes = () => (
               "TESTER",
               "GERENTE",
               "ADMINISTRADOR",
+              "EMPLEADO",
+              "ADM-KAIROS",
+              "LIDER-LICITADOR",
+              "COMPRADOR",
+              "LOGISTICA",
+              "ADMLOGISTICA",
+              "ADMIN-COMPARATIVOS",
+            ]}
+          />
+        }
+      />
+      <Route
+        path="/puntoconocimiento"
+        element={
+          <PrivateRoute
+            element={<BuscadorVoz />}
+            allowedRoles={[
+              "COBRADOR",
+              "LICITADOR",
+              "ADMCOBRANZAS",
+              "TESTER",
+              "GERENTE",
+              "ADMINISTRADOR",
+              "EMPLEADO",
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -207,6 +234,7 @@ const AppRoutes = () => (
               "TESTER",
               "GERENTE",
               "ADMINISTRADOR",
+              "EMPLEADO",
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -228,7 +256,7 @@ const AppRoutes = () => (
               "ADMCOBRANZAS",
               "TESTER",
               "GERENTE",
-              "ADMINISTRADOR",
+              "ADMINISTRADOR","EMPLEADO",
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -251,6 +279,7 @@ const AppRoutes = () => (
               "TESTER",
               "GERENTE",
               "ADMINISTRADOR",
+              "EMPLEADO",
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
