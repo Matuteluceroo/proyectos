@@ -1,7 +1,6 @@
 import { url } from "./consts";
 import { useApiRequest } from "./apiRequest";
 export type Rol =
-  | "LICITADOR"
   | "EMPLEADO"
   | "ADMINISTRADOR"
   | "EXPERTO"

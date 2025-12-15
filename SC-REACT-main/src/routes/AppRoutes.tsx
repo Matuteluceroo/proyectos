@@ -33,7 +33,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<Administracion />}
-            allowedRoles={["ADMINISTRADOR"]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
           />
         }
       />
@@ -42,7 +42,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<MenuInformes />}
-            allowedRoles={["GERENTE", "ADMINISTRADOR"]}
+            allowedRoles={["GERENTE", "ADMINISTRADOR","EMPLEADO","EXPERTO",]}
           />
         }
       >
@@ -71,8 +71,9 @@ const AppRoutes = () => (
               "ADMCOBRANZAS",
               "TESTER",
               "GERENTE",
-              "ADMINISTRADOR",
-              "EMPLEADO",
+              "ADMINISTRADOR","EMPLEADO","EXPERTO",
+              
+              
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -94,8 +95,9 @@ const AppRoutes = () => (
               "ADMCOBRANZAS",
               "TESTER",
               "GERENTE",
-              "ADMINISTRADOR",
-              "EMPLEADO",
+              "ADMINISTRADOR","EMPLEADO","EXPERTO",
+              
+              
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -111,7 +113,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<VisorPDF />}
-            allowedRoles={["ADMINISTRADOR"]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
           />
         }
       />
@@ -120,7 +122,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<VisorVideo />}
-            allowedRoles={["ADMINISTRADOR"]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
           />
         }
       />
@@ -129,14 +131,14 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<VisorImagen />}
-            allowedRoles={["ADMINISTRADOR"]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
           />
         }
       />
       {/* <Route
         path="/visor/:id"
         element={
-          <PrivateRoute element={<Visor />} allowedRoles={["ADMINISTRADOR"]} />
+          <PrivateRoute element={<Visor />} allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]} />
         }
       /> */}
       <Route
@@ -144,7 +146,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<EditarContenido />}
-            allowedRoles={["ADMINISTRADOR"]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
           />
         }
       />
@@ -153,7 +155,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<VisorHtml />}
-            allowedRoles={["ADMINISTRADOR"]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
           />
         }
       />
@@ -163,7 +165,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<GestorContenido />}
-            allowedRoles={["ADMINISTRADOR"]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
           />
         }
       />
@@ -172,7 +174,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<Contenido />}
-            allowedRoles={["ADMINISTRADOR"]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
           />
         }
       />
@@ -187,8 +189,9 @@ const AppRoutes = () => (
               "ADMCOBRANZAS",
               "TESTER",
               "GERENTE",
-              "ADMINISTRADOR",
-              "EMPLEADO",
+              "ADMINISTRADOR","EMPLEADO","EXPERTO",
+              
+              
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -210,8 +213,9 @@ const AppRoutes = () => (
               "ADMCOBRANZAS",
               "TESTER",
               "GERENTE",
-              "ADMINISTRADOR",
-              "EMPLEADO",
+              "ADMINISTRADOR","EMPLEADO","EXPERTO",
+              
+              
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -233,8 +237,9 @@ const AppRoutes = () => (
               "ADMCOBRANZAS",
               "TESTER",
               "GERENTE",
-              "ADMINISTRADOR",
-              "EMPLEADO",
+              "ADMINISTRADOR","EMPLEADO","EXPERTO",
+              
+              
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -256,7 +261,7 @@ const AppRoutes = () => (
               "ADMCOBRANZAS",
               "TESTER",
               "GERENTE",
-              "ADMINISTRADOR","EMPLEADO",
+              "ADMINISTRADOR","EMPLEADO","EXPERTO",
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",
@@ -278,8 +283,9 @@ const AppRoutes = () => (
               "ADMCOBRANZAS",
               "TESTER",
               "GERENTE",
-              "ADMINISTRADOR",
-              "EMPLEADO",
+              "ADMINISTRADOR","EMPLEADO","EXPERTO",
+              
+              
               "ADM-KAIROS",
               "LIDER-LICITADOR",
               "COMPRADOR",

@@ -72,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const cambioPantallaActual = () => {
     const url = new URL(window.location.href);
-    if (currentUser.rol === "EMPLEADO") {
+    if (currentUser.rol === "EMPLEADO" || currentUser.rol === "EXPERTO") {
       localStorage.setItem("pantallaActual", url.pathname + url.search);
       console.log(url.pathname);
       console.log(url.search);
@@ -153,13 +153,13 @@ const Sidebar: React.FC<SidebarProps> = ({
           </div>
           {!collapsed && <span className="sidebar-text">Notificaciones</span>}
         </button>
-        {currentUser?.rol === "ADMINISTRADOR" && (
+        {currentUser?.rol !== "EMPLEADO" && (
           <button onClick={() => navigate("/dashboard")} title="DashBoard">
             <FiBarChart2 size={20} style={{ color: "#000" }} />
             {!collapsed && <span className="sidebar-text">DashBoard</span>}
           </button>
         )}
-        {currentUser?.rol === "ADMINISTRADOR" && (
+        {currentUser?.rol !== "EMPLEADO" && (
           <button
             onClick={() => navigate("/contenido")}
             title="Crear Contenido"
@@ -170,7 +170,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             )}
           </button>
         )}
-        {currentUser?.rol === "ADMINISTRADOR" && (
+        {currentUser?.rol !== "EMPLEADO" && (
           <button
             onClick={() => navigate("/subir-contenido")}
             title="Subir Contenido"

@@ -34,7 +34,6 @@ import ModalNotificaciones from "../../components/ModalNotificaciones/ModalNotif
 import AlertOptions from "../../components/Alert/AlertOptions";
 import "./Administracion.css";
 const LISTA_ROLES: Rol[] = [
-  "LICITADOR",
   "ADMINISTRADOR",
   "EMPLEADO",
   "EXPERTO",

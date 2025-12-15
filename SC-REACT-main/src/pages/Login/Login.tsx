@@ -77,19 +77,9 @@ const Login = () => {
         //localStorage.setItem('currentUser', JSON.stringify(usuarioConFoto))
 
         const roles: { [key: string]: string } = {
-          LICITADOR: '/menu_licitaciones',
-          'LIDER-LICITADOR': '/menu_licitaciones',
-          COMPRADOR: '/cotizaciones',
-          'ADM-KAIROS': '/administrador_kairos',
           ADMINISTRADOR: '/administracion',
-          COBRADOR: '/cobranzas',
-          ADMLOGISTICA: '/logistica/lista-partes',
-          LOGISTICA: '/logistica/lista-partes',
-          ADMCOBRANZAS: '/cobranzas',
-          GERENTE: '/menu-informes-gerenciales',
-          TESTER: '/testing',
-          'ADMIN-COMPARATIVOS': '/comparativos_admin',
-          EMPLEADO: "/buscador"
+          EMPLEADO: "/buscador",
+          EXPERTO: "/buscador"
         }
         navigate(roles[response.usuario.rol] || '/')
       } else {
