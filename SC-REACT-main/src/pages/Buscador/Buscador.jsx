@@ -13,50 +13,40 @@ import {
   useRegistrarHistorial,
 } from "../../services/connections/historial"
 import { useSocket } from "../../services/SocketContext"
+import { useVoiceSearch } from "../../hooks/useVoiceSearch"
 import citricolosprueba from "../../assets/citricolosprueba.jpg"
 
-// === Helpers ===
+/* ================= HELPERS ================= */
+
 const toId = (item) =>
   item?.id ?? item?.id_contenido ?? item?.Id ?? item?.ID ?? null
+
 const toTipoNombre = (item) => item?.tipoNombre ?? item?.tipo ?? ""
+
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString() : "")
 
-// === Util: decidir visor según tipo/extension ===
 const getVisorPath = (item) => {
-  const id = item.id_contenido || item.id
-  const almacenamiento = (
-    item.almacenamiento ||
-    item.tipoNombre ||
-    ""
-  ).toUpperCase()
-  const file = (item.url_archivo || "")
-    .trim()
-    .replace(/\\/g, "/")
-    .split("/")
-    .pop()
+  const id = toId(item)
+  const origen = (item.origen || "").toUpperCase()
+  const file = (item.url_archivo || "").replace(/\\/g, "/").split("/").pop()
   const ext = file.split(".").pop()?.toLowerCase()
 
-  if (almacenamiento === "HTML" || item.origen === "HTML")
-    return `/visor-html/${id}`
-  if (
-    almacenamiento === "IMAGEN" ||
-    ["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(ext)
-  )
+  if (origen === "HTML") return `/visor-html/${id}`
+  if (["jpg", "jpeg", "png", "gif", "webp"].includes(ext))
     return `/visor-imagen/${file}`
-  if (
-    almacenamiento === "VIDEO" ||
-    ["mp4", "webm", "ogg", "mov", "mkv", "avi"].includes(ext)
-  )
-    return `/visor-video/${file}`
-  if (almacenamiento === "PDF" || ext === "pdf") return `/visor-pdf/${file}`
+  if (["mp4", "webm", "ogg"].includes(ext)) return `/visor-video/${file}`
+  if (ext === "pdf") return `/visor-pdf/${file}`
 
-  return `/visor-html/${id}` // fallback
+  return `/visor-html/${id}`
 }
+
+/* ================= COMPONENTE ================= */
 
 export default function Buscador() {
   const { currentUser } = useSocket() ?? {}
+  const navigate = useNavigate()
+
   const [query, setQuery] = useState("")
-  const [isListening, setIsListening] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const [resultados, setResultados] = useState([])
@@ -66,175 +56,136 @@ export default function Buscador() {
   const [topConsultados, setTopConsultados] = useState([])
 
   const buscarContenidos = useBuscarContenidos()
-  const obtenerTipos = useObtenerTiposConocimiento()
   const obtenerUltimos = useObtenerUltimosContenidos()
-  const registrarHistorial = useRegistrarHistorial()
+  const obtenerTipos = useObtenerTiposConocimiento()
   const obtenerTopConsultados = useObtenerTopConsultados()
-  const navigate = useNavigate()
+  const registrarHistorial = useRegistrarHistorial()
 
-  // === Cargar tipos, últimos contenidos y top consultados ===
+  /* ======= VOZ ======= */
+
+  const handleVoiceResult = (text) => {
+    const normalized = text
+      .toLowerCase()
+      .replace(/^buscar\s*/, "")
+      .trim()
+
+    setQuery(normalized)
+
+    setTimeout(() => {
+      handleSearch(normalized)
+    }, 200)
+  }
+
+  const { startListening, isVoiceListening } = useVoiceSearch({
+    onResult: handleVoiceResult,
+  })
+
+  /* ======= CARGA INICIAL ======= */
+
   useEffect(() => {
     let mounted = true
+
     ;(async () => {
       try {
-        const [dataTipos, dataUltimos, dataTop] = await Promise.all([
+        const [t, u, top] = await Promise.all([
           obtenerTipos(currentUser?.id),
           obtenerUltimos(currentUser?.id),
           obtenerTopConsultados(),
         ])
-        console.log("dataTipos", dataTipos)
-        console.log("dataUltimos", dataUltimos)
+
         if (!mounted) return
-        setTipos(Array.isArray(dataTipos) ? dataTipos : [])
-        setUltimos(Array.isArray(dataUltimos) ? dataUltimos : [])
-        setTopConsultados(Array.isArray(dataTop) ? dataTop : [])
-      } catch (err) {
-        console.error("Error al cargar datos iniciales:", err)
+
+        setTipos(Array.isArray(t) ? t : [])
+        setUltimos(Array.isArray(u) ? u : [])
+        setTopConsultados(Array.isArray(top) ? top : [])
+      } catch (e) {
+        console.error(e)
       }
     })()
+
     return () => {
       mounted = false
     }
   }, [])
 
-  // === Buscar contenidos ===
-  const handleSearch = async () => {
-    const q = query.trim()
+  /* ======= BUSCAR ======= */
+
+  const handleSearch = async (overrideQuery) => {
+    const q = (overrideQuery ?? query).trim()
     if (!q) return
+
     setIsLoading(true)
     setError("")
+
     try {
       const data = await buscarContenidos(q, currentUser?.id)
       const lista = Array.isArray(data) ? data : []
-      if (lista.length === 0) {
-        setResultados([])
-        return
-      }
+
       const filtrados =
         tipoSeleccionado === "Todos"
           ? lista
           : lista.filter((c) => toTipoNombre(c) === tipoSeleccionado)
+
       setResultados(filtrados)
-    } catch (err) {
-      console.error("Error buscando contenidos:", err)
-      setError("No se pudo conectar con el servidor")
+    } catch (e) {
+      setError("Error al buscar contenidos")
     } finally {
       setIsLoading(false)
     }
   }
 
-  // === Micrófono ===
-  const handleMicClick = () => {
-    if (!("webkitSpeechRecognition" in window)) {
-      alert("Tu navegador no soporta reconocimiento de voz")
-      return
-    }
-    const recognition = new window.webkitSpeechRecognition()
-    recognition.lang = "es-ES"
-    recognition.continuous = false
-    recognition.interimResults = false
+  /* ======= CLICK CARD ======= */
 
-    recognition.onstart = () => setIsListening(true)
-    recognition.onend = () => setIsListening(false)
-    recognition.onresult = (event) => {
-      const texto = event.results?.[0]?.[0]?.transcript ?? ""
-      setQuery(texto)
-      setTimeout(() => handleSearch(), 250)
-    }
-
-    recognition.start()
-  }
-
-  // === Registrar consulta y navegar ===
   const handleClickCard = async (item) => {
-    const idContenido = toId(item)
-    if (!idContenido) return
+    const id = toId(item)
+    if (!id) return
+
     try {
       if (currentUser?.id) {
         await registrarHistorial({
           id_usuario: currentUser.id,
-          id_contenido: idContenido,
-          tipo:
-            item.origen === "HTML"
-              ? "HTML"
-              : item.origen === "TAG"
-              ? "TAG"
-              : "ARCHIVO",
+          id_contenido: id,
+          tipo: item.origen,
         })
       }
-    } catch (error) {
-      console.error("❌ Error al registrar consulta:", error)
+    } catch (e) {
+      console.error(e)
     } finally {
-      const path = getVisorPath(item)
-      navigate(path)
+      navigate(getVisorPath(item))
     }
   }
+
+  /* ======= MEMOS ======= */
 
   const ultimosPorTipo = useMemo(
     () => (Array.isArray(ultimos) ? ultimos : []),
     [ultimos]
   )
-  const recomendadosPorTag = useMemo(() => {
-    if (!Array.isArray(ultimos)) return []
 
+  const recomendadosPorTag = useMemo(() => {
     return ultimos
-      .flatMap((grupo) => grupo.items || [])
-      .filter((item) => item.origen === "TAG")
+      .flatMap((g) => g.items || [])
+      .filter((i) => i.origen === "TAG")
   }, [ultimos])
 
-  // === Icono segun origen ===
-  const getIconoOrigen = (origen) => {
-    switch ((origen || "").toUpperCase()) {
-      case "HTML":
-        return "📝"
-      case "TAG":
-        return "🔖"
-      default:
-        return "📄"
-    }
-  }
-
-  // === Render de tarjeta ===
-  const renderCard = (item, showDescripcion = false) => {
-    const id = toId(item)
-    const icono = getIconoOrigen(item.origen)
-    return (
-      <div
-        key={id ?? item?.titulo}
-        className="card"
-        onClick={() => handleClickCard(item)}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) =>
-          (e.key === "Enter" || e.key === " ") && handleClickCard(item)
-        }
-        style={{ cursor: "pointer" }}
-        aria-label={`Abrir ${item?.titulo ?? "contenido"}`}
-      >
-        <img src={citricolosprueba} alt={item?.titulo ?? ""} />
-        <p className="card-titulo">
-          {icono} {item?.titulo}
-        </p>
-        <p className="card-autor">
-          {(item?.autorNombre || "Sin autor") +
-            " — " +
-            (toTipoNombre(item) || fmtDate(item?.fecha_creacion) || "")}
-        </p>
-        {showDescripcion && item?.descripcion && (
-          <p className="card-descripcion">{item.descripcion}</p>
-        )}
-      </div>
-    )
-  }
-
-  const showEmpty =
-    !isLoading &&
-    !error &&
-    ((query && resultados.length === 0) ||
-      (!query && ultimosPorTipo.length === 0))
-
-  // === Agrupamos sugerencias por TAG si existen ===
   const sugeridos = resultados.filter((r) => r.origen === "TAG")
+
+  /* ======= SHORTCUT ======= */
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.ctrlKey && e.key.toLowerCase() === "d") {
+        e.preventDefault()
+        startListening()
+      }
+    }
+
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [])
+
+  /* ======= LIMPIAR AL BORRAR ======= */
+
   useEffect(() => {
     if (query.trim() === "") {
       setResultados([])
@@ -242,179 +193,107 @@ export default function Buscador() {
       setIsLoading(false)
     }
   }, [query])
+
+  /* ======= RENDER CARD ======= */
+
+  const renderCard = (item, showDescripcion = false) => (
+    <div
+      key={toId(item)}
+      className="card"
+      onClick={() => handleClickCard(item)}
+    >
+      <img src={citricolosprueba} alt="" />
+      <p className="card-titulo">{item.titulo}</p>
+      <p className="card-autor">
+        {(item.autorNombre || "Sin autor") +
+          " — " +
+          (toTipoNombre(item) || fmtDate(item.fecha_creacion))}
+      </p>
+      {showDescripcion && item.descripcion && (
+        <p className="card-descripcion">{item.descripcion}</p>
+      )}
+    </div>
+  )
+
+  /* ================= JSX ================= */
+
   return (
     <Estructura>
       <div className="buscador-wrapper">
-        {/* === Caja del buscador === */}
+        <button
+          onClick={startListening}
+          style={{
+            background: isVoiceListening ? "#4caf50" : "#eee",
+            padding: "0.5rem 1rem",
+            borderRadius: "6px",
+          }}
+        >
+          🎤 {isVoiceListening ? "Escuchando..." : "Buscar por voz (Ctrl + D)"}
+        </button>
+
         <div className="buscador-box">
           <FaSearch className="icon-search" />
           <input
-            type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar conocimiento..."
-            className="buscador-input"
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            aria-label="Buscar conocimiento"
           />
-          <FaMicrophone
-            className={`icon-mic ${isListening ? "active" : ""}`}
-            onClick={handleMicClick}
-            title="Hablar"
-            aria-label="Buscar por voz"
-          />
+          <FaMicrophone onClick={startListening} />
         </div>
 
-        {/* === Filtros === */}
-        <div className="filtros">
-          <button
-            className={`filtro-btn ${
-              tipoSeleccionado === "Todos" ? "activo" : ""
-            }`}
-            onClick={() => setTipoSeleccionado("Todos")}
-          >
-            Todos
-          </button>
-          {Array.isArray(tipos) &&
-            tipos.map((tipo) => (
-              <button
-                key={tipo.id_tipo ?? tipo.nombre}
-                className={`filtro-btn ${
-                  tipoSeleccionado === tipo.nombre ? "activo" : ""
-                }`}
-                onClick={() => setTipoSeleccionado(tipo.nombre)}
-              >
-                {tipo.nombre}
-              </button>
-            ))}
-        </div>
+        {isLoading && <div className="estado">Buscando...</div>}
+        {error && <div className="estado error">{error}</div>}
 
-        {/* === Estado === */}
-        {isLoading && (
-          <div className="estado" style={{ color: "#497b1a" }}>
-            Buscando...
-          </div>
-        )}
-        {error && (
-          <div className="estado" style={{ color: "red" }}>
-            {error}
-          </div>
-        )}
-
-        {/* === Resultados o últimos por tipo === */}
         <div className="resultados">
           {resultados.length > 0 ? (
             <>
-              {/* Título resultados directos */}
-              <div className="categoria-seccion">
-                <h3 className="categoria-titulo">
-                  🔎 Coincidencias encontradas
-                </h3>
-                <div className="cards-container">
-                  {resultados
-                    .filter((r) => r.origen !== "TAG")
-                    .map((item) => renderCard(item, true))}
-                </div>
+              <h3>🔎 Coincidencias encontradas</h3>
+              <div className="cards-container">
+                {resultados
+                  .filter((r) => r.origen !== "TAG")
+                  .map((i) => renderCard(i, true))}
               </div>
 
-              {/* Sección sugeridos */}
               {sugeridos.length > 0 && (
-                <div
-                  className="categoria-seccion"
-                  style={{ marginTop: "2rem" }}
-                >
-                  <h3 className="categoria-titulo">
-                    🎯 Contenidos sugeridos según tus intereses (Tags)
-                  </h3>
+                <>
+                  <h3>🎯 Sugeridos según tus intereses</h3>
                   <div className="cards-container">
-                    {sugeridos.map((item) => renderCard(item, true))}
+                    {sugeridos.map((i) => renderCard(i, true))}
                   </div>
-                </div>
+                </>
               )}
             </>
           ) : (
             <>
-              {/* 🎯 Recomendados por tags (estado inicial) */}
               {recomendadosPorTag.length > 0 && (
-                <div className="categoria-seccion">
-                  <h3 className="categoria-titulo">
-                    🎯 Recomendados para vos según tus intereses (Tags)
-                  </h3>
+                <>
+                  <h3>🎯 Recomendados para vos</h3>
                   <div className="cards-container">
-                    {recomendadosPorTag.map((item) => renderCard(item))}
+                    {recomendadosPorTag.map((i) => renderCard(i))}
                   </div>
-                </div>
+                </>
               )}
 
-              {/* Últimos contenidos por tipo */}
-              {ultimosPorTipo
-                .filter(
-                  (grupo) =>
-                    tipoSeleccionado === "Todos" ||
-                    (grupo?.tipo ?? "").toLowerCase() ===
-                      tipoSeleccionado.toLowerCase()
-                )
-                .map((grupo) => (
-                  <div
-                    key={grupo?.tipo ?? "otros"}
-                    className="categoria-seccion"
-                  >
-                    <h3 className="categoria-titulo">Últimos {grupo?.tipo}</h3>
-                    <div className="cards-container">
-                      {Array.isArray(grupo?.items) &&
-                        grupo.items.map((item) => renderCard(item))}
-                    </div>
+              {ultimosPorTipo.map((g) => (
+                <div key={g.tipo}>
+                  <h3>Últimos {g.tipo}</h3>
+                  <div className="cards-container">
+                    {g.items.map((i) => renderCard(i))}
                   </div>
-                ))}
+                </div>
+              ))}
             </>
           )}
         </div>
 
-        {/* === Más consultados recientemente === */}
         {topConsultados.length > 0 && (
-          <div className="categoria-seccion">
-            <h3 className="categoria-titulo">
-              📈 Más consultados recientemente
-            </h3>
+          <>
+            <h3>📈 Más consultados</h3>
             <div className="cards-container">
-              {topConsultados.map((item) => (
-                <div
-                  key={toId(item) ?? item?.titulo}
-                  className="card"
-                  onClick={() => handleClickCard(item)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) =>
-                    (e.key === "Enter" || e.key === " ") &&
-                    handleClickCard(item)
-                  }
-                  style={{ cursor: "pointer" }}
-                  aria-label={`Abrir ${item?.titulo ?? "contenido"}`}
-                >
-                  <img src={citricolosprueba} alt={item?.titulo ?? ""} />
-                  <p className="card-titulo">📈 {item?.titulo}</p>
-                  <p className="card-autor">
-                    {(item?.autorNombre || "Sin autor") +
-                      " — " +
-                      (toTipoNombre(item) || "")}
-                  </p>
-                  {typeof item?.totalConsultas !== "undefined" && (
-                    <p className="card-descripcion">
-                      Consultas: {item.totalConsultas}
-                    </p>
-                  )}
-                </div>
-              ))}
+              {topConsultados.map((i) => renderCard(i))}
             </div>
-          </div>
-        )}
-
-        {showEmpty && (
-          <div className="empty-state">
-            {query
-              ? "No se encontraron resultados para tu búsqueda."
-              : "Todavía no hay contenidos para mostrar."}
-          </div>
+          </>
         )}
       </div>
     </Estructura>
