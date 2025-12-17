@@ -17,6 +17,29 @@ import { useVoiceSearch } from "../../hooks/useVoiceSearch"
 import citricolosprueba from "../../assets/citricolosprueba.jpg"
 
 /* ================= HELPERS ================= */
+const inferTipoReal = (item) => {
+  // "TAG" NO es un tipo real de historial. El tipo real sale del contenido.
+  const almacenamiento = (
+    item?.almacenamiento ||
+    item?.tipoNombre ||
+    ""
+  ).toUpperCase()
+  const origen = (item?.origen || "").toUpperCase()
+
+  if (almacenamiento === "HTML" || origen === "HTML") return "HTML"
+  return "ARCHIVO"
+}
+
+const dedupeById = (arr, getId) => {
+  const map = new Map()
+  for (const it of arr) {
+    const id = getId(it)
+    if (id == null) continue
+    if (!map.has(id)) map.set(id, it)
+  }
+  return Array.from(map.values())
+}
+
 const NUMEROS_POR_VOZ = {
   uno: 1,
   una: 1,
@@ -156,13 +179,15 @@ export default function Buscador() {
   const handleClickCard = async (item) => {
     const id = toId(item)
     if (!id) return
-    item.almacenamiento === "HTML" ? "HTML" : "ARCHIVO"
+
+    const tipoReal = inferTipoReal(item)
+
     try {
       if (currentUser?.id) {
         await registrarHistorial({
           id_usuario: currentUser.id,
           id_contenido: id,
-          tipo: tipoReal,
+          tipo: tipoReal, // ✅ ahora siempre HTML o ARCHIVO
         })
       }
     } catch (e) {
@@ -186,65 +211,6 @@ export default function Buscador() {
       .filter((item) => item.origen === "TAG")
   }, [ultimos])
 
-  const listaVisible = useMemo(() => {
-    const lista = []
-
-    // 1️⃣ Resultados directos (búsqueda)
-    if (resultados.length > 0) {
-      lista.push(...resultados.filter((r) => r.origen !== "TAG"))
-    }
-
-    // 2️⃣ Recomendados por tags
-    if (recomendadosPorTag.length > 0) {
-      lista.push(...recomendadosPorTag)
-    }
-
-    // 3️⃣ Últimos contenidos (HTML, PDF, IMAGEN, VIDEO)
-    ultimosPorTipo.forEach((grupo) => {
-      if (Array.isArray(grupo.items)) {
-        lista.push(...grupo.items)
-      }
-    })
-
-    // 4️⃣ Eliminar duplicados por id
-    const unicos = {}
-    lista.forEach((item) => {
-      const id = toId(item)
-      if (id && !unicos[id]) {
-        unicos[id] = item
-      }
-    })
-
-    return Object.values(unicos)
-  }, [resultados, recomendadosPorTag, ultimosPorTipo])
-
-  const listaVisibleRef = useRef([])
-  useEffect(() => {
-    listaVisibleRef.current = listaVisible
-    console.log("📌 listaVisible actualizada", listaVisible)
-  }, [listaVisible])
-
-  const seleccionarContenidoPorNumero = (numero) => {
-    const lista = listaVisibleRef.current
-
-    if (!Array.isArray(lista) || lista.length === 0) {
-      setVoiceFeedback("⚠️ No hay contenidos visibles para seleccionar")
-      return
-    }
-
-    const index = numero - 1
-    const item = lista[index]
-
-    if (!item) {
-      setVoiceFeedback(
-        `⚠️ No existe el contenido ${numero}. Hay ${lista.length} disponibles`
-      )
-      return
-    }
-
-    setVoiceFeedback(`👉 Abriendo contenido ${numero}: ${item.titulo}`)
-    handleClickCard(item)
-  }
 
   const handleVoiceResult = (text) => {
     const limpio = text
@@ -294,7 +260,58 @@ export default function Buscador() {
     onResult: handleVoiceResult,
   })
 
-  const sugeridos = resultados.filter((r) => r.origen === "TAG")
+const directos = useMemo(
+  () => (resultados.length > 0 ? resultados.filter((r) => r.origen !== "TAG") : []),
+  [resultados]
+)
+
+const sugeridos = useMemo(
+  () => (resultados.length > 0 ? resultados.filter((r) => r.origen === "TAG") : []),
+  [resultados]
+)
+
+// ✅ ESTE es el listado que se numera y el que usa "seleccionar N"
+const listaVisible = useMemo(() => {
+  // Si hay búsqueda: mostramos SOLO búsqueda (directos + sugeridos)
+  if (resultados.length > 0) {
+    return dedupeById([...directos, ...sugeridos], toId)
+  }
+
+  // Si NO hay búsqueda: pantalla inicial
+  const ultimosFlat = ultimosPorTipo.flatMap((g) => g.items || [])
+  const base = []
+
+  if (recomendadosPorTag.length > 0) base.push(...recomendadosPorTag)
+  base.push(...ultimosFlat)
+
+  return dedupeById(base, toId)
+}, [resultados, directos, sugeridos, recomendadosPorTag, ultimosPorTipo])
+
+const listaVisibleRef = useRef([])
+useEffect(() => {
+  listaVisibleRef.current = listaVisible
+  // console.log("📌 listaVisible", listaVisible)
+}, [listaVisible])
+
+const seleccionarContenidoPorNumero = (numero) => {
+  const lista = listaVisibleRef.current
+
+  if (!Array.isArray(lista) || lista.length === 0) {
+    setVoiceFeedback("⚠️ No hay contenidos visibles para seleccionar")
+    return
+  }
+
+  const index = numero - 1
+  const item = lista[index]
+
+  if (!item) {
+    setVoiceFeedback(`⚠️ No existe el contenido ${numero}. Hay ${lista.length} disponibles`)
+    return
+  }
+
+  setVoiceFeedback(`👉 Abriendo contenido ${numero}: ${item.titulo}`)
+  handleClickCard(item)
+}
 
   /* ======= SHORTCUT ======= */
 
@@ -327,40 +344,40 @@ export default function Buscador() {
     }
   }
 
-  const renderCard = (item, index = null, showDescripcion = false) => {
-    const id = toId(item)
-    const icono = getIconoOrigen(item.origen)
+const renderCard = (item, showDescripcion = false) => {
+  const id = toId(item)
+  const icono = getIconoOrigen(item.origen)
 
-    return (
-      <div
-        key={id ?? item?.titulo}
-        className="card"
-        onClick={() => handleClickCard(item)}
-        role="button"
-        tabIndex={0}
-        aria-label={`Abrir contenido ${index !== null ? index + 1 : ""}`}
-      >
-        {/* 🔢 Número único global */}
-        {index !== null && <div className="card-index">{index + 1}</div>}
+  const indexGlobal = listaVisible.findIndex((x) => toId(x) === id) // 0-based
 
-        <img src={citricolosprueba} alt={item?.titulo ?? ""} />
+  return (
+    <div
+      key={id ?? item?.titulo}
+      className="card"
+      onClick={() => handleClickCard(item)}
+      role="button"
+      tabIndex={0}
+      aria-label={`Abrir contenido ${indexGlobal >= 0 ? indexGlobal + 1 : ""}`}
+    >
+      {indexGlobal >= 0 && <div className="card-index">{indexGlobal + 1}</div>}
 
-        <p className="card-titulo">
-          {icono} {item?.titulo}
-        </p>
+      <img src={citricolosprueba} alt={item?.titulo ?? ""} />
 
-        <p className="card-autor">
-          {(item?.autorNombre || "Sin autor") +
-            " — " +
-            (toTipoNombre(item) || "")}
-        </p>
+      <p className="card-titulo">
+        {icono} {item?.titulo}
+      </p>
 
-        {showDescripcion && item?.descripcion && (
-          <p className="card-descripcion">{item.descripcion}</p>
-        )}
-      </div>
-    )
-  }
+      <p className="card-autor">
+        {(item?.autorNombre || "Sin autor") + " — " + (toTipoNombre(item) || "")}
+      </p>
+
+      {showDescripcion && item?.descripcion && (
+        <p className="card-descripcion">{item.descripcion}</p>
+      )}
+    </div>
+  )
+}
+
 
   /* ================= JSX ================= */
   useEffect(() => {
