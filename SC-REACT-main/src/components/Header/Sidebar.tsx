@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSocket } from "../../services/SocketContext";
-import NotificationModal from "../Header/NotificacionModal";
-import ProfileModal from "../Header/ProfileModal";
-import porfileIco from "../../assets/porfile.svg";
-import "./Sidebar.css";
+import React, { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { useSocket } from "../../services/SocketContext"
+import NotificationModal from "../Header/NotificacionModal"
+import ProfileModal from "../Header/ProfileModal"
+import porfileIco from "../../assets/porfile.svg"
+import "./Sidebar.css"
 import {
   FiPackage,
   FiBarChart2,
@@ -15,16 +15,16 @@ import {
   FiSearch,
   FiFile,
   FiEdit,
-} from "react-icons/fi";
-import { useObtenerImagenPerfil } from "../../services/connections/usuarios";
-import BotonVolver from "../Button/BotonVolver";
-import BotonCerrarSesion from "../Button/BotonCerrarSesion";
+} from "react-icons/fi"
+import { useObtenerImagenPerfil } from "../../services/connections/usuarios"
+import BotonVolver from "../Button/BotonVolver"
+import BotonCerrarSesion from "../Button/BotonCerrarSesion"
 
 interface SidebarProps {
-  FooterButton?: React.ReactElement<{ collapsed?: boolean }>;
-  onToggleCollapse?: (collapsed: boolean) => void;
-  collapsed: boolean;
-  rutaVolver?: string;
+  FooterButton?: React.ReactElement<{ collapsed?: boolean }>
+  onToggleCollapse?: (collapsed: boolean) => void
+  collapsed: boolean
+  rutaVolver?: string
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -33,51 +33,51 @@ const Sidebar: React.FC<SidebarProps> = ({
   collapsed,
   rutaVolver,
 }) => {
-  const { currentUser, notificaciones } = useSocket();
+  const { currentUser, notificaciones } = useSocket()
 
-  const [showNoti, setShowNoti] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
-  const [fotoPerfil, setFotoPerfil] = useState<string>(porfileIco);
-  const [showRoles, setShowRoles] = useState(false);
-  const [showConfigOptions, setShowConfigOptions] = useState(false);
+  const [showNoti, setShowNoti] = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
+  const [fotoPerfil, setFotoPerfil] = useState<string>(porfileIco)
+  const [showRoles, setShowRoles] = useState(false)
+  const [showConfigOptions, setShowConfigOptions] = useState(false)
   const [activeProfileView, setActiveProfileView] = useState<string | null>(
     null
-  );
+  )
   const [pantallaActual, setPantallaActual] = useState<string>(
     localStorage.getItem("pantallaActual") || "/"
-  );
-  const navigate = useNavigate();
-  const obtenerImagen = useObtenerImagenPerfil();
+  )
+  const navigate = useNavigate()
+  const obtenerImagen = useObtenerImagenPerfil()
 
   useEffect(() => {
     const getFotoPerfil = async () => {
       try {
-        const result = await obtenerImagen({ idUsuario: currentUser.id });
+        const result = await obtenerImagen({ idUsuario: currentUser.id })
         if (result?.imagen?.startsWith("data:image")) {
-          setFotoPerfil(result.imagen);
+          setFotoPerfil(result.imagen)
         } else {
-          setFotoPerfil(porfileIco);
+          setFotoPerfil(porfileIco)
         }
       } catch {
-        setFotoPerfil(porfileIco);
+        setFotoPerfil(porfileIco)
       }
-    };
-    if (currentUser?.id) getFotoPerfil();
-  }, [currentUser]);
+    }
+    if (currentUser?.id) getFotoPerfil()
+  }, [currentUser])
 
   const toggleSidebar = () => {
-    const newState = !collapsed;
-    onToggleCollapse?.(newState);
-  };
+    const newState = !collapsed
+    onToggleCollapse?.(newState)
+  }
 
   const cambioPantallaActual = () => {
-    const url = new URL(window.location.href);
+    const url = new URL(window.location.href)
     if (currentUser.rol === "EMPLEADO" || currentUser.rol === "EXPERTO") {
-      localStorage.setItem("pantallaActual", url.pathname + url.search);
-      console.log(url.pathname);
-      console.log(url.search);
-      setPantallaActual(url.pathname + url.search);
-      return;
+      localStorage.setItem("pantallaActual", url.pathname + url.search)
+      console.log(url.pathname)
+      console.log(url.search)
+      setPantallaActual(url.pathname + url.search)
+      return
     }
     if (
       url.pathname === "/contenido" ||
@@ -85,23 +85,24 @@ const Sidebar: React.FC<SidebarProps> = ({
       url.pathname === "/subir-contenido" ||
       url.pathname === "/buscador"
     )
-      return;
-    console.log(url.pathname);
-    console.log(url.search);
-    localStorage.setItem("pantallaActual", url.pathname + url.search);
-    setPantallaActual(url.pathname + url.search);
-  };
+      return
+    console.log(url.pathname)
+    console.log(url.search)
+    localStorage.setItem("pantallaActual", url.pathname + url.search)
+    setPantallaActual(url.pathname + url.search)
+  }
 
   const navegarPrincipalRol = (rol: string) => {
     const roles: { [key: string]: string } = {
       ADMINISTRADOR: "/administracion",
       EMPLEADO: "/buscador",
-    };
-    currentUser.rol = rol;
-    console.log(currentUser.rol);
-    console.log(rol);
-    navigate(roles[rol] || "/");
-  };
+      EXPERTO: "/buscador",
+    }
+    currentUser.rol = rol
+    console.log(currentUser.rol)
+    console.log(rol)
+    navigate(roles[rol] || "/")
+  }
 
   return (
     <div className={`sidebar-fixed ${collapsed ? "collapsed" : "expanded"}`}>
@@ -136,7 +137,16 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <div className="sidebar-section" onMouseEnter={cambioPantallaActual}>
         <button
-          onClick={() => navigate(pantallaActual)}
+          onClick={() => {
+            if (currentUser?.rol === "ADMINISTRADOR") {
+              navigate("/administracion")
+            } else if (
+              currentUser?.rol === "EMPLEADO" ||
+              currentUser?.rol === "EXPERTO"
+            ) {
+              navigate("/buscador")
+            }
+          }}
           title="Área de Trabajo"
         >
           <FiBriefcase size={20} style={{ color: "#000" }} />
@@ -235,8 +245,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           <button
             className="sidebar-button"
             onClick={() => {
-              if (collapsed) toggleSidebar();
-              setShowConfigOptions((prev) => !prev);
+              if (collapsed) toggleSidebar()
+              setShowConfigOptions((prev) => !prev)
             }}
           >
             <FiSettings size={20} />
@@ -261,8 +271,8 @@ const Sidebar: React.FC<SidebarProps> = ({
               <button
                 className="sidebar-subitem"
                 onClick={() => {
-                  setActiveProfileView("cambiarFoto");
-                  setShowProfile(true);
+                  setActiveProfileView("cambiarFoto")
+                  setShowProfile(true)
                 }}
               >
                 Elegir Foto de Perfil
@@ -270,16 +280,16 @@ const Sidebar: React.FC<SidebarProps> = ({
               <button
                 className="sidebar-subitem"
                 onClick={() => {
-                  setActiveProfileView("cambiarContraseña");
-                  setShowProfile(true);
+                  setActiveProfileView("cambiarContraseña")
+                  setShowProfile(true)
                 }}
               >
                 Cambiar Contraseña
               </button>
               <BotonCerrarSesion
                 onClick={() => {
-                  localStorage.clear();
-                  window.location.href = "/";
+                  localStorage.clear()
+                  window.location.href = "/"
                 }}
                 collapsed={collapsed}
               />
@@ -296,8 +306,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       <ProfileModal
         isModalOpen={showProfile}
         handleCloseModal={() => {
-          setShowProfile(false);
-          setActiveProfileView(null);
+          setShowProfile(false)
+          setActiveProfileView(null)
         }}
         currentUser={currentUser}
         porfilePhoto={fotoPerfil}
@@ -305,7 +315,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         initialView={activeProfileView}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar
