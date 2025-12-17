@@ -20,7 +20,21 @@ export default function VisorPDF() {
   const [zoomPercent, setZoomPercent] = useState<number>(100)
   const [page, setPage] = useState<number>(1)
   const [fullscreen, setFullscreen] = useState(false)
+  useEffect(() => {
+    const onVoiceCommand = (e: any) => {
+      const text = e.detail
+        .toLowerCase()
+        .replace(/[.,!?]/g, "")
+        .trim()
 
+      if (text === "volver" || text === "atrás") {
+        navigate(-1)
+      }
+    }
+
+    window.addEventListener("voice-command", onVoiceCommand)
+    return () => window.removeEventListener("voice-command", onVoiceCommand)
+  }, [])
   // Construir URL base segura
   useEffect(() => {
     if (!nombre) return
@@ -80,21 +94,6 @@ export default function VisorPDF() {
       </Estructura>
     )
   }
-  useEffect(() => {
-    const onVoiceCommand = (e: any) => {
-      const text = e.detail
-        .toLowerCase()
-        .replace(/[.,!?]/g, "")
-        .trim()
-
-      if (text === "volver" || text === "atrás") {
-        navigate(-1)
-      }
-    }
-
-    window.addEventListener("voice-command", onVoiceCommand)
-    return () => window.removeEventListener("voice-command", onVoiceCommand)
-  }, [])
 
   const percentReadout =
     mode === "fit" ? "Ajustar" : mode === "width" ? "Ancho" : `${zoomPercent}%`

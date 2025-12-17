@@ -14,6 +14,21 @@ export default function VisorHtml() {
   const navigate = useNavigate()
   const { startListening, isListening } = useVoice()
   useEffect(() => {
+    const onVoiceCommand = (e: any) => {
+      const text = e.detail
+        .toLowerCase()
+        .replace(/[.,!?]/g, "")
+        .trim()
+
+      if (text === "volver" || text === "atrás") {
+        navigate(-1)
+      }
+    }
+
+    window.addEventListener("voice-command", onVoiceCommand)
+    return () => window.removeEventListener("voice-command", onVoiceCommand)
+  }, [])
+  useEffect(() => {
     const fetchData = async () => {
       try {
         if (!id) return
@@ -44,21 +59,6 @@ export default function VisorHtml() {
       </Estructura>
     )
   }
-  useEffect(() => {
-    const onVoiceCommand = (e: any) => {
-      const text = e.detail
-        .toLowerCase()
-        .replace(/[.,!?]/g, "")
-        .trim()
-
-      if (text === "volver" || text === "atrás") {
-        navigate(-1)
-      }
-    }
-
-    window.addEventListener("voice-command", onVoiceCommand)
-    return () => window.removeEventListener("voice-command", onVoiceCommand)
-  }, [])
 
   return (
     <Estructura>

@@ -35,7 +35,21 @@ export default function VisorImagen() {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const imgRef = useRef<HTMLImageElement | null>(null)
   const dragRef = useRef<{ x: number; y: number } | null>(null)
+  useEffect(() => {
+    const onVoiceCommand = (e: any) => {
+      const text = e.detail
+        .toLowerCase()
+        .replace(/[.,!?]/g, "")
+        .trim()
 
+      if (text === "volver" || text === "atrás") {
+        navigate(-1)
+      }
+    }
+
+    window.addEventListener("voice-command", onVoiceCommand)
+    return () => window.removeEventListener("voice-command", onVoiceCommand)
+  }, [])
   // Construir URL del backend (nombre puede venir encodeado desde la ruta)
   useEffect(() => {
     if (!nombre) return
@@ -52,21 +66,6 @@ export default function VisorImagen() {
     })
     if (containerRef.current) ro.observe(containerRef.current)
     return () => ro.disconnect()
-  }, [])
-  useEffect(() => {
-    const onVoiceCommand = (e: any) => {
-      const text = e.detail
-        .toLowerCase()
-        .replace(/[.,!?]/g, "")
-        .trim()
-
-      if (text === "volver" || text === "atrás") {
-        navigate(-1)
-      }
-    }
-
-    window.addEventListener("voice-command", onVoiceCommand)
-    return () => window.removeEventListener("voice-command", onVoiceCommand)
   }, [])
 
   const containerSize = useMemo(() => {
