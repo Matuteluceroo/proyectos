@@ -382,7 +382,7 @@ export default function Buscador() {
             <>
               {recomendadosPorTag.length > 0 && (
                 <>
-                  <h3>🎯 Recomendados para vos</h3>
+                  <h3>🎯 Recomendados para vos (tags)</h3>
                   <div className="cards-container">
                     {recomendadosPorTag.map((item, i) => renderCard(item, i))}
                   </div>
