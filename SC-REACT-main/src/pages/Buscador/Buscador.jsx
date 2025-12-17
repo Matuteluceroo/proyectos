@@ -39,6 +39,17 @@ const getVisorPath = (item) => {
 
   return `/visor-html/${id}`
 }
+const seleccionarContenidoPorNumero = (numero) => {
+  const item = listaVisible[numero - 1]
+
+  if (!item) {
+    setVoiceFeedback(`⚠️ No existe el contenido ${numero}`)
+    return
+  }
+
+  setVoiceFeedback(`👉 Abriendo contenido ${numero}`)
+  handleClickCard(item)
+}
 
 /* ================= COMPONENTE ================= */
 
@@ -54,6 +65,7 @@ export default function Buscador() {
   const [tipoSeleccionado, setTipoSeleccionado] = useState("Todos")
   const [ultimos, setUltimos] = useState([])
   const [topConsultados, setTopConsultados] = useState([])
+  const [voiceFeedback, setVoiceFeedback] = useState("")
 
   const buscarContenidos = useBuscarContenidos()
   const obtenerUltimos = useObtenerUltimosContenidos()
@@ -63,83 +75,51 @@ export default function Buscador() {
 
   /* ======= VOZ ======= */
 
-  // const handleVoiceResult = (text) => {
-  //   const normalized = text
-  //     .toLowerCase()
-  //     .replace(/^buscar\s*/, "")
-  //     .trim()
-
-  //   setQuery(normalized)
-
-  //   setTimeout(() => {
-  //     handleSearch(normalized)
-  //   }, 200)
-  // }
   const handleVoiceResult = (text) => {
-    if (!text) return
-
-    // Normalizar texto
-    const comando = text
+    const limpio = text
       .toLowerCase()
-      .replace(/[.,]/g, "") // 🔥 quita puntos y comas
+      .replace(/[.,!?]/g, "")
       .trim()
 
-    console.log("🎙️ Comando voz:", comando)
+    setVoiceFeedback(`🗣️ Comando detectado: "${limpio}"`)
 
-    // ===============================
-    // 🔎 BUSCAR
-    // ===============================
-    if (comando.startsWith("buscar ")) {
-      const termino = comando.replace("buscar", "").trim()
-      if (!termino) return
+    if (limpio.startsWith("buscar")) {
+      const termino = limpio.replace("buscar", "").trim()
 
+      if (!termino) {
+        setVoiceFeedback("⚠️ Decí qué querés buscar")
+        return
+      }
+
+      setVoiceFeedback(`🔎 Buscando: "${termino}"`)
       setQuery(termino)
-      setTimeout(() => handleSearch(), 150)
+      handleSearch(termino)
       return
     }
 
-    // ===============================
-    // 🧹 LIMPIAR BÚSQUEDA
-    // ===============================
-    if (
-      comando === "limpiar" ||
-      comando === "limpiar búsqueda" ||
-      comando === "limpiar busqueda"
-    ) {
+    if (limpio.startsWith("seleccionar contenido")) {
+      const numero = parseInt(
+        limpio.replace("seleccionar contenido", "").trim()
+      )
+
+      if (isNaN(numero)) {
+        setVoiceFeedback("⚠️ No entendí qué contenido seleccionar")
+        return
+      }
+
+      setVoiceFeedback(`👉 Seleccionando contenido ${numero}`)
+      seleccionarContenidoPorNumero(numero)
+      return
+    }
+
+    if (limpio === "limpiar") {
+      setVoiceFeedback("🧹 Búsqueda limpiada")
       setQuery("")
       setResultados([])
-      setError("")
-      setIsLoading(false)
       return
     }
 
-    // ===============================
-    // 👉 SELECCIONAR CONTENIDO N
-    // ===============================
-    if (comando.startsWith("seleccionar contenido")) {
-      const numero = comando.replace("seleccionar contenido", "").trim()
-      const index = parseInt(numero, 10) - 1
-
-      if (isNaN(index)) return
-
-      // Prioridad: resultados > sugeridos
-      const lista =
-        resultados.length > 0
-          ? resultados
-          : recomendadosPorTag.length > 0
-          ? recomendadosPorTag
-          : []
-
-      if (!lista[index]) return
-
-      handleClickCard(lista[index])
-      return
-    }
-
-    // ===============================
-    // ❓ COMANDO NO RECONOCIDO
-    // ===============================
-    console.warn("Comando de voz no reconocido:", comando)
+    setVoiceFeedback("❓ Comando no reconocido")
   }
 
   const { startListening, isVoiceListening } = useVoiceSearch({
@@ -176,8 +156,8 @@ export default function Buscador() {
 
   /* ======= BUSCAR ======= */
 
-  const handleSearch = async (overrideQuery) => {
-    const q = (overrideQuery ?? query).trim()
+  const handleSearch = async (searchText = query) => {
+    const q = searchText.trim()
     if (!q) return
 
     setIsLoading(true)
@@ -193,8 +173,9 @@ export default function Buscador() {
           : lista.filter((c) => toTipoNombre(c) === tipoSeleccionado)
 
       setResultados(filtrados)
-    } catch (e) {
-      setError("Error al buscar contenidos")
+    } catch (err) {
+      console.error("Error buscando contenidos:", err)
+      setError("No se pudo conectar con el servidor")
     } finally {
       setIsLoading(false)
     }
@@ -234,6 +215,17 @@ export default function Buscador() {
       .flatMap((grupo) => grupo.items || [])
       .filter((item) => item.origen === "TAG")
   }, [ultimos])
+  const listaVisible = useMemo(() => {
+    if (resultados.length > 0) {
+      return resultados.filter((r) => r.origen !== "TAG")
+    }
+
+    if (recomendadosPorTag.length > 0) {
+      return recomendadosPorTag
+    }
+
+    return ultimosPorTipo.flatMap((g) => g.items || [])
+  }, [resultados, recomendadosPorTag, ultimosPorTipo])
 
   const sugeridos = resultados.filter((r) => r.origen === "TAG")
 
@@ -354,6 +346,9 @@ export default function Buscador() {
             {!isVoiceListening && <span className="hint">Ctrl + D</span>}
             {isVoiceListening && <span>Escuchando…</span>}
           </div>
+          {voiceFeedback && (
+            <div className="voice-feedback">{voiceFeedback}</div>
+          )}
         </div>
 
         {isLoading && <div className="estado">Buscando...</div>}
