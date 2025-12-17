@@ -80,6 +80,21 @@ export default function VisorPDF() {
       </Estructura>
     )
   }
+  useEffect(() => {
+    const onVoiceCommand = (e: any) => {
+      const text = e.detail
+        .toLowerCase()
+        .replace(/[.,!?]/g, "")
+        .trim()
+
+      if (text === "volver" || text === "atrás") {
+        navigate(-1)
+      }
+    }
+
+    window.addEventListener("voice-command", onVoiceCommand)
+    return () => window.removeEventListener("voice-command", onVoiceCommand)
+  }, [])
 
   const percentReadout =
     mode === "fit" ? "Ajustar" : mode === "width" ? "Ancho" : `${zoomPercent}%`

@@ -32,6 +32,21 @@ export default function VisorVideo() {
     const safe = encodeURIComponent(decodeURIComponent(nombre))
     setSrc(`${url2}/ver-contenido/VIDEO/${safe}`)
   }, [nombre])
+  useEffect(() => {
+    const onVoiceCommand = (e: any) => {
+      const text = e.detail
+        .toLowerCase()
+        .replace(/[.,!?]/g, "")
+        .trim()
+
+      if (text === "volver" || text === "atrás") {
+        navigate(-1)
+      }
+    }
+
+    window.addEventListener("voice-command", onVoiceCommand)
+    return () => window.removeEventListener("voice-command", onVoiceCommand)
+  }, [])
 
   useEffect(() => {
     const el = containerRef.current

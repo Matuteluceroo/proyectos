@@ -299,6 +299,15 @@ export default function Buscador() {
   }
 
   /* ================= JSX ================= */
+  useEffect(() => {
+    const onVoiceCommand = (e) => {
+      const text = e.detail
+      handleVoiceResult(text)
+    }
+
+    window.addEventListener("voice-command", onVoiceCommand)
+    return () => window.removeEventListener("voice-command", onVoiceCommand)
+  }, [])
 
   return (
     <Estructura>

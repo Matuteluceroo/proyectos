@@ -25,12 +25,20 @@ export const VoiceProvider = ({ children }: { children: React.ReactNode }) => {
 
       recognition.onstart = () => setIsListening(true)
       recognition.onend = () => setIsListening(false)
-      recognition.onerror = (e: any) =>
-        console.error("❌ Error voz:", e)
+      recognition.onerror = (e: any) => console.error("❌ Error voz:", e)
 
       recognition.onresult = (event: any) => {
         const texto = event.results?.[0]?.[0]?.transcript
+        if (!texto) return
+
         console.log("🗣️ Texto:", texto)
+
+        // 🔔 Emitimos evento global
+        window.dispatchEvent(
+          new CustomEvent("voice-command", {
+            detail: texto,
+          })
+        )
       }
 
       recognitionRef.current = recognition
