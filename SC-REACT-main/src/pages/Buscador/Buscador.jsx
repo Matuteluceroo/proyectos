@@ -116,6 +116,7 @@ export default function Buscador() {
       setVoiceFeedback("🧹 Búsqueda limpiada")
       setQuery("")
       setResultados([])
+      setTipoSeleccionado("Todos")
       return
     }
 
@@ -156,8 +157,8 @@ export default function Buscador() {
 
   /* ======= BUSCAR ======= */
 
-  const handleSearch = async (searchText = query) => {
-    const q = searchText.trim()
+  const handleSearch = async (searchText) => {
+    const q = (searchText ?? query).trim()
     if (!q) return
 
     setIsLoading(true)
@@ -174,7 +175,6 @@ export default function Buscador() {
 
       setResultados(filtrados)
     } catch (err) {
-      console.error("Error buscando contenidos:", err)
       setError("No se pudo conectar con el servidor")
     } finally {
       setIsLoading(false)
@@ -230,18 +230,6 @@ export default function Buscador() {
   const sugeridos = resultados.filter((r) => r.origen === "TAG")
 
   /* ======= SHORTCUT ======= */
-
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.ctrlKey && e.key.toLowerCase() === "d") {
-        e.preventDefault()
-        startListening()
-      }
-    }
-
-    window.addEventListener("keydown", onKey)
-    return () => window.removeEventListener("keydown", onKey)
-  }, [])
 
   /* ======= LIMPIAR AL BORRAR ======= */
 
@@ -346,10 +334,8 @@ export default function Buscador() {
             {!isVoiceListening && <span className="hint">Ctrl + D</span>}
             {isVoiceListening && <span>Escuchando…</span>}
           </div>
-          {voiceFeedback && (
-            <div className="voice-feedback">{voiceFeedback}</div>
-          )}
         </div>
+        {voiceFeedback && <div className="voice-feedback">{voiceFeedback}</div>}
 
         {isLoading && <div className="estado">Buscando...</div>}
         {error && <div className="estado error">{error}</div>}

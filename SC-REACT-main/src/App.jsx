@@ -7,6 +7,7 @@ import Loader from "./components/Loader/Loader"
 import AppRoutes from "./routes/AppRoutes"
 import "bootstrap/dist/css/bootstrap.min.css"
 import SocketStatusBanner from "./testing/SocketStatusBanner"
+import { VoiceProvider } from "./context/VoiceContext"
 
 const LoaderWrapper = () => {
   const { loading } = useLoader()
@@ -17,9 +18,11 @@ const App = () => (
   <LoaderProvider>
     <AlertProvider>
       <SocketProvider>
-        <AppRoutes />
-        <SocketStatusBanner />
-        <LoaderWrapper />
+        <VoiceProvider>
+          <AppRoutes />
+          <SocketStatusBanner />
+          <LoaderWrapper />
+        </VoiceProvider>
       </SocketProvider>
     </AlertProvider>
   </LoaderProvider>

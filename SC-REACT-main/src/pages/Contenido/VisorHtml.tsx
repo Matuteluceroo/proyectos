@@ -1,38 +1,40 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import Estructura from "../../components/Estructura/Estructura";
-import { useBuscarHTML } from "../../services/connections/documentos";
-import "./VisorHtml.css";
-
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import Estructura from "../../components/Estructura/Estructura"
+import { useBuscarHTML } from "../../services/connections/documentos"
+import "./VisorHtml.css"
+import { useNavigate } from "react-router-dom"
+import { useVoice } from "../../context/VoiceContext"
 export default function VisorHtml() {
-  const { id } = useParams<{ id: string }>();
-  const buscarHTML = useBuscarHTML();
-  const [contenido, setContenido] = useState<string>("");
-  const [datos, setDatos] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
+  const { id } = useParams<{ id: string }>()
+  const buscarHTML = useBuscarHTML()
+  const [contenido, setContenido] = useState<string>("")
+  const [datos, setDatos] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
+  const { startListening, isListening } = useVoice()
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!id) return;
-        const data = await buscarHTML(Number(id));
-        setContenido(data.html);
-        setDatos(data);
+        if (!id) return
+        const data = await buscarHTML(Number(id))
+        setContenido(data.html)
+        setDatos(data)
       } catch (err) {
-        console.error("❌ Error al obtener el contenido:", err);
+        console.error("❌ Error al obtener el contenido:", err)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchData();
-  }, [id]);
+    }
+    fetchData()
+  }, [id])
 
   if (loading) {
     return (
       <Estructura>
         <p>Cargando contenido...</p>
       </Estructura>
-    );
+    )
   }
 
   if (!datos) {
@@ -40,11 +42,15 @@ export default function VisorHtml() {
       <Estructura>
         <p>No se encontró el contenido solicitado.</p>
       </Estructura>
-    );
+    )
   }
 
   return (
     <Estructura>
+      <button onClick={startListening}>
+        🎤 {isListening ? "Escuchando..." : "Activar micrófono"}
+      </button>
+
       <div className="visor-wrapper">
         <h1 className="visor-titulo">{datos.titulo}</h1>
         {datos.descripcion && (
@@ -56,5 +62,5 @@ export default function VisorHtml() {
         />
       </div>
     </Estructura>
-  );
+  )
 }

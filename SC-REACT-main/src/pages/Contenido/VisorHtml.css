@@ -1,9 +1,13 @@
 .visor-container {
-  padding: 1.5rem;
+  padding: 3.5rem;
   color: #333;
   font-family: Arial, sans-serif;
 }
-
+.visor-wrapper {
+  padding: 2rem 3rem;
+  max-width: 1100px;
+  margin-left: 0;      /* respeta el sidebar */
+}
 .visor-titulo {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
@@ -25,4 +29,24 @@
   height: auto;
   margin: 1em 0;
   display: block;
+}
+/* ⬅ Botón Volver accesible */
+
+.btn-volver {
+  margin: 0.75rem;
+  padding: 0.4rem 0.8rem;
+
+  background: #eef7ea;
+  border: 1px solid #c8e0b8;
+  border-radius: 6px;
+
+  color: #2f4f2f;
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.btn-volver:hover {
+  background: #e0f2dc;
 }
