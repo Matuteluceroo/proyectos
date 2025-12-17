@@ -1,61 +1,62 @@
-import { useEffect, useState } from "react";
-import Estructura from "../../components/Estructura/Estructura";
-import { useNavigate } from "react-router-dom";
-import { useObtenerContenidosHTML } from "../../services/connections/documentos";
-import "./Contenido.css";
-import { useEliminarDocumento } from "../../services/connections/documentos"; // arriba del archivo
+import { useEffect, useState } from "react"
+import Estructura from "../../components/Estructura/Estructura"
+import { useNavigate } from "react-router-dom"
+import { useObtenerContenidosHTML } from "../../services/connections/documentos"
+import "./Contenido.css"
+import { useEliminarDocumento } from "../../services/connections/documentos" // arriba del archivo
 
-import Alert from "../../components/Alert/Alert";
-import AlertErrores from "../../components/Alert/AlertErrores";
-import AlertOptions from "../../components/Alert/AlertOptions";
+import Alert from "../../components/Alert/Alert"
+import AlertErrores from "../../components/Alert/AlertErrores"
+import AlertOptions from "../../components/Alert/AlertOptions"
 
 export default function GestorContenido() {
-  const navigate = useNavigate();
-  const [contenidos, setContenidos] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const obtenerContenidosHTML = useObtenerContenidosHTML();
-  const [alertSuccess, setAlertSuccess] = useState(false);
-  const [alertError, setAlertError] = useState(false);
-  const [alertConfirm, setAlertConfirm] = useState(false);
-  const [idAEliminar, setIdAEliminar] = useState<number | null>(null);
+  const navigate = useNavigate()
+  const [contenidos, setContenidos] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const obtenerContenidosHTML = useObtenerContenidosHTML()
+  const [alertSuccess, setAlertSuccess] = useState(false)
+  const [alertError, setAlertError] = useState(false)
+  const [alertConfirm, setAlertConfirm] = useState(false)
+  const [idAEliminar, setIdAEliminar] = useState<number | null>(null)
 
-  const eliminarDocumento = useEliminarDocumento();
+  const eliminarDocumento = useEliminarDocumento()
 
   const handleEliminar = (id: number) => {
-    setIdAEliminar(id);
-    setAlertConfirm(true); // abre el modal de confirmación
-  };
+    setIdAEliminar(id)
+    setAlertConfirm(true) // abre el modal de confirmación
+  }
 
   const confirmarEliminacion = async () => {
-    if (!idAEliminar) return;
-    setAlertConfirm(false);
+    if (!idAEliminar) return
+    setAlertConfirm(false)
     try {
-      await eliminarDocumento(idAEliminar);
+      await eliminarDocumento(idAEliminar)
       setContenidos((prev) =>
         prev.filter((c) => c.id_contenido !== idAEliminar)
-      );
-      setAlertSuccess(true);
+      )
+      setAlertSuccess(true)
     } catch (err) {
-      console.error("❌ Error al eliminar contenido:", err);
-      setAlertError(true);
+      console.error("❌ Error al eliminar contenido:", err)
+      setAlertError(true)
     } finally {
-      setIdAEliminar(null);
+      setIdAEliminar(null)
     }
-  };
+  }
 
   useEffect(() => {
     const fetchContenidos = async () => {
       try {
-        const data = await obtenerContenidosHTML();
-        setContenidos(data || []);
+        const data = await obtenerContenidosHTML()
+        console.log(data)
+        setContenidos(data || [])
       } catch (err) {
-        console.error("❌ Error al obtener contenidos:", err);
+        console.error("❌ Error al obtener contenidos:", err)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchContenidos();
-  }, []);
+    }
+    fetchContenidos()
+  }, [])
 
   return (
     <Estructura>
@@ -91,6 +92,7 @@ export default function GestorContenido() {
                   <th>ID</th>
                   <th>Título</th>
                   <th>Descripción</th>
+                  <th>Tags</th>
                   <th>Autor</th>
                   <th>Fecha</th>
                   <th>Acción</th>
@@ -101,9 +103,11 @@ export default function GestorContenido() {
                   <tr key={c.id_contenido}>
                     <td>{c.id_contenido}</td>
                     <td>{c.titulo}</td>
-                    <td className="truncate max-w-[250px]">
+                    <td className="descripcion-truncada">
                       {c.descripcion || "-"}
                     </td>
+
+                    <td>{c.tags}</td>
                     <td>{c.id_usuario}</td>
                     <td>
                       {new Date(c.fecha_creacion).toLocaleDateString("es-AR")}
@@ -165,5 +169,5 @@ export default function GestorContenido() {
         titulo="Error"
       />
     </Estructura>
-  );
+  )
 }

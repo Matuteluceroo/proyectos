@@ -156,13 +156,13 @@ export default function Buscador() {
   const handleClickCard = async (item) => {
     const id = toId(item)
     if (!id) return
-
+    item.almacenamiento === "HTML" ? "HTML" : "ARCHIVO"
     try {
       if (currentUser?.id) {
         await registrarHistorial({
           id_usuario: currentUser.id,
           id_contenido: id,
-          tipo: item.origen,
+          tipo: tipoReal,
         })
       }
     } catch (e) {
@@ -185,17 +185,39 @@ export default function Buscador() {
       .flatMap((grupo) => grupo.items || [])
       .filter((item) => item.origen === "TAG")
   }, [ultimos])
+
   const listaVisible = useMemo(() => {
+    const lista = []
+
+    // 1️⃣ Resultados directos (búsqueda)
     if (resultados.length > 0) {
-      return resultados.filter((r) => r.origen !== "TAG")
+      lista.push(...resultados.filter((r) => r.origen !== "TAG"))
     }
 
+    // 2️⃣ Recomendados por tags
     if (recomendadosPorTag.length > 0) {
-      return recomendadosPorTag
+      lista.push(...recomendadosPorTag)
     }
 
-    return ultimosPorTipo.flatMap((g) => g.items || [])
+    // 3️⃣ Últimos contenidos (HTML, PDF, IMAGEN, VIDEO)
+    ultimosPorTipo.forEach((grupo) => {
+      if (Array.isArray(grupo.items)) {
+        lista.push(...grupo.items)
+      }
+    })
+
+    // 4️⃣ Eliminar duplicados por id
+    const unicos = {}
+    lista.forEach((item) => {
+      const id = toId(item)
+      if (id && !unicos[id]) {
+        unicos[id] = item
+      }
+    })
+
+    return Object.values(unicos)
   }, [resultados, recomendadosPorTag, ultimosPorTipo])
+
   const listaVisibleRef = useRef([])
   useEffect(() => {
     listaVisibleRef.current = listaVisible

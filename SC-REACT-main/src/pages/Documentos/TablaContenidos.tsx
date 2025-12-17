@@ -1,69 +1,70 @@
-import { useEffect, useState } from "react";
-import VirtualizedTable from "../../components/VirtualizedTable/VirtualizedTable";
+import { useEffect, useState } from "react"
+import VirtualizedTable from "../../components/VirtualizedTable/VirtualizedTable"
 import {
   useObtenerContenidos,
   useActualizarContenido,
   useEliminarContenido,
-} from "../../services/connections/contenido";
-import Modal from "../../components/Modal/Modal";
-import Alert from "../../components/Alert/Alert";
-import AlertErrores from "../../components/Alert/AlertErrores";
-import AlertOptions from "../../components/Alert/AlertOptions";
+} from "../../services/connections/contenido"
+import Modal from "../../components/Modal/Modal"
+import Alert from "../../components/Alert/Alert"
+import AlertErrores from "../../components/Alert/AlertErrores"
+import AlertOptions from "../../components/Alert/AlertOptions"
 
 /** Íconos inline (SVG → data URI) */
 const EDIT_ICON =
   "data:image/svg+xml;utf8," +
   encodeURIComponent(
     `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%233498db' d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83l3.75 3.75l1.84-1.82z'/></svg>`
-  );
+  )
 
 const DELETE_ICON =
   "data:image/svg+xml;utf8," +
   encodeURIComponent(
     `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23e74c3c' d='M6 7h12v13a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7zm3-4h6l1 1h4v2H4V4h4l1-1z'/></svg>`
-  );
+  )
 
 export default function TablaContenidos() {
-  const obtenerContenidos = useObtenerContenidos();
-  const actualizarContenido = useActualizarContenido();
-  const eliminarContenido = useEliminarContenido();
+  const obtenerContenidos = useObtenerContenidos()
+  const actualizarContenido = useActualizarContenido()
+  const eliminarContenido = useEliminarContenido()
 
-  const [rows, setRows] = useState<any[]>([]);
+  const [rows, setRows] = useState<any[]>([])
 
   // edición
-  const [modalEditOpen, setModalEditOpen] = useState(false);
+  const [modalEditOpen, setModalEditOpen] = useState(false)
   const [editData, setEditData] = useState<{
-    id: number;
-    titulo: string;
-    descripcion: string;
-    id_tipo: number;
-    url_archivo: string;
+    id: number
+    titulo: string
+    descripcion: string
+    id_tipo: number
+    url_archivo: string
   }>({
     id: 0,
     titulo: "",
     descripcion: "",
     id_tipo: 0,
     url_archivo: "",
-  });
+  })
 
   // eliminación
-  const [alertConfirm, setAlertConfirm] = useState(false);
-  const [idAEliminar, setIdAEliminar] = useState<number | null>(null);
+  const [alertConfirm, setAlertConfirm] = useState(false)
+  const [idAEliminar, setIdAEliminar] = useState<number | null>(null)
 
   // alertas genéricas
-  const [alertSuccess, setAlertSuccess] = useState(false);
-  const [alertError, setAlertError] = useState(false);
+  const [alertSuccess, setAlertSuccess] = useState(false)
+  const [alertError, setAlertError] = useState(false)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
-        const data = await obtenerContenidos();
-        if (data) setRows(data);
+        const data = await obtenerContenidos()
+        console.log(data)
+        if (data) setRows(data)
       } catch (e) {
-        console.error("❌ Error al obtener contenidos:", e);
+        console.error("❌ Error al obtener contenidos:", e)
       }
-    })();
-  }, []);
+    })()
+  }, [])
 
   /** Handlers de acciones */
   const handleEditar = (row: any) => {
@@ -73,9 +74,9 @@ export default function TablaContenidos() {
       descripcion: row.descripcion || "",
       id_tipo: row.id_tipo,
       url_archivo: row.url_archivo,
-    });
-    setModalEditOpen(true);
-  };
+    })
+    setModalEditOpen(true)
+  }
 
   const guardarEdicion = async () => {
     try {
@@ -84,7 +85,7 @@ export default function TablaContenidos() {
         descripcion: editData.descripcion,
         id_tipo: editData.id_tipo,
         url_archivo: editData.url_archivo,
-      });
+      })
 
       setRows((prev) =>
         prev.map((r) =>
@@ -96,39 +97,39 @@ export default function TablaContenidos() {
               }
             : r
         )
-      );
+      )
 
-      setModalEditOpen(false);
-      setAlertSuccess(true);
+      setModalEditOpen(false)
+      setAlertSuccess(true)
     } catch (e) {
-      console.error("❌ Error al actualizar contenido:", e);
-      setAlertError(true);
+      console.error("❌ Error al actualizar contenido:", e)
+      setAlertError(true)
     }
-  };
+  }
 
   const pedirEliminar = (row: any) => {
-    const id = row.id ?? row.id_contenido;
-    if (!id) return;
-    setIdAEliminar(id);
-    setAlertConfirm(true);
-  };
+    const id = row.id ?? row.id_contenido
+    if (!id) return
+    setIdAEliminar(id)
+    setAlertConfirm(true)
+  }
 
   const confirmarEliminacion = async () => {
-    if (!idAEliminar) return;
-    setAlertConfirm(false);
+    if (!idAEliminar) return
+    setAlertConfirm(false)
     try {
-      await eliminarContenido(idAEliminar); // PATCH estado = 0
+      await eliminarContenido(idAEliminar) // PATCH estado = 0
       setRows((prev) =>
         prev.filter((r) => (r.id ?? r.id_contenido) !== idAEliminar)
-      );
-      setAlertSuccess(true);
+      )
+      setAlertSuccess(true)
     } catch (e) {
-      console.error("❌ Error al desactivar contenido:", e);
-      setAlertError(true);
+      console.error("❌ Error al desactivar contenido:", e)
+      setAlertError(true)
     } finally {
-      setIdAEliminar(null);
+      setIdAEliminar(null)
     }
-  };
+  }
 
   /** Columnas para VirtualizedTable (compatibles con CellTableComp) */
   const columns = [
@@ -136,6 +137,7 @@ export default function TablaContenidos() {
     { id: "titulo", options: true, label: "Título", width: "220px" },
     { id: "descripcion", options: true, label: "Descripción", width: "300px" },
     { id: "nombre", options: true, label: "Tipo", width: "140px" }, // viene de listarContenidos: tc.nombre AS nombre
+    { id: "tags", options: true, label: "Tags", width: "140px" }, // viene de listarContenidos: tc.nombre AS nombre
     { id: "autor", options: true, label: "Autor", width: "180px" },
     // acciones (id debe empezar con 'btn', usa col.ico + col.onclick)
     {
@@ -156,7 +158,7 @@ export default function TablaContenidos() {
       ico: DELETE_ICON,
       onclick: (row: any) => pedirEliminar(row),
     },
-  ];
+  ]
 
   return (
     <>
@@ -243,5 +245,5 @@ export default function TablaContenidos() {
         message="No se pudo completar la operación."
       />
     </>
-  );
+  )
 }
