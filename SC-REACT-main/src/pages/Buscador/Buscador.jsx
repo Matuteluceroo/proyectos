@@ -263,24 +263,43 @@ export default function Buscador() {
 
   /* ======= RENDER CARD ======= */
 
-  const renderCard = (item, showDescripcion = false) => (
-    <div
-      key={toId(item)}
-      className="card"
-      onClick={() => handleClickCard(item)}
-    >
-      <img src={citricolosprueba} alt="" />
-      <p className="card-titulo">{item.titulo}</p>
-      <p className="card-autor">
-        {(item.autorNombre || "Sin autor") +
-          " — " +
-          (toTipoNombre(item) || fmtDate(item.fecha_creacion))}
-      </p>
-      {showDescripcion && item.descripcion && (
-        <p className="card-descripcion">{item.descripcion}</p>
-      )}
-    </div>
-  )
+  const renderCard = (item, index = null, showDescripcion = false) => {
+    const id = toId(item)
+    const icono = getIconoOrigen(item.origen)
+
+    return (
+      <div
+        key={id ?? item?.titulo}
+        className="card"
+        onClick={() => handleClickCard(item)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) =>
+          (e.key === "Enter" || e.key === " ") && handleClickCard(item)
+        }
+        aria-label={`Abrir contenido ${index !== null ? index + 1 : ""}`}
+      >
+        {/* 🔢 Número visible */}
+        {index !== null && <div className="card-index">{index + 1}</div>}
+
+        <img src={citricolosprueba} alt={item?.titulo ?? ""} />
+
+        <p className="card-titulo">
+          {icono} {item?.titulo}
+        </p>
+
+        <p className="card-autor">
+          {(item?.autorNombre || "Sin autor") +
+            " — " +
+            (toTipoNombre(item) || "")}
+        </p>
+
+        {showDescripcion && item?.descripcion && (
+          <p className="card-descripcion">{item.descripcion}</p>
+        )}
+      </div>
+    )
+  }
 
   /* ================= JSX ================= */
 
@@ -330,14 +349,14 @@ export default function Buscador() {
               <div className="cards-container">
                 {resultados
                   .filter((r) => r.origen !== "TAG")
-                  .map((i) => renderCard(i, true))}
+                  .map((item, i) => renderCard(item, i, true))}
               </div>
 
               {sugeridos.length > 0 && (
                 <>
                   <h3>🎯 Sugeridos según tus intereses</h3>
                   <div className="cards-container">
-                    {sugeridos.map((i) => renderCard(i, true))}
+                    {sugeridos.map((item, i) => renderCard(item, i, true))}
                   </div>
                 </>
               )}
@@ -348,7 +367,7 @@ export default function Buscador() {
                 <>
                   <h3>🎯 Recomendados para vos</h3>
                   <div className="cards-container">
-                    {recomendadosPorTag.map((i) => renderCard(i))}
+                    {recomendadosPorTag.map((item, i) => renderCard(item, i))}
                   </div>
                 </>
               )}
@@ -357,7 +376,7 @@ export default function Buscador() {
                 <div key={g.tipo}>
                   <h3>Últimos {g.tipo}</h3>
                   <div className="cards-container">
-                    {g.items.map((i) => renderCard(i))}
+                    {grupo.items.map((item, i) => renderCard(item, i))}
                   </div>
                 </div>
               ))}
