@@ -1,7 +1,7 @@
-import { useApiRequest } from "./apiRequest";
+import { useApiRequest } from "./apiRequest"
 // 🔹 Eliminar documento HTML
 export const useEliminarDocumento = () => {
-  const apiRequest = useApiRequest();
+  const apiRequest = useApiRequest()
 
   return async (id: number) =>
     await apiRequest(`documentos/HTML/${id}`, {
@@ -9,11 +9,23 @@ export const useEliminarDocumento = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    });
-};
+    })
+}
 // 🔹 Actualizar un documento HTML existente
+export const useBuscarHTML = () => {
+  const apiRequest = useApiRequest()
+
+  return async (id: number) =>
+    await apiRequest(`documentos/HTML/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+}
+// 🔹 Crear nuevo documento HTML
 export const useActualizarDocumento = () => {
-  const apiRequest = useApiRequest();
+  const apiRequest = useApiRequest()
 
   return async ({
     id_contenido,
@@ -22,13 +34,15 @@ export const useActualizarDocumento = () => {
     url_archivo,
     html,
     textoPlano,
+    tags,
   }: {
-    id_contenido: number;
-    titulo: string;
-    descripcion?: string;
-    url_archivo?: string;
-    html: string;
-    textoPlano: string;
+    id_contenido: number
+    titulo: string
+    descripcion?: string
+    url_archivo?: string
+    html: string
+    textoPlano: string
+    tags: string
   }) =>
     await apiRequest(`documentos/HTML/${id_contenido}`, {
       method: "PUT",
@@ -41,23 +55,12 @@ export const useActualizarDocumento = () => {
         url_archivo,
         html,
         textoPlano,
+        tags,
       }),
-    });
-};
-export const useBuscarHTML = () => {
-  const apiRequest = useApiRequest();
-
-  return async (id: number) =>
-    await apiRequest(`documentos/HTML/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-};
-// 🔹 Crear nuevo documento HTML
+    })
+}
 export const useCrearDocumento = () => {
-  const apiRequest = useApiRequest();
+  const apiRequest = useApiRequest()
   return async ({
     titulo,
     descripcion,
@@ -67,15 +70,17 @@ export const useCrearDocumento = () => {
     url_archivo,
     html,
     textoPlano,
+    tags,
   }: {
-    titulo: string;
-    descripcion?: string;
-    id_tipo: number;
-    id_usuario: number;
-    almacenamiento: "ARCHIVO" | "HTML" | "TEXTO";
-    url_archivo?: string;
-    html?: string;
-    textoPlano?: string;
+    titulo: string
+    descripcion?: string
+    id_tipo: number
+    id_usuario: number
+    almacenamiento: "ARCHIVO" | "HTML" | "TEXTO"
+    url_archivo?: string
+    html?: string
+    textoPlano?: string
+    tags?: string
   }) =>
     await apiRequest("documentos/HTML", {
       method: "POST",
@@ -91,25 +96,27 @@ export const useCrearDocumento = () => {
         url_archivo,
         html,
         textoPlano,
+        tags,
       }),
-    });
-};
+    })
+}
+
 export const useObtenerDocumentoByID = () => {
-  const apiRequest = useApiRequest();
+  const apiRequest = useApiRequest()
   return async (idDocumento: number) =>
     await apiRequest(`documentos/HTML/${idDocumento}`, {
       method: "GET",
-    });
-};
+    })
+}
 
 // 🔹 Buscar documentos HTML
 export const useBuscarDocumentos = () => {
-  const apiRequest = useApiRequest();
+  const apiRequest = useApiRequest()
   return async (query: string) =>
     await apiRequest(`documentos/buscarHTML?q=${encodeURIComponent(query)}`, {
       method: "GET",
-    });
-};
+    })
+}
 
 // // 🔹 Actualizar documento HTML existente
 // export const useActualizarDocumento = () => {
@@ -124,9 +131,9 @@ export const useBuscarDocumentos = () => {
 
 // 🔹 Obtener todos los contenidos HTML
 export const useObtenerContenidosHTML = () => {
-  const apiRequest = useApiRequest();
+  const apiRequest = useApiRequest()
   return async () =>
     await apiRequest("documentos/listar/HTML", {
       method: "GET",
-    });
-};
+    })
+}

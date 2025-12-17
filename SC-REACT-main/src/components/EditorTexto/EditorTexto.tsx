@@ -101,6 +101,7 @@ const EditorTexto = () => {
         url_archivo: previewImg || null,
         html,
         textoPlano,
+        tags,
       });
 
       alert("✅ Documento guardado correctamente");
