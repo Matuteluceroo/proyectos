@@ -63,17 +63,74 @@ export default function Buscador() {
 
   /* ======= VOZ ======= */
 
+  // const handleVoiceResult = (text) => {
+  //   const normalized = text
+  //     .toLowerCase()
+  //     .replace(/^buscar\s*/, "")
+  //     .trim()
+
+  //   setQuery(normalized)
+
+  //   setTimeout(() => {
+  //     handleSearch(normalized)
+  //   }, 200)
+  // }
   const handleVoiceResult = (text) => {
     const normalized = text
       .toLowerCase()
-      .replace(/^buscar\s*/, "")
+      .replace(/[.,!?¿¡:;"']/g, "")
       .trim()
 
-    setQuery(normalized)
+    console.log("🎙️ Comando:", normalized)
 
-    setTimeout(() => {
-      handleSearch(normalized)
-    }, 200)
+    // 👉 COMANDO: buscar ...
+    if (normalized.startsWith("buscar")) {
+      const termino = normalized.replace(/^buscar\s*/i, "").trim()
+
+      if (!termino) return
+
+      setQuery(termino)
+
+      setTimeout(() => {
+        handleSearch(termino)
+      }, 200)
+
+      return
+    }
+
+    // 👉 COMANDO: seleccionar contenido N
+    const matchSeleccion = normalized.match(
+      /(seleccionar|abrir)\s+(contenido\s+)?(\d+)/
+    )
+
+    if (matchSeleccion) {
+      const index = parseInt(matchSeleccion[3], 10) - 1
+
+      if (isNaN(index)) return
+
+      // priorizamos resultados directos, luego sugeridos
+      const lista =
+        resultados.length > 0
+          ? resultados.filter((r) => r.origen !== "TAG")
+          : []
+
+      if (!lista[index]) {
+        alert(`No existe el contenido número ${index + 1}`)
+        return
+      }
+
+      handleClickCard(lista[index])
+      return
+    }
+
+    // 👉 COMANDO: limpiar búsqueda (opcional pero útil)
+    if (normalized === "limpiar" || normalized === "limpiar busqueda") {
+      setQuery("")
+      setResultados([])
+      return
+    }
+
+    console.log("🤷 Comando no reconocido")
   }
 
   const { startListening, isVoiceListening } = useVoiceSearch({
@@ -220,26 +277,37 @@ export default function Buscador() {
   return (
     <Estructura>
       <div className="buscador-wrapper">
-        <button
-          onClick={startListening}
-          style={{
-            background: isVoiceListening ? "#4caf50" : "#eee",
-            padding: "0.5rem 1rem",
-            borderRadius: "6px",
-          }}
+        {/* ================= BUSCADOR UNIFICADO (TEXTO + VOZ) ================= */}
+        <div
+          className={`buscador-voz ${isVoiceListening ? "escuchando" : ""}`}
+          onClick={() => document.getElementById("input-buscador")?.focus()}
         >
-          🎤 {isVoiceListening ? "Escuchando..." : "Buscar por voz (Ctrl + D)"}
-        </button>
-
-        <div className="buscador-box">
           <FaSearch className="icon-search" />
+
           <input
+            id="input-buscador"
+            className="buscador-input"
+            type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Buscar conocimiento..."
+            placeholder="Buscar conocimiento… (decí “buscar citrus”)"
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            aria-label="Buscar conocimiento"
           />
-          <FaMicrophone onClick={startListening} />
+
+          <div className="voz-info">
+            <FaMicrophone
+              className="icon-mic"
+              onClick={(e) => {
+                e.stopPropagation()
+                startListening()
+              }}
+              title="Buscar por voz (Ctrl + D)"
+            />
+
+            {!isVoiceListening && <span className="hint">Ctrl + D</span>}
+            {isVoiceListening && <span>Escuchando…</span>}
+          </div>
         </div>
 
         {isLoading && <div className="estado">Buscando...</div>}
