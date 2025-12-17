@@ -39,17 +39,6 @@ const getVisorPath = (item) => {
 
   return `/visor-html/${id}`
 }
-const seleccionarContenidoPorNumero = (numero) => {
-  const item = listaVisible[numero - 1]
-
-  if (!item) {
-    setVoiceFeedback(`⚠️ No existe el contenido ${numero}`)
-    return
-  }
-
-  setVoiceFeedback(`👉 Abriendo contenido ${numero}`)
-  handleClickCard(item)
-}
 
 /* ================= COMPONENTE ================= */
 
@@ -226,6 +215,17 @@ export default function Buscador() {
 
     return ultimosPorTipo.flatMap((g) => g.items || [])
   }, [resultados, recomendadosPorTag, ultimosPorTipo])
+  const seleccionarContenidoPorNumero = (numero) => {
+    const item = listaVisible[numero - 1]
+
+    if (!item) {
+      setVoiceFeedback(`⚠️ No existe el contenido ${numero}`)
+      return
+    }
+
+    setVoiceFeedback(`👉 Abriendo contenido ${numero}`)
+    handleClickCard(item)
+  }
 
   const sugeridos = resultados.filter((r) => r.origen === "TAG")
 
