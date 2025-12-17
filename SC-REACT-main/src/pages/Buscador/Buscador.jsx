@@ -1,189 +1,203 @@
-import { useState, useEffect, useMemo } from "react";
-import Estructura from "../../components/Estructura/Estructura";
-import "./Buscador.css";
-import { FaSearch, FaMicrophone } from "react-icons/fa";
+import { useState, useEffect, useMemo } from "react"
+import Estructura from "../../components/Estructura/Estructura"
+import "./Buscador.css"
+import { FaSearch, FaMicrophone } from "react-icons/fa"
 import {
   useBuscarContenidos,
   useObtenerUltimosContenidos,
-} from "../../services/connections/contenido";
-import { useObtenerTiposConocimiento } from "../../services/connections/tiposConocimiento";
-import { useNavigate } from "react-router-dom";
+} from "../../services/connections/contenido"
+import { useObtenerTiposConocimiento } from "../../services/connections/tiposConocimiento"
+import { useNavigate } from "react-router-dom"
 import {
   useObtenerTopConsultados,
   useRegistrarHistorial,
-} from "../../services/connections/historial";
-import { useSocket } from "../../services/SocketContext";
-import citricolosprueba from "../../assets/citricolosprueba.jpg";
+} from "../../services/connections/historial"
+import { useSocket } from "../../services/SocketContext"
+import citricolosprueba from "../../assets/citricolosprueba.jpg"
 
 // === Helpers ===
 const toId = (item) =>
-  item?.id ?? item?.id_contenido ?? item?.Id ?? item?.ID ?? null;
-const toTipoNombre = (item) => item?.tipoNombre ?? item?.tipo ?? "";
-const fmtDate = (d) => (d ? new Date(d).toLocaleDateString() : "");
+  item?.id ?? item?.id_contenido ?? item?.Id ?? item?.ID ?? null
+const toTipoNombre = (item) => item?.tipoNombre ?? item?.tipo ?? ""
+const fmtDate = (d) => (d ? new Date(d).toLocaleDateString() : "")
 
 // === Util: decidir visor según tipo/extension ===
 const getVisorPath = (item) => {
-  const id = item.id_contenido || item.id;
+  const id = item.id_contenido || item.id
   const almacenamiento = (
     item.almacenamiento ||
     item.tipoNombre ||
     ""
-  ).toUpperCase();
+  ).toUpperCase()
   const file = (item.url_archivo || "")
     .trim()
     .replace(/\\/g, "/")
     .split("/")
-    .pop();
-  const ext = file.split(".").pop()?.toLowerCase();
+    .pop()
+  const ext = file.split(".").pop()?.toLowerCase()
 
   if (almacenamiento === "HTML" || item.origen === "HTML")
-    return `/visor-html/${id}`;
+    return `/visor-html/${id}`
   if (
     almacenamiento === "IMAGEN" ||
     ["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(ext)
   )
-    return `/visor-imagen/${file}`;
+    return `/visor-imagen/${file}`
   if (
     almacenamiento === "VIDEO" ||
     ["mp4", "webm", "ogg", "mov", "mkv", "avi"].includes(ext)
   )
-    return `/visor-video/${file}`;
-  if (almacenamiento === "PDF" || ext === "pdf") return `/visor-pdf/${file}`;
+    return `/visor-video/${file}`
+  if (almacenamiento === "PDF" || ext === "pdf") return `/visor-pdf/${file}`
 
-  return `/visor-html/${id}`; // fallback
-};
+  return `/visor-html/${id}` // fallback
+}
 
 export default function Buscador() {
-  const { currentUser } = useSocket() ?? {};
-  const [query, setQuery] = useState("");
-  const [isListening, setIsListening] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [resultados, setResultados] = useState([]);
-  const [tipos, setTipos] = useState([]);
-  const [tipoSeleccionado, setTipoSeleccionado] = useState("Todos");
-  const [ultimos, setUltimos] = useState([]);
-  const [topConsultados, setTopConsultados] = useState([]);
+  const { currentUser } = useSocket() ?? {}
+  const [query, setQuery] = useState("")
+  const [isListening, setIsListening] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [resultados, setResultados] = useState([])
+  const [tipos, setTipos] = useState([])
+  const [tipoSeleccionado, setTipoSeleccionado] = useState("Todos")
+  const [ultimos, setUltimos] = useState([])
+  const [topConsultados, setTopConsultados] = useState([])
 
-  const buscarContenidos = useBuscarContenidos();
-  const obtenerTipos = useObtenerTiposConocimiento();
-  const obtenerUltimos = useObtenerUltimosContenidos();
-  const registrarHistorial = useRegistrarHistorial();
-  const obtenerTopConsultados = useObtenerTopConsultados();
-  const navigate = useNavigate();
+  const buscarContenidos = useBuscarContenidos()
+  const obtenerTipos = useObtenerTiposConocimiento()
+  const obtenerUltimos = useObtenerUltimosContenidos()
+  const registrarHistorial = useRegistrarHistorial()
+  const obtenerTopConsultados = useObtenerTopConsultados()
+  const navigate = useNavigate()
 
   // === Cargar tipos, últimos contenidos y top consultados ===
   useEffect(() => {
-    let mounted = true;
-    (async () => {
+    let mounted = true
+    ;(async () => {
       try {
         const [dataTipos, dataUltimos, dataTop] = await Promise.all([
-          obtenerTipos(),
+          obtenerTipos(currentUser?.id),
           obtenerUltimos(currentUser?.id),
           obtenerTopConsultados(),
-        ]);
-        if (!mounted) return;
-        setTipos(Array.isArray(dataTipos) ? dataTipos : []);
-        setUltimos(Array.isArray(dataUltimos) ? dataUltimos : []);
-        setTopConsultados(Array.isArray(dataTop) ? dataTop : []);
+        ])
+        console.log("dataTipos", dataTipos)
+        console.log("dataUltimos", dataUltimos)
+        if (!mounted) return
+        setTipos(Array.isArray(dataTipos) ? dataTipos : [])
+        setUltimos(Array.isArray(dataUltimos) ? dataUltimos : [])
+        setTopConsultados(Array.isArray(dataTop) ? dataTop : [])
       } catch (err) {
-        console.error("Error al cargar datos iniciales:", err);
+        console.error("Error al cargar datos iniciales:", err)
       }
-    })();
+    })()
     return () => {
-      mounted = false;
-    };
-  }, []);
+      mounted = false
+    }
+  }, [])
 
   // === Buscar contenidos ===
   const handleSearch = async () => {
-    const q = query.trim();
-    if (!q) return;
-    setIsLoading(true);
-    setError("");
+    const q = query.trim()
+    if (!q) return
+    setIsLoading(true)
+    setError("")
     try {
-      const data = await buscarContenidos(q, currentUser?.id);
-      const lista = Array.isArray(data) ? data : [];
+      const data = await buscarContenidos(q, currentUser?.id)
+      const lista = Array.isArray(data) ? data : []
       if (lista.length === 0) {
-        setResultados([]);
-        return;
+        setResultados([])
+        return
       }
       const filtrados =
         tipoSeleccionado === "Todos"
           ? lista
-          : lista.filter((c) => toTipoNombre(c) === tipoSeleccionado);
-      setResultados(filtrados);
+          : lista.filter((c) => toTipoNombre(c) === tipoSeleccionado)
+      setResultados(filtrados)
     } catch (err) {
-      console.error("Error buscando contenidos:", err);
-      setError("No se pudo conectar con el servidor");
+      console.error("Error buscando contenidos:", err)
+      setError("No se pudo conectar con el servidor")
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   // === Micrófono ===
   const handleMicClick = () => {
     if (!("webkitSpeechRecognition" in window)) {
-      alert("Tu navegador no soporta reconocimiento de voz");
-      return;
+      alert("Tu navegador no soporta reconocimiento de voz")
+      return
     }
-    const recognition = new window.webkitSpeechRecognition();
-    recognition.lang = "es-ES";
-    recognition.continuous = false;
-    recognition.interimResults = false;
+    const recognition = new window.webkitSpeechRecognition()
+    recognition.lang = "es-ES"
+    recognition.continuous = false
+    recognition.interimResults = false
 
-    recognition.onstart = () => setIsListening(true);
-    recognition.onend = () => setIsListening(false);
+    recognition.onstart = () => setIsListening(true)
+    recognition.onend = () => setIsListening(false)
     recognition.onresult = (event) => {
-      const texto = event.results?.[0]?.[0]?.transcript ?? "";
-      setQuery(texto);
-      setTimeout(() => handleSearch(), 250);
-    };
+      const texto = event.results?.[0]?.[0]?.transcript ?? ""
+      setQuery(texto)
+      setTimeout(() => handleSearch(), 250)
+    }
 
-    recognition.start();
-  };
+    recognition.start()
+  }
 
   // === Registrar consulta y navegar ===
   const handleClickCard = async (item) => {
-    const idContenido = toId(item);
-    if (!idContenido) return;
+    const idContenido = toId(item)
+    if (!idContenido) return
     try {
       if (currentUser?.id) {
         await registrarHistorial({
           id_usuario: currentUser.id,
           id_contenido: idContenido,
-          tipo: item.origen === "HTML" ? "HTML" : "ARCHIVO", // 👈 agregado
-        });
+          tipo:
+            item.origen === "HTML"
+              ? "HTML"
+              : item.origen === "TAG"
+              ? "TAG"
+              : "ARCHIVO",
+        })
       }
     } catch (error) {
-      console.error("❌ Error al registrar consulta:", error);
+      console.error("❌ Error al registrar consulta:", error)
     } finally {
-      const path = getVisorPath(item);
-      navigate(path);
+      const path = getVisorPath(item)
+      navigate(path)
     }
-  };
+  }
 
   const ultimosPorTipo = useMemo(
     () => (Array.isArray(ultimos) ? ultimos : []),
     [ultimos]
-  );
+  )
+  const recomendadosPorTag = useMemo(() => {
+    if (!Array.isArray(ultimos)) return []
+
+    return ultimos
+      .flatMap((grupo) => grupo.items || [])
+      .filter((item) => item.origen === "TAG")
+  }, [ultimos])
 
   // === Icono segun origen ===
   const getIconoOrigen = (origen) => {
     switch ((origen || "").toUpperCase()) {
       case "HTML":
-        return "📝";
+        return "📝"
       case "TAG":
-        return "🔖";
+        return "🔖"
       default:
-        return "📄";
+        return "📄"
     }
-  };
+  }
 
   // === Render de tarjeta ===
   const renderCard = (item, showDescripcion = false) => {
-    const id = toId(item);
-    const icono = getIconoOrigen(item.origen);
+    const id = toId(item)
+    const icono = getIconoOrigen(item.origen)
     return (
       <div
         key={id ?? item?.titulo}
@@ -204,24 +218,30 @@ export default function Buscador() {
         <p className="card-autor">
           {(item?.autorNombre || "Sin autor") +
             " — " +
-            (toTipoNombre(item) || item?.fecha_creacion || "")}
+            (toTipoNombre(item) || fmtDate(item?.fecha_creacion) || "")}
         </p>
         {showDescripcion && item?.descripcion && (
           <p className="card-descripcion">{item.descripcion}</p>
         )}
       </div>
-    );
-  };
+    )
+  }
 
   const showEmpty =
     !isLoading &&
     !error &&
     ((query && resultados.length === 0) ||
-      (!query && ultimosPorTipo.length === 0));
+      (!query && ultimosPorTipo.length === 0))
 
   // === Agrupamos sugerencias por TAG si existen ===
-  const sugeridos = resultados.filter((r) => r.origen === "TAG");
-
+  const sugeridos = resultados.filter((r) => r.origen === "TAG")
+  useEffect(() => {
+    if (query.trim() === "") {
+      setResultados([])
+      setError("")
+      setIsLoading(false)
+    }
+  }, [query])
   return (
     <Estructura>
       <div className="buscador-wrapper">
@@ -285,10 +305,16 @@ export default function Buscador() {
         <div className="resultados">
           {resultados.length > 0 ? (
             <>
-              <div className="cards-container">
-                {resultados
-                  .filter((r) => r.origen !== "TAG")
-                  .map((item) => renderCard(item, true))}
+              {/* Título resultados directos */}
+              <div className="categoria-seccion">
+                <h3 className="categoria-titulo">
+                  🔎 Coincidencias encontradas
+                </h3>
+                <div className="cards-container">
+                  {resultados
+                    .filter((r) => r.origen !== "TAG")
+                    .map((item) => renderCard(item, true))}
+                </div>
               </div>
 
               {/* Sección sugeridos */}
@@ -298,7 +324,7 @@ export default function Buscador() {
                   style={{ marginTop: "2rem" }}
                 >
                   <h3 className="categoria-titulo">
-                    🎯 Contenidos sugeridos para vos
+                    🎯 Contenidos sugeridos según tus intereses (Tags)
                   </h3>
                   <div className="cards-container">
                     {sugeridos.map((item) => renderCard(item, true))}
@@ -307,22 +333,40 @@ export default function Buscador() {
               )}
             </>
           ) : (
-            ultimosPorTipo
-              .filter(
-                (grupo) =>
-                  tipoSeleccionado === "Todos" ||
-                  (grupo?.tipo ?? "").toLowerCase() ===
-                    tipoSeleccionado.toLowerCase()
-              )
-              .map((grupo) => (
-                <div key={grupo?.tipo ?? "otros"} className="categoria-seccion">
-                  <h3 className="categoria-titulo">Últimos {grupo?.tipo}</h3>
+            <>
+              {/* 🎯 Recomendados por tags (estado inicial) */}
+              {recomendadosPorTag.length > 0 && (
+                <div className="categoria-seccion">
+                  <h3 className="categoria-titulo">
+                    🎯 Recomendados para vos según tus intereses (Tags)
+                  </h3>
                   <div className="cards-container">
-                    {Array.isArray(grupo?.items) &&
-                      grupo.items.map((item) => renderCard(item))}
+                    {recomendadosPorTag.map((item) => renderCard(item))}
                   </div>
                 </div>
-              ))
+              )}
+
+              {/* Últimos contenidos por tipo */}
+              {ultimosPorTipo
+                .filter(
+                  (grupo) =>
+                    tipoSeleccionado === "Todos" ||
+                    (grupo?.tipo ?? "").toLowerCase() ===
+                      tipoSeleccionado.toLowerCase()
+                )
+                .map((grupo) => (
+                  <div
+                    key={grupo?.tipo ?? "otros"}
+                    className="categoria-seccion"
+                  >
+                    <h3 className="categoria-titulo">Últimos {grupo?.tipo}</h3>
+                    <div className="cards-container">
+                      {Array.isArray(grupo?.items) &&
+                        grupo.items.map((item) => renderCard(item))}
+                    </div>
+                  </div>
+                ))}
+            </>
           )}
         </div>
 
@@ -374,5 +418,5 @@ export default function Buscador() {
         )}
       </div>
     </Estructura>
-  );
+  )
 }
