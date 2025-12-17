@@ -221,12 +221,12 @@ export default function Buscador() {
   const listaVisibleRef = useRef([])
   useEffect(() => {
     listaVisibleRef.current = listaVisible
+    console.log("📌 listaVisible actualizada", listaVisible)
   }, [listaVisible])
 
   const seleccionarContenidoPorNumero = (numero) => {
     const lista = listaVisibleRef.current
-    console.log("listaVisibleRef", listaVisibleRef.current)
-    console.log("lista", lista)
+
     if (!Array.isArray(lista) || lista.length === 0) {
       setVoiceFeedback("⚠️ No hay contenidos visibles para seleccionar")
       return
