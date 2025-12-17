@@ -76,61 +76,70 @@ export default function Buscador() {
   //   }, 200)
   // }
   const handleVoiceResult = (text) => {
-    const normalized = text
+    if (!text) return
+
+    // Normalizar texto
+    const comando = text
       .toLowerCase()
-      .replace(/[.,!?¿¡:;"']/g, "")
+      .replace(/[.,]/g, "") // 🔥 quita puntos y comas
       .trim()
 
-    console.log("🎙️ Comando:", normalized)
+    console.log("🎙️ Comando voz:", comando)
 
-    // 👉 COMANDO: buscar ...
-    if (normalized.startsWith("buscar")) {
-      const termino = normalized.replace(/^buscar\s*/i, "").trim()
-
+    // ===============================
+    // 🔎 BUSCAR
+    // ===============================
+    if (comando.startsWith("buscar ")) {
+      const termino = comando.replace("buscar", "").trim()
       if (!termino) return
 
       setQuery(termino)
-
-      setTimeout(() => {
-        handleSearch(termino)
-      }, 200)
-
+      setTimeout(() => handleSearch(), 150)
       return
     }
 
-    // 👉 COMANDO: seleccionar contenido N
-    const matchSeleccion = normalized.match(
-      /(seleccionar|abrir)\s+(contenido\s+)?(\d+)/
-    )
+    // ===============================
+    // 🧹 LIMPIAR BÚSQUEDA
+    // ===============================
+    if (
+      comando === "limpiar" ||
+      comando === "limpiar búsqueda" ||
+      comando === "limpiar busqueda"
+    ) {
+      setQuery("")
+      setResultados([])
+      setError("")
+      setIsLoading(false)
+      return
+    }
 
-    if (matchSeleccion) {
-      const index = parseInt(matchSeleccion[3], 10) - 1
+    // ===============================
+    // 👉 SELECCIONAR CONTENIDO N
+    // ===============================
+    if (comando.startsWith("seleccionar contenido")) {
+      const numero = comando.replace("seleccionar contenido", "").trim()
+      const index = parseInt(numero, 10) - 1
 
       if (isNaN(index)) return
 
-      // priorizamos resultados directos, luego sugeridos
+      // Prioridad: resultados > sugeridos
       const lista =
         resultados.length > 0
-          ? resultados.filter((r) => r.origen !== "TAG")
+          ? resultados
+          : recomendadosPorTag.length > 0
+          ? recomendadosPorTag
           : []
 
-      if (!lista[index]) {
-        alert(`No existe el contenido número ${index + 1}`)
-        return
-      }
+      if (!lista[index]) return
 
       handleClickCard(lista[index])
       return
     }
 
-    // 👉 COMANDO: limpiar búsqueda (opcional pero útil)
-    if (normalized === "limpiar" || normalized === "limpiar busqueda") {
-      setQuery("")
-      setResultados([])
-      return
-    }
-
-    console.log("🤷 Comando no reconocido")
+    // ===============================
+    // ❓ COMANDO NO RECONOCIDO
+    // ===============================
+    console.warn("Comando de voz no reconocido:", comando)
   }
 
   const { startListening, isVoiceListening } = useVoiceSearch({
@@ -220,9 +229,10 @@ export default function Buscador() {
   )
 
   const recomendadosPorTag = useMemo(() => {
+    if (!Array.isArray(ultimos)) return []
     return ultimos
-      .flatMap((g) => g.items || [])
-      .filter((i) => i.origen === "TAG")
+      .flatMap((grupo) => grupo.items || [])
+      .filter((item) => item.origen === "TAG")
   }, [ultimos])
 
   const sugeridos = resultados.filter((r) => r.origen === "TAG")
