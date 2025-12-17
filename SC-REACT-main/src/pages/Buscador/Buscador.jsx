@@ -17,6 +17,39 @@ import { useVoiceSearch } from "../../hooks/useVoiceSearch"
 import citricolosprueba from "../../assets/citricolosprueba.jpg"
 
 /* ================= HELPERS ================= */
+const NUMEROS_POR_VOZ = {
+  uno: 1,
+  una: 1,
+  dos: 2,
+  tres: 3,
+  cuatro: 4,
+  cinco: 5,
+  seis: 6,
+  siete: 7,
+  ocho: 8,
+  nueve: 9,
+  diez: 10,
+  once: 11,
+  doce: 12,
+  trece: 13,
+  catorce: 14,
+  quince: 15,
+}
+const extraerNumero = (texto) => {
+  // 1️⃣ Intentar número directo (1, 2, 3…)
+  const matchNumero = texto.match(/\d+/)
+  if (matchNumero) return parseInt(matchNumero[0], 10)
+
+  // 2️⃣ Intentar número hablado
+  const palabras = texto.split(" ")
+  for (const palabra of palabras) {
+    if (NUMEROS_POR_VOZ[palabra]) {
+      return NUMEROS_POR_VOZ[palabra]
+    }
+  }
+
+  return null
+}
 
 const toId = (item) =>
   item?.id ?? item?.id_contenido ?? item?.Id ?? item?.ID ?? null
@@ -63,58 +96,6 @@ export default function Buscador() {
   const registrarHistorial = useRegistrarHistorial()
 
   /* ======= VOZ ======= */
-
-  const handleVoiceResult = (text) => {
-    const limpio = text
-      .toLowerCase()
-      .replace(/[.,!?]/g, "")
-      .trim()
-
-    setVoiceFeedback(`🗣️ Comando detectado: "${limpio}"`)
-
-    if (limpio.startsWith("buscar")) {
-      const termino = limpio.replace("buscar", "").trim()
-
-      if (!termino) {
-        setVoiceFeedback("⚠️ Decí qué querés buscar")
-        return
-      }
-
-      setVoiceFeedback(`🔎 Buscando: "${termino}"`)
-      setQuery(termino)
-      handleSearch(termino)
-      return
-    }
-
-    if (limpio.startsWith("seleccionar contenido")) {
-      const numero = parseInt(
-        limpio.replace("seleccionar contenido", "").trim()
-      )
-
-      if (isNaN(numero)) {
-        setVoiceFeedback("⚠️ No entendí qué contenido seleccionar")
-        return
-      }
-
-      setVoiceFeedback(`👉 Seleccionando contenido ${numero}`)
-      seleccionarContenidoPorNumero(numero)
-      return
-    }
-
-    if (limpio === "limpiar") {
-      setVoiceFeedback("🧹 Búsqueda limpiada")
-      setQuery("")
-      setResultados([])
-      setTipoSeleccionado("Todos")
-      return
-    }
-
-    setVoiceFeedback("❓ Comando no reconocido")
-  }
-
-  const { startListening, isVoiceListening } = useVoiceSearch({
-    onResult: handleVoiceResult,
-  })
 
   /* ======= CARGA INICIAL ======= */
 
@@ -216,16 +197,71 @@ export default function Buscador() {
     return ultimosPorTipo.flatMap((g) => g.items || [])
   }, [resultados, recomendadosPorTag, ultimosPorTipo])
   const seleccionarContenidoPorNumero = (numero) => {
-    const item = listaVisible[numero - 1]
-
-    if (!item) {
-      setVoiceFeedback(`⚠️ No existe el contenido ${numero}`)
+    if (!Array.isArray(listaVisible) || listaVisible.length === 0) {
+      setVoiceFeedback("⚠️ No hay contenidos visibles para seleccionar")
       return
     }
 
-    setVoiceFeedback(`👉 Abriendo contenido ${numero}`)
+    const index = numero - 1
+    const item = listaVisible[index]
+
+    if (!item) {
+      setVoiceFeedback(
+        `⚠️ No existe el contenido ${numero}. Hay ${listaVisible.length} disponibles`
+      )
+      return
+    }
+
+    setVoiceFeedback(`👉 Abriendo contenido ${numero}: ${item.titulo}`)
     handleClickCard(item)
   }
+  const handleVoiceResult = (text) => {
+    const limpio = text
+      .toLowerCase()
+      .replace(/[.,!?]/g, "")
+      .trim()
+
+    setVoiceFeedback(`🗣️ Comando detectado: "${limpio}"`)
+
+    if (limpio.startsWith("buscar")) {
+      const termino = limpio.replace("buscar", "").trim()
+
+      if (!termino) {
+        setVoiceFeedback("⚠️ Decí qué querés buscar")
+        return
+      }
+
+      setVoiceFeedback(`🔎 Buscando: "${termino}"`)
+      setQuery(termino)
+      handleSearch(termino)
+      return
+    }
+
+    if (limpio.includes("seleccionar")) {
+      const numero = extraerNumero(limpio)
+
+      if (!numero) {
+        setVoiceFeedback("⚠️ Decí el número del contenido")
+        return
+      }
+
+      seleccionarContenidoPorNumero(numero)
+      return
+    }
+
+    if (limpio === "limpiar") {
+      setVoiceFeedback("🧹 Búsqueda limpiada")
+      setQuery("")
+      setResultados([])
+      setTipoSeleccionado("Todos")
+      return
+    }
+
+    setVoiceFeedback("❓ Comando no reconocido")
+  }
+  const { startListening, isVoiceListening } = useVoiceSearch({
+    onResult: handleVoiceResult,
+  })
 
   const sugeridos = resultados.filter((r) => r.origen === "TAG")
 
@@ -271,12 +307,9 @@ export default function Buscador() {
         onClick={() => handleClickCard(item)}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) =>
-          (e.key === "Enter" || e.key === " ") && handleClickCard(item)
-        }
         aria-label={`Abrir contenido ${index !== null ? index + 1 : ""}`}
       >
-        {/* 🔢 Número visible */}
+        {/* 🔢 Número único global */}
         {index !== null && <div className="card-index">{index + 1}</div>}
 
         <img src={citricolosprueba} alt={item?.titulo ?? ""} />
