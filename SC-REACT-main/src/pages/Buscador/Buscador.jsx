@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import Estructura from "../../components/Estructura/Estructura"
 import "./Buscador.css"
 import { FaSearch, FaMicrophone } from "react-icons/fa"
@@ -196,18 +196,26 @@ export default function Buscador() {
 
     return ultimosPorTipo.flatMap((g) => g.items || [])
   }, [resultados, recomendadosPorTag, ultimosPorTipo])
+  const listaVisibleRef = useRef([])
+  useEffect(() => {
+    listaVisibleRef.current = listaVisible
+  }, [listaVisible])
+
   const seleccionarContenidoPorNumero = (numero) => {
-    if (!Array.isArray(listaVisible) || listaVisible.length === 0) {
+    const lista = listaVisibleRef.current
+    console.log("listaVisibleRef", listaVisibleRef.current)
+    console.log("lista", lista)
+    if (!Array.isArray(lista) || lista.length === 0) {
       setVoiceFeedback("⚠️ No hay contenidos visibles para seleccionar")
       return
     }
 
     const index = numero - 1
-    const item = listaVisible[index]
+    const item = lista[index]
 
     if (!item) {
       setVoiceFeedback(
-        `⚠️ No existe el contenido ${numero}. Hay ${listaVisible.length} disponibles`
+        `⚠️ No existe el contenido ${numero}. Hay ${lista.length} disponibles`
       )
       return
     }
@@ -215,6 +223,7 @@ export default function Buscador() {
     setVoiceFeedback(`👉 Abriendo contenido ${numero}: ${item.titulo}`)
     handleClickCard(item)
   }
+
   const handleVoiceResult = (text) => {
     const limpio = text
       .toLowerCase()

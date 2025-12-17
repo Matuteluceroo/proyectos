@@ -1,54 +1,70 @@
-import { useState, useRef } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 
-export const useVoiceSearch = ({ onResult }) => {
+export function useVoiceSearch({ onResult }) {
   const [isVoiceListening, setIsVoiceListening] = useState(false)
+
+  // ✅ Guardamos SIEMPRE el último callback
+  const onResultRef = useRef(onResult)
+  useEffect(() => {
+    onResultRef.current = onResult
+  }, [onResult])
+
   const recognitionRef = useRef(null)
 
-  const startListening = () => {
+  useEffect(() => {
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition
 
     if (!SpeechRecognition) {
-      alert("Tu navegador no soporta reconocimiento de voz")
+      console.warn("❌ SpeechRecognition no disponible en este navegador")
       return
     }
 
-    // crear instancia UNA sola vez
-    if (!recognitionRef.current) {
-      const recognition = new SpeechRecognition()
-      recognition.lang = "es-ES"
-      recognition.continuous = false
-      recognition.interimResults = false
+    const recognition = new SpeechRecognition()
+    recognition.lang = "es-ES"
+    recognition.continuous = false
+    recognition.interimResults = false
 
-      recognition.onstart = () => {
-        console.log("🎤 Escuchando...")
-        setIsVoiceListening(true)
-      }
-
-      recognition.onend = () => {
-        console.log("🛑 Fin escucha")
-        setIsVoiceListening(false)
-      }
-
-      recognition.onerror = (e) => {
-        console.error("❌ Error voz:", e)
-        setIsVoiceListening(false)
-      }
-
-      recognition.onresult = (event) => {
-        const texto = event.results?.[0]?.[0]?.transcript
-        console.log("🗣️ Texto:", texto)
-        if (texto && onResult) onResult(texto)
-      }
-
-      recognitionRef.current = recognition
+    recognition.onstart = () => {
+      setIsVoiceListening(true)
+      console.log("🎤 Escuchando...")
     }
 
-    recognitionRef.current.start()
-  }
+    recognition.onend = () => {
+      setIsVoiceListening(false)
+      console.log("🛑 Fin escucha")
+    }
 
-  return {
-    startListening,
-    isVoiceListening,
-  }
+    recognition.onerror = (e) => {
+      setIsVoiceListening(false)
+      console.error("❌ Error voz:", e)
+    }
+
+    recognition.onresult = (event) => {
+      const text = event?.results?.[0]?.[0]?.transcript ?? ""
+      console.log("🗣️ Texto:", text)
+
+      // ✅ Llamamos SIEMPRE al último handler
+      onResultRef.current?.(text)
+    }
+
+    recognitionRef.current = recognition
+
+    return () => {
+      try {
+        recognition.stop()
+      } catch {}
+      recognitionRef.current = null
+    }
+  }, [])
+
+  const startListening = useCallback(() => {
+    try {
+      recognitionRef.current?.start()
+    } catch (e) {
+      console.error("❌ No se pudo iniciar reconocimiento:", e)
+    }
+  }, [])
+
+  return { startListening, isVoiceListening }
 }
