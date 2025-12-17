@@ -262,6 +262,23 @@ export default function Buscador() {
   }, [query])
 
   /* ======= RENDER CARD ======= */
+  // === Icono según origen del contenido ===
+  const getIconoOrigen = (origen) => {
+    switch ((origen || "").toUpperCase()) {
+      case "HTML":
+        return "📝"
+      case "PDF":
+        return "📕"
+      case "IMAGEN":
+        return "🖼️"
+      case "VIDEO":
+        return "🎬"
+      case "TAG":
+        return "🔖"
+      default:
+        return "📄"
+    }
+  }
 
   const renderCard = (item, index = null, showDescripcion = false) => {
     const id = toId(item)
@@ -372,14 +389,26 @@ export default function Buscador() {
                 </>
               )}
 
-              {ultimosPorTipo.map((g) => (
-                <div key={g.tipo}>
-                  <h3>Últimos {g.tipo}</h3>
-                  <div className="cards-container">
-                    {grupo.items.map((item, i) => renderCard(item, i))}
+              {ultimosPorTipo
+                .filter(
+                  (grupo) =>
+                    tipoSeleccionado === "Todos" ||
+                    (grupo?.tipo ?? "").toLowerCase() ===
+                      tipoSeleccionado.toLowerCase()
+                )
+                .map((grupo) => (
+                  <div
+                    key={grupo?.tipo ?? "otros"}
+                    className="categoria-seccion"
+                  >
+                    <h3 className="categoria-titulo">Últimos {grupo?.tipo}</h3>
+
+                    <div className="cards-container">
+                      {Array.isArray(grupo?.items) &&
+                        grupo.items.map((item, i) => renderCard(item, i))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </>
           )}
         </div>
