@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import Estructura from "../../components/Estructura/Estructura";
-import { useObtenerResumenDashboard } from "../../services/connections/dashboard";
+import { useEffect, useState } from "react"
+import Estructura from "../../components/Estructura/Estructura"
+import { useObtenerResumenDashboard } from "../../services/connections/dashboard"
 import {
   PieChart,
   Pie,
@@ -12,14 +12,33 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-} from "recharts";
-import * as XLSX from "xlsx";
-import "./Dashboard.css";
+} from "recharts"
+import * as XLSX from "xlsx"
+import "./Dashboard.css"
 
-import UsuariosActivosChart from "../../components/dashboard/UsuariosActivosChart.jsx";
+import UsuariosActivosChart from "../../components/dashboard/UsuariosActivosChart.jsx"
+// util: normaliza fechas (evita strings vacíos)
+const normalizeDate = (date) => (date && date !== "" ? date : undefined)
+
+// util: calcula rangos rápidos
+const getDateRange = (type) => {
+  const today = new Date()
+  const end = today.toISOString().slice(0, 10)
+
+  const start = new Date(today)
+
+  if (type === "month") start.setMonth(start.getMonth() - 1)
+  if (type === "quarter") start.setMonth(start.getMonth() - 3)
+  if (type === "semester") start.setMonth(start.getMonth() - 6)
+
+  return {
+    desde: start.toISOString().slice(0, 10),
+    hasta: end,
+  }
+}
 
 export default function Dashboard() {
-  const obtenerResumen = useObtenerResumenDashboard();
+  const obtenerResumen = useObtenerResumenDashboard()
 
   const [resumen, setResumen] = useState({
     usuarios: { totales: 0, activos: 0, inactivos: 0, topActivos: [] },
@@ -29,81 +48,139 @@ export default function Dashboard() {
     topAutores: [],
     porTipo: [],
     totalContenidos: 0,
-  });
+  })
 
-  const [loading, setLoading] = useState(true);
-  const [fechaInicio, setFechaInicio] = useState("");
-  const [fechaFin, setFechaFin] = useState("");
+  const [loading, setLoading] = useState(true)
+  const [fechaInicio, setFechaInicio] = useState("")
+  const [fechaFin, setFechaFin] = useState("")
+  useEffect(() => {
+    if (!fechaInicio && !fechaFin) return
 
-  const COLORS = ["#7ab648", "#b9d96c", "#94c43b", "#5a8a1f", "#b4c99c"];
+    const timeout = setTimeout(() => {
+      fetchData(normalizeDate(fechaInicio), normalizeDate(fechaFin))
+    }, 400) // debounce 400ms
+
+    return () => clearTimeout(timeout)
+  }, [fechaInicio, fechaFin])
+
+  const COLORS = ["#7ab648", "#b9d96c", "#94c43b", "#5a8a1f", "#b4c99c"]
 
   // === FUNCIÓN GENERAL PARA TRAER DATOS ===
   const fetchData = async (desde = "", hasta = "") => {
     try {
-      setLoading(true);
-      const data = await obtenerResumen(desde, hasta); // ← ya preparado para fechas
-      console.log(data);
-      setResumen(data);
+      setLoading(true)
+      const data = await obtenerResumen(desde, hasta) // ← ya preparado para fechas
+      console.log(data)
+      setResumen(data)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   // === CARGA INICIAL ===
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // === EXPORTAR EXCEL ===
   const handleExportExcel = () => {
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumen?.porTipo ?? []), "PorTipo");
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumen?.contenido?.porMes ?? []), "PorMes");
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumen?.topAutores ?? []), "TopAutores");
-    XLSX.writeFile(wb, "Dashboard_SaberCitricola.xlsx");
-  };
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(
+      wb,
+      XLSX.utils.json_to_sheet(resumen?.porTipo ?? []),
+      "PorTipo"
+    )
+    XLSX.utils.book_append_sheet(
+      wb,
+      XLSX.utils.json_to_sheet(resumen?.contenido?.porMes ?? []),
+      "PorMes"
+    )
+    XLSX.utils.book_append_sheet(
+      wb,
+      XLSX.utils.json_to_sheet(resumen?.topAutores ?? []),
+      "TopAutores"
+    )
+    XLSX.writeFile(wb, "Dashboard_SaberCitricola.xlsx")
+  }
 
   if (loading)
     return (
       <Estructura>
         <p style={{ color: "#497b1a", padding: "20px" }}>Cargando datos...</p>
       </Estructura>
-    );
+    )
 
   return (
     <Estructura>
       <div className="dashboard">
-
         {/* === SECCIÓN SUPERIOR === */}
         <div className="top-section-grid">
-
           {/* IZQUIERDA */}
           <div className="main-column">
-
             {/* Filtros */}
             <div className="topbar">
               <div className="filters">
-
                 <div className="filter-item">
                   <label>Desde</label>
-                  <input type="date" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
+                  <input
+                    type="date"
+                    value={fechaInicio}
+                    max={fechaFin || undefined}
+                    onChange={(e) => setFechaInicio(e.target.value)}
+                  />
                 </div>
 
                 <div className="filter-item">
                   <label>Hasta</label>
-                  <input type="date" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
+                  <input
+                    type="date"
+                    value={fechaFin}
+                    min={fechaInicio || undefined}
+                    onChange={(e) => setFechaFin(e.target.value)}
+                  />
                 </div>
+
+                {/* 🔹 Presets rápidos */}
+                <button
+                  className="btn-action"
+                  onClick={() => {
+                    const { desde, hasta } = getDateRange("month")
+                    setFechaInicio(desde)
+                    setFechaFin(hasta)
+                  }}
+                >
+                  Último mes
+                </button>
 
                 <button
                   className="btn-action"
-                  onClick={() => fetchData(fechaInicio, fechaFin)}
+                  onClick={() => {
+                    const { desde, hasta } = getDateRange("quarter")
+                    setFechaInicio(desde)
+                    setFechaFin(hasta)
+                  }}
                 >
-                  Filtrar
+                  Trimestre
                 </button>
 
-                <button className="btn-export" onClick={handleExportExcel}>
-                  ⬇ Exportar
+                <button
+                  className="btn-action"
+                  onClick={() => {
+                    const { desde, hasta } = getDateRange("semester")
+                    setFechaInicio(desde)
+                    setFechaFin(hasta)
+                  }}
+                >
+                  Semestre
                 </button>
+
+                {(fechaInicio || fechaFin) && (
+                  <small style={{ color: "#555", fontWeight: 600 }}>
+                    Filtro activo
+                    {fechaInicio && ` · Desde ${fechaInicio}`}
+                    {fechaFin && ` · Hasta ${fechaFin}`}
+                  </small>
+                )}
               </div>
             </div>
 
@@ -126,7 +203,9 @@ export default function Dashboard() {
 
               <div className="kpi-box">
                 <span className="kpi-title">Tasa Finalización</span>
-                <span className="kpi-value">{resumen.entrenamientos.tasaFinalizacion}%</span>
+                <span className="kpi-value">
+                  {resumen.entrenamientos.tasaFinalizacion}%
+                </span>
               </div>
             </div>
 
@@ -139,7 +218,13 @@ export default function Dashboard() {
                   <XAxis dataKey="mes" />
                   <YAxis />
                   <Tooltip />
-                  <Line type="monotone" dataKey="total" stroke="#7ab648" strokeWidth={2} dot={{ r: 4 }} />
+                  <Line
+                    type="monotone"
+                    dataKey="total"
+                    stroke="#7ab648"
+                    strokeWidth={2}
+                    dot={{ r: 4 }}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -166,12 +251,10 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-
         </div>
 
         {/* === SECCIÓN INFERIOR === */}
         <div className="bottom-section">
-
           {/* Distribución por tipo */}
           <div className="dashboard-card">
             <h3>Distribución por Tipo</h3>
@@ -222,18 +305,20 @@ export default function Dashboard() {
           <div className="mini-kpi-container">
             <div className="mini-kpi-box">
               <span className="mini-kpi-title">Contenidos recientes</span>
-              <span className="mini-kpi-value">{resumen?.contenido?.porMes?.slice(-1)[0]?.total || 0}</span>
+              <span className="mini-kpi-value">
+                {resumen?.contenido?.porMes?.slice(-1)[0]?.total || 0}
+              </span>
             </div>
 
             <div className="mini-kpi-box">
               <span className="mini-kpi-title">Usuarios nuevos</span>
-              <span className="mini-kpi-value">{resumen?.usuarios?.topActivos?.length || 0}</span>
+              <span className="mini-kpi-value">
+                {resumen?.usuarios?.topActivos?.length || 0}
+              </span>
             </div>
           </div>
-
         </div>
-
       </div>
     </Estructura>
-  );
+  )
 }
