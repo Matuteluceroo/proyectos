@@ -86,9 +86,10 @@ export default function Capacitaciones() {
       const payload = {
         nombre: formData.nombre,
         descripcion: formData.descripcion,
+        id_creador: currentUser.id, // reemplazalo por currentUser.id
         contenidos: contenidos.map((c: any) => ({
           id_contenido: c.id,
-          tipo_origen: c.origen,
+          tipo_origen: c.origen, // "HTML" | "ARCHIVO"
         })),
       }
 
@@ -98,10 +99,7 @@ export default function Capacitaciones() {
         alert("✅ Capacitación actualizada correctamente")
       } else {
         // ➕ CREAR
-        await create({
-          ...payload,
-          id_creador: currentUser?.id_usuario,
-        })
+        await create(payload)
         alert("✅ Capacitación creada correctamente")
       }
 

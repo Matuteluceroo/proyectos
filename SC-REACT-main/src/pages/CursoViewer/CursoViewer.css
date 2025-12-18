@@ -1,0 +1,75 @@
+.curso-viewer-container {
+  display: flex;
+  height: calc(100vh - 80px);
+  background: #f8fafc;
+}
+
+/* SIDEBAR */
+.curso-sidebar {
+  width: 320px;
+  border-right: 1px solid #e5e7eb;
+  padding: 16px;
+  background: #ffffff;
+  overflow-y: auto;
+}
+
+.curso-titulo {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.curso-descripcion {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.lista-contenidos {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item-contenido {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  border: 1px solid transparent;
+}
+
+.item-contenido:hover {
+  background: #f3f4f6;
+}
+
+.item-contenido.activo {
+  background: #e0e7ff;
+  border-color: #6366f1;
+}
+
+.item-index {
+  font-weight: bold;
+  color: #4f46e5;
+  width: 18px;
+}
+
+.item-titulo {
+  flex: 1;
+}
+
+.item-tipo {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* VISOR */
+.curso-visor {
+  flex: 1;
+  background: #ffffff;
+  padding: 12px;
+  overflow: hidden;
+}

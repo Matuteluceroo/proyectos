@@ -20,12 +20,13 @@ import HtmlVisorPure from "../components/Visores/HtmlVisorPure"
 import PdfVisorPure from "../components/Visores/PdfVisorPure"
 import VideoVisorPure from "../components/Visores/VideoVisorPure"
 import ImagenVisorPure from "../components/Visores/ImagenVisorPure"
-import VisorHtml from "../pages/Contenido/VisorHtml";
+import VisorHtml from "../pages/Contenido/VisorHtml"
 import VisorPDF from "../pages/Visor/VisorPDF"
 import VisorVideo from "../pages/Visor/VisorVideo"
 import VisorImagen from "../pages/Visor/VisorImagen"
 import Capacitaciones from "../pages/Capacitaciones/Capacitaciones"
 import BuscadorVoz from "../pages/Buscador/BuscadorVoz"
+import CursoViewer from "../pages/CursoViewer/CursoViewer"
 
 const AppRoutes = () => (
   <Router>
@@ -317,6 +318,15 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<ImagenVisorPure />}
+            allowedRoles={["ADMINISTRADOR", "EMPLEADO", "EXPERTO"]}
+          />
+        }
+      />
+      <Route
+        path="/curso/:id"
+        element={
+          <PrivateRoute
+            element={<CursoViewer />}
             allowedRoles={["ADMINISTRADOR", "EMPLEADO", "EXPERTO"]}
           />
         }
