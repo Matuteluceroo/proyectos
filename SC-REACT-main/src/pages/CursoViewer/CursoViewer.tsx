@@ -1,82 +1,103 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
+import Estructura from "../../components/Estructura/Estructura"
 import { useCapacitaciones } from "../../services/connections/capacitaciones"
+import { useNavigate } from "react-router-dom"
+import HtmlVisorPure from "../../components/Visores/HtmlVisorPure"
+import PdfVisorPure from "../../components/Visores/PdfVisorPure"
+import VideoVisorPure from "../../components/Visores/VideoVisorPure"
+import ImagenVisorPure from "../../components/Visores/ImagenVisorPure"
+import { Outlet } from "react-router-dom"
 
 import "./CursoViewer.css"
 
 export default function CursoViewer() {
-  const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+
+  const { id } = useParams()
   const { getById } = useCapacitaciones()
 
   const [curso, setCurso] = useState<any>(null)
   const [contenidos, setContenidos] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
+  const [activo, setActivo] = useState<any>(null)
 
   useEffect(() => {
-    if (!id) return
     cargarCurso()
   }, [id])
 
   const cargarCurso = async () => {
-    setLoading(true)
     const data = await getById(Number(id))
 
     if (Array.isArray(data) && data.length > 0) {
-      setCurso({
-        nombre: data[0].nombre,
-        descripcion: data[0].descripcion,
-      })
-
-      const lista = data
-        .filter((c: any) => c.id_contenido)
-        .map((c: any) => ({
-          id: c.id_contenido,
-          titulo: c.titulo,
-          tipo: c.tipoNombre,
-        }))
-
+      setCurso(data[0])
+      const lista = data.filter((c) => c.id_contenido)
       setContenidos(lista)
-    }
-
-    setLoading(false)
-  }
-
-  const abrirContenido = (item: any) => {
-    const tipo = item.tipo?.toUpperCase()
-
-    if (tipo === "HTML") {
-      navigate(`/preview/html/${item.id}`)
-    } else if (tipo === "PDF") {
-      navigate(`/preview/pdf/${encodeURIComponent(item.titulo)}`)
-    } else if (tipo === "VIDEO") {
-      navigate(`/preview/video/${encodeURIComponent(item.titulo)}`)
-    } else if (tipo === "IMAGEN") {
-      navigate(`/preview/imagen/${encodeURIComponent(item.titulo)}`)
+      setActivo(lista[0] || null) // primer contenido activo
     }
   }
 
-  if (loading) return <p>Cargando capacitación...</p>
+  const abrirContenido = (c: any) => {
+    if (c.tipo_origen === "HTML") {
+      navigate(`vista/html/${c.id_contenido}`)
+    } else if (c.tipoNombre === "PDF") {
+      // 🔥 CLAVE: sacar "PDF/"
+      const archivo = c.url_archivo.replaceAll("\\", "/").replace(/^PDF\//i, "")
 
+      navigate(`vista/pdf/${encodeURIComponent(archivo)}`)
+    }
+  }
+
+  // return (
+  //   <Estructura>
+  //     <div className="curso-viewer">
+  //       <aside className="curso-sidebar">
+  //         <h2>{curso?.nombre}</h2>
+  //         <p>{curso?.descripcion}</p>
+
+  //         <ul>
+  //           {contenidos.map((c) => (
+  //             <li key={c.id_contenido} onClick={() => abrirContenido(c)}>
+  //               {c.titulo}
+  //             </li>
+  //           ))}
+  //         </ul>
+  //       </aside>
+
+  //       <main className="curso-visor">
+  //         <Outlet />
+  //       </main>
+  //     </div>
+  //   </Estructura>
+  // )
   return (
-    <div className="curso-viewer">
-      <aside className="curso-sidebar">
-        <h2>{curso?.nombre}</h2>
-        <p className="descripcion">{curso?.descripcion}</p>
+    <Estructura>
+      <div className="curso-viewer">
+        {/* SIDEBAR */}
+        <aside className="curso-sidebar">
+          <h2 className="curso-titulo">{curso?.nombre}</h2>
+          <p className="curso-descripcion">{curso?.descripcion}</p>
 
-        <ul className="lista-contenidos">
-          {contenidos.map((c, i) => (
-            <li key={i} onClick={() => abrirContenido(c)}>
-              <span className="tipo">{c.tipo}</span>
-              <span className="titulo">{c.titulo}</span>
-            </li>
-          ))}
-        </ul>
-      </aside>
+          <ul className="lista-contenidos">
+            {contenidos.map((c, i) => (
+              <li
+                key={`${c.id_contenido}-${i}`}
+                className={
+                  activo?.id_contenido === c.id_contenido ? "activo" : ""
+                }
+                onClick={() => abrirContenido(c)}
+              >
+                <span className="tipo">{c.tipoNombre}</span>
+                <span className="titulo">{c.titulo}</span>
+              </li>
+            ))}
+          </ul>
+        </aside>
 
-      <main className="curso-placeholder">
-        <p>👈 Seleccioná un contenido para comenzar</p>
-      </main>
-    </div>
+        {/* VISOR */}
+        <main className="curso-visor">
+          <Outlet />
+        </main>
+      </div>
+    </Estructura>
   )
 }

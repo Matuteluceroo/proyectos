@@ -20,6 +20,10 @@ import HtmlVisorPure from "../components/Visores/HtmlVisorPure"
 import PdfVisorPure from "../components/Visores/PdfVisorPure"
 import VideoVisorPure from "../components/Visores/VideoVisorPure"
 import ImagenVisorPure from "../components/Visores/ImagenVisorPure"
+import HtmlVisorPureCurso from "../components/Visores/Cursos/HtmlVisorPureCurso.tsx"
+import PdfVisorPureCurso from "../components/Visores/Cursos/PdfVisorPureCurso"
+import VideoVisorPureCurso from "../components/Visores/Cursos/VideoVisorPure"
+import ImagenVisorPureCurso from "../components/Visores/Cursos/ImagenVisorPure"
 import VisorHtml from "../pages/Contenido/VisorHtml"
 import VisorPDF from "../pages/Visor/VisorPDF"
 import VisorVideo from "../pages/Visor/VisorVideo"
@@ -27,6 +31,7 @@ import VisorImagen from "../pages/Visor/VisorImagen"
 import Capacitaciones from "../pages/Capacitaciones/Capacitaciones"
 import BuscadorVoz from "../pages/Buscador/BuscadorVoz"
 import CursoViewer from "../pages/CursoViewer/CursoViewer"
+import MisCapacitaciones from "../pages/MisCapacitaciones/MisCapacitaciones"
 
 const AppRoutes = () => (
   <Router>
@@ -322,6 +327,38 @@ const AppRoutes = () => (
           />
         }
       />
+      {/* <Route
+        path="/curso/:id"
+        element={
+          <PrivateRoute
+            element={<CursoViewer />}
+            allowedRoles={["ADMINISTRADOR", "EMPLEADO", "EXPERTO"]}
+          />
+        }
+      />  */}
+      {/* <Route
+        path="/curso/:id"
+        element={
+          <PrivateRoute
+            element={<CursoViewer />}
+            allowedRoles={["ADMINISTRADOR", "EMPLEADO", "EXPERTO"]}
+          />
+        }
+      /> */}
+      {/* <Route
+        path="/curso/:id"
+        element={
+          <PrivateRoute
+            element={<CursoViewer />}
+            allowedRoles={["ADMINISTRADOR", "EMPLEADO", "EXPERTO"]}
+          />
+        }
+      >
+        <Route path="preview/html/:idContenido" element={<HtmlVisorPure />} />
+        <Route path="preview/pdf/:nombre" element={<PdfVisorPure />} />
+        <Route path="preview/video/:nombre" element={<VideoVisorPure />} />
+        <Route path="preview/imagen/:nombre" element={<ImagenVisorPure />} />
+      </Route> */}
       <Route
         path="/curso/:id"
         element={
@@ -330,8 +367,25 @@ const AppRoutes = () => (
             allowedRoles={["ADMINISTRADOR", "EMPLEADO", "EXPERTO"]}
           />
         }
-      />
+      >
+        <Route
+          path="vista/html/:idContenido"
+          element={<HtmlVisorPureCurso />}
+        />
+        <Route path="vista/pdf/:nombre" element={<PdfVisorPure />} />
+        <Route path="vista/video/:nombre" element={<VideoVisorPure />} />
+        <Route path="vista/imagen/:nombre" element={<ImagenVisorPure />} />
+      </Route>
 
+      <Route
+        path="/mis-capacitaciones"
+        element={
+          <PrivateRoute
+            element={<MisCapacitaciones />}
+            allowedRoles={["ADMINISTRADOR", "EMPLEADO", "EXPERTO"]}
+          />
+        }
+      />
       <Route
         path="/capacitaciones"
         element={
