@@ -10,10 +10,12 @@ import VirtualizedTable from "../../components/VirtualizedTable/VirtualizedTable
 import Modal from "../../components/Modal/Modal"
 import BuscadorCapacitaciones from "./BuscadorCapacitaciones"
 import PreviewVisor from "./PreviewModal"
+import PreviewContenidoModal from "../../components/PreviewContenidoModal/PreviewContenidoModal"
+import { useSocket } from "../../services/SocketContext"
 
 export default function Capacitaciones() {
   const { getAll, create, update, remove, getById } = useCapacitaciones()
-
+  const { currentUser, notificaciones } = useSocket()
   // --------------------------
   // Estados
   // --------------------------
@@ -29,16 +31,21 @@ export default function Capacitaciones() {
   >(null)
   const [previewNombre, setPreviewNombre] = useState<string | undefined>()
   const [previewId, setPreviewId] = useState<number | undefined>()
+  const [previewItem, setPreviewItem] = useState<any | null>(null)
 
   const abrirPreview = (row: any) => {
-    const tipo = row.tipoNombre?.toUpperCase()
-    if (["PDF", "VIDEO", "IMAGEN", "HTML"].includes(tipo)) {
-      setPreviewTipo(tipo as any)
-      if (tipo === "HTML") setPreviewId(row.id)
-      else setPreviewNombre(row.titulo) // nombre del archivo
-      setPreviewOpen(true)
-    }
+    setPreviewItem(row)
+    setPreviewOpen(true)
   }
+  // const abrirPreview = (row: any) => {
+  //   const tipo = row.tipoNombre?.toUpperCase()
+  //   if (["PDF", "VIDEO", "IMAGEN", "HTML"].includes(tipo)) {
+  //     setPreviewTipo(tipo as any)
+  //     if (tipo === "HTML") setPreviewId(row.id)
+  //     else setPreviewNombre(row.titulo) // nombre del archivo
+  //     setPreviewOpen(true)
+  //   }
+  // }
 
   // --------------------------
   // Cargar capacitaciones
@@ -75,30 +82,43 @@ export default function Capacitaciones() {
   }
 
   const handleGuardar = async () => {
-    const payload = {
-      nombre: formData.nombre,
-      descripcion: formData.descripcion,
-      id_creador: 1, // reemplazalo por currentUser.id
-      contenidos: contenidos.map((c) => ({
-        id_contenido: c.id,
-        tipo_origen: c.origen,
-      })),
-    }
+    try {
+      const payload = {
+        nombre: formData.nombre,
+        descripcion: formData.descripcion,
+        contenidos: contenidos.map((c: any) => ({
+          id_contenido: c.id,
+          tipo_origen: c.origen,
+        })),
+      }
 
-    if (editMode && idEditando) {
-      await update(idEditando, payload)
-    } else {
-      await create(payload)
-    }
+      if (editMode && idEditando) {
+        // 🔄 EDITAR
+        await update(idEditando, payload)
+        alert("✅ Capacitación actualizada correctamente")
+      } else {
+        // ➕ CREAR
+        await create({
+          ...payload,
+          id_creador: currentUser?.id_usuario,
+        })
+        alert("✅ Capacitación creada correctamente")
+      }
 
-    resetForm()
-    await cargarCapacitaciones()
+      const data = await getAll()
+      setCapacitaciones(data)
+
+      resetForm()
+    } catch (e) {
+      console.error("❌ Error guardando capacitación", e)
+      alert("Error al guardar capacitación")
+    }
   }
 
   const resetForm = () => {
-    setFormData({})
     setEditMode(false)
     setIdEditando(null)
+    setFormData({ nombre: "", descripcion: "" })
     setContenidos([])
   }
 
@@ -107,6 +127,7 @@ export default function Capacitaciones() {
   // --------------------------
   const handleEditar = async (cap: any) => {
     const detalle = await getById(cap.id_capacitacion)
+
     const seleccionados =
       Array.isArray(detalle) &&
       detalle
@@ -122,6 +143,7 @@ export default function Capacitaciones() {
       nombre: cap.nombre,
       descripcion: cap.descripcion,
     })
+
     setContenidos(seleccionados || [])
     setEditMode(true)
     setIdEditando(cap.id_capacitacion)
@@ -184,8 +206,7 @@ export default function Capacitaciones() {
     {
       id: "btnPreview",
       label: "Vista previa",
-      width: "120px",
-      options: true,
+      width: "70px",
       ico: editarIco,
       onclick: (row: any) => abrirPreview(row),
     },
@@ -193,7 +214,6 @@ export default function Capacitaciones() {
       id: "btnEliminar",
       label: "Quitar",
       width: "70px",
-      options: true,
       ico: eliminarIco,
 
       onclick: (row: any) => quitarContenido(row.id, row.origen),
@@ -267,7 +287,6 @@ export default function Capacitaciones() {
         isOpen={showBuscador}
         onClose={() => setShowBuscador(false)}
         title="Buscar contenidos"
-        maxWidth="900px"
       >
         <BuscadorCapacitaciones
           onSelect={(item) => {
@@ -277,6 +296,11 @@ export default function Capacitaciones() {
           }}
         />
       </Modal>
+      <PreviewContenidoModal
+        isOpen={previewOpen}
+        onClose={() => setPreviewOpen(false)}
+        item={previewItem}
+      />
     </Estructura>
   )
 }

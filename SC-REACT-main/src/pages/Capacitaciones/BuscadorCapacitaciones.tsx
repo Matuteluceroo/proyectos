@@ -1,33 +1,30 @@
-import { useState } from "react";
-import { useBuscarContenidos } from "../../services/connections/contenido";
-import PreviewModal from "./PreviewModal";
-import "./BuscadorCapacitaciones.css";
+import { useState } from "react"
+import { useBuscarContenidos } from "../../services/connections/contenido"
+import PreviewModal from "./PreviewModal"
+import "./BuscadorCapacitaciones.css"
 
 interface BuscadorCapacitacionesProps {
-  onSelect: (item: any) => void;
+  onSelect: (item: any) => void
 }
 
 export default function BuscadorCapacitaciones({
   onSelect,
 }: BuscadorCapacitacionesProps) {
-  const [query, setQuery] = useState("");
-  const [resultados, setResultados] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewTipo, setPreviewTipo] = useState<
-    "PDF" | "VIDEO" | "IMAGEN" | "HTML" | null
-  >(null);
-  const [previewId, setPreviewId] = useState<number | null>(null);
-  const [previewNombre, setPreviewNombre] = useState<string | undefined>();
-  const buscarContenidos = useBuscarContenidos();
+  const [query, setQuery] = useState("")
+  const [resultados, setResultados] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+  const [previewOpen, setPreviewOpen] = useState(false)
+  const [previewItem, setPreviewItem] = useState<any | null>(null)
+
+  const buscarContenidos = useBuscarContenidos()
 
   const handleBuscar = async () => {
-    if (!query.trim()) return;
-    setLoading(true);
-    const data = await buscarContenidos(query);
-    setResultados(Array.isArray(data) ? data : []);
-    setLoading(false);
-  };
+    if (!query.trim()) return
+    setLoading(true)
+    const data = await buscarContenidos(query)
+    setResultados(Array.isArray(data) ? data : [])
+    setLoading(false)
+  }
 
   const handleSelect = (item: any) => {
     onSelect({
@@ -35,20 +32,13 @@ export default function BuscadorCapacitaciones({
       titulo: item.titulo,
       tipoNombre: item.tipoNombre,
       origen: item.origen === "HTML" ? "HTML" : "ARCHIVO",
-    });
-  };
+    })
+  }
 
   const handlePreview = (item: any) => {
-    const tipo = item.tipoNombre?.toUpperCase();
-    if (["PDF", "VIDEO", "IMAGEN", "HTML"].includes(tipo)) {
-      setPreviewTipo(tipo as any);
-      if (tipo === "HTML") setPreviewId(item.id);
-      else setPreviewNombre(item.titulo);
-      setPreviewOpen(true);
-    } else {
-      alert("❌ Este tipo de contenido no tiene vista previa disponible.");
-    }
-  };
+    setPreviewItem(item)
+    setPreviewOpen(true)
+  }
 
   return (
     <div className="buscador-capacitaciones">
@@ -81,10 +71,7 @@ export default function BuscadorCapacitaciones({
               <button className="btn-agregar" onClick={() => handleSelect(r)}>
                 ➕ Agregar
               </button>
-              <button
-                className="btn-preview"
-                onClick={() => handlePreview(r)}
-              >
+              <button className="btn-preview" onClick={() => handlePreview(r)}>
                 👁️ Vista previa
               </button>
             </div>
@@ -95,10 +82,8 @@ export default function BuscadorCapacitaciones({
       <PreviewModal
         isOpen={previewOpen}
         onClose={() => setPreviewOpen(false)}
-        tipo={previewTipo}
-        id={previewId}
-        nombre={previewNombre}
+        item={previewItem}
       />
     </div>
-  );
+  )
 }

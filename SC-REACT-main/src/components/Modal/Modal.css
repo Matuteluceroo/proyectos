@@ -73,6 +73,27 @@
 .my-modal-body strong {
   color: #0056b3;
 }
+.modal-preview-grande {
+  width: 100%;
+  max-width: 1200px;
+  height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+}
+.modal-preview-grande .my-modal-body {
+  flex: 1;
+  overflow-y: auto;
+}
+.modal-preview-grande .my-modal-header {
+  min-height: 64px;
+  flex-shrink: 0;
+}
+
+
+
+
+
 @media (max-width: 768px) {
   .my-modal-content {
     width: 95%;

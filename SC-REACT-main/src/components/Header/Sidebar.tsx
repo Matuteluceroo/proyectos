@@ -16,6 +16,7 @@ import {
   FiFile,
   FiEdit,
 } from "react-icons/fi"
+import { PiStudent } from "react-icons/pi"
 import { useObtenerImagenPerfil } from "../../services/connections/usuarios"
 import BotonVolver from "../Button/BotonVolver"
 import BotonCerrarSesion from "../Button/BotonCerrarSesion"
@@ -189,6 +190,15 @@ const Sidebar: React.FC<SidebarProps> = ({
             {!collapsed && (
               <span className="sidebar-text">Subir Contenido</span>
             )}
+          </button>
+        )}
+        {currentUser?.rol === "ADMINISTRADOR" && (
+          <button
+            onClick={() => navigate("/capacitaciones")}
+            title="Subir Contenido"
+          >
+            <PiStudent size={20} style={{ color: "#000" }} />
+            {!collapsed && <span className="sidebar-text">Capacitaciones</span>}
           </button>
         )}
         <button onClick={() => navigate("/buscador")} title="Buscar Contenido">

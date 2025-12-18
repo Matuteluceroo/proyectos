@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import './Modal.css'
+import { ReactNode } from "react"
+import "./Modal.css"
 
 type ModalProps = {
   isOpen: boolean
@@ -11,85 +11,52 @@ type ModalProps = {
   minWidth?: string
   maxWidth?: string
   isCellPhone?: boolean
+  variant?: "default" | "preview" // 👈 NUEVO
 }
-const Modal = ({
+
+export default function Modal({
   isOpen,
   onClose,
   title,
   children,
-  type,
-  selectedId,
-  minWidth,
-  maxWidth,
-  isCellPhone = false,
-}: ModalProps) => {
+  minWidth = "auto",
+  maxWidth = "600px",
+  variant = "default",
+}: ModalProps) {
   if (!isOpen) return null
 
-  const isMobile = window.innerWidth < 768
-
-  if (type === 'ofTable' && !isCellPhone) {
-    if (!selectedId) return null
-
-    return (
-      <div
-        className="my-modal-overlay-table"
-        onClick={onClose}
-      >
-        <div
-          className="my-modal-content-table"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="my-modal-header">
-            {title && <h2 className="my-modal-title">{title}</h2>}
-            <button
-              className="my-modal-close"
-              onClick={onClose}
-            >
-              &times;
-            </button>
-          </div>
-          <div className="my-modal-body">{children}</div>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div
-      className="my-modal-overlay"
-      onClick={onClose}
-      style={{
-        alignItems: isMobile ? 'flex-start' : 'center',
-        justifyContent: 'center',
-        display: 'flex',
-        minHeight: '100vh',
-        paddingTop: isMobile ? '20px' : '0',
-      }}
-    >
+    <div className="my-modal-overlay" onClick={onClose}>
       <div
-        className="my-modal-content"
+        className={`my-modal-content ${
+          variant === "preview" ? "modal-preview-grande" : ""
+        }`}
         style={{
           minWidth,
-          maxWidth,
-          maxHeight: '80vh',
-          display: 'flex',
-          flexDirection: 'column',
+          maxWidth: variant === "preview" ? undefined : maxWidth,
+          maxHeight: variant === "preview" ? undefined : "80vh",
+          display: "flex",
+          flexDirection: "column",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="my-modal-header">
-          {title && <h2 className="my-modal-title">{title}</h2>}
-          <button
-            className="my-modal-close"
-            onClick={onClose}
-          >
-            &times;
-          </button>
-        </div>
+        {/* HEADER */}
+        {title && (
+          <div className="my-modal-header">
+            <h2 className="my-modal-title">{title}</h2>
+            <button
+              className="my-modal-close"
+              onClick={onClose}
+              aria-label="Cerrar"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
+        {/* BODY */}
         <div className="my-modal-body">{children}</div>
       </div>
     </div>
   )
 }
-
-export default Modal

@@ -1,4 +1,4 @@
-import Modal from "../../components/Modal/Modal"
+import Modal from "../Modal/Modal"
 
 type Props = {
   isOpen: boolean
@@ -17,23 +17,29 @@ const getPreviewPath = (item: any): string => {
   if (tipo === "VIDEO") return `/preview/video/${archivo}`
   if (tipo === "IMAGEN") return `/preview/imagen/${archivo}`
 
+  // fallback
   return `/preview/html/${id}`
 }
 
-export default function PreviewModal({ isOpen, onClose, item }: Props) {
+export default function PreviewContenidoModal({
+  isOpen,
+  onClose,
+  item,
+}: Props) {
   if (!isOpen || !item) return null
 
-  const src = `${window.location.origin}${getPreviewPath(item)}`
+  const src = getPreviewPath(item)
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
       title={`Vista previa — ${item.titulo}`}
-      maxWidth="1200px"
+      minWidth="370px"
+      maxWidth="400px"
       variant="preview"
     >
-      <div style={{ height: "75vh" }}>
+      <div style={{ height: "75vh", overflow: "auto" }}>
         <iframe
           src={src}
           title="Vista previa contenido"
