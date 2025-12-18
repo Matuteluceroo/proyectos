@@ -238,7 +238,7 @@ const Administracion: React.FC = () => {
     const defaultForm: FormData = {
       id: null,
       userName: "",
-      rol: "LICITADOR",
+      rol: "EMPLEADO",
       nombre: "",
       idZona: "",
       tags: "",
