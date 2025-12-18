@@ -17,10 +17,12 @@ const config = {
 
 export const connectToDatabase = async () => {
   try {
-    sql.connect(config);
-    console.log('Conexión a SQL Server',config.database);
+    await sql.connect(config);
+    console.log('✅ Conexión a SQL Server exitosa:', config.database);
+    return 1; // Retorna 1 si la conexión es exitosa
   } catch (err) {
-    console.error('Error en la conexión a SQL Server:', err);
+    console.error('❌ Error en la conexión a SQL Server:', err);
+    console.error('Verifica tu archivo .env con las credenciales de la BD');
     return 0
   }
 }

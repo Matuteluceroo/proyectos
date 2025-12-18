@@ -32,15 +32,20 @@ const RUTA_CONTENIDOS = process.env.RUTA_CONTENIDOS;
 
 // 🔹 Orígenes permitidos
 const acepted_origins = [
-  "http://localhost:5173",
-  "https://9514609c1bc6.ngrok-free.app",
-  "http://192.168.100.22:5173",
-  "https://proyectos-git-main-matuteluceroos-projects.vercel.app",
-  "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app/",
-  "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app",
-  "https://proyectos-black.vercel.app/",
-  "https://proyectos-black.vercel.app",
-  "https://937d87274a63.ngrok-free.app",
+  "http://localhost:5173", // ✅ Frontend Vite dev
+  "http://localhost:4173", // ✅ Frontend Vite preview
+  "http://localhost:3000", // ✅ Otros puertos comunes
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:4173",
+  // 🌐 Orígenes para ngrok (comentar cuando trabajes en local)
+  // "https://9514609c1bc6.ngrok-free.app",
+  // "http://192.168.100.22:5173",
+  // "https://proyectos-git-main-matuteluceroos-projects.vercel.app",
+  // "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app/",
+  // "https://proyectos-etgj42q6b-matuteluceroos-projects.vercel.app",
+  // "https://proyectos-black.vercel.app/",
+  // "https://proyectos-black.vercel.app",
+  // "https://937d87274a63.ngrok-free.app",
 ];
 
 const app = express();
