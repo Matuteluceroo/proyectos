@@ -4,6 +4,7 @@ import { useCapacitaciones } from "../../services/connections/capacitaciones"
 import Buscador from "../Buscador/Buscador"
 import eliminarIco from "../../assets/trash.svg"
 import editarIco from "../../assets/edit.svg"
+import TbEyeShare from "../../assets/eyes.svg"
 import "./Capacitaciones.css"
 import FormReutilizable from "../../components/DynamicForm/FormReutilizable"
 import VirtualizedTable from "../../components/VirtualizedTable/VirtualizedTable"
@@ -205,7 +206,7 @@ export default function Capacitaciones() {
       id: "btnPreview",
       label: "Vista previa",
       width: "70px",
-      ico: editarIco,
+      ico: TbEyeShare,
       onclick: (row: any) => abrirPreview(row),
     },
     {

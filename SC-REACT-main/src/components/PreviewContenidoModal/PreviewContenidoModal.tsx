@@ -7,18 +7,31 @@ type Props = {
 }
 
 const getPreviewPath = (item: any): string => {
-  const id = item?.id ?? item?.id_contenido ?? item?.ID
+  const id = item?.id ?? item?.id_contenido
+  const tipo = (item?.tipoNombre || item?.tipo || "").toUpperCase()
+  const titulo = item?.titulo
 
-  const tipo = (item?.tipoNombre || "").toUpperCase()
-  const archivo = item?.url_archivo?.replace(/\\/g, "/")?.split("/")?.pop()
+  if (!id || !tipo) return ""
 
-  if (tipo === "HTML") return `/preview/html/${id}`
-  if (tipo === "PDF") return `/preview/pdf/${archivo}`
-  if (tipo === "VIDEO") return `/preview/video/${archivo}`
-  if (tipo === "IMAGEN") return `/preview/imagen/${archivo}`
+  console.log("🧪 Preview PATCH:", { tipo, id, titulo })
 
-  // fallback
-  return `/preview/html/${id}`
+  if (tipo === "HTML") {
+    return `/preview/html/${id}`
+  }
+
+  if (tipo === "PDF") {
+    return `/preview/pdf/${id}-${titulo}.pdf`
+  }
+
+  if (tipo === "VIDEO") {
+    return `/preview/video/${id}-${titulo}.mp4`
+  }
+
+  if (tipo === "IMAGEN") {
+    return `/preview/imagen/${id}-${titulo}.jpg`
+  }
+
+  return ""
 }
 
 export default function PreviewContenidoModal({
@@ -28,18 +41,20 @@ export default function PreviewContenidoModal({
 }: Props) {
   if (!isOpen || !item) return null
 
-  const src = getPreviewPath(item)
+  const path = getPreviewPath(item)
+  if (!path) return null
+
+  const src = `${window.location.origin}${path}`
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
       title={`Vista previa — ${item.titulo}`}
-      minWidth="370px"
-      maxWidth="400px"
+      maxWidth="1200px"
       variant="preview"
     >
-      <div style={{ height: "75vh", overflow: "auto" }}>
+      <div style={{ height: "75vh" }}>
         <iframe
           src={src}
           title="Vista previa contenido"
