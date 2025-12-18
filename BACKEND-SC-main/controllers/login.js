@@ -21,30 +21,20 @@ export class LoginController {
 
     if (await bcrypt.compare(password, hashedPassword)) {
       const accessToken = generateAccessToken(user[0]);
-      // Configurar cookie segura
-      /* res.cookie('token', accessToken, {
-        httpOnly: true,
-        secure: true, // Asegúrate de usar HTTPS en producción
-        sameSite: 'None', // Cambiar a 'Lax' si necesitas redirecciones cruzadas
-        maxAge: 24 * 60 * 60 * 1000, // 1 día
-        domain: 'macropharma.ngrok.app',
-        path: '/',
-      }) */
+      // Configurar cookie (local vs producción)
+      const isProd = process.env.NODE_ENV === "production";
       res.cookie("token", accessToken, {
         httpOnly: true,
-        secure: true, // HTTPS es obligatorio con SameSite: 'None'
-        sameSite: "None",
+        secure: isProd, // en local debe ser false
+        sameSite: isProd ? "None" : "Lax",
         maxAge: 24 * 60 * 60 * 1000, // 1 día
-        //  domain: process.env.NGURL,
         path: "/",
       });
       // Enviar respuesta JSON
       const roles_usuario = await LoginModel.getRolesUsuario({
-        idUsuario: user[0].id,
+        idUsuario: user[0].id_Usuario,
       });
       console.log("user", user[0]);
-      console.log("user", user[0].id_Usuario);
-      console.log("user", user[0].id);
       res.json({
         mensaje: "Acceso autorizado",
         usuario: {

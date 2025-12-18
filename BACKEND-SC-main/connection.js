@@ -2,19 +2,29 @@ import sql from 'mssql';
 import dotenv from 'dotenv';
 dotenv.config();
 
+// 🔧 Configuración dinámica: Windows Auth o SQL Auth
 const config = {
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  server: process.env.SERVER, // Cambia esto si es necesario
+  server: process.env.SERVER || 'localhost',
   database: process.env.DATABASE,
+  port: 1433, // ✅ Puerto por defecto de SQL Server
   options: {
     encrypt: true, // Cambia esto si no estás en Azure
     trustServerCertificate: true, // Solo en desarrollo
-    driver: 'ODBC Driver 17 for SQL Server',
-    port: 1433
+    enableArithAbort: true
   },
-  requestTimeout: 60000 // 🕒 30 segundos
+  requestTimeout: 60000, // 🕒 60 segundos
+  connectionTimeout: 30000 // ⏱️ 30 segundos para conectar
 };
+
+// ✅ Si USER y PASSWORD están vacíos, usa Windows Authentication
+if (process.env.USER && process.env.PASSWORD) {
+  config.user = process.env.USER;
+  config.password = process.env.PASSWORD;
+  console.log('🔐 Usando SQL Server Authentication');
+} else {
+  config.options.trustedConnection = true;
+  console.log('🔐 Usando Windows Authentication');
+}
 
 export const connectToDatabase = async () => {
   try {

@@ -1,4 +1,8 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+// Cargar variables de entorno para obtener SECRET
+dotenv.config();
 
 export function generateAccessToken(user) {
   return jwt.sign(user, process.env.SECRET, { expiresIn: '5h' });

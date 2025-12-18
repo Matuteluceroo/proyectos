@@ -155,7 +155,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<VisorHtml />}
-            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO","TESTER",]}
           />
         }
       />
@@ -165,7 +165,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<GestorContenido />}
-            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO","TESTER",]}
           />
         }
       />
@@ -174,7 +174,7 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<Contenido />}
-            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO",]}
+            allowedRoles={["ADMINISTRADOR","EMPLEADO","EXPERTO","TESTER",]}
           />
         }
       />

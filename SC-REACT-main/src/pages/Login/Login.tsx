@@ -78,10 +78,11 @@ const Login = () => {
 
         const roles: { [key: string]: string } = {
           ADMINISTRADOR: '/administracion',
-          EMPLEADO: "/buscador",
-          EXPERTO: "/buscador"
+          EMPLEADO: '/buscador',
+          EXPERTO: '/buscador',
+          TESTER: '/testing', // ✅ redirige a ruta válida para rol TESTER
         }
-        navigate(roles[response.usuario.rol] || '/')
+        navigate(roles[response.usuario.rol] || '/Capacitaciones')
       } else {
         setAttempts((prev) => prev + 1)
         setError('Usuario o contraseña incorrectos')

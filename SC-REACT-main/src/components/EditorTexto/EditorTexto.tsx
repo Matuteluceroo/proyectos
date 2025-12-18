@@ -28,11 +28,20 @@ import {
 } from "../DynamicForm/FormReutilizableTypes"; // ajustá ruta si hace falta
 import { useRef, useState } from "react";
 import { useSocket } from "../../services/SocketContext";
+import { useVoiceSearch } from "../../hooks/useVoiceSearch"; // 🎤 Voz
 
 const EditorTexto = () => {
   const formRef = useRef<FormReutilizableRef>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const { currentUser, notificaciones } = useSocket();
+  const { startListening, isVoiceListening } = useVoiceSearch({
+    onResult: (text: string) => {
+      if (!editor) return;
+      // Inserta el dictado en el cursor y sugiere título si está vacío
+      editor.chain().focus().insertContent(`<p>${text}</p>`).run();
+      setTitulo((t) => (t && t !== "Documento sin título" ? t : text.slice(0, 60)));
+    },
+  });
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -160,6 +169,11 @@ const EditorTexto = () => {
           text="💾 Guardar"
           className="boton-accion"
           onClick={handleAbrirModalGuardar}
+        />
+        <Button
+          text={isVoiceListening ? "🎙️ Grabando..." : "🎤 Dictar"}
+          className="boton-accion"
+          onClick={startListening}
         />
       </div>
 

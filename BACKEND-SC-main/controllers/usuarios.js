@@ -285,8 +285,16 @@ export class UsuarioController {
     try {
       const { idUsuario } = req.params;
 
-      // Ruta base donde están las imágenes
-      const carpetaImagenes = path.join(process.env.RUTA_FOTO_PERFIL);
+      // Ruta base donde están las imágenes (si no hay env, devolver sin imagen)
+      if (!process.env.RUTA_FOTO_PERFIL) {
+        return res.json({
+          idUsuario,
+          extension: "none",
+          imagen: null,
+        });
+      }
+
+      const carpetaImagenes = path.resolve(process.env.RUTA_FOTO_PERFIL);
 
       // Buscar imagen con extensión conocida (puede ser .jpg o .png)
       const extensiones = [".jpg", ".jpeg", ".png"];
@@ -344,7 +352,8 @@ export class UsuarioController {
       const data = matches[2];
       const buffer = Buffer.from(data, "base64");
 
-      const uploadsDir = process.env.RUTA_FOTO_PERFIL;
+      const uploadsDir =
+        process.env.RUTA_FOTO_PERFIL || path.resolve("uploads/fotos");
       if (!fs.existsSync(uploadsDir)) {
         fs.mkdirSync(uploadsDir, { recursive: true });
       }
