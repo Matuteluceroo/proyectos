@@ -185,7 +185,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         )}
         {currentUser?.rol !== "EMPLEADO" && (
           <button
-            onClick={() => navigate("/contenido")}
+            onClick={() => navigate("/feedback")}
             title="Gestion de Feedback"
           >
             <VscFeedback size={20} style={{ color: "#000" }} />
