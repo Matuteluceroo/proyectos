@@ -5,12 +5,14 @@ type Props = {
   idContenido: number
   tipoOrigen: string
   user: string
+  titulo: string
 }
 
 export default function AudioFeedback({
   idContenido,
   tipoOrigen,
   user,
+  titulo
 }: Props) {
   const apiRequest = useApiRequest()
 
@@ -58,10 +60,13 @@ export default function AudioFeedback({
     formData.append("id_contenido", String(idContenido))
     formData.append("tipo_origen", tipoOrigen)
     formData.append("user", user)
+    formData.append("titulo", titulo)
     console.log("Enviando audio", {
       idContenido,
       tipoOrigen,
       size: audioBlob.size,
+      user,
+      titulo,
     })
     try {
       await apiRequest("contenido-audio", {

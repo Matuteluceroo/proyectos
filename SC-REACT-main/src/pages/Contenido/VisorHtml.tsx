@@ -76,6 +76,7 @@ export default function VisorHtml() {
           idContenido={id_contenido}
           tipoOrigen={tipo_origen || "PDF"}
           user={currentUser.id}
+          titulo={datos.titulo}
         />
       )}
       <div className="visor-wrapper">
