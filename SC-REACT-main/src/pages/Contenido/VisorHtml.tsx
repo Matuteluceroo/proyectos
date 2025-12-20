@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom"
 import { useVoice } from "../../context/VoiceContext"
 import { useLocation } from "react-router-dom"
 import AudioFeedback from "../../components/AudioRecorder/AudioFeedback"
+import { useSocket } from "../../services/SocketContext"
 export default function VisorHtml() {
+  const { currentUser, notificaciones } = useSocket()
   const location = useLocation()
   const { id_contenido, tipo_origen } = location.state || {}
   const { id } = useParams<{ id: string }>()
@@ -73,6 +75,7 @@ export default function VisorHtml() {
         <AudioFeedback
           idContenido={id_contenido}
           tipoOrigen={tipo_origen || "PDF"}
+          user={currentUser}
         />
       )}
       <div className="visor-wrapper">

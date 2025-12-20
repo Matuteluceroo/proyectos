@@ -4,9 +4,14 @@ import { useApiRequest } from "../../services/connections/apiRequest"
 type Props = {
   idContenido: number
   tipoOrigen: string
+  user: string
 }
 
-export default function AudioFeedback({ idContenido, tipoOrigen }: Props) {
+export default function AudioFeedback({
+  idContenido,
+  tipoOrigen,
+  user,
+}: Props) {
   const apiRequest = useApiRequest()
 
   const recorderRef = useRef<MediaRecorder | null>(null)
@@ -52,6 +57,7 @@ export default function AudioFeedback({ idContenido, tipoOrigen }: Props) {
     formData.append("audio", audioBlob, "feedback.webm")
     formData.append("id_contenido", String(idContenido))
     formData.append("tipo_origen", tipoOrigen)
+    formData.append("user", user)
     console.log("Enviando audio", {
       idContenido,
       tipoOrigen,
