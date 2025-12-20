@@ -5,9 +5,17 @@ import "./VisorVideo.css"
 import { url2 } from "../../services/connections/consts"
 import { useNavigate } from "react-router-dom"
 import { useVoice } from "../../context/VoiceContext"
+import { useLocation } from "react-router-dom"
+import AudioFeedback from "../../components/AudioRecorder/AudioFeedback"
+import { useSocket } from "../../services/SocketContext"
 type Mode = "fit" | "width" | "actual"
 
 export default function VisorVideo() {
+  const { currentUser, notificaciones } = useSocket()
+  console.log("id usuario", currentUser.id)
+  const location = useLocation()
+  const { id_contenido, tipo_origen } = location.state || {}
+
   const navigate = useNavigate()
   const { startListening, isListening } = useVoice()
   const { nombre } = useParams<{ nombre: string }>()
@@ -188,6 +196,13 @@ export default function VisorVideo() {
       <button onClick={startListening}>
         🎤 {isListening ? "Escuchando..." : "Activar micrófono"}
       </button>
+      {id_contenido && (
+        <AudioFeedback
+          idContenido={id_contenido}
+          tipoOrigen={tipo_origen }
+          user={currentUser.id}
+        />
+      )}
       <div className="vv-root" ref={wrapperRef}>
         {/* Toolbar */}
         <div

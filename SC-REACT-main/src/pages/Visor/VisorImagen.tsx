@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import Estructura from "../../components/Estructura/Estructura"
 import "./VisorImagen.css"
 import { url2 } from "../../services/connections/consts"
 import { useNavigate } from "react-router-dom"
 import { useVoice } from "../../context/VoiceContext"
+import AudioFeedback from "../../components/AudioRecorder/AudioFeedback"
+import { useSocket } from "../../services/SocketContext"
 
 /**
  * Visor de imágenes con:
@@ -19,8 +21,13 @@ import { useVoice } from "../../context/VoiceContext"
  */
 export default function VisorImagen() {
   const { startListening, isListening } = useVoice()
+  const { currentUser, notificaciones } = useSocket()
+  console.log("id usuario", currentUser.id)
 
   const navigate = useNavigate()
+
+  const location = useLocation()
+  const { id_contenido, tipo_origen } = location.state || {}
 
   const { nombre } = useParams<{ nombre: string }>()
   const [src, setSrc] = useState<string | null>(null)
@@ -159,6 +166,13 @@ export default function VisorImagen() {
       >
         ⬅ Volver
       </button>
+      {id_contenido && (
+        <AudioFeedback
+          idContenido={id_contenido}
+          tipoOrigen={tipo_origen}
+          user={currentUser.id}
+        />
+      )}
 
       <div className="visor-root" ref={wrapperRef}>
         <div

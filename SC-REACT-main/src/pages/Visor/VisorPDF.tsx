@@ -8,11 +8,14 @@ import { useNavigate } from "react-router-dom"
 import { useVoice } from "../../context/VoiceContext"
 import AudioFeedback from "../../components/AudioRecorder/AudioFeedback"
 import { useLocation } from "react-router-dom"
+import { useSocket } from "../../services/SocketContext"
 
 export default function VisorPDF() {
-  const { startListening, isListening } = useVoice()
+  const { currentUser, notificaciones } = useSocket()
+  console.log("id usuario", currentUser.id)
   const location = useLocation()
   const { id_contenido, tipo_origen } = location.state || {}
+  const { startListening, isListening } = useVoice()
 
   const navigate = useNavigate()
 
@@ -112,7 +115,8 @@ export default function VisorPDF() {
       {id_contenido && (
         <AudioFeedback
           idContenido={id_contenido}
-          tipoOrigen={tipo_origen || "PDF"}
+          tipoOrigen={tipo_origen}
+          user={currentUser.id}
         />
       )}
       <div className="vp-root" ref={wrapperRef}>

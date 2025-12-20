@@ -20,7 +20,7 @@ import HtmlVisorPure from "../components/Visores/HtmlVisorPure"
 import PdfVisorPure from "../components/Visores/PdfVisorPure"
 import VideoVisorPure from "../components/Visores/VideoVisorPure"
 import ImagenVisorPure from "../components/Visores/ImagenVisorPure"
-import HtmlVisorPureCurso from "../components/Visores/Cursos/HtmlVisorPureCurso.tsx"
+import HtmlVisorPureCurso from "../components/Visores/Cursos/HtmlVisorPureCurso"
 import PdfVisorPureCurso from "../components/Visores/Cursos/PdfVisorPureCurso"
 import VideoVisorPureCurso from "../components/Visores/Cursos/VideoVisorPure"
 import ImagenVisorPureCurso from "../components/Visores/Cursos/ImagenVisorPure"
@@ -32,6 +32,7 @@ import Capacitaciones from "../pages/Capacitaciones/Capacitaciones"
 import BuscadorVoz from "../pages/Buscador/BuscadorVoz"
 import CursoViewer from "../pages/CursoViewer/CursoViewer"
 import MisCapacitaciones from "../pages/MisCapacitaciones/MisCapacitaciones"
+import FeedbackConocimiento from "../pages/FeedbackConocimiento/FeedbackConocimiento"
 
 const AppRoutes = () => (
   <Router>
@@ -303,6 +304,15 @@ const AppRoutes = () => (
         element={
           <PrivateRoute
             element={<PdfVisorPure />}
+            allowedRoles={["ADMINISTRADOR", "EMPLEADO", "EXPERTO"]}
+          />
+        }
+      />
+      <Route
+        path="/feedback"
+        element={
+          <PrivateRoute
+            element={<FeedbackConocimiento />}
             allowedRoles={["ADMINISTRADOR", "EMPLEADO", "EXPERTO"]}
           />
         }
