@@ -17,6 +17,7 @@ import {
   FiEdit,
 } from "react-icons/fi"
 import { PiStudent } from "react-icons/pi"
+import { VscFeedback } from "react-icons/vsc";
 import { SiReasonstudios } from "react-icons/si"
 import { useObtenerImagenPerfil } from "../../services/connections/usuarios"
 import BotonVolver from "../Button/BotonVolver"
@@ -179,6 +180,17 @@ const Sidebar: React.FC<SidebarProps> = ({
             <FiFile size={20} style={{ color: "#000" }} />
             {!collapsed && (
               <span className="sidebar-text">Crear Contenido</span>
+            )}
+          </button>
+        )}
+        {currentUser?.rol !== "EMPLEADO" && (
+          <button
+            onClick={() => navigate("/contenido")}
+            title="Gestion de Feedback"
+          >
+            <VscFeedback size={20} style={{ color: "#000" }} />
+            {!collapsed && (
+              <span className="sidebar-text">Gestion de Feedback</span>
             )}
           </button>
         )}
