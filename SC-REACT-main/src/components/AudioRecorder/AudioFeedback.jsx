@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { url2 } from "../../services/connections/consts"
+import {  url } from "../../services/connections/consts"
 
 const AudioFeedback = ({ idContenido, tipoOrigen }) => {
   const mediaRecorderRef = useRef(null)
@@ -47,7 +47,7 @@ const AudioFeedback = ({ idContenido, tipoOrigen }) => {
     form.append("tipo_origen", tipoOrigen)
 
     try {
-      const res = await fetch(`${url2}/contenido-audio`, {
+      const res = await fetch(`${url}/contenido-audio`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
