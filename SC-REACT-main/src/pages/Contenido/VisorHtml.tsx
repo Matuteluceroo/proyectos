@@ -75,7 +75,7 @@ export default function VisorHtml() {
         <AudioFeedback
           idContenido={id_contenido}
           tipoOrigen={tipo_origen || "PDF"}
-          user={currentUser}
+          user={currentUser.id}
         />
       )}
       <div className="visor-wrapper">
