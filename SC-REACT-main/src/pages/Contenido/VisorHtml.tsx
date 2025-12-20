@@ -5,7 +5,11 @@ import { useBuscarHTML } from "../../services/connections/documentos"
 import "./VisorHtml.css"
 import { useNavigate } from "react-router-dom"
 import { useVoice } from "../../context/VoiceContext"
+import { useLocation } from "react-router-dom"
+import AudioFeedback from "../../components/AudioRecorder/AudioFeedback"
 export default function VisorHtml() {
+  const location = useLocation()
+  const { id_contenido, tipo_origen } = location.state || {}
   const { id } = useParams<{ id: string }>()
   const buscarHTML = useBuscarHTML()
   const [contenido, setContenido] = useState<string>("")
@@ -65,7 +69,12 @@ export default function VisorHtml() {
       <button onClick={startListening}>
         🎤 {isListening ? "Escuchando..." : "Activar micrófono"}
       </button>
-
+      {id_contenido && (
+        <AudioFeedback
+          idContenido={id_contenido}
+          tipoOrigen={tipo_origen || "PDF"}
+        />
+      )}
       <div className="visor-wrapper">
         <h1 className="visor-titulo">{datos.titulo}</h1>
         {datos.descripcion && (
