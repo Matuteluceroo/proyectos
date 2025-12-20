@@ -10,6 +10,7 @@ import AudioFeedback from "../../components/AudioRecorder/AudioFeedback"
 import { useSocket } from "../../services/SocketContext"
 export default function VisorHtml() {
   const { currentUser, notificaciones } = useSocket()
+  console.log("id usuario", currentUser.id)
   const location = useLocation()
   const { id_contenido, tipo_origen } = location.state || {}
   const { id } = useParams<{ id: string }>()
