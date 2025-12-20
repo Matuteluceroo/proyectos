@@ -6,9 +6,13 @@ import { url2 } from "../../services/connections/consts"
 type Mode = "fit" | "width" | "actual"
 import { useNavigate } from "react-router-dom"
 import { useVoice } from "../../context/VoiceContext"
+import AudioFeedback from "../../components/AudioRecorder/AudioFeedback"
+import { useLocation } from "react-router-dom"
 
 export default function VisorPDF() {
   const { startListening, isListening } = useVoice()
+  const location = useLocation()
+  const { id_contenido, tipo_origen } = location.state || {}
 
   const navigate = useNavigate()
 
@@ -20,6 +24,8 @@ export default function VisorPDF() {
   const [zoomPercent, setZoomPercent] = useState<number>(100)
   const [page, setPage] = useState<number>(1)
   const [fullscreen, setFullscreen] = useState(false)
+  const [idContenido, setIdContenido] = useState<number | null>(null)
+
   useEffect(() => {
     const onVoiceCommand = (e: any) => {
       const text = e.detail
@@ -94,7 +100,7 @@ export default function VisorPDF() {
       </Estructura>
     )
   }
-
+  console.log("STATE VISOR PDF:", location.state)
   const percentReadout =
     mode === "fit" ? "Ajustar" : mode === "width" ? "Ancho" : `${zoomPercent}%`
 
@@ -103,7 +109,12 @@ export default function VisorPDF() {
       <button onClick={startListening}>
         🎤 {isListening ? "Escuchando..." : "Activar micrófono"}
       </button>
-
+      {id_contenido && (
+        <AudioFeedback
+          idContenido={id_contenido}
+          tipoOrigen={tipo_origen || "PDF"}
+        />
+      )}
       <div className="vp-root" ref={wrapperRef}>
         {/* Toolbar */}
         <div

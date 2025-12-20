@@ -179,7 +179,7 @@ export default function Buscador() {
   const handleClickCard = async (item) => {
     const id = toId(item)
     if (!id) return
-
+    console.log(item)
     const tipoReal = inferTipoReal(item)
 
     try {
@@ -193,7 +193,15 @@ export default function Buscador() {
     } catch (e) {
       console.error(e)
     } finally {
-      navigate(getVisorPath(item))
+      const id = toId(item)
+      console.log("CLICK CARD → id_contenido:", id)
+
+      navigate(getVisorPath(item), {
+        state: {
+          id_contenido: id,
+          tipo_origen: (item.tipoNombre || "").toUpperCase(),
+        },
+      })
     }
   }
 
@@ -210,7 +218,6 @@ export default function Buscador() {
       .flatMap((grupo) => grupo.items || [])
       .filter((item) => item.origen === "TAG")
   }, [ultimos])
-
 
   const handleVoiceResult = (text) => {
     const limpio = text
@@ -260,58 +267,62 @@ export default function Buscador() {
     onResult: handleVoiceResult,
   })
 
-const directos = useMemo(
-  () => (resultados.length > 0 ? resultados.filter((r) => r.origen !== "TAG") : []),
-  [resultados]
-)
+  const directos = useMemo(
+    () =>
+      resultados.length > 0 ? resultados.filter((r) => r.origen !== "TAG") : [],
+    [resultados]
+  )
 
-const sugeridos = useMemo(
-  () => (resultados.length > 0 ? resultados.filter((r) => r.origen === "TAG") : []),
-  [resultados]
-)
+  const sugeridos = useMemo(
+    () =>
+      resultados.length > 0 ? resultados.filter((r) => r.origen === "TAG") : [],
+    [resultados]
+  )
 
-// ✅ ESTE es el listado que se numera y el que usa "seleccionar N"
-const listaVisible = useMemo(() => {
-  // Si hay búsqueda: mostramos SOLO búsqueda (directos + sugeridos)
-  if (resultados.length > 0) {
-    return dedupeById([...directos, ...sugeridos], toId)
+  // ✅ ESTE es el listado que se numera y el que usa "seleccionar N"
+  const listaVisible = useMemo(() => {
+    // Si hay búsqueda: mostramos SOLO búsqueda (directos + sugeridos)
+    if (resultados.length > 0) {
+      return dedupeById([...directos, ...sugeridos], toId)
+    }
+
+    // Si NO hay búsqueda: pantalla inicial
+    const ultimosFlat = ultimosPorTipo.flatMap((g) => g.items || [])
+    const base = []
+
+    if (recomendadosPorTag.length > 0) base.push(...recomendadosPorTag)
+    base.push(...ultimosFlat)
+
+    return dedupeById(base, toId)
+  }, [resultados, directos, sugeridos, recomendadosPorTag, ultimosPorTipo])
+
+  const listaVisibleRef = useRef([])
+  useEffect(() => {
+    listaVisibleRef.current = listaVisible
+    // console.log("📌 listaVisible", listaVisible)
+  }, [listaVisible])
+
+  const seleccionarContenidoPorNumero = (numero) => {
+    const lista = listaVisibleRef.current
+
+    if (!Array.isArray(lista) || lista.length === 0) {
+      setVoiceFeedback("⚠️ No hay contenidos visibles para seleccionar")
+      return
+    }
+
+    const index = numero - 1
+    const item = lista[index]
+
+    if (!item) {
+      setVoiceFeedback(
+        `⚠️ No existe el contenido ${numero}. Hay ${lista.length} disponibles`
+      )
+      return
+    }
+
+    setVoiceFeedback(`👉 Abriendo contenido ${numero}: ${item.titulo}`)
+    handleClickCard(item)
   }
-
-  // Si NO hay búsqueda: pantalla inicial
-  const ultimosFlat = ultimosPorTipo.flatMap((g) => g.items || [])
-  const base = []
-
-  if (recomendadosPorTag.length > 0) base.push(...recomendadosPorTag)
-  base.push(...ultimosFlat)
-
-  return dedupeById(base, toId)
-}, [resultados, directos, sugeridos, recomendadosPorTag, ultimosPorTipo])
-
-const listaVisibleRef = useRef([])
-useEffect(() => {
-  listaVisibleRef.current = listaVisible
-  // console.log("📌 listaVisible", listaVisible)
-}, [listaVisible])
-
-const seleccionarContenidoPorNumero = (numero) => {
-  const lista = listaVisibleRef.current
-
-  if (!Array.isArray(lista) || lista.length === 0) {
-    setVoiceFeedback("⚠️ No hay contenidos visibles para seleccionar")
-    return
-  }
-
-  const index = numero - 1
-  const item = lista[index]
-
-  if (!item) {
-    setVoiceFeedback(`⚠️ No existe el contenido ${numero}. Hay ${lista.length} disponibles`)
-    return
-  }
-
-  setVoiceFeedback(`👉 Abriendo contenido ${numero}: ${item.titulo}`)
-  handleClickCard(item)
-}
 
   /* ======= SHORTCUT ======= */
 
@@ -344,40 +355,45 @@ const seleccionarContenidoPorNumero = (numero) => {
     }
   }
 
-const renderCard = (item, showDescripcion = false) => {
-  const id = toId(item)
-  const icono = getIconoOrigen(item.origen)
+  const renderCard = (item, showDescripcion = false) => {
+    const id = toId(item)
+    const icono = getIconoOrigen(item.origen)
 
-  const indexGlobal = listaVisible.findIndex((x) => toId(x) === id) // 0-based
+    const indexGlobal = listaVisible.findIndex((x) => toId(x) === id) // 0-based
 
-  return (
-    <div
-      key={id ?? item?.titulo}
-      className="card"
-      onClick={() => handleClickCard(item)}
-      role="button"
-      tabIndex={0}
-      aria-label={`Abrir contenido ${indexGlobal >= 0 ? indexGlobal + 1 : ""}`}
-    >
-      {indexGlobal >= 0 && <div className="card-index">{indexGlobal + 1}</div>}
+    return (
+      <div
+        key={id ?? item?.titulo}
+        className="card"
+        onClick={() => handleClickCard(item)}
+        role="button"
+        tabIndex={0}
+        aria-label={`Abrir contenido ${
+          indexGlobal >= 0 ? indexGlobal + 1 : ""
+        }`}
+      >
+        {indexGlobal >= 0 && (
+          <div className="card-index">{indexGlobal + 1}</div>
+        )}
 
-      <img src={citricolosprueba} alt={item?.titulo ?? ""} />
+        <img src={citricolosprueba} alt={item?.titulo ?? ""} />
 
-      <p className="card-titulo">
-        {icono} {item?.titulo}
-      </p>
+        <p className="card-titulo">
+          {icono} {item?.titulo}
+        </p>
 
-      <p className="card-autor">
-        {(item?.autorNombre || "Sin autor") + " — " + (toTipoNombre(item) || "")}
-      </p>
+        <p className="card-autor">
+          {(item?.autorNombre || "Sin autor") +
+            " — " +
+            (toTipoNombre(item) || "")}
+        </p>
 
-      {showDescripcion && item?.descripcion && (
-        <p className="card-descripcion">{item.descripcion}</p>
-      )}
-    </div>
-  )
-}
-
+        {showDescripcion && item?.descripcion && (
+          <p className="card-descripcion">{item.descripcion}</p>
+        )}
+      </div>
+    )
+  }
 
   /* ================= JSX ================= */
   useEffect(() => {
